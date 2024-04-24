@@ -1,0 +1,15 @@
+## Interface: 11502
+## Title: ClassicAuraDurations
+## Title-zhTW: |cff4DD2FF[頭像]|r 光環時間
+## Notes-zhTW: ClassicAuraDurations |n|n計算光環的持續時間，並且讓目標頭像下方和團隊框架上面的增益/減益效果圖示可以顯示倒數時間的轉圈動畫效果。|n|n要顯示倒數時間數字，需要同時載入冷卻時間插件。
+## Author: d87
+## SavedVariables: ClassicAuraDurationsDB
+## Version: 3.4.4
+
+## X-WoWI-ID: 25006
+## X-Curse-Project-ID: 323806
+
+Libs\LibAuraTypes\LibAuraTypes.lua
+Libs\LibSpellLocks\LibSpellLocks.lua
+
+code.lua

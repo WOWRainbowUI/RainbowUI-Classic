@@ -1,0 +1,12 @@
+## Interface: 11502
+## Author: cocovanana
+## Title: aBlueShaman |cff1a9fc0Classic|r
+## Notes: Makes Shamans' color blue!
+## Version: 1.01
+## Comments: Thanks to Bouyou for the hex color fix!
+
+## Title-zhTW: |cff0099FF[介面]|r 薩滿職業顏色修正
+## Notes-zhTW: aBlueShaman |n|n修正經典時期薩滿變成粉紅色的問題，讓薩滿恢復成藍色。
+## X-Category-zhTW: 介面
+
+init.lua

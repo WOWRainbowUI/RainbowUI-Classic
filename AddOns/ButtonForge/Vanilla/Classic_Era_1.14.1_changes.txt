@@ -1,0 +1,86 @@
+changed all 
+
+		Util.CacheCompanions() 
+		Util.RefreshCompanions();
+
+to
+
+		-- Util.CacheCompanions()
+		-- Util.RefreshCompanions();
+		
+button.lua
+
+changed
+
+	elseif (Mode == "mount") then
+   creatureID, creatureName, creatureSpellID, icon, issummoned, MountID, CompanionType = Util.GetMountCritter(self.ButtonSave["MountSpellID"])
+   if MCType ~= "" then
+     self.ButtonSave["MountID"] = MountID -- update index as it may change
+     ButtonSave["MountID"] = MountID -- update index as it may change
+     self:SetCommandExplicitCompanion(MountID, CompanionType, ButtonSave["MountSpellID"]);
+   end
+
+to
+
+	-- elseif (Mode == "mount") then
+  --  creatureID, creatureName, creatureSpellID, icon, issummoned, MountID, CompanionType = Util.GetMountCritter(self.ButtonSave["MountSpellID"])
+  --  if MCType ~= "" then
+  --    self.ButtonSave["MountID"] = MountID -- update index as it may change
+  --    ButtonSave["MountID"] = MountID -- update index as it may change
+  --    self:SetCommandExplicitCompanion(MountID, CompanionType, ButtonSave["MountSpellID"]);
+  --  end
+
+changed
+	local CompanionType, CompanionID = Util.LookupCompanion(SpellName);
+	if (CompanionType) then
+		self.CompanionType = CompanionType;
+		self.CompanionIndex = CompanionID;
+	end
+
+to
+
+	-- local CompanionType, CompanionID = Util.LookupCompanion(SpellName);
+	-- if (CompanionType) then
+	--	self.CompanionType = CompanionType;
+	-- 	self.CompanionIndex = CompanionID;
+	-- end
+	
+changed
+
+function Button:RefreshCompanion()
+	if (InCombatLockdown()) then
+	 	return;
+	end
+	if (self.Mode == "companion") then
+	  local Type, Index = Util.LookupCompanion(self.CompanionName);
+		if (Type == nil) then
+		  self:ClearCommand();
+			self:FullRefresh();
+			return;
+		end
+		if (Index ~= self.CompanionIndex) then
+		  self:SetCommandCompanion(Index, Type);
+			self:FullRefresh();
+		end
+	end
+end
+
+to
+
+function Button:RefreshCompanion()
+	-- if (InCombatLockdown()) then
+	-- 	return;
+	-- end
+	-- if (self.Mode == "companion") then
+		-- local Type, Index = Util.LookupCompanion(self.CompanionName);
+		-- if (Type == nil) then
+			-- self:ClearCommand();
+			-- self:FullRefresh();
+			-- return;
+		-- end
+		-- if (Index ~= self.CompanionIndex) then
+			-- self:SetCommandCompanion(Index, Type);
+			-- self:FullRefresh();
+		-- end
+	-- end
+end

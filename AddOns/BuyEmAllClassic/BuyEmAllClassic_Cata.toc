@@ -1,0 +1,19 @@
+﻿## Author: Jordy141
+## Interface: 40400
+## Notes: Enhances shift-click interface at vendors.
+## Title: BuyEmAll Classic
+## Version: 1.0.4
+## SavedVariablesPerCharacter: BEAConfirmToggle
+## LoadManagers: AddonLoader
+## X-LoadOn-Merchant: true
+## X-LoadOn-Slash: /buyemall
+
+## Title-zhTW: |cffFFFF99[商人]|r 大量購買
+## Notes-zhTW: BuyEmAll |n|n在商人視窗按 Shift+左鍵 點擊物品可一次購買多個數量。
+## X-Category-zhTW: 交易
+
+Localization.enUS.lua
+Localization.zhCN.lua
+Localization.zhTW.lua
+BuyEmAllClassic.lua
+BuyEmAllClassic.xml

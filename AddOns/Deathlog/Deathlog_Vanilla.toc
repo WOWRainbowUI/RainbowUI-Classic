@@ -1,0 +1,73 @@
+## Interface: 11502
+## Title: Deathlog
+## Notes: Only for Hardcore on classic era servers.
+## Author: Yazpad
+## X-License: GNU GPL3
+## X-Category: Leveling,Guild
+## Version: 0.1.14
+
+
+## SavedVariables: deathlog_settings, deathlog_data, deathlog_data_map, dev_precomputed_general_stats, dev_precomputed_log_normal_params, dev_precomputed_skull_locs, dev_class_data, deathlog_watchlist_entries
+## SavedVariablesPerCharacter:
+
+## Title-zhTW: |cffFF9900[進階]|r 死亡筆記本
+## Notes-zhTW: Deathlog |n|n專家模式伺服器專用的插件，通報附近死亡的人、統計死亡次數。
+## X-Category-zhTW: 進階
+## DefaultState: disabled
+
+Localization/strings_tw.lua
+Localization/strings_cn.lua
+Localization/strings_en.lua
+Localization/localization.lua
+
+embeds.xml
+
+Libs/DeathNotificationLib/NPCs/id_to_npc_classic_en.lua
+Libs/DeathNotificationLib/NPCs/npc_to_id_classic_en.lua
+Libs/DeathNotificationLib/NPCs/id_to_npc_classic_cn.lua
+Libs/DeathNotificationLib/NPCs/npc_to_id_classic_cn.lua
+Libs/DeathNotificationLib/NPCs/id_to_npc_classic_de.lua
+Libs/DeathNotificationLib/NPCs/npc_to_id_classic_de.lua
+Libs/DeathNotificationLib/NPCs/id_to_npc_classic_es.lua
+Libs/DeathNotificationLib/NPCs/npc_to_id_classic_es.lua
+Libs/DeathNotificationLib/NPCs/id_to_npc_classic_fr.lua
+Libs/DeathNotificationLib/NPCs/npc_to_id_classic_fr.lua
+Libs/DeathNotificationLib/NPCs/id_to_npc_classic_it.lua
+Libs/DeathNotificationLib/NPCs/npc_to_id_classic_it.lua
+Libs/DeathNotificationLib/NPCs/id_to_npc_classic_ko.lua
+Libs/DeathNotificationLib/NPCs/npc_to_id_classic_ko.lua
+Libs/DeathNotificationLib/NPCs/id_to_npc_classic_pt.lua
+Libs/DeathNotificationLib/NPCs/npc_to_id_classic_pt.lua
+Libs/DeathNotificationLib/NPCs/id_to_npc_classic_ru.lua
+Libs/DeathNotificationLib/NPCs/npc_to_id_classic_ru.lua
+Libs/DeathNotificationLib/table_localization.lua
+Libs/DeathNotificationLib/DeathNotificationLib.lua
+
+utils.lua
+id_to_display_id.lua
+
+MenuElements/watch_list.lua
+MenuElements/map_container.lua
+MenuElements/map_container_for_creatures.lua
+MenuElements/creature_model_container.lua
+MenuElements/instance_container.lua
+MenuElements/deadliest_creature_container.lua
+MenuElements/deadliest_creature_container_extended.lua
+MenuElements/average_class_container.lua
+MenuElements/graph_container.lua
+MenuElements/class_graph_container.lua
+MenuElements/class_stats_container.lua
+MenuElements/class_stats_comparison_container.lua
+MenuElements/class_selector_container.lua
+
+Widgets/Minilog/widget.lua
+Widgets/HeatmapIndicator/widget.lua
+Widgets/HeatmapWorldMapOverlay/widget.lua
+Widgets/CreatureRankingTooltip/widget.lua
+Widgets/CorpseTooltip/widget.lua
+Widgets/DeathAlert/widget.lua
+
+menu.lua
+
+precomputed_stats.lua
+deathlog.lua
