@@ -1,0 +1,12 @@
+== v1.02 - 7th April 2024
+* Added Phase 3 Fel Portals for Warlock Explorer Imp and Mage Balefire Bolt rune
+* Two Battered Chest locations in Elwynn Forest tweaked to exact verified coordiantes
+* Added World Map
+* Full size icons always for World and Continent maps, 0.8 for zones if chests or portals
+
+== v1.01 - 4th April 2024
+* TOC updated to 1.15.2
+
+== v1.0 - 20th March 2024
+* Initial release
+

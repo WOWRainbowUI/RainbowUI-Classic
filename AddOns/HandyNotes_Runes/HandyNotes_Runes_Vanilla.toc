@@ -1,0 +1,37 @@
+## Interface: 11502
+## Version: 2.08
+## Author: Taraezor
+## IconTexture: Interface\Icons\INV_Misc_Rune_06
+## Title: Runes
+## Title-deDE: Runen
+## Title-esES: Runas
+## Title-esMX: Runas
+## Title-frFR: Runes
+## Title-koKR: 룬
+## Title-ptBR: Runas
+## Title-ptPT: Runas
+## Title-ruRU: Руны
+## Title-zhCN: 符文
+## Title-zhTW: 符文
+## Notes: All the SoD |cFFFF007FRunes.|r (And more!)
+## Notes-deDE: Alle SoD-|cFFFF007FRunen.|r (Und mehr!)
+## Notes-esES: Todas las |cFFFF007Frunas|r SoD. (¡Y más!)
+## Notes-esMX: Todas las |cFFFF007Frunas|r SoD. (¡Y más!)
+## Notes-frFR: Toutes les |cFFFF007Frunes|r SoD. (Et plus!)
+## Notes-koKR: 모든 SoD |cFFFF007F룬.|r (그리고 더!)
+## Notes-ptBR: Todas as |cFFFF007Frunas|r SoD. (E mais!)
+## Notes-ptPT: Todas as |cFFFF007Frunas|r SoD. (E mais!)
+## Notes-ruRU: Все |cFFFF007Fруны|r SoD. (И более!)
+## Notes-zhCN: 所有 SoD |cFFFF007F符文。|r （和更多！）
+## Notes-zhTW: 所有 SoD |cFFFF007F符文。|r （和更多！）。
+## RequiredDeps: HandyNotes
+## SavedVariablesPerCharacter: HandyNotes_RunesDB
+
+## Title-zhTW: |cff4DFF4D[地圖]|r 地圖標記-符文
+## Notes-zhTW: HandyNotes: Runes |n|n在地圖上顯示探索賽季的符文位置，還有更多!。
+## X-Category-zhTW: 地圖
+## DefaultState: disabled
+
+Localisations.lua
+Core.lua
+Data.lua

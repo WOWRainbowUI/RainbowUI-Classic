@@ -1,0 +1,25 @@
+## Interface: 11502
+## Title: HandyNotes_NPCs (Classic)
+## Version: 1.33c
+## Notes: Shows locations of various old world npcs
+## Author: Revel of Pagle
+## X-Curse-Project-ID: 340222
+## X-WoWI-ID: 25295
+## RequiredDeps: HandyNotes
+## SavedVariables: HandyNotes_NPCsClassicDB
+
+## Title-zhTW: |cff4DFF4D[地圖]|r 地圖標記-NPC
+## Notes-zhTW: HandyNotes: NPCs (Classic) |n|n在地圖上顯示經典時期 NPC 的位置。
+## X-Category-zhTW: 地圖
+## DefaultState: disabled
+
+
+locales\classic\Locales.xml
+classic\data.lua
+classic\vendorData.lua
+classic\itemData.lua
+classic\weaponskills.lua
+classic\HandyNotes_NPCs (Classic).lua
+classic\options.lua
+classic\search.lua
+classic\altrecipes.lua
