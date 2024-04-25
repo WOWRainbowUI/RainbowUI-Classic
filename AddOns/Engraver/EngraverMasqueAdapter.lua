@@ -80,11 +80,11 @@ EventRegistry:RegisterFrameEventAndCallback("PLAYER_LOGIN", function(event, addo
 		local Masque = LibStub("Masque", true)
 		if Masque then
 			Addon.MasqueGroups = {}
-			Addon.MasqueGroups.RuneButtons = Masque:Group("Engraver", "Rune Buttons")
+			Addon.MasqueGroups.RuneButtons = Masque:Group("一鍵符文", "符文按鈕")
 			Addon.MasqueGroups.RuneButtons:RegisterCallback(OnRuneButtonsGroupCallback, "Disabled")
 			
 			CacheDragTabLayoutData()
-			Addon.MasqueGroups.DragTab = Masque:Group("Engraver", "Drag Tab")
+			Addon.MasqueGroups.DragTab = Masque:Group("一鍵符文", "拖曳標籤頁")
 			Addon.MasqueGroups.DragTab:RegisterCallback(OnDragTabGroupCallback, "Disabled")
 			Addon.MasqueGroups.DragTab:AddButton(EngraverFrame.dragTab)
 			EngraverFrame.dragTab.NineSlice:SetShown(Addon.MasqueGroups.DragTab.db.Disabled)
