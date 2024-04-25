@@ -991,10 +991,6 @@ D["EnhBloodlust"] = {
         callback = function(cfg, v, loading) SlashCmdList["ENHBLOODLUST"]("") end,
     },
 	{
-        text = "測試短嗜血音樂",
-        callback = function(cfg, v, loading) SlashCmdList["ENHBLOODLUST"](true) end,
-    },
-	{
 		type = "text",
         text = "|cffFF2D2D需要進入戰鬥中再開嗜血才有音樂，非戰鬥中開嗜血沒有音樂。|r\n\n測試音樂則不需要進入戰鬥，任何職業都可以測試音樂。",       
 	},
