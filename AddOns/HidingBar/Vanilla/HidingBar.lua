@@ -1693,7 +1693,7 @@ function hidingBarMixin:initOwnMinimapButton()
 
 	if MSQ then
 		if not hb.MSQ_OMB then
-			hb.MSQ_OMB = MSQ:Group(addon, L["Own Minimap Button"], "OMB")
+			hb.MSQ_OMB = MSQ:Group(L["HidingBar "], L["Own Minimap Button"], "OMB")
 			hb.MSQ_OMB:RegisterCallback(hb.MSQ_UpdateGroupBtns)
 		end
 		hb:setMButtonRegions(self.omb, nil, hb.MSQ_OMB)
