@@ -1,0 +1,23 @@
+## Interface: 11502
+## Title: Five Second Rule 
+## Notes: Track the "5-second-rule" (5SR or FSR) which refers to the cooldown of five seconds after spending mana before spirit-based regen resumes.
+## Version: 1.40
+## Author: CassiniEU @ Twitch.com
+## SavedVariablesPerCharacter: FiveSecondRule_Options
+
+## Title-zhTW: |cffFF7373[職業]|r 5 秒回魔監控
+## Notes-zhTW: Five Second Rule |n|n5 秒回魔的規則是指，在施放法術 (消耗法力) 後的 5 秒內都不再消耗任何法力，便會開始恢復法力。|n這個插件會顯示進度條來監控 5 秒回魔規則，但是不包含 "mp5" 的裝備。|n||ncffffd200使用方法:|r從Esc>選項>插件>5 秒回魔監控，進行設定。
+## X-Category-zhTW: 職業
+## DefaultState: disabled
+
+FiveSecondRule.lua
+
+Modules\SlashCommands.lua
+Modules\OptionsPanel.lua
+
+Modules\Stats.lua
+Modules\TickBar.lua
+Modules\StatusBar.lua
+
+Dependencies\UIFactory.lua
+Dependencies\AddonUtils.lua
