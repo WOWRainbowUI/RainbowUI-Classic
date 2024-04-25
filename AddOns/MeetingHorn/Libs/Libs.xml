@@ -1,0 +1,16 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Script file="Deprecated.lua"/>
+
+	<Script file="LibDataBroker-1.1\LibDataBroker-1.1.lua"/><!-- Archy,Bartender4,LibDBIcon-1.0,BigFoot,Decursive,GDKP,Grid,MiDKP,Omen,RangeDisplay,Recount,Skada,YssBossLoot -->
+	<Script file="LibWindow-1.1\LibWindow-1.1.lua"/><!-- Bartender4,Mapster,Skada -->
+
+	<!-- GoodLeader，MeetingHorn ，Wargame ~begin~ -->
+    <Script file="LibClass-2.0\Class-2.0.lua"/>
+    <Script file="LibLog-1.0\LibLog-1.0.lua"/>
+    <Script file="LibCommSocket-3.0\Socket.lua"/>
+    <Include file="tdGUI\Load.xml"/>
+    <Script file="LibNeteaseStats-1.0\Stats.lua"/>
+
+	<!-- GoodLeader，MeetingHorn，Wargame  ~end~ -->
+</Ui>

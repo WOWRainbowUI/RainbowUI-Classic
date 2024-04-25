@@ -1,0 +1,15 @@
+## Interface: 11502
+## Title: MeetingHorn
+## Title-zhCN: 集结号
+## Title-zhTW: 集結號
+## Notes: |cff00ff00MeetingHorn|r
+## Version: 1.6.1
+## SavedVariables: MEETINGHORN_DB
+## SavedVariablesPerCharacter: MEETINGHORN_DB_CHARACTER_MEMBERS
+
+## Title-zhTW: |cffFF7F00[團隊]|r 集結號
+## Notes-zhTW: MeetingHorn |n|n隊伍搜尋器的一種。|n|n|cffffd200使用方法: |r點小地圖按鈕。
+## X-Category-zhTW: 團隊
+## DefaultState: disabled
+
+Load.xml
