@@ -1,0 +1,17 @@
+## Interface: 40400
+## Title: Stuf_Range
+## Author: TotalPackage
+## Notes: Displays estimate distance using LibRangeCheck-3.0.
+## Dependencies: Stuf
+## OptionalDeps: LibRangeCheck-3.0
+
+## LoadManagers: AddonLoader
+## X-LoadOn-Always: delayed
+
+## Title-zhTW: |cff4DD2FF[頭像]|r Stuf頭像-顯示距離
+## Notes-zhTW: Stuf_Range |n|n顯示目標的距離，使用 LibRangeCheck-3.0。
+## X-Category-zhTW: 介面
+## DefaultState: disabled
+
+
+core.lua
