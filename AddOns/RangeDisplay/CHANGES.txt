@@ -1,0 +1,10 @@
+lightweight tag bfc01e1170ae6507c10902be78f7b8571e93043c v6.0.5
+Author:	Péter Radics <mitchnull@gmail.com>
+Date:	Thu Apr 18 06:17:10 2024 +0200
+
+commit bfc01e1170ae6507c10902be78f7b8571e93043c
+Author: Péter Radics <mitchnull@gmail.com>
+Date:   Thu Apr 18 06:17:10 2024 +0200
+
+    toc bump
+
