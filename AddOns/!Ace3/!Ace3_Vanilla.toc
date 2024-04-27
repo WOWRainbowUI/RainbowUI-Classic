@@ -49,9 +49,11 @@ LibCustomGlow-1.0\LibCustomGlow-1.0.lua
 LibDeflate\LibDeflate.lua
 LibQTip-1.0\LibQTip-1.0.lua
 LibSerialize\LibSerialize.lua
+LibWindow-1.1\LibWindow-1.1.lua
 
 HereBeDragons\HereBeDragons-2.0.lua
 HereBeDragons\HereBeDragons-Pins-2.0.lua
 HereBeDragons\HereBeDragons-Migrate.lua
 
 LibClassicDurations\LibClassicDurations.xml
+UTF8\UTF8.xml
