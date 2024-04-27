@@ -934,7 +934,7 @@ D["EasyConversion"] = {
 	icon = "Interface\\Icons\\ability_evoker_innatemagic5",
 };
 D["EasyFrames"] = {
-	defaultEnable = 1,
+	defaultEnable = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and 1 or 0,
 	title = "暴雪頭像 (美化調整)",
 	desc = "喜愛遊戲內建的頭像推薦使用這個插件，讓內建頭像變得更漂亮，還額外提供了許多自訂化的選項。``建議搭配 '暴雪頭像 (增強功能)' 插件一起使用。`",
 	modifier = "彩虹ui",
@@ -1868,7 +1868,7 @@ D["PowerRaid"] = {
 	},
 };
 D["Quartz"] = {
-	defaultEnable = 1,
+	defaultEnable = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and 1 or 0,
 	tags = { "ENHANCEMENT" },
 	title = "施法條增強",
 	desc = "功能增強、模組化、可自訂外觀的施法條。``包括玩家、寵物的施法條，還有 GCD、揮擊、增益/減益效果和環境對應的計時條，都可以自訂調整。`",
@@ -1955,7 +1955,7 @@ D["RaidLedger"] = {
 	},
 };
 D["RangeDisplay"] = {
-    defaultEnable = 1,
+    defaultEnable = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and 1 or 0,
 	tags = { "UNITFRAME" },
 	title = "顯示距離",
 	desc = "顯示你和目標之間的距離，包括當前目標、專注目標、寵物、滑鼠指向對象以及競技場對象。還可以依據距離遠近來設定警告音效。``|cffFF2D2D特別注意：Stuf 頭像已有顯示距離的功能，如無特別需求可以不用載入這個插件。|r``使用暴雪頭像 (美化調整) 或遊戲內建的頭像時，可以搭配此插件一起使用。`",
@@ -1971,16 +1971,13 @@ D["RangeDisplay"] = {
         text = "移動位置：在設定選項中取消勾選 '鎖定' 來解鎖移動，調整完畢再將 '鎖定' 打勾。\n\n",       
 	},
 };
-D["Reload"] = {
-    defaultEnable = 0,
+D["ReloadUI"] = {
+	defaultEnable = 1,
 	tags = { "MISC" },
-	title = "重新載入快速鍵",
-	desc = "讓你可以綁定一個快速鍵來重新載入介面，需要常常 /reload 或調整UI時非常好用。`",
+	title = "重新載入按鈕",
+	desc = "在按 Esc 的遊戲選單和選項視窗加上重新載入按鈕，調整UI或遇到汙染問題，需要常常 /reload 時非常好用。`",
 	modifier = "彩虹ui",
-	{
-		type = "text",
-        text = "從 Esc > 選項 > 按鍵綁定 > 插件 > 重新載入介面，設定快速鍵。\n\n",       
-	},
+	icon = "Interface\\Icons\\ability_vehicle_loadselfcatapult",
 };
 D["RollTrackerClassicZ"] = {
     defaultEnable = 0,
@@ -2221,7 +2218,7 @@ D["SpellWhisper"] = {
     },
 };
 D["Stuf"] = {
-    defaultEnable = 0,
+    defaultEnable = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and 0 or 1,
 	title = "Stuf 頭像",
 	desc = "玩家、目標、小隊等頭像和血條框架，簡單好用自訂性高!``也有傳統頭像樣式和其他外觀樣式可供選擇，詳細用法說明請看：`http://wp.me/p7DTni-142`",
 	modifier = "彩虹ui",
