@@ -2506,7 +2506,7 @@ D["tullaRange"] = {
     },
 };
 D["UnitFramesPlus"] = {
-    defaultEnable = 1,
+    defaultEnable = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and 1 or 0,
 	tags = { "UNITFRAME" },
 	title = "暴雪頭像 (增強功能)",
 	desc = "加強遊戲內建頭像的功能，提供更多自訂選項。像是 3D 動態頭像、在框架外側顯示額外的血量/法力值、頭像上的戰鬥文字、隊友和寵物的目標、隊友的血量、較穩定的目標的目標，以及目標的目標的目標框架...等等。``建議搭配 '暴雪頭像 (美化調整)' 插件一起使用，也可以單獨使用。`",
