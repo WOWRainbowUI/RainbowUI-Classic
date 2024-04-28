@@ -1,0 +1,34 @@
+## Interface: 11502
+## Title: Unlearned Recipes
+## Version: r014
+## Notes: Displays profession recipes you have not yet learned
+## Author: Teelo
+## X-Curse-Project-ID: 985591
+## IconTexture: Interface\Icons\inv_scroll_03
+## LoadOnDemand: 1
+## LoadWith: Blizzard_TradeSkillUI, Blizzard_CraftUI
+
+## Title-zhTW: |cffFFFF99[專業]|r 未學配方
+## Notes-zhTW: Unlearned Recipes |n|n顯示你尚未學會的配方。|n|n|cffFF2D2D特別注意: |r無法和 "專業助手" 插件一起使用。|r
+## X-Category-zhTW: 交易
+## DefaultState: disabled
+
+enums.lua
+
+db\vanilla\Alchemy.lua
+db\vanilla\Blacksmithing.lua
+db\vanilla\Cooking.lua
+db\vanilla\Enchanting.lua
+db\vanilla\Engineering.lua
+db\vanilla\GnomishEngineering.lua
+db\vanilla\GoblinEngineering.lua
+db\vanilla\Leatherworking.lua
+db\vanilla\Mining.lua
+db\vanilla\Tailoring.lua
+
+db\vanilla\vendors.lua
+db\vanilla\Corrections.lua
+
+util.lua
+CraftUI.lua
+TradeSkillFrame.lua
