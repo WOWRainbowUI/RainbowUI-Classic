@@ -1,16 +1,3 @@
---[[
-                                ----o----(||)----oo----(||)----o----
-
-                                        Chests, Gear and More
-                                         Localisation Module
-
-                                       v1.02 - 7th April 2024
-                                Copyright (C) Taraezor / Chris Birch
-                                         All Rights Reserved
-
-                                ----o----(||)----oo----(||)----o----
-]]
-
 local _, ns = ...
 L = {}
 ns.L = L
@@ -153,48 +140,41 @@ end
 
 -- Translations specific to the Chests AddOn
 
-if ns.locale == "deDE" then
-	ns.L["AddOn Description"] = "Alle ramponierten Truhen"
-	ns.L["Battered Chest"] = "Ramponierte Truhe"
-	
-elseif ns.locale == "esES" or ns.locale == "esMX" then
-	ns.L["AddOn Description"] = "Todos los cofres maltratados"
-	ns.L["Battered Chest"] = "Cofre maltrecho"
-
-elseif ns.locale == "frFR" then
-	ns.L["AddOn Description"] = "Tous les coffres battus"
-	ns.L["Battered Chest"] = "Coffre endommagé"
-
-elseif ns.locale == "koKR" then
-	ns.L["AddOn Description"] = "모든 낡은 궤짝"
-	ns.L["Battered Chest"] = "낡은 궤짝"
-
-elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
-	ns.L["AddOn Description"] = "Todos os Baús Desgastado"
-	ns.L["Battered Chest"] = "Baú Desgastado"
-
-elseif ns.locale == "ruRU" then
-	ns.L["AddOn Description"] = "Все Побитые сундукии"
-	ns.L["Battered Chest"] = "Побитый сундук"
-
-elseif ns.locale == "zhCN" then
+if ns.locale == "zhCN" then
 	ns.L["AddOn Description"] = "所有破损的箱子"
+	ns.L["AoPD"] = "痹体恐惧氛围"
 	ns.L["Battered Chest"] = "破损的箱子"
+	ns.L["Best Hunter Pets"] = "最佳猎人宠物"
+	ns.L["Chest Rank"] = "宝箱的等级: "
+	ns.L["Fel Portal"] = "邪能传送门"
+	ns.L["Gnomeregan"] = "诺莫瑞根"
+	ns.L["Nightmare"] = "恶梦"
+	ns.L["Priest"] = "牧师"
+	ns.L["Void Touched"] = "虚空触动"
 
 elseif ns.locale == "zhTW" then
 	ns.L["AddOn Description"] = "所有破損的箱子"
+	ns.L["AoPD"] = "麻痺體恐懼氛圍"
 	ns.L["Battered Chest"] = "破損的箱子"
+	ns.L["Best Hunter Pets"] = "最佳獵人寵物"
+	ns.L["Chest Rank"] = "寶箱的等級: "
+	ns.L["Fel Portal"] = "邪能傳送門"
+	ns.L["Gnomeregan"] = "諾莫瑞根"
+	ns.L["Nightmare"] = "惡夢"
+	ns.L["Priest"] = "牧師"
+	ns.L["Void Touched"] = "虛空觸動"
 	
 	-- 自行加入
-	ns.L["Void Touched"] = "虛空之觸"
-	ns.L["Best Hunter Pets"] = "最佳獵人寵物"
 	ns.L["Cozy Sleeping Bag"] = "舒適的睡袋"
+	ns.L["Nightmare Bloom / Seed"] = "共鳴的夢魘之花 / 夢魘種子"
 
 else
 	ns.L["AddOn Description"] = "Helps you to collect Battered Chests"
+	ns.L["AoPD"] = "Aura of Paralyzing Dread"
+	ns.L["Chest Rank"] = "Chest Rank: "
+	ns.L["Void Touched"] = "Void-Touched"
 	
 	-- 自行加入
-	ns.L["Void Touched"] = "Void Touched"
-	ns.L["Best Hunter Pets"] = "Best Hunter Pets"
 	ns.L["Cozy Sleeping Bag"] = "Cozy Sleeping Bag"
+	ns.L["Nightmare Bloom / Seed"] = "Nightmare Bloom / Seed"
 end
