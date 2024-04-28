@@ -1,0 +1,24 @@
+## Interface: 11502
+
+## Title: BetterBags - BoE & BoA
+## Notes: Adds BoE & BoA filters to BetterBags.
+## Author: Avyiel
+## Version: v1.0.1
+## X-Date: 2024-04-13T06:27:37Z
+## IconTexture: Interface\Icons\inv_misc_bag_15
+
+## Dependencies: BetterBags
+
+## X-Date: 2024-04-13T06:27:37Z
+## X-Category: Bags & Inventory
+## X-License: MIT
+
+## X-Curse-Project-ID: 960358
+## X-Wago-ID: ANz0qMK4
+
+## Title-zhTW: |cffB973CC[背包]|r 掰特包分類-綁定類型
+## Notes-zhTW: BetterBags - BoE & BoA |n|n新增裝備綁定和帳號綁定的分類。
+## X-Category-zhTW: 物品
+
+main.lua
+

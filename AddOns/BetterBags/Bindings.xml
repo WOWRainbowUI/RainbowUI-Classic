@@ -1,0 +1,5 @@
+<Bindings>
+ <Binding name="BETTERBAGS_TOGGLESEARCH" header="BetterBags" category="ADDONS">
+  BetterBags_ToggleSearch()
+ </Binding>
+</Bindings>
