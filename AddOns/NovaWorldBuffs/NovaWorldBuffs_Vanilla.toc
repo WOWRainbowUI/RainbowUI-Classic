@@ -1,0 +1,25 @@
+## Interface: 11502
+## Notes: World buff timers and much more.
+## Title: Nova World Buffs
+## Author: Novaspark-Arugal OCE
+## Version: 2.76
+## SavedVariables: NWBdatabase
+
+## Title-zhTW: |cffFF7F00[團隊]|r Nova 世界增益監控
+## Notes-zhTW: Nova World Buffs |n|n自動取得黑妹、奈法及酋長的祝福的時間，並且倒數計時下一次可以插龍頭的時間，以及輕歌花下一次的時間。|n|n|cffffd200使用方法: |r打開世界地圖，切換到主城或相關區域查看時間。|n|n從Esc>選項>插件>增益效果-世界，進行設定。
+## X-Category-zhTW: 團隊
+## DefaultState: disabled
+
+embeds.xml
+Locale\Locales.xml
+NovaWorldBuffs.lua
+Options.lua
+NWBHelp.lua
+NWBData.lua
+NWBCreatures.lua
+NWBRealms.lua
+NWBGuildFilter.lua
+Modules\WeeklyReset.lua
+Modules\Ashenvale.lua
+Modules\Stranglethorn.lua
+Modules\Overlay.lua
