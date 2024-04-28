@@ -290,7 +290,7 @@ end
 function M:OnInitialize()
     _DBG("|cffffff00Init|r - "..self:GetName(), true)
     db = KT.db.profile
-    self.isLoaded = (KT:CheckAddOn("Questie", "9.4.9") and db.addonQuestie)
+    self.isLoaded = (KT:CheckAddOn("Questie", "9.5.1") and db.addonQuestie)
 end
 
 function M:OnEnable()
@@ -319,7 +319,7 @@ function M:CreateMenu(info, questID)
     end
     MSA_DropDownMenu_AddButton(info, MSA_DROPDOWN_MENU_LEVEL)
 
-    if C_AddOns.IsAddOnLoaded("TomTom") then
+    if IsAddOnLoaded("TomTom") then
         info.text = "開始 |cff33ff99TomTom|r 導航"
         info.func = function()
             local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)

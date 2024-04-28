@@ -35,7 +35,7 @@ StaticPopupDialogs[addonName.."_ReloadUI"] = {
 
 -- ElvUI
 local function ElvUI_SetSupport()
-    if KT:CheckAddOn("ElvUI", "13.59", true) then
+    if KT:CheckAddOn("ElvUI", "v13.61", true) then
         KT.frame:SetScale(1)
         KT.frame.Buttons:SetScale(1)
         local E = unpack(_G.ElvUI)
@@ -55,38 +55,13 @@ local function Tukui_SetSupport()
     end
 end
 
--- QuestLogEx
-local function QuestLogEx_SetSupport()
-    if C_AddOns.IsAddOnLoaded("QuestLogEx") then
-        QUESTS_DISPLAYED = 27
-        QuestLogFrame = QuestLogExFrame
-        QuestLogListScrollFrame = QuestLogExListScrollFrame
-
-        QuestLogExCollapseAllButton:Hide()
-
-        hooksecurefunc("QuestLogTitleButton_OnClick", function(self, button)
-            if not ((IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) or IsShiftKeyDown()) then
-                if not QuestLogEx.extended then
-                    QuestLogEx:Maximize()
-                end
-            end
-        end)
-
-        hooksecurefunc("QuestObjectiveTracker_OpenQuestDetails", function(dropDownButton, questID)
-            if not QuestLogEx.extended then
-                QuestLogEx:Maximize()
-            end
-        end)
-    end
-end
-
 -- QuestGuru / Classic Quest Log
 local function QuestGuru_ClassicQuestLog_SetSupport()
     local ql, prefix
-    if C_AddOns.IsAddOnLoaded("QuestGuru") then
+    if IsAddOnLoaded("QuestGuru") then
         ql = QuestGuru
         prefix = "QuestGuru"
-    elseif C_AddOns.IsAddOnLoaded("Classic Quest Log") then
+    elseif IsAddOnLoaded("Classic Quest Log") then
         ql = ClassicQuestLog
         prefix = "ClassicQuestLog"
     end
@@ -112,12 +87,7 @@ local function QuestGuru_ClassicQuestLog_SetSupport()
                 if not index then
                     index = GetQuestLogSelection()
                 end
-                local questID = GetQuestIDFromLogIndex(index);
-                if ( IsQuestWatched(index) ) then
-                    KT_RemoveQuestWatch(questID);
-                else
-                    AutoQuestWatch_Insert(index);
-                end
+                _QuestLog_ToggleQuestWatch(index)
                 QuestLog_Update()
             end
         end
@@ -196,6 +166,5 @@ function M:OnEnable()
     _DBG("|cff00ff00Enable|r - "..self:GetName(), true)
     ElvUI_SetSupport()
     Tukui_SetSupport()
-    QuestLogEx_SetSupport()
     QuestGuru_ClassicQuestLog_SetSupport()
 end

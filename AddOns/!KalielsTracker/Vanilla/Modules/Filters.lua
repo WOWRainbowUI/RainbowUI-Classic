@@ -30,6 +30,7 @@ local OTF = ObjectiveTrackerFrame
 local OTFHeader = OTF.HeaderMenu
 
 local continents = KT.GetMapContinents()
+local achievCategory = GetCategoryList()
 local instanceQuestDifficulty = {
 	[DIFFICULTY_DUNGEON_NORMAL] = { Enum.QuestTag.Dungeon },
 	[DIFFICULTY_DUNGEON_HEROIC] = { Enum.QuestTag.Dungeon, Enum.QuestTag.Heroic },
@@ -80,6 +81,71 @@ local function SetHooks()
 			bck_QuestMapQuestOptions_TrackQuest(questID)
 		end
 	end
+
+	-- Achievements
+	if WOW_PROJECT_ID > WOW_PROJECT_CLASSIC then
+		local bck_AchievementObjectiveTracker_UntrackAchievement = AchievementObjectiveTracker_UntrackAchievement
+		AchievementObjectiveTracker_UntrackAchievement = function(dropDownButton, achievementID)
+			if not db.filterAuto[2] then
+				bck_AchievementObjectiveTracker_UntrackAchievement(dropDownButton, achievementID)
+			end
+		end
+	end
+
+	-- Quest Log
+	if WOW_PROJECT_ID > WOW_PROJECT_CLASSIC then
+		hooksecurefunc("QuestLogControlPanel_UpdateState", function()
+			if db.filterAuto[1] then
+				QuestLogFrameTrackButton:Disable()
+			else
+				QuestLogFrameTrackButton:Enable()
+			end
+		end)
+	end
+end
+
+local function SetHooks_AchievementUI()
+	local bck_AchievementButton_ToggleTracking = AchievementButton_ToggleTracking
+	AchievementButton_ToggleTracking = function(id)
+		if not db.filterAuto[2] then
+			return bck_AchievementButton_ToggleTracking(id)
+		end
+	end
+
+	hooksecurefunc("AchievementButton_DisplayAchievement", function(button, category, achievement, selectionID, renderOffScreen)
+		if not button.completed then
+			if db.filterAuto[2] then
+				button.tracked:Disable()
+			else
+				button.tracked:Enable()
+			end
+		end
+	end)
+end
+
+local function GetActiveWorldEvents()
+	local eventsText = ""
+	local date = C_DateAndTime.GetCurrentCalendarTime()
+	C_Calendar.SetAbsMonth(date.month, date.year)
+	local numEvents = C_Calendar.GetNumDayEvents(0, date.monthDay)
+	for i=1, numEvents do
+		local event = C_Calendar.GetDayEvent(0, date.monthDay, i)
+		if event.calendarType == "HOLIDAY" then
+			local gameHour, gameMinute = GetGameTime()
+			if event.sequenceType == "START" then
+				if gameHour >= event.startTime.hour and gameMinute >= event.startTime.minute then
+					eventsText = eventsText..event.title.." "
+				end
+			elseif event.sequenceType == "END" then
+				if gameHour <= event.endTime.hour and gameMinute <= event.endTime.minute then
+					eventsText = eventsText..event.title.." "
+				end
+			else
+				eventsText = eventsText..event.title.." "
+			end
+		end
+	end
+	return eventsText
 end
 
 local function IsInstanceQuest(questID)
@@ -230,6 +296,187 @@ local function Filter_Quests(spec, idx)
 	end
 end
 
+local function Filter_Achievements(spec)
+	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC or not spec then return end
+	local trackedAchievements = { GetTrackedAchievements() }
+
+	KT.stopUpdate = true
+	if GetNumTrackedAchievements() > 0 then
+		for i=1, #trackedAchievements do
+			RemoveTrackedAchievement(trackedAchievements[i])
+		end
+	end
+
+	if spec == "zone" then
+		local continentName = KT.GetCurrentMapContinent().name
+		local zoneName = GetRealZoneText() or ""
+		local categoryName = continentName
+		-- WotLK
+		if KT.GetCurrentMapContinent().mapID == 113 then
+			if zoneName == "Trial of the Crusader" then
+				zoneName = "Call of the Crusade"
+			elseif zoneName == "Icecrown Citadel" then
+				zoneName = "Fall of the Lich King"
+			end
+			categoryName = EXPANSION_NAME2
+		-- TBC
+		elseif KT.GetCurrentMapContinent().mapID == 1945 then
+			categoryName = EXPANSION_NAME1
+		-- Classic
+		elseif KT.GetCurrentMapContinent().mapID == 1414 or
+				KT.GetCurrentMapContinent().mapID == 1415 then
+			categoryName = EXPANSION_NAME0
+		end
+		local instance = KT.inInstance and 168 or nil
+		_DBG(zoneName.." ... "..KT.GetCurrentMapAreaID(), true)
+
+		-- Dungeons & Raids
+		local instanceDifficulty, instanceSize
+		if instance and db.filterAchievCat[instance] then
+			local _, type, difficulty, difficultyName = GetInstanceInfo()
+			instanceDifficulty = difficultyName
+			instanceSize = ""
+			if strfind(difficultyName, "^%d+.*$") then
+				local _, _, size, diff = strfind(difficultyName, "^(.*) %((.*)%)$")
+				instanceDifficulty = diff or "Normal"
+				instanceSize = strlower(size or difficultyName)
+			end
+			_DBG(type.." ... "..difficulty.." ... "..difficultyName, true)
+		end
+
+		-- World Events
+		local events = ""
+		if db.filterAchievCat[155] then
+			events = GetActiveWorldEvents()
+		end
+
+		for i=1, #achievCategory do
+			local category = achievCategory[i]
+			local name, parentID, _ = GetCategoryInfo(category)
+
+			if db.filterAchievCat[category] or db.filterAchievCat[parentID] then
+				if (category == 92) or                                     -- General
+						(category == 96) or                                -- Quests
+						(parentID == 96 and name == categoryName) or       -- Quests
+						(parentID == 97 and name == continentName) or      -- Exploration
+						(category == 95) or                                -- Player vs. Player
+						(parentID == 95 and strfind(zoneName, name)) or    -- Player vs. Player
+						(parentID == instance) or                          -- Dungeons & Raids
+						(parentID == 169) or                               -- Professions
+						(parentID == 201) or                               -- Reputation
+						(parentID == 155 and strfind(events, name)) then   -- World Events
+					local aNumItems, _ = GetCategoryNumAchievements(category)
+					for i=1, aNumItems do
+						local track = false
+						local aId, aName, _, aCompleted, _, _, _, aDescription = GetAchievementInfo(category, i)
+						if aId and not aCompleted then
+							--_DBG(aId.." ... "..aName, true)
+							local aText = aName.." - "..aDescription
+							local cNumItems = GetAchievementNumCriteria(aId)
+							local cType = -1
+							if cNumItems > 0 then
+								_, cType = GetAchievementCriteriaInfo(aId, 1)
+							end
+							if not instance then
+								if (category == 96 or parentID == 96 or parentID == 97 or category == 15117 or parentID == 15117) and
+										cType ~= CRITERIA_TYPE_ACHIEVEMENT and
+										strfind(aText, continentName) then
+									track = true
+								elseif strfind(aText, zoneName) then
+									track = true
+								elseif strfind(aDescription, " capita") then  -- capital city (TODO: de, ru strings)
+									for i=1, cNumItems do
+										local cDescription, _, cCompleted = GetAchievementCriteriaInfo(aId, i)
+										if not cCompleted and strfind(cDescription, zoneName) then
+											track = true
+											break
+										end
+									end
+								end
+							else
+								if parentID == 95 then
+									track = true
+								elseif parentID == instance and
+										cType ~= CRITERIA_TYPE_ACHIEVEMENT then
+									if (name == categoryName and strfind(aText, zoneName)) or
+											((strfind(name, zoneName) or strfind(aText, zoneName)) and strfind(aText, instanceSize)) then
+										if instanceDifficulty == "Normal" then
+											if not (strfind(aText, "Heroic") or
+													strfind(aText, "Mythic")) then
+												track = true
+											end
+										else
+											if strfind(aText, instanceDifficulty) or
+													(strfind(aText, "difficulty or higher")) then  -- TODO: other languages
+												track = true
+											end
+										end
+									end
+								end
+							end
+							if track then
+								AddTrackedAchievement(aId)
+							end
+						end
+						if GetNumTrackedAchievements() == MAX_TRACKED_ACHIEVEMENTS then
+							break
+						end
+					end
+				end
+			end
+			if GetNumTrackedAchievements() == MAX_TRACKED_ACHIEVEMENTS then
+				break
+			end
+			if parentID == -1 then
+				--_DBG(category.." ... "..name, true)
+			end
+		end
+	elseif spec == "wevent" then
+		local events = GetActiveWorldEvents()
+		local eventName = ""
+
+		for i=1, #achievCategory do
+			local category = achievCategory[i]
+			local name, parentID, _ = GetCategoryInfo(category)
+
+			if parentID == 155 and strfind(events, name) then	-- World Events
+				eventName = eventName..(eventName ~= "" and ", " or "")..name
+				local aNumItems, _ = GetCategoryNumAchievements(category)
+				for i=1, aNumItems do
+					local aId, aName, _, aCompleted, _, _, _, aDescription = GetAchievementInfo(category, i)
+					if aId and not aCompleted then
+						AddTrackedAchievement(aId)
+					end
+					if GetNumTrackedAchievements() == MAX_TRACKED_ACHIEVEMENTS then
+						break
+					end
+				end
+			end
+			if GetNumTrackedAchievements() == MAX_TRACKED_ACHIEVEMENTS then
+				break
+			end
+			if parentID == -1 then
+				--_DBG(category.." ... "..name, true)
+			end
+		end
+
+		if db.messageAchievement then
+			local numTracked = GetNumTrackedAchievements()
+			if numTracked == 0 then
+				KT:SetMessage("目前沒有世界事件。", 1, 1, 0)
+			elseif numTracked > 0 then
+				KT:SetMessage("世界事件 - "..eventName, 1, 1, 0)
+			end
+		end
+	end
+	KT.stopUpdate = false
+
+	if AchievementFrame then
+		AchievementFrameAchievements_ForceUpdate()
+	end
+	ObjectiveTracker_Update(OBJECTIVE_TRACKER_UPDATE_MODULE_ACHIEVEMENT)
+end
+
 local DropDown_Initialize	-- function
 
 local function DropDown_Toggle(level, button)
@@ -248,29 +495,52 @@ end
 local function DropDown_Filter_Quests(self, spec, idx)
 	KT.forceExpand = dbChar.collapsed
 	Filter_Quests(spec, idx)
-	dbChar.filter = spec
-	dbChar.filterIdx = idx
+	dbChar.quests.filter = spec
+	dbChar.quests.filterIdx = idx
+end
+
+local function DropDown_Filter_Achievements(self, spec)
+	KT.forceExpand = dbChar.collapsed
+	Filter_Achievements(spec)
 end
 
 local function DropDown_Filter_AutoTrack(self, id, spec)
 	db.filterAuto[id] = (db.filterAuto[id] ~= spec) and spec or nil
 	if db.filterAuto[id] then
+		KT.forceExpand = dbChar.collapsed
 		if id == 1 then
-			KT.forceExpand = dbChar.collapsed
 			Filter_Quests(spec)
+		elseif id == 2 then
+			Filter_Achievements(spec)
 		end
 		KTF.FilterButton:GetNormalTexture():SetVertexColor(0, 1, 0)
 	else
 		if id == 1 then
 			KT.forceExpand = dbChar.collapsed
-			Filter_Quests(dbChar.filter, dbChar.filterIdx)
+			Filter_Quests(dbChar.quests.filter, dbChar.quests.filterIdx)
+			if QuestLogFrame:IsVisible() then
+				QuestLog_Update()
+			end
+		elseif id == 2 and AchievementFrame then
+			AchievementFrameAchievements_ForceUpdate()
 		end
 		if not (db.filterAuto[1] or db.filterAuto[2]) then
 			KTF.FilterButton:GetNormalTexture():SetVertexColor(KT.headerBtnColor.r, KT.headerBtnColor.g, KT.headerBtnColor.b)
 		end
-		if QuestLogFrame:IsVisible() then
-			QuestLog_Update()
-		end
+	end
+end
+
+local function DropDown_Filter_AchievCat_CheckAll(self, state)
+	for id, _ in pairs(db.filterAchievCat) do
+		db.filterAchievCat[id] = state
+	end
+	if db.filterAuto[2] then
+		KT.forceExpand = dbChar.collapsed
+		Filter_Achievements(db.filterAuto[2])
+		MSA_CloseDropDownMenus()
+	else
+		local listFrame = _G["MSA_DropDownList"..MSA_DROPDOWNMENU_MENU_LEVEL]
+		DropDown_Toggle(MSA_DROPDOWNMENU_MENU_LEVEL, _G["MSA_DropDownList"..listFrame.parentLevel.."Button"..listFrame.parentID])
 	end
 end
 
@@ -284,13 +554,13 @@ local function GetInlineFactionIcon()
 end
 
 function DropDown_Initialize(self, level)
-	ExpandQuestHeader(0)
 	local numEntries, numQuests = GetNumQuestLogEntries()
 	local info = MSA_DropDownMenu_CreateInfo()
 	info.isNotRadio = true
 	info.iconAtlas = false
 
 	if level == 1 then
+		ExpandQuestHeader(0)
 		info.notCheckable = true
 
 		-- Quests
@@ -348,14 +618,15 @@ function DropDown_Initialize(self, level)
 		info.arg1 = ""
 		MSA_DropDownMenu_AddButton(info)
 
-		MSA_DropDownMenu_AddSeparator(info)
-
 		info.text = "排序"
+		info.keepShownOnClick = true
 		info.hasArrow = true
+		info.disabled = false
 		info.value = 2
 		info.func = nil
 		MSA_DropDownMenu_AddButton(info)
 
+		info.keepShownOnClick = false
 		info.hasArrow = false
 
 		info.text = "|cff00ff00自動|r區域"
@@ -366,6 +637,52 @@ function DropDown_Initialize(self, level)
 		info.checked = (db.filterAuto[info.arg1] == info.arg2)
 		info.func = DropDown_Filter_AutoTrack
 		MSA_DropDownMenu_AddButton(info)
+
+		-- Achievements
+		if WOW_PROJECT_ID > WOW_PROJECT_CLASSIC then
+			MSA_DropDownMenu_AddSeparator(info)
+
+			info.text = TRACKER_HEADER_ACHIEVEMENTS
+			info.isTitle = true
+			MSA_DropDownMenu_AddButton(info)
+
+			info.isTitle = false
+			info.disabled = false
+
+			info.text = "Categories"
+			info.keepShownOnClick = true
+			info.hasArrow = true
+			info.value = 3
+			info.func = nil
+			MSA_DropDownMenu_AddButton(info)
+
+			info.keepShownOnClick = false
+			info.hasArrow = false
+			info.disabled = (db.filterAuto[2])
+			info.func = DropDown_Filter_Achievements
+
+			info.text = "區域"
+			info.arg1 = "zone"
+			MSA_DropDownMenu_AddButton(info)
+
+			info.text = "世界事件"
+			info.arg1 = "wevent"
+			MSA_DropDownMenu_AddButton(info)
+
+			info.text = "全部取消追蹤"
+			info.disabled = (db.filterAuto[2] or GetNumTrackedAchievements() == 0)
+			info.arg1 = ""
+			MSA_DropDownMenu_AddButton(info)
+
+			info.text = "|cff00ff00自動|r區域"
+			info.notCheckable = false
+			info.disabled = false
+			info.arg1 = 2
+			info.arg2 = "zone"
+			info.checked = (db.filterAuto[info.arg1] == info.arg2)
+			info.func = DropDown_Filter_AutoTrack
+			MSA_DropDownMenu_AddButton(info)
+		end
 	elseif level == 2 then
 		info.notCheckable = true
 
@@ -397,7 +714,7 @@ function DropDown_Initialize(self, level)
 			info.notCheckable = false
 			info.isNotRadio = false
 			info.func = function(_, arg)
-				dbChar.sort = arg
+				dbChar.quests.sort = arg
 				local listFrame = _G["MSA_DropDownList"..MSA_DROPDOWNMENU_MENU_LEVEL]
 				DropDown_Toggle(MSA_DROPDOWNMENU_MENU_LEVEL, _G["MSA_DropDownList"..listFrame.parentLevel.."Button"..listFrame.parentID])
 				ObjectiveTracker_Update()
@@ -405,28 +722,28 @@ function DropDown_Initialize(self, level)
 
 			info.text = "停用"
 			info.arg1 = nil
-			info.checked = (dbChar.sort == info.arg1)
+			info.checked = (dbChar.quests.sort == info.arg1)
 			MSA_DropDownMenu_AddButton(info, level)
 
 			info.text = "依據區域"
 			info.arg1 = "zone"
-			info.checked = (dbChar.sort == info.arg1)
+			info.checked = (dbChar.quests.sort == info.arg1)
 			MSA_DropDownMenu_AddButton(info, level)
 
 			info.text = "依據等級"
 			info.arg1 = "level"
-			info.checked = (dbChar.sort == info.arg1)
+			info.checked = (dbChar.quests.sort == info.arg1)
 			MSA_DropDownMenu_AddButton(info, level)
 
 			info.text = "依據等級 (反向)"
 			info.arg1 = "levelReversed"
-			info.checked = (dbChar.sort == info.arg1)
+			info.checked = (dbChar.quests.sort == info.arg1)
 			MSA_DropDownMenu_AddButton(info, level)
 
 			MSA_DropDownMenu_AddSeparator(info, level)
 			info.notCheckable = false
 			info.func = function(_, arg)
-				dbChar.sortCompleted = arg
+				dbChar.quests.sortCompleted = arg
 				local listFrame = _G["MSA_DropDownList"..MSA_DROPDOWNMENU_MENU_LEVEL]
 				DropDown_Toggle(MSA_DROPDOWNMENU_MENU_LEVEL, _G["MSA_DropDownList"..listFrame.parentLevel.."Button"..listFrame.parentID])
 				ObjectiveTracker_Update()
@@ -434,18 +751,49 @@ function DropDown_Initialize(self, level)
 
 			info.text = "不要移動已完成的"
 			info.arg1 = nil
-			info.checked = (dbChar.sortCompleted == info.arg1)
+			info.checked = (dbChar.quests.sortCompleted == info.arg1)
 			MSA_DropDownMenu_AddButton(info, level)
 
 			info.text = "已完成的在上方"
 			info.arg1 = "top"
-			info.checked = (dbChar.sortCompleted == info.arg1)
+			info.checked = (dbChar.quests.sortCompleted == info.arg1)
 			MSA_DropDownMenu_AddButton(info, level)
 
 			info.text = "已完成的在下方"
 			info.arg1 = "bottom"
-			info.checked = (dbChar.sortCompleted == info.arg1)
+			info.checked = (dbChar.quests.sortCompleted == info.arg1)
 			MSA_DropDownMenu_AddButton(info, level)
+		elseif MSA_DROPDOWNMENU_MENU_VALUE == 3 then
+			info.func = DropDown_Filter_AchievCat_CheckAll
+
+			info.text = "全選"
+			info.arg1 = true
+			MSA_DropDownMenu_AddButton(info, level)
+
+			info.text = "取消全選"
+			info.arg1 = false
+			MSA_DropDownMenu_AddButton(info, level)
+
+			info.keepShownOnClick = true
+			info.notCheckable = false
+			info.func = function(_, arg)
+				db.filterAchievCat[arg] = not db.filterAchievCat[arg]
+				if db.filterAuto[2] then
+					DropDown_Filter_Achievements(_, db.filterAuto[2])
+					MSA_CloseDropDownMenus()
+				end
+			end
+
+			for i=1, #achievCategory do
+				local id = achievCategory[i]
+				local name, parentID, _ = GetCategoryInfo(id)
+				if parentID == -1 and id ~= 81 then		-- Skip "Feats of Strength"
+					info.text = name
+					info.checked = (db.filterAchievCat[id])
+					info.arg1 = id
+					MSA_DropDownMenu_AddButton(info, level)
+				end
+			end
 		end
 	end
 end
@@ -454,20 +802,32 @@ local function SetFrames()
 	-- Event frame
 	if not eventFrame then
 		eventFrame = CreateFrame("Frame")
-		eventFrame:SetScript("OnEvent", function(self, event, ...)
+		eventFrame:SetScript("OnEvent", function(self, event, arg1, ...)
 			_DBG("Event - "..event, true)
-			if event == "QUEST_ACCEPTED" or
+			if event == "ADDON_LOADED" and arg1 == "Blizzard_AchievementUI" then
+				SetHooks_AchievementUI()
+				self:UnregisterEvent(event)
+			elseif event == "QUEST_ACCEPTED" or
 					event == "ZONE_CHANGED" or
-					event == "ZONE_CHANGED_INDOORS" or
-					event == "ZONE_CHANGED_NEW_AREA" then
+					event == "ZONE_CHANGED_INDOORS" then
 				if db.filterAuto[1] == "zone" then
 					KT.questStateStopUpdate = true
 					Filter_Quests("zone")
 					KT.questStateStopUpdate = false
 				end
+			elseif event == "ZONE_CHANGED_NEW_AREA" then
+				if db.filterAuto[1] == "zone" then
+					KT.questStateStopUpdate = true
+					Filter_Quests("zone")
+					KT.questStateStopUpdate = false
+				end
+				if db.filterAuto[2] == "zone" then
+					Filter_Achievements("zone")
+				end
 			end
 		end)
 	end
+	eventFrame:RegisterEvent("ADDON_LOADED")
 	eventFrame:RegisterEvent("QUEST_ACCEPTED")
 	eventFrame:RegisterEvent("ZONE_CHANGED")
 	eventFrame:RegisterEvent("ZONE_CHANGED_INDOORS")
@@ -490,6 +850,7 @@ local function SetFrames()
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 		GameTooltip:AddLine("過濾方式", 1, 1, 1)
 		GameTooltip:AddLine(db.filterAuto[1] and "- 區域任務", 0, 1, 0)
+		GameTooltip:AddLine(db.filterAuto[2] and "- 區域成就", 0, 1, 0)
 		GameTooltip:Show()
 	end)
 	button:SetScript("OnLeave", function(self)
@@ -506,8 +867,9 @@ local function SetFrames()
 
 	-- Move other buttons
 	if db.headerOtherButtons then
-		local point, _, relativePoint, xOfs, yOfs = KTF.QuestLogButton:GetPoint()
-		KTF.QuestLogButton:SetPoint(point, KTF.FilterButton, relativePoint, xOfs, yOfs)
+		local button = WOW_PROJECT_ID > WOW_PROJECT_CLASSIC and KTF.AchievementsButton or KTF.QuestLogButton
+		local point, _, relativePoint, xOfs, yOfs = button:GetPoint()
+		button:SetPoint(point, KTF.FilterButton, relativePoint, xOfs, yOfs)
 	end
 end
 
@@ -520,20 +882,32 @@ function M:OnInitialize()
 	db = KT.db.profile
 	dbChar = KT.db.char
 
-    local defaults = KT:MergeTables({
+    local defaults = KT.MergeTables(KT.db.defaults, {
         profile = {
             filterAuto = {
 				nil,	-- [1] Quests
 				nil,	-- [2] Achievements
 			},
+			filterAchievCat = {
+				[92] = true,	-- General
+				[96] = true,	-- Quests
+				[97] = true,	-- Exploration
+				[95] = true,	-- Player vs. Player
+				[168] = true,	-- Dungeons & Raids
+				[169] = true,	-- Professions
+				[201] = true,	-- Reputation
+				[155] = true,	-- World Events
+			},
         },
 		char = {
-			filter = nil,
-			filterIdx = nil,
-			sort = nil,
-			sortCompleted = nil,
+			quests = {
+				filter = nil,
+				filterIdx = nil,
+				sort = nil,
+				sortCompleted = nil,
+			},
 		}
-    }, KT.db.defaults)
+    })
 	KT.db:RegisterDefaults(defaults)
 end
 
@@ -546,7 +920,7 @@ end
 function M:QuestSort(questWatchInfoList)
 	if KT.IsTableEmpty(questWatchInfoList) then return end
 
-	if dbChar.sort == "zone" then
+	if dbChar.quests.sort == "zone" then
 		-- by Zone
 		tsort(questWatchInfoList, function(a, b)
 			local aZone, bZone = KT_GetQuestListInfo(a[1], true).zone, KT_GetQuestListInfo(b[1], true).zone
@@ -555,7 +929,7 @@ function M:QuestSort(questWatchInfoList)
 			end
 			return aZone < bZone
 		end)
-	elseif dbChar.sort == "level" then
+	elseif dbChar.quests.sort == "level" then
 		-- by Level
 		tsort(questWatchInfoList, function(a, b)
 			if a[2] == b[2] then
@@ -563,7 +937,7 @@ function M:QuestSort(questWatchInfoList)
 			end
 			return a[2] < b[2]
 		end)
-	elseif dbChar.sort == "levelReversed" then
+	elseif dbChar.quests.sort == "levelReversed" then
 		-- by Level (reverse)
 		tsort(questWatchInfoList, function(a, b)
 			if a[2] == b[2] then
@@ -573,7 +947,7 @@ function M:QuestSort(questWatchInfoList)
 		end)
 	end
 
-	if dbChar.sortCompleted == "top" then
+	if dbChar.quests.sortCompleted == "top" then
 		-- Completed at top
 		local idx = 1
 		local item
@@ -584,7 +958,7 @@ function M:QuestSort(questWatchInfoList)
 				idx = idx + 1
 			end
 		end
-	elseif dbChar.sortCompleted == "bottom" then
+	elseif dbChar.quests.sortCompleted == "bottom" then
 		-- Completed at bottom
 		local idx = #questWatchInfoList
 		local item

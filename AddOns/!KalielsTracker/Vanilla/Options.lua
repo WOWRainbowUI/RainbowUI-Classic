@@ -95,6 +95,7 @@ local defaults = {
         menuWowheadURLModifier = "ALT",
 
 		messageQuest = true,
+		messageAchievement = true,
 		sink20OutputSink = "RaidWarning",
 		sink20Sticky = false,
 		soundQuest = false,
@@ -105,9 +106,12 @@ local defaults = {
 		questsShowTags = true,
 		questsShowZones = true,
 		questsObjectiveNumSwitch = true,
-		questsTooltipShow = true,
-		questsTooltipShowRewards = true,
-		questsTooltipShowID = true,
+
+		achievementsHeaderTitleAppend = true,
+
+		tooltipShow = true,
+		tooltipShowRewards = true,
+		tooltipShowID = true,
 
 		modulesOrder = KT.BLIZZARD_MODULES,
 
@@ -142,14 +146,14 @@ local options = {
 							order = 0.11,
 						},
 						build = {
-							name = " |cffffd100Build:|r  Classic",
+							name = " |cffffd100Build:|r  "..(WOW_PROJECT_ID > WOW_PROJECT_CLASSIC and "WotLK Classic" or "Classic Era"),
 							type = "description",
 							width = "normal",
 							fontSize = "medium",
 							order = 0.12,
 						},
 						slashCmd = {
-							name = cBold.." /kt|r  |cff808080..............|r  切換 (展開/收起) 任務追蹤清單\n"..
+							name = cBold.." /kt|r  |cff808080...............|r  切換 (展開/收起) 任務追蹤清單\n"..
 									cBold.." /kt config|r  |cff808080...|r  顯示設定選項視窗\n",
 							type = "description",
 							width = "double",
@@ -327,6 +331,7 @@ local options = {
 							set = function(_, value)
 								db.frameStrata = strata[value]
 								KTF:SetFrameStrata(strata[value])
+								KTF.Buttons:SetFrameStrata(strata[value])
 							end,
 							order = 1.8,
 						},
@@ -748,7 +753,7 @@ local options = {
 							order = 4.41,
 						},
 						headerCollapsedTxt2 = {
-							name = ("%d/%d"):format(numQuests, MAX_QUESTS),
+							name = ("%d/%d"):format(numQuests, MAX_QUESTLOG_QUESTS),
 							type = "toggle",
 							width = "half",
 							get = function()
@@ -761,7 +766,7 @@ local options = {
 							order = 4.42,
 						},
 						headerCollapsedTxt3 = {
-							name = ("%d/%d 任務"):format(numQuests, MAX_QUESTS),
+							name = ("%d/%d 任務"):format(numQuests, MAX_QUESTLOG_QUESTS),
 							type = "toggle",
 							get = function()
 								return (db.headerCollapsedTxt == 3)
@@ -773,7 +778,7 @@ local options = {
 							order = 4.43,
 						},
 						headerOtherButtons = {
-							name = "顯示任務日誌按鈕",
+							name = "顯示"..(WOW_PROJECT_ID > WOW_PROJECT_CLASSIC and "任務日誌和成就按鈕" or "任務日誌按鈕"),
 							type = "toggle",
 							width = "double",
 							set = function()
@@ -843,7 +848,7 @@ local options = {
 							name = "按鈕外觀 Masque",
 							type = "execute",
 							disabled = function()
-								return (not C_AddOns.IsAddOnLoaded("Masque") or not db.addonMasque or not KT.AddonOthers:IsEnabled())
+								return (not IsAddOnLoaded("Masque") or not db.addonMasque or not KT.AddonOthers:IsEnabled())
 							end,
 							func = function()
 								SlashCmdList["MASQUE"]()
@@ -938,6 +943,15 @@ local options = {
 							end,
 							order = 7.1,
 						},
+						messageAchievement = {
+							name = "成就訊息",
+							width = 1.1,
+							type = "toggle",
+							set = function()
+								db.messageAchievement = not db.messageAchievement
+							end,
+							order = 7.2,
+						},
 						-- LibSink
 					},
 				},
@@ -974,12 +988,12 @@ local options = {
 				},
 			},
 		},
-		quests = {
-			name = "任務",
+		content = {
+			name = "內容",
 			type = "group",
 			args = {
 				sec1 = {
-					name = "模組",
+					name = "任務",
 					type = "group",
 					inline = true,
 					order = 1,
@@ -1008,14 +1022,6 @@ local options = {
 							end,
 							order = 1.2,
 						},
-					},
-				},
-				sec2 = {
-					name = "內容",
-					type = "group",
-					inline = true,
-					order = 2,
-					args = {
 						questsShowLevels = {
 							name = "顯示任務等級",
 							desc = "在任務追蹤清單中顯示/隱藏任務等級。",
@@ -1024,7 +1030,7 @@ local options = {
 								db.questsShowLevels = not db.questsShowLevels
 								ObjectiveTracker_Update()
 							end,
-							order = 2.1,
+							order = 1.3,
 						},
 						questsShowTags = {
 							name = "顯示任務標籤",
@@ -1034,7 +1040,7 @@ local options = {
 								db.questsShowTags = not db.questsShowTags
 								ObjectiveTracker_Update()
 							end,
-							order = 2.2,
+							order = 1.4,
 						},
 						questsShowZones = {
 							name = "顯示任務區域",
@@ -1044,7 +1050,7 @@ local options = {
 								db.questsShowZones = not db.questsShowZones
 								ObjectiveTracker_Update()
 							end,
-							order = 2.3,
+							order = 1.5,
 						},
 						questsObjectiveNumSwitch = {
 							name = "目標數字在前面",
@@ -1058,45 +1064,65 @@ local options = {
 								db.questsObjectiveNumSwitch = not db.questsObjectiveNumSwitch
 								ObjectiveTracker_Update()
 							end,
-							order = 2.4,
+							order = 1.6,
+						},
+					},
+				},
+				sec2 = {
+					name = "成就",
+					type = "group",
+					inline = true,
+					order = 2,
+					args = {
+						achievementsHeaderTitleAppend = {
+							name = "顯示成就點數",
+							desc = "在成就模組的標題內顯示成就點數。",
+							type = "toggle",
+							width = "normal+half",
+							set = function()
+								db.achievementsHeaderTitleAppend = not db.achievementsHeaderTitleAppend
+								KT:SetAchievementsHeaderText(true)
+							end,
+							order = 2.1,
 						},
 					},
 				},
 				sec3 = {
-					name = "浮動提示資訊",
+					name = "滑鼠提示",
 					type = "group",
 					inline = true,
 					order = 3,
 					args = {
-						questsTooltipShow = {
-							name = "顯示浮動提示資訊",
+						tooltipShow = {
+							name = "顯示滑鼠提示",
+							desc = "顯示任務 / 成就滑鼠提示。",
 							type = "toggle",
 							set = function()
-								db.questsTooltipShow = not db.questsTooltipShow
+								db.tooltipShow = not db.tooltipShow
 							end,
 							order = 3.1,
 						},
-						questsTooltipShowRewards = {
+						tooltipShowRewards = {
 							name = "顯示獎勵",
-							desc = "在浮動提示資訊內顯示任務獎勵 - 神兵之力、職業大廳資源、金錢、裝備...等。",
+							desc = "在滑鼠提示內顯示任務獎勵 - 神兵之力、職業大廳資源、金錢、裝備...等。",
 							type = "toggle",
 							disabled = function()
-								return not db.questsTooltipShow
+								return not db.tooltipShow
 							end,
 							set = function()
-								db.questsTooltipShowRewards = not db.questsTooltipShowRewards
+								db.tooltipShowRewards = not db.tooltipShowRewards
 							end,
 							order = 3.2,
 						},
-						questsTooltipShowID = {
+						tooltipShowID = {
 							name = "顯示 ID",
-							desc = "在浮動提示資訊內顯示任務的 ID。",
+							desc = "在滑鼠提示內顯示任務 / 成就的 ID。",
 							type = "toggle",
 							disabled = function()
-								return not db.questsTooltipShow
+								return not db.tooltipShow
 							end,
 							set = function()
-								db.questsTooltipShowID = not db.questsTooltipShowID
+								db.tooltipShowID = not db.tooltipShowID
 							end,
 							order = 3.3,
 						},
@@ -1142,7 +1168,7 @@ local options = {
 							confirm = true,
 							confirmText = warning,
 							disabled = function()
-								return not C_AddOns.IsAddOnLoaded("Questie")
+								return not IsAddOnLoaded("Questie")
 							end,
 							set = function()
 								db.addonQuestie = not db.addonQuestie
@@ -1186,7 +1212,7 @@ local options = {
 }
 
 local general = options.args.general.args
-local quests = options.args.quests.args
+local content = options.args.content.args
 local modules = options.args.modules.args
 local addons = options.args.addons.args
 
@@ -1195,7 +1221,7 @@ function KT:CheckAddOn(addon, version, isUI)
 	local ver = isUI and "" or "---"
 	local result = false
 	local path
-	if C_AddOns.IsAddOnLoaded(addon) then
+	if IsAddOnLoaded(addon) then
 		local actualVersion = C_AddOns.GetAddOnMetadata(addon, "Version") or "unknown"
 		actualVersion = gsub(actualVersion, "(.*%S)%s+", "%1")
 		ver = isUI and "  -  " or ""
@@ -1232,7 +1258,7 @@ function KT:SetupOptions()
 
 	general.sec7.args.messageOutput = self:GetSinkAce3OptionsDataTable()
 	general.sec7.args.messageOutput.inline = true
-	general.sec7.args.messageOutput.disabled = function() return not db.messageQuest end
+	general.sec7.args.messageOutput.disabled = function() return not (db.messageQuest or db.messageAchievement) end
 	self:SetSinkStorage(db)
 
 	options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
@@ -1259,6 +1285,10 @@ function KT:SetupOptions()
 			func = function()
 				self.stopUpdate = true
 				dbChar.trackedQuests = {}
+				local trackedAchievements = { GetTrackedAchievements() }
+				for i = 1, #trackedAchievements do
+					RemoveTrackedAchievement(trackedAchievements[i])
+				end
 				for i = 1, #db.filterAuto do
 					db.filterAuto[i] = nil
 				end
@@ -1284,7 +1314,7 @@ function KT:SetupOptions()
 	
 	self.optionsFrame = {}
 	self.optionsFrame.general = ACD:AddToBlizOptions(addonName, "任務-追蹤清單", nil, "general")
-	self.optionsFrame.quests = ACD:AddToBlizOptions(addonName, options.args.quests.name, "任務-追蹤清單", "quests")
+	self.optionsFrame.content = ACD:AddToBlizOptions(addonName, options.args.content.name, "任務-追蹤清單", "content")
 	self.optionsFrame.modules = ACD:AddToBlizOptions(addonName, options.args.modules.name, "任務-追蹤清單", "modules")
 	self.optionsFrame.addons = ACD:AddToBlizOptions(addonName, options.args.addons.name, "任務-追蹤清單", "addons")
 	self.optionsFrame.profiles = ACD:AddToBlizOptions(addonName, options.args.profiles.name, "任務-追蹤清單", "profiles")
@@ -1292,6 +1322,14 @@ function KT:SetupOptions()
 	self.db.RegisterCallback(self, "OnProfileChanged", "InitProfile")
 	self.db.RegisterCallback(self, "OnProfileCopied", "InitProfile")
 	self.db.RegisterCallback(self, "OnProfileReset", "InitProfile")
+
+	-- Classic Era - resets and hides some options
+	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+		general.sec7.args.messageAchievement = nil
+		db.messageAchievement = false
+		content.sec2 = nil
+		db.achievementsHeaderTitleAppend = false
+	end
 end
 
 SettingsPanel:HookScript("OnHide", function(self)
@@ -1371,6 +1409,7 @@ function GetModulesOptionsTable()
 			name = "|T:1:55|t|cff808080"..defaultText,
 			type = "description",
 			width = "normal",
+			fontSize = "medium",
 			order = i + 0.3,
 		}
 	end

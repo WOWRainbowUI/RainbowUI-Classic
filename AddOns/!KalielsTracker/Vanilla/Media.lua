@@ -34,6 +34,15 @@ local media = {
     { type = "SOUND",       name = "Undead (F)",    filePath = 542684 },    -- UndeadFemaleCongratulations01.ogg
 }
 
+if WOW_PROJECT_ID > WOW_PROJECT_CLASSIC then
+    KT.MergeTables(media, {
+        { type = "SOUND",   name = "BloodElf (M)",  filePath = 539400 },    -- BloodElfMaleCongratulations02.ogg
+        { type = "SOUND",   name = "BloodElf (F)",  filePath = 539175 },    -- BloodElfFemaleCongratulations03.ogg
+        { type = "SOUND",   name = "Draenei (M)",   filePath = 539661 },    -- DraeneiMaleCongratulations02.ogg
+        { type = "SOUND",   name = "Draenei (F)",   filePath = 539676 },    -- DraeneiFemaleCongratulations03.ogg
+    })
+end
+
 for _, item in ipairs(media) do
     LSM:Register(LSM.MediaType[item.type], "KT - "..item.name, item.filePath)
 end
