@@ -286,19 +286,23 @@ D["BattleGroundEnemies"] = {
 		text = "|cffFF2D2D啟用插件後需要重新載入介面。|r",
 	},
 };
-D["BattleInfo"] = {
+D["Baganator"] = {
 	defaultEnable = 0,
-	tags = { "PVP" },
-	title = "戰場資訊增強",
-	desc = "提供更多實用的戰場資訊和功能。`",
-	modifier = "彩虹ui",
-    {
+	tags = { "ITEM" },
+	title = "多角色整合背包",
+	desc = "不分類的整合大背包，可以隨時隨地查看銀行，還可以查看分身的背包/銀行。``|cffFF2D2D需要打開過一次銀行才能離線查看銀行，其他角色需要登入過一次並且打開過背包和銀行，才能隨時查看。|r`",
+	modifier = "BNS, 彩虹ui",
+	{
         text = "設定選項",
-        callback = function(cfg, v, loading) SlashCmdList["BATTLEINFO"]("") end,
+        callback = function(cfg, v, loading) SlashCmdList["Baganator"]("") end,
     },
+	{
+		type = "text",
+        text = "自動整理背包: 在設定選項中可以啟用 '整理按鈕'。\n\n物品數量統計: 這個背包有內建物品數量統計的功能 (預設關閉)，建議和 '物品數量統計' 插件擇一使用即可。",       
+	},
 };
 D["BagSync"] = {
-	defaultEnable = 1,
+	defaultEnable = 0,
 	title = "物品數量統計",
 	desc = "在物品的浮動提示資訊中顯示所有角色擁有相同物品的數量。``|cffFF2D2D需要將其他角色登入一次才會計算該角色的物品數量。|r`",
 	modifier = "BNS, 彩虹ui",
@@ -352,6 +356,24 @@ D["BiaoGe"] = {
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["BIAOGEOPTIONS"]("") end,
     },
+};
+D["BetterBags"] = {
+	defaultEnable = 1,
+	tags = { "ITEM" },
+	title = "掰特包",
+	desc = "Adi 背包的進化版，效能好、bug 少、東西不亂跑，分類清楚好好找。``也可以變成不分類的合併背包，或是清單背包。背包大小、分類都可以自行調整，還有有多種分類外掛模組可供選用。``|cffFF2D2D特別注意: 各種外掛模組的分類預設都不開啟，第一次使用時請點背包視窗左上角的背包圖示，或是在設定選項中勾選，要額外顯示哪些分類。|r`",
+	modifier = "彩虹ui",
+	icon = "Interface\\Icons\\reliquarybag_icon",
+	{
+        text = "設定選項",
+        callback = function(cfg, v, loading) 
+			Settings.OpenToCategory(GetLocale() == "zhTW" and "背包" or "BetterBags")
+		end,
+    },
+	{
+		type = "text",
+		text = "點背包視窗左上角的背包圖示，也可以顯示設定選單。\n",
+	},
 };
 D["BigDebuffs"] = {
     defaultEnable = 0,
@@ -2239,6 +2261,23 @@ D["Stuf"] = {
 	{
 		type = "text",
         text = " ",       
+	},
+};
+D["Syndicator"] = {
+    defaultEnable = 1,
+	tags = { "ITEM" },
+	title = "多角色物品統計",
+	desc = "在物品的浮動提示資訊中顯示其他角色擁有此物品的數量，可在設定選項中調整要顯示幾個角色。``可搭配內建背包或任意背包插件一起使用。``|cffFF2D2D其他角色需要登入一次並且打開銀行後，才會記錄該角色的物品。|r`",
+	modifier = "BNS, plusmouse, 彩虹ui",
+    {
+        text = "設定選項",
+        callback = function(cfg, v, loading)
+			Settings.OpenToCategory("物品統計")
+		end,
+    },
+	{
+		type = "text",
+        text = "\n隱藏角色資料: 請輸入\n /syn hide 角色名字-伺服器\n\n刪除角色資料: 請輸入\n /syn remove 角色名字-伺服器\n\n|cffFF2D2D隱藏或刪除完後，若物品的浮動提示出現大量資訊，按一下 Shift 鍵即可。|r\n",       
 	},
 };
 D["TankMD"] = {
