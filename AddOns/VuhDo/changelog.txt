@@ -1,3 +1,31 @@
+Version 3.163-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+-- Bump TOC interface for 1.15.2  
+-- Added support for dual spec  
+-- Added support for head and wrist Rune abilities (SoD phase 3)  
+  
+  
+--------------------------------------------------------------  
 Version 3.163-wotlkc  
   
   
@@ -35,6 +63,31 @@ Known issues:
 -- Blizzard continues to have a bug that breaks proper spell targeting.  
 --   Under 'Game Menu > Options > Gameplay > Combat' deselect 'Auto Self Cast'  
 --   and set 'Self Cast Key' to 'None'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
+Version 3.162-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
   
   
 Bugfixes:  
@@ -92,6 +145,31 @@ Improvements:
   
   
 --------------------------------------------------------------  
+Version 3.161-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
 Version 3.161-wotlkc  
   
   
@@ -144,6 +222,33 @@ Improvements:
   
   
 --------------------------------------------------------------  
+Version 3.160-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+-- Bump TOC interface for 1.15.1  
+-- Added support for SoD phase 2  
+  
+  
+--------------------------------------------------------------  
 Version 3.160-wotlkc  
   
   
@@ -188,6 +293,32 @@ Bugfixes:
   
   
 Improvements:  
+  
+  
+--------------------------------------------------------------  
+Version 3.159-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+-- Added Mage 'Frost Armor' and 'Ice Armor' to Buff Watch  
   
   
 --------------------------------------------------------------  
@@ -240,6 +371,31 @@ Improvements:
   
   
 --------------------------------------------------------------  
+Version 3.158-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
 Version 3.158-wotlkc  
   
   
@@ -285,6 +441,35 @@ Bugfixes:
   
   
 Improvements:  
+  
+  
+--------------------------------------------------------------  
+Version 3.157-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+-- Fixed recognizing spells and abilities granted by SoD rune engavings  
+-- Fixed Shaman totem and weapon enchant spell IDs for Buff Watch  
+  
+  
+Improvements:  
+-- Added keybinding of rune slot abilities e.g. Chest Rune Ability  
+-- Added Druid 'Omen of Clarity' to Buff Watch  
   
   
 --------------------------------------------------------------  
@@ -343,6 +528,32 @@ Improvements:
   
   
 --------------------------------------------------------------  
+Version 3.156-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:
+-- Bump TOC interface for 1.15.0  
+  
+  
+--------------------------------------------------------------  
 Version 3.156-wotlkc  
   
   
@@ -391,6 +602,31 @@ Improvements:
   
   
 --------------------------------------------------------------  
+Version 3.155-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------    
 Version 3.155-wotlkc  
   
   
@@ -437,6 +673,31 @@ Bugfixes:
 Improvements:  
 -- Bump TOC interface for 10.2.0  
 -- Bouquets will now apply the selected background color even when displaying icons  
+  
+  
+--------------------------------------------------------------  
+Version 3.154-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
   
   
 --------------------------------------------------------------  
@@ -493,6 +754,31 @@ Improvements:
   
   
 --------------------------------------------------------------  
+Version 3.153-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
 Version 3.153-wotlkc  
   
   
@@ -538,6 +824,33 @@ Bugfixes:
 Improvements:  
 -- Added position adjustments for the 'Special Dot' indicator  
 -- Bump TOC interface for 10.1.7  
+  
+  
+--------------------------------------------------------------  
+Version 3.152-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+-- Bump TOC interface for 1.14.4  
+-- Rebase VuhDo for Classic against latest VuhDo for Retail/WotLK Classic  
   
   
 --------------------------------------------------------------  
@@ -835,6 +1148,31 @@ Improvements:
   
   
 --------------------------------------------------------------  
+Version 3.146-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
 Version 3.146-wotlkc  
   
   
@@ -884,6 +1222,31 @@ Bugfixes:
   
 Improvements:  
 -- Added default custom debuffs for Vault of Incarnates raid encounters  
+  
+  
+--------------------------------------------------------------  
+Version 3.145-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
   
   
 --------------------------------------------------------------  
@@ -940,6 +1303,31 @@ Improvements:
   
   
 --------------------------------------------------------------  
+Version 3.144-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
 Version 3.144-wotlkc  
   
   
@@ -993,6 +1381,31 @@ Bugfixes:
 Improvements:  
 -- Added option to only show text with no icon for HoT Icons  
 -- Bump TOC interface for 10.0.2  
+  
+  
+--------------------------------------------------------------  
+Version 3.143-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
   
   
 --------------------------------------------------------------  
@@ -1061,6 +1474,31 @@ Improvements:
   
   
 --------------------------------------------------------------  
+Version 3.142-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
 Version 3.142-wotlkc  
   
   
@@ -1110,6 +1548,31 @@ Improvements:
   
   
 --------------------------------------------------------------  
+Version 3.141-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
 Version 3.141-wotlkc  
   
   
@@ -1145,6 +1608,31 @@ Known issues:
 --   Some text providers need changes to better display small numbers  
 -- Debuff tooltips are currently bugged when using ElvUI  
 --   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
+Version 3.140-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
   
   
 Bugfixes:  
@@ -1200,6 +1688,56 @@ Improvements:
   
   
 --------------------------------------------------------------  
+Version 3.139-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
+Version 3.139-tbcc  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
 Version 3.139-wotlkc  
   
   
@@ -1236,6 +1774,56 @@ Known issues:
 --   Some text providers need changes to better display small numbers  
 -- Debuff tooltips are currently bugged when using ElvUI  
 --   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
+Version 3.138-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
+Version 3.138-tbcc  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
   
   
 Bugfixes:  
@@ -1293,6 +1881,56 @@ Improvements:
   
   
 --------------------------------------------------------------  
+Version 3.137-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+-------------------------------------------------------------  
+Version 3.137-tbcc  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
 Version 3.137-wotlkc  
   
   
@@ -1339,6 +1977,31 @@ Improvements:
   
   
 --------------------------------------------------------------  
+Version 3.136-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+-------------------------------------------------------------  
 Version 3.136-tbcc  
   
   
@@ -1383,6 +2046,32 @@ Improvements:
   
   
 --------------------------------------------------------------  
+Version 3.135-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+-- Bump TOC interface for 1.14.3  
+  
+  
+-------------------------------------------------------------  
 Version 3.135-tbcc  
   
   
@@ -1432,6 +2121,31 @@ Improvements:
   
   
 -------------------------------------------------------------  
+Version 3.134-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+-------------------------------------------------------------  
 Version 3.134-tbcc  
   
   
@@ -1467,6 +2181,31 @@ Known issues:
 --   Some text providers need changes to better display small numbers  
 -- Debuff tooltips are currently bugged when using ElvUI  
 --   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+-------------------------------------------------------------  
+Version 3.133-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
   
   
 Bugfixes:  
@@ -1522,6 +2261,32 @@ Improvements:
   
   
 --------------------------------------------------------------  
+Version 3.132-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+-- Bump TOC interface for 1.14.2  
+  
+  
+-------------------------------------------------------------  
 Version 3.132-tbcc  
   
   
@@ -1564,6 +2329,31 @@ Bugfixes:
 Improvements:  
 -- Bump TOC interface for 9.2.0  
 -- Added class color option for incoming heal/shield/etc. bars  
+  
+  
+-------------------------------------------------------------  
+Version 3.131-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
   
   
 --------------------------------------------------------------  
@@ -1616,6 +2406,32 @@ Improvements:
   
   
 --------------------------------------------------------------  
+Version 3.130-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+-- Bump interface TOC for 1.14.1  
+  
+  
+--------------------------------------------------------------  
 Version 3.130-tbcc  
   
   
@@ -1659,6 +2475,33 @@ Bugfixes:
   
   
 Improvements:  
+  
+  
+--------------------------------------------------------------  
+Version 3.129-vanilla  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Shield bar is not working due to unavailable Blizzard APIs  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+-- Built-in Blizzard APIs for incoming healing only partially working  
+--   If other healers are using LibHealComm enable it under:  
+--   'VuhDo Options > General > Threat / Incoming > Incoming Heal > Use LibHealComm'  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+-- Bump interface TOC for 1.14.0  
+-- Rebase against 3.129 TBCC branch  
   
   
 --------------------------------------------------------------  
