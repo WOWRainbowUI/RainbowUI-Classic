@@ -21,8 +21,8 @@
 
 Libs\Libs.xml
 
-VuhDo_Vanilla.xml
+Vanilla\VuhDo.xml
 
-VuhDoPanel_Vanilla.xml
-VuhDoBuffWatch.xml
+Vanilla\VuhDoPanel.xml
+Vanilla\VuhDoBuffWatch.xml
 

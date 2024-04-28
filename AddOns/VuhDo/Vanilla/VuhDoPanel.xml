@@ -4,7 +4,7 @@
 	<Script file="VuhDoBarCustomizerClusters.lua" />
 	<Script file="VuhDoBarCustomizerDebuffIcon.lua" />
 	<Script file="VuhDoBarCustomizerHealth.lua" />
-	<Script file="VuhDoBarCustomizerHots_Vanilla.lua" />
+	<Script file="VuhDoBarCustomizerHots.lua" />
 	<Script file="VuhDoBarCustomizerMana.lua" />
 	<Script file="VuhDoBarCustomizerTarget.lua" />
 	<Script file="VuhDoBarCustomizerThreat.lua" />

@@ -6,16 +6,16 @@
 	<Script file="VuhDoLocalization_zhCN.lua" />
 	<Script file="VuhDoLocalization_zhTW.lua" />
 
-	<Script file="VuhDoConstSpells_Vanilla.lua" />
+	<Script file="VuhDoConstSpells.lua" />
 	<Script file="VuhDoConst.lua" />
 	<Script file="VuhDoGuiConst.lua" />
-	<Script file="VuhDoToolbox_Vanilla.lua" />
-	<Script file="VuhDoBuffConst_Vanilla.lua" />
-	<Script file="VuhDoDebuffConst_Vanilla.lua" />
+	<Script file="VuhDoToolbox.lua" />
+	<Script file="VuhDoBuffConst.lua" />
+	<Script file="VuhDoDebuffConst.lua" />
 	<Script file="VuhDoTextProviders.lua" />
 	<Script file="VuhDoTextProviderHandler.lua" />
 	<Script file="VuhDoDefaultsBouquets.lua" />
-	<Script file="VuhDoDefaults_Vanilla.lua" />
+	<Script file="VuhDoDefaults.lua" />
 	<Script file="VuhDoConfigConvenience.lua" />
 	<Script file="VuhDoGuiToolbox.lua" />
 	<Script file="VuhDoModelTools.lua" />
@@ -27,17 +27,17 @@
 	<Script file="VuhDoRoleChecker.lua" />
 	<Script file="VuhDoDropdownFactory.lua" />
 	<Script file="VuhDoReadyCheck.lua" />
-	<Script file="VuhDoEventHandler_Vanilla.lua" />
-	<Script file="VuhDoDebuffs_Vanilla.lua" />
+	<Script file="VuhDoEventHandler.lua" />
+	<Script file="VuhDoDebuffs.lua" />
 	<Script file="VuhDoBouquetValidators.lua" />
 	<Script file="VuhDoBouquets.lua" />
-	<Script file="VuhDoEventHandler_Vanilla.lua" />
+	<Script file="VuhDoEventHandler.lua" />
 	<Script file="VuhDoTooltip.lua" />
 	<Script file="VuhDoCtraAdapter.lua" />
 	<Script file="VuhDoHealCommAdapter.lua" />
-	<Script file="VuhDoShieldAbsorb_Vanilla.lua" />
-	<Script file="VuhDoCombatLogParser_Vanilla.lua" />
-	<Script file="VuhDoSpellEstimator_Vanilla.lua" />
+	<Script file="VuhDoShieldAbsorb.lua" />
+	<Script file="VuhDoCombatLogParser.lua" />
+	<Script file="VuhDoSpellEstimator.lua" />
 	<Script file="VuhDoClusterBuilder.lua" />
 	<Script file="VuhDoMacroFactory.lua" />
 	<Script file="VuhDoSpellEventHandler.lua" />
@@ -45,8 +45,8 @@
 	<Script file="VuhDoDcShield.lua" />
 	<Script file="VuhDoAoeAdvisor.lua" />
 	<Script file="VuhDoSpellTrace.lua" />
-	<Script file="VuhDoAddonAdapter_Vanilla.lua" />
-	<Script file="VuhDo_Vanilla.lua" />
+	<Script file="VuhDoAddonAdapter.lua" />
+	<Script file="VuhDo.lua" />
 
 	<Script file="VuhDoSerializer.lua" />
 	<Script file="VuhDoNewOptionsSpellFireShared.lua" />
