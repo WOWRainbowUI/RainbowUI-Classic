@@ -30,9 +30,7 @@
 ## SavedVariables: SpyDB
 ## SavedVariablesPerCharacter: SpyPerCharDB
 
-#@no-lib-strip@
-Embeds.xml
-#@end-no-lib-strip@
+Libs\LibChatAnims\LibChatAnims.xml
 
 Spy.xml
 
