@@ -1,0 +1,36 @@
+== v1.08 - 25th April 2024
+* Nightmare Blooms / Seeds added to Ashenvale
+
+== v1.07 - 23rd April 2024
+* Nightmare (Phase 3) Gear
+
+== v1.06 - 22nd April 2024
+* "Best Hunter Pets", "Chest Rank", "Cozy Sleeping Bag", "Fel Portal", "Gnomeregan",
+	"Priest", "Void Touched" translations added
+
+== v1.05 - 19th April 2024
+* Added Phase 2 Profession Gear, aka Gnomeregan Gear
+* Options for the three types of Battered chests were labelled as 1, 1 and 1. Doh!
+* Removed level test for priest gear. Player should instead select "No display" as per the other pins
+* A line now separates the Tooltip titles from any list of quests
+
+== v1.04 - 17th April 2024
+* Added Priest Two Meditations quest chain
+* Now test for faction and class as necessary
+
+== v1.03 - 11th April 2024
+* Overhaul all the Fel Portals, including adding Fel Scars. Lots of other coordinates updated
+	(per request from Xpariah for Fel Scars!)
+
+== v1.02 - 7th April 2024
+* Added Phase 3 Fel Portals for Warlock Explorer Imp and Mage Balefire Bolt rune
+* Two Battered Chest locations in Elwynn Forest tweaked to exact verified coordiantes
+* Added World Map
+* Full size icons always for World and Continent maps, 0.8 for zones if chests or portals
+
+== v1.01 - 4th April 2024
+* TOC updated to 1.15.2
+
+== v1.0 - 20th March 2024
+* Initial release
+

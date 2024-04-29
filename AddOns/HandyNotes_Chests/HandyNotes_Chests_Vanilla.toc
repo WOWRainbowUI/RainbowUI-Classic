@@ -1,0 +1,32 @@
+## Interface: 11502
+## Version: 1.08
+## Author: Taraezor
+## IconTexture: Interface\Icons\inv_crate_05
+## Title: Chests
+## Title-deDE: Truhen
+## Title-esES: Cofres
+## Title-esMX: Cofres
+## Title-frFR: Coffres
+## Title-koKR: 가슴
+## Title-ptBR: Baú Desgastado
+## Title-ptPT: Baú Desgastado
+## Title-ruRU: Cундук
+## Title-zhCN: 宝箱
+## Title-zhTW: 寶箱
+## Notes: All the |cFFB86500Battered Chests
+## Notes-deDE: Alle |cFFB86500ramponierten Truhen
+## Notes-esES: Todos los |cFFB86500cofres maltratados
+## Notes-esMX: Todos los |cFFB86500cofres maltratados
+## Notes-frFR: Tous les |cFFB86500coffres battus
+## Notes-koKR: 모든 |cFFB86500낡은 궤짝
+## Notes-ptBR: Todos os |cFFB86500Baús Desgastado
+## Notes-ptPT: Todos os |cFFB86500Baús Desgastado
+## Notes-ruRU: Все |cFFB86500Побитые сундуки
+## Notes-zhCN: 所有|cFFB86500破损的箱子
+## Notes-zhTW: 所有|cFFB86500破損的箱子
+## RequiredDeps: HandyNotes
+## SavedVariablesPerCharacter: HandyNotes_ChestsDB
+
+Localisations.lua
+Core.lua
+Data.lua
