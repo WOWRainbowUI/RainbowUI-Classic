@@ -1,5 +1,46 @@
+== v2.14 - 28th April 2024
+* Altered code in the Tooltip popup to better handle completion flagging and to handle Mage Book translations
+* Translated Mage Book Quest names
+* "RwlRwlRwlRwl" changed to "RwlRwlRwlRwl!"
+* "Archmage Antonidas: The Unabridged ..." changed to "Archmage Antonidas: The Unabridged Autobiography"
+* Gave Owen Thadd his correct internal NPC ID
+* Garion Wendell now identified as "(A)" as if you didn't already know as he's in Stormwind but whatever
+
+== v2.13 - 25th April 2024
+* Quartermaster Kyleen / Field Captain Hannalah location slightly changed as
+  also required by my CGM AddOn - they still overlap but at least you know
+  there are two pins there
+* Warning to players that CGM/Runes AddOns share the Hannalah pin
+* While at it, Warsong Shredder pins slightly reduced. Less is more
+
+== v2.12 - 21st April 2024
+* Summary pins titles now have "phase" translated
+* "Skill Books" is now translated
+* "Show" is now translated
+* Correction to Skill Book display / not display
+
+== v2.11 - 15th April 2024
+* Druid Skull Bash changed to Gloves from Legs
+* Druid Lacerate move to Legs from Gloves
+* Paladin Light's Grace to Bracers from Head
+* Light's Grace pin support
+
+== v2.10 - 13th April 2024
+* Druid Skull Bash changed to Gloves and Light's Grace to Bracers, as per Blizzard's change
+* Withdrew release. Released too soon. Better a little later + more complete
+
+== v2.09 - 10th April 2024
+* Skillbooks - I broke it. Fixed
+* Rogue's Dead Drop - I broke it. Fixed
+* ShowPinForThisClassSpell renamed to ShowPinForThisClassRune
+* ShowPinForThisClassSkillBook renamed to ShowPinForThisClassSpellID
+* Paladin Guarded by the Light location tweaked
+* Translations for Cyan, Magenta, No Map Pin, Phase, Rune, Season added
+* French / Portugese - better Map Pin translations
+
 == v2.08 - 9th April 2024
-* Added translations for non-English players for Druid, Hunter, Mage, Paladin, Priest
+* Added translations for non-English players for all class runes
+* Mage Living Bomb. Excessive pins removed. Less is more
 
 == v2.07 - 9th April 2024
 * Added Paladins, Priests, Rogues

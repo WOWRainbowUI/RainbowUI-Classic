@@ -1,5 +1,5 @@
 ## Interface: 11502
-## Version: 2.08
+## Version: 2.14
 ## Author: Taraezor
 ## IconTexture: Interface\Icons\INV_Misc_Rune_06
 ## Title: Runes

@@ -98,81 +98,81 @@ st.hunter.rapidKilling = "進入灼熱峽谷西北角的火 watch嶺洞穴。\n�
 
 -- Mage
 st.mage.books = "在艾澤拉斯各地收集書籍可以獲得三個符文。任何列出的書籍都算數。\n"
-            .."你將發現的每一本書都交給幽暗城的歐文·薩德 (部落) 或暴風城的加里恩·溫德爾。\n\n"
-            .."你可以一次交一本書或幾本書。當你交了足夠的書來獲得符文時，\n"
-            .."一個簡單的完成任務就會獎勵你符文。" 
+		.."你將發現的每一本書交給幽暗城的歐文·薩德 (H) 或暴風城的加里恩·溫德爾 (A)。\n\n"
+		.."你可以一次交一本書或一次交幾本書。當你交了足夠的書來獲得一個符文時，\n"
+		.."一個簡單的完成任務就會獎勵你符文。" 
 st.mage.booksQuestIDsA = { 79953, 81955, 79949, 78145, 79091, 79092, 79535, 79097, 78142, 81956, 
 						78147, 79948, 79950, 81952, 78149, 79947, 78146, 81949, 79951, 78124, 
 						79093, 78148, 79952, 81947, 78143, 81953, 78127, 81951, 81954, 78150, 79536, 82208 }
 st.mage.booksQuestNamesA = {
-						"盧迪特寵物護理指南" ..colourPlaintext .."    在悲伤沼澤農失落者",
-						"金屬之心" ..colourPlaintext .."    在灼熱峽谷的一個帳篷裡的桌子上",
-						"謊言之網：揭穿神話和傳說" ..colourPlaintext .."    在阿拉希的冬泉谷村莊的一個帳篷旁邊",
-						"奧術系統手冊" ..colourPlaintext .."    貧瘠之地的污泥沼澤",
-						"大法師安東尼達斯：未刪節版..." ..colourPlaintext .."    鐵爐堡的探險者大廳",
-						"大法師西奧克里圖斯的研究日誌"..colourPlaintext .."    艾爾文森林的阿祖拉之塔",
-						"蛇怪：應該害怕石化嗎？" ..colourPlaintext .."    荊棘谷水晶礦脈入口",
-						"巴克斯坦：論毀滅魔法" ..colourPlaintext .."    在貧瘠之地棘齒城的加茲洛夫旁邊",
-						"迷惑和魅力" ..colourPlaintext .."    西部荒野的月溪鎮",
-						" conjurer法典" ..colourPlaintext .."    去詛咒之地",
-						"違反解剖學的罪行" ..colourPlaintext .."    暮色森林的烏鴉嶺地穴",
-						"防禦魔法 101" ..colourPlaintext .."    奧特蘭克山脈的食人魔塔",
-						"惡魔和你" ..colourPlaintext .."    在雷霆之斧要塞內",
-						"日常禮儀" ..colourPlaintext .."    艾薩拉的赫爾達爾營地",
-						"大地之怒" ..colourPlaintext .."    在石爪山脈的恐怖圖騰附近",
-						"地質學：冰冷的真相" ..colourPlaintext .."    在千針石林的黑暗雲端峰的一個小屋內",
-						"戈阿茲卷軸" ..colourPlaintext .."    濕地的維爾加挖掘場",
-						"潮汐賢者的傳說" ..colourPlaintext .."    在塔納利斯海盜灣的一座建築物內",
-						"木乃伊：令人討厭的不死生物指南" ..colourPlaintext .."    荒蕪之地台地內的地穴",
-						"納薩拉斯年鑑" ..colourPlaintext .."    黑海岸遺址",
-						"諾莫瑞根的魯米：作品集" ..colourPlaintext .."    塞爾薩瑪或西部荒野的旅館",
-						"巫妖王的符文" ..colourPlaintext .."    洛克莫丹的食人魔洞穴",
-						"RwlRwlRwlRwl" ..colourPlaintext .."    悲伤沼澤的女巫山魚人營地",
-						"血腥魔法" ..colourPlaintext .."    在悲伤沼澤的沉沒神廟頂部",
-						"夢境者的秘密" ..colourPlaintext .."    在哀嚎洞穴傳送門附近",
-						"石雕設計" ..colourPlaintext .."    在黑石山的弗蘭克羅恩·鍛造者的祭壇上",
-						"達拉然文摘" ..colourPlaintext .."    銀松森林的琥珀磨坊",
-						"邊緣與奧術" ..colourPlaintext .."    在菲拉斯的奧妮羅斯，但僅限於夢魘入侵期間",
-						"毒液之旅" ..colourPlaintext .."    在辛特蘭的一堵棕色牆後面",
-						"圖書館之友" ..colourPlaintext .."    獲得冰冷血脈的最後一步！", 
-						"圖書館高級之友" ..colourPlaintext .."    獲得法術強度的最後一步！",
-						"圖書館高級之友" ..colourPlaintext .."    獲得深度凍結的最後一步！" }
+						"A Ludites Guide to Caring for Your Pet" ..colourPlaintext .."    Farm Lost Ones in the Swamp of Sorrows",
+						"A Mind of Metal" ..colourPlaintext .."    On a table in a tent, Searing Gorge",
+						"A Web of Lies: Debunking Myths and Legends" ..colourPlaintext .."    Alongside a tent. Winterbark Village, Arathi",
+						"Arcanic Systems Manual" ..colourPlaintext .."    The Sludge Fen, The Barrens",
+						"Archmage Antonidas: The Unabridged Autobiography" ..colourPlaintext .."    Hall of Explorers, Ironforge",
+						"Archmage Theocritus's Research Journal"..colourPlaintext .."    Tower of Azora, Elwynn Forest",
+						"Basilisks: Should Petrification be Feared?" ..colourPlaintext .."    Entrance to Crystalvein Mine, Stranglethorn",
+						"Baxtan: On Destructive Magics" ..colourPlaintext .."    Next to Gazlove, Ratchet, The Barrens",
+						"Bewitchments and Glamours" ..colourPlaintext .."    Moonbrook, Westfall",
+						"Conjurer's Codex" ..colourPlaintext .."    Go to the Blasted Lands",
+						"Crimes Against Anatomy" ..colourPlaintext .."    Raven Hill Crypt, Duskwood",
+						"Defensive Magics 101" ..colourPlaintext .."    Ogre Tower in Alterac Mountains",
+						"Demons and You" ..colourPlaintext .."    Inside the Thunder Axe Fortress",
+						"Everyday Etiquette" ..colourPlaintext .."    Heldar Encampment, Azshara",
+						"Fury of the Land" ..colourPlaintext .."    Near Grimtotems in Stonetalon Mountains",
+						"Geomancy: The Stone-Cold Truth" ..colourPlaintext .."    Inside a hut, Darkcloud Pinnacle, Thousand Needles",
+						"Goaz Scrolls" ..colourPlaintext .."    Whelgar's Excavation Site, Wetlands",
+						"Legends of the Tidesages" ..colourPlaintext .."    Inside a building in the Pirate Cove, Tanaris",
+						"Mummies: A Guide to the Unsavory Undead" ..colourPlaintext .."    Crypt within a mesa. Badlands",
+						"Nar'thalas Almanac" ..colourPlaintext .."    Darkshore Ruins",
+						"Rumi of Gnomeregan: The Collected Works" ..colourPlaintext .."    Thelsamar or Westfall Inn",
+						"Runes of the Sorcerer-Kings" ..colourPlaintext .."    The Ogre Cave in Loch Modan",
+						"RwlRwlRwlRwl!" ..colourPlaintext .."    Witch Hill murloc Camp, Swamp of Sorrows",
+						"Sanguine Sorcery" ..colourPlaintext .."    On top of the Sunken Temple, Swamp of Sorrows",
+						"Secrets of the Dreamers" ..colourPlaintext .."    Near the Wailing Caverns portal",
+						"Stonewrought Design" ..colourPlaintext .."    On Franclorn Forgewright's altar, Black Mountain",
+						"The Dalaran Digest" ..colourPlaintext .."    Amber Mill, Silverpine Forest",
+						"The Liminal and the Arcane" ..colourPlaintext .."    @ Oneiros, Feralas but ONLY with a Nightmare Incursion",
+						"Venomous Journeys" ..colourPlaintext .."    Behind a brown wall, The Hinterlands",
+						"Friend of the Library" ..colourPlaintext .."    The final step for Icy Veins!", 
+						"Greater Friend of the Library" ..colourPlaintext .."    The final step for Spell Power!",
+						"Greater Friend of the Library" ..colourPlaintext .."    The final step for Deep Freeze!" }
 st.mage.booksQuestIDsH = { 79953, 81955, 79949, 78145, 79096, 79535, 79097, 78142, 81956, 78147, 
 						79948, 79950, 81952, 78149, 79947, 78146, 81949, 79951, 78124, 78148, 
 						79952, 81947, 78143, 81953, 79095, 78127, 79094, 81951, 81954, 78150, 79536, 82208 }
 st.mage.booksQuestNamesH = {
-						"盧迪特寵物護理指南" ..colourPlaintext .."    在悲伤沼澤農失落者",
-						"金屬之心" ..colourPlaintext .."    在灼熱峽谷的一個帳篷裡的桌子上",
-						"謊言之網：揭穿神話和傳說" ..colourPlaintext .."    在阿拉希的冬泉谷村莊的一個帳篷旁邊",
-						"奧術系統手冊" ..colourPlaintext .."    貧瘠之地的污泥沼澤",
-						"阿塔里克：論奧術珍品"..colourPlaintext .."    墓穴",
-						"蛇怪：應該害怕石化嗎？" ..colourPlaintext .."    荊棘谷水晶礦脈入口",
-						"巴克斯坦：論毀滅魔法" ..colourPlaintext .."    在貧瘠之地棘齒城的加茲洛夫旁邊",
-						"迷惑和魅力" ..colourPlaintext .."    西部荒野的月溪鎮",
-						" conjurer法典" ..colourPlaintext .."    去詛咒之地",
-						"違反解剖學的罪行" ..colourPlaintext .."    暮色森林的烏鴉嶺地穴",
-						"防禦魔法 101" ..colourPlaintext .."    奧特蘭克山脈的食人魔塔",
-						"惡魔和你" ..colourPlaintext .."    在雷霆之斧要塞內",
-						"日常禮儀" ..colourPlaintext .."    艾薩拉的赫爾達爾營地",
-						"大地之怒" ..colourPlaintext .."    在石爪山脈的恐怖圖騰附近",
-						"地質學：冰冷的真相" ..colourPlaintext .."    在千針石林的黑暗雲端峰的一個小屋內",
-						"戈阿茲卷軸" ..colourPlaintext .."    濕地的維爾加挖掘場",
-						"潮汐賢者的傳說" ..colourPlaintext .."    在塔納利斯海盜灣的一座建築物內",
-						"木乃伊：令人討厭的不死生物指南" ..colourPlaintext .."    荒蕪之地台地內的地穴",
-						"納薩拉斯年鑑" ..colourPlaintext .."    黑海岸遺址",
-						"巫妖王的符文" ..colourPlaintext .."    洛克莫丹的食人魔洞穴",
-						"RwlRwlRwlRwl" ..colourPlaintext .."    悲伤沼澤的女巫山魚人營地",
-						"血腥魔法" ..colourPlaintext .."    在悲伤沼澤的沉沒神廟頂部",
-						"夢境者的秘密" ..colourPlaintext .."    在哀嚎洞穴傳送門附近",
-						"石雕設計" ..colourPlaintext .."    在黑石山的弗蘭克羅恩·鍛造者的祭壇上",
-						"藥劑師的形而上學入門" ..colourPlaintext .."    布瑞爾煉金術商店",
-						"達拉然文摘" ..colourPlaintext .."    銀松森林的琥珀磨坊",
-						"塔佐的教訓" ..colourPlaintext .."    奧格瑞瑪的精神谷",
-						"邊緣與奧術" ..colourPlaintext .."    在菲拉斯的奧妮羅斯，但僅限於夢魘入侵期間",
-						"毒液之旅" ..colourPlaintext .."    在辛特蘭的一堵棕色牆後面",
-						"圖書館之友" ..colourPlaintext .."    獲得冰冷血脈的最後一步！", 
-						"圖書館高級之友" ..colourPlaintext .."    獲得法術強度的最後一步！",
-						"圖書館高級之友" ..colourPlaintext .."    獲得深度凍結的最後一步！" }
+						"A Ludites Guide to Caring for Your Pet" ..colourPlaintext .."    Farm Lost Ones in the Swamp of Sorrows",
+						"A Mind of Metal" ..colourPlaintext .."    On a table in a tent, Searing Gorge",
+						"A Web of Lies: Debunking Myths and Legends" ..colourPlaintext .."    Alongside a tent. Winterbark Village, Arathi",
+						"Arcanic Systems Manual" ..colourPlaintext .."    The Sludge Fen, The Barrens",
+						"Ataeric: On Arcane Curiosities"..colourPlaintext .."    Sepulcher",
+						"Basilisks: Should Petrification be Feared?" ..colourPlaintext .."    Entrance to Crystalvein Mine, Stranglethorn",
+						"Baxtan: On Destructive Magics" ..colourPlaintext .."    Next to Gazlove, Ratchet, The Barrens",
+						"Bewitchments and Glamours" ..colourPlaintext .."    Moonbrook, Westfall",
+						"Conjurer's Codex" ..colourPlaintext .."    Go to the Blasted Lands",
+						"Crimes Against Anatomy" ..colourPlaintext .."    Raven Hill Crypt, Duskwood",
+						"Defensive Magics 101" ..colourPlaintext .."    Ogre Tower in Alterac Mountains",
+						"Demons and You" ..colourPlaintext .."    Inside the Thunder Axe Fortress",
+						"Everyday Etiquette" ..colourPlaintext .."    Heldar Encampment, Azshara",
+						"Fury of the Land" ..colourPlaintext .."    Near Grimtotems in Stonetalon Mountains",
+						"Geomancy: The Stone-Cold Truth" ..colourPlaintext .."    Inside a hut, Darkcloud Pinnacle, Thousand Needles",
+						"Goaz Scrolls" ..colourPlaintext .."    Whelgar's Excavation Site, Wetlands",
+						"Legends of the Tidesages" ..colourPlaintext .."    Inside a building in the Pirate Cove, Tanaris",
+						"Mummies: A Guide to the Unsavory Undead" ..colourPlaintext .."    Crypt within a mesa. Badlands",
+						"Nar'thalas Almanac" ..colourPlaintext .."    Darkshore Ruins",
+						"Runes of the Sorcerer-Kings" ..colourPlaintext .."    The Ogre Cave in Loch Modan",
+						"RwlRwlRwlRwl!" ..colourPlaintext .."    Witch Hill murloc Camp, Swamp of Sorrows",
+						"Sanguine Sorcery" ..colourPlaintext .."    On top of the Sunken Temple, Swamp of Sorrows",
+						"Secrets of the Dreamers" ..colourPlaintext .."    Near the Wailing Caverns portal",
+						"Stonewrought Design" ..colourPlaintext .."    On Franclorn Forgewright's altar, Black Mountain",
+						"The Apothecary's Metaphysical Primer" ..colourPlaintext .."    Brill alchemy Shop",
+						"The Dalaran Digest" ..colourPlaintext .."    Amber Mill, Silverpine Forest",
+						"The Lessons of Ta'zo" ..colourPlaintext .."    Valley of Sprits, Orgrimmar",
+						"The Liminal and the Arcane" ..colourPlaintext .."    @ Oneiros, Feralas but ONLY with a Nightmare Incursion",
+						"Venomous Journeys" ..colourPlaintext .."    Behind a brown wall, The Hinterlands",
+						"Friend of the Library" ..colourPlaintext .."    The final step for Icy Veins!", 
+						"Greater Friend of the Library" ..colourPlaintext .."    The final step for Spell Power!",
+						"Greater Friend of the Library" ..colourPlaintext .."    The final step for Deep Freeze!" }
 
 -- Mage Phase 1
 st.mage.enlightenment = "聯盟應該前往艾爾文森林最東邊的嶺點\n塔，儘管任何有\n"
@@ -266,17 +266,27 @@ st.paladin.sheathLight = "必須已獲得神聖風暴符文。稍後你需要一
 .."現在擊敗血色修道院大教堂側廳的大審判官懷特邁恩。離開前找到\n"
 .."艾歐納斯！現在再次爐石並再次與凱瑟琳交談，你就差不多完成了。"
 -- Paladin Phase 3
-st.paladin.fanaticism = "從被證明無罪的艾歐尼斯那裡接取任務。\n他在暴風城大教堂。前往\n"
-.."塞拉摩並痛毆埃爾里克。\n\n與嚴肅的酒吧顧客交談。\n\n"
-.."回到大教堂的純潔者凱瑟琳那裡，\n她會給你豐厚的獎勵"
-st.paladin.hammerRighteous = "在費伍德森林，你爬上繩索到達艾歐尼斯所在的位置。\n接下來與格雷戈里交談並接受任務。\n\n"
-.."往北走，在碎鱗谷刷取 3 個\n火熱的地獄核心。接下來與牛頭人勇士\n"
-.."石炬會面，他位於希爾斯布萊德丘陵\n塔倫米爾以北。你將獲得信仰象徵。\n\n"
-.."閃光的墳墓塵土來自墳堆，\n在瑪拉頓擊殺塞雷布拉斯公主後獲得。\n\n"
-.."三重釀造的熔火啤酒可以從\n黑石深淵深處的恐怖酒館的普拉格·斯帕茲林處購買。對於單人玩家來說，這是一系列艱巨的\n跑屍任務。\n\n"
-.."回到格雷戈里那裡交任務。接受你的符文！"
-st.paladin.wrath = "在辛特蘭的奎爾丹尼爾小屋以北，\n聖騎士將使用他們的感知亡靈能力來\n"
-.."定位一個復仇之魂（45 級）。殺死它。\n\n與鐵爐堡神秘區的法拉瑟法師交談。盡情享受吧！"
+st.paladin.fanaticism = "Pick up the quest from Aeonis the Vindicated.\nHe's in the Stormwind Cathedral. Proceed to\n"
+			.."Theramore and give Elrick a whooping.\n\nSpeak to the Stern-Faced Bar Patron.\n\n"
+			.."Back at Katherine the Pure in the Cathedral,\nand she'll reward you grandly"
+st.paladin.hammerRighteous = "In Felwood you climb up the rope to reach Aeonis.\nNext speak with Gregory and accept the quest.\n\n"
+			.."Go north and farm the Shatter Scale Vale for 3 x\nFiery Infernal Core. Next meet the Tauren Brave\n"
+			.."Stonetorch, to the north of Tarren Mill in the Hillsbrad\nFoothills. You'll obtain the Symbol of Faith.\n\n"
+			.."The Shimmering Grave Dust is from a Grave Mound,\nobtained after killing Princess Theradras in\nMaraudon.\n\n"
+			.."The Tripple-Brewed Molten Lager you purchase from\nPlugger Spazzring at the Grim Guzzler tavern, well\n"
+			.."into Blackrock Depths. That's one mighty series of\ncorpse runs for solo players.\n\n"
+			.."Return to Gregory for the hand in. Accept your Rune!"
+st.paladin.lightsGrace = "You must travel to an inaccessible platform\nin Feralas. You may use a nearby teleporter,\n"
+			.."as marked or a different teleporter in Booty\nBay. The BB teleporter requires unlocking.\n\n"
+			.."The teleporter puts you near Wirdal Wondergear.\nLook across at the pin marked \"Frix Xizzix\".\n"
+			.."Go to him. You must do this via a knockback\nfrom a Tower Defense Automation (L57e) in the,\n"
+			.."same area as Wirdal. Set your Gadgetzan rep to\n\"At War\". Position yourself with the\n"
+			.."shortest distance to Frix and ensure you are\noptimally facing away from your flight path.\n\n"
+			.."Begin attacking and pray. Seriously. It's a\ngamble. Consider removing gear to save repair\n"
+			.."costs as you'll likely need a few attempts.\nThere's a nasty silence debuff, thus no bubbling.\n\n"
+			.."Now, speak to Frix and he'll send you to the Bay\nto speak to his brother. The rune is yours!"
+st.paladin.wrath = "North of Quel'Danil Lodge in The Hinterlands is\nwhere Paladins will use their Sense Undead to\n"
+			.."locate a Vengeful Spirit (L45). Kill it.\n\nSpeak to Magister Falath in the Mystic Ward of\nIronforge. Enjoy!"
 
 -- Priest Phase 1
 st.priest.circle = "從迪菲亞怪物身上獲得黑暗洞察力，\n然後在隱蔽的墳墓中使用它"
@@ -713,31 +723,31 @@ ns.runes = {
 		
 	["DRUID"] = {
 		-- Phase 1
-		["Fury of Stormrage"] = { rune="月神偶像", phase=1, spellID=414799, level=2, icon=1, slot=5,
-start="暗影谷的格雷爾金怪物 (聯盟)。貧瘠之地的荊棘之刃峽谷中的箱子 (部落)" },
-["Living Seed"] = { rune="自然潛能符文", phase=1, spellID=414677, level=2, icon=2, slot=5,
-start="從泰達希爾各地收集林地花朵 (聯盟)；從莫高雷各地收集草原花朵 (部落)" },
-["Sunfire"] = { rune="太陽符文", phase=1, spellID=414684, level=4, icon=3, slot=10,
-start="白色月石：泰達希爾東南部 (聯盟)；莫高雷西南部 (部落)" },
-["Lifebloom"] = { rune="生命符文", phase=1, spellID=408124, level=7, icon=4, slot=7,
-start=st.twoPlusHealers .."泰達希爾的奧拉密斯林地 (聯盟)；莫高雷風險投資公司洞穴的北邊出口附近 (部落)" },
-["Mangle"] = { rune="熊形態狂怒偶像", phase=1, spellID=409828, level=10, icon=5, slot=10,
-start="怒爪，班奈希爾墓穴巢穴附近，泰達希爾；平原潛行者怪物，莫高雷北部和東北部 (部落)" },
-["Wild Strikes"] = { rune="野性偶像", phase=1, spellID=407977, level=14, icon=6, slot=5,
-start="恐怖圖騰怪物，石爪山脈東南入口/出口" },
-["Lacerate"] = { rune="撕裂符文", phase=1, spellID=414644, level=15, icon=7, slot=10,
-start="卡拉深水，洛克湖，洛克莫丹 (聯盟)\n"
-.."黑海岸沿海弗博格的螃蟹零食；貧瘠之地被遺忘的水池，被遺棄的碎顎巢穴" },
-["Skull Bash"] = { rune="顱骨打擊符文", phase=1, spellID=410176, level=15, icon=8, slot=7,
-start=st.supplyFactionStart },
-["Starsurge"] = { rune="星辰符文", phase=1, spellID=417157, level=20, icon=9, slot=7,
-start="與格魯吉姆德恩交談，在濕地東北部的一座橋下" },
-["Savage Roar"] = { rune="凶猛偶像", phase=1, spellID=407988, level=20, icon=10, slot=7,
-start="巢穴母親，黑海岸巴沙拉蘭以西；貧瘠之地半人馬營地的科爾卡的戰利品 (部落)" },
-["Survival of the Fittest"] = { rune="生存符文", phase=1, spellID=411115, level=20, icon=11, slot=5,
-start="貧瘠之地棘齒城的格里茲比" },
-["Wild Growth"] = { rune="野性成長符文", phase=1, spellID=408120, level=25, icon=12, slot=10,
-start="與月光林地夜色港的洛加納爾交談" },
+		["Fury of Stormrage"]={ rune="Lunar Idol", phase=1, spellID=414799, level=2, icon=1, slot=5,
+				start="Grellkin mobs, Shadowglen (A). Chest in Brambleblade Ravine, The Barrens (H)" },
+		["Living Seed"]={ rune="Rune of Natural Potential", phase=1, spellID=414677, level=2, icon=2, slot=5,
+				start="Gather Glade Flowers from all over Teldrassil (A); Gather Prairie Flowers from all over Mulgore (H)" },
+		["Sunfire"]={ rune="Rune of The Sun", phase=1, spellID=414684, level=4, icon=3, slot=10,
+				start="White Lunar Stones: south-east Teldrassil (A); south-west Mulgore (H)" },
+		["Lifebloom"]={ rune="Rune of Life", phase=1, spellID=408124, level=7, icon=4, slot=7,
+				start=st.twoPlusHealers .."Oracle Glade, Teldrassil (A); near northern exit, Venture Co cave, Mulgore (H)" },
+		["Mangle"]={ rune="Idol of Ursine Rage", phase=1, spellID=409828, level=10, icon=5, slot=10,
+				start="Rageclaw, near Ban'ethil Barrow Den, Teldrassil; Flatland Prowler mobs, north and north-east of Mulgore (H)" },
+		["Wild Strikes"]={ rune="Idol of the Wild", phase=1, spellID=407977, level=14, icon=6, slot=5,
+				start="Grimtotem mobs, south-east entrance/exit of Stonetalon Mountains" },
+		["Lacerate"]={ rune="Rune of Lacerate", phase=1, spellID=414644, level=15, icon=7, slot=7,
+				start="Khara Deepwater, The Loch, Loch Modan (A)\n"
+					.."Crab Treats from coastal Furlbogs, Darkshore; Abandoned Snapjaw Nest, Forgotten Pools, The Barrens" },
+		["Skull Bash"]={ rune="Rune of Skull Bash", phase=1, spellID=410176, level=15, icon=8, slot=10,
+				start=st.supplyFactionStart },
+		["Starsurge"]={ rune="Rune of the Stars", phase=1, spellID=417157, level=20, icon=9, slot=7,
+				start="Speak to Grugimdern, under a bridge, north-east Wetlands" },
+		["Savage Roar"]={ rune="Ferocious Idol", phase=1, spellID=407988, level=20, icon=10, slot=7,
+				start="Den Mother, west of Bashal'aran, Darkshore; Kolkar's Booty in centaur camps, The Barrens (H)" },
+		["Survival of the Fittest"]={ rune="Rune of Survival", phase=1, spellID=411115, level=20, icon=11, slot=5,
+				start="Grizzby @ Ratchet, The Barrens" },
+		["Wild Growth"]={ rune="Rune of Wild Growth", phase=1, spellID=408120, level=25, icon=12, slot=10,
+				start="Speak to Loganaar, Nighthaven, Moonglade" },
 		-- Phase 2
 		["Survival Instincts"] = { rune="本能符文", phase=2, spellID=408024, level=27, icon=13, slot=8,
 start="前往悲傷沼澤的阿瑪瑞利斯·韋伯處獲得捕獲工具包。無需殺戮" },
@@ -949,36 +959,36 @@ start="黑海岸北部阿塔哈卡神廟頂端" },
 ["Exorcist"] = { rune="放逐聖契", phase=1, spellID=415076, level=25, icon=12, slot=7,
 start="暮色森林南部邊界的迪菲亞怪物" },
 		-- Phase 2
-		["Sacred Shield"] = { rune="解脫聖契", phase=2, spellID=412019, level=18, icon=13, slot=8,
-start="在淒涼之地的奈傑爾角拾取解脫聖契" },
-["Guarded by the Light"] = { rune="守護者符文", phase=2, spellID=415059, level=30, icon=14, slot=8,
-start="在奧特蘭克山脈拾取休眠的神聖符文。之後，需要一個幫手" },
-["The Art of War"] = { rune="戰爭符文", phase=2, spellID=426157, level=30, icon=15, slot=8,
-start="前往淒涼之地的一個被洗劫的營地" },
-["Enlightened Judgements"] = { rune="虔誠符文", phase=2, spellID=426173, level=34, icon=16, slot=6,
-start="在阿拉希高地（濕地）刷怪獲得三種類型的念珠。淨化然後組合念珠" },
-["Infusion of Light"] = { rune="灌注符文", phase=2, spellID=426065, level=40, icon=17, slot=6, start=st.dalaranSpeakTo },
-["Sheath of Light"] = { rune="光明之鞘", phase=2, spellID=426158, level=40, icon=18, slot=6,
-start="在淒涼之地的瑪諾洛克海灣找到一把破碎的戰錘，開始一個任務鏈。需要進入血色修道院的大教堂側廳" },
--- 第二階段技能書
-["Enhanced Blessings"] = { skillBook="增強祝福聖典", spellID=435984, level=1, start=st.dungeonSummary },
--- 第三階段
-["Improved Hammer of Wrath"] = { rune="戰錘符文", phase=3, spellID=429152, level="23/37/47", icon=19, slot=9,
-start=st.emeraldWardens },
-["Wrath"] = { rune="憤怒符文", phase=3, spellID=429139, level=42, icon=20, slot=1,
-start="在學習感知亡靈後，前往辛特蘭奎爾丹尼爾小屋以北，服務器時間晚上 9 點到凌晨 3 點之間\n"
-.."殺死一個復仇之魂（45 級）。前往鐵爐堡的神秘區交任務" },
-["Improved Sanctuary"] = { rune="增強聖 sanctuary", phase=3, spellID=429133, level=40, icon=21, slot=1,
-start=st.wildGodsStart },
-["Fanaticism"] = { rune="狂熱", phase=3, spellID=429142, level=44, icon=22, slot=1,
-start="事先學習光明之鞘符文。與暴風城大教堂的被證明無罪的艾歐納斯交談。必須為 44 級" },
-["Purifying Power"] = { rune="淨化之力", phase=3, spellID=429144, level=47, icon=23, slot=9,
-start=st.leylineSummary ..st.leylineSummaryExtra },
-["Hammer of the Righteous"] = { rune="正義之錘", phase=3, spellID=409922, level=50, icon=24, slot=9,
-start="事先學習狂熱。與費伍德森林血毒瀑布的被證明無罪的艾歐納斯交談。必須為 44 級。\n"
-.."一路上你將前往黑石深淵內的恐怖酒館和瑪拉頓（組隊前往）" },
-["Light's Grace"] = { rune="恩典符文", phase=3, spellID=428909, level=100, icon=25, slot=1,
-start="未知。人們認為發現它可能不值得付出努力" },
+		["Sacred Shield"]={ rune="Libram of Deliverance", phase=2, spellID=412019, level=18, icon=13, slot=8,
+				start="Loot the Libram of Deliverance in Nigel's Point, Desolace" },
+		["Guarded by the Light"]={ rune="Rune of the Guardian", phase=2, spellID=415059, level=30, icon=14, slot=8,
+				start="Loot the Dormant Holy Rune in the Alterac Mountains. Later, requires a helper" },
+		["The Art of War"]={ rune="Rune of Warfare", phase=2, spellID=426157, level=30, icon=15, slot=8,
+				start="Go to a pillaged campsite in Desolace" },
+		["Enlightened Judgements"]={ rune="Rune of Piety", phase=2, spellID=426173, level=34, icon=16, slot=6, 
+				start="Farm mobs in Arathi Highlands (wetlands) for three types of beads. Purify and then combine the beads" },
+		["Infusion of Light"]={ rune="Rune of Infusions", phase=2, spellID=426065, level=40, icon=17, slot=6, start=st.dalaranSpeakTo },
+		["Sheath of Light"]={ rune="Sheath of Light", phase=2, spellID=426158, level=40, icon=18, slot=6,
+				start="Find a Broken Hammer in Mannoroc Cove in Desolace to commence a quest chain. Requires Cathedral wing access to SM" },
+		-- Phase 2 Skill Books
+		["Enhanced Blessings"]={ skillBook="Testament of Enhanced Blessings", spellID=435984, level=1, start=st.dungeonSummary },
+		-- Phase 3
+		["Improved Hammer of Wrath"]={ rune="Rune of the Hammer", phase=3, spellID=429152, level="23/37/47", icon=19, slot=9,
+				start=st.emeraldWardens },
+		["Wrath"]={ rune="Rune of Wrath", phase=3, spellID=429139, level=42, icon=20, slot=1,
+				start="With Sense Undead learnt, go to north of Quel'Danil Lodge, The Hinterlands, between 9pm and 3am\n"
+					.."server time. Kill a Vengeful Spirit (L45). Go to the Mystic Ward in Ironforge for the turn in" },
+		["Improved Sanctuary"]={ rune="Improved Sanctuary", phase=3, spellID=429133, level=40, icon=21, slot=1,
+				start=st.wildGodsStart },
+		["Fanaticism"]={ rune="Fanaticism", phase=3, spellID=429142, level=44, icon=22, slot=1,
+				start="Learn the Sheath of Light rune prior. Speak to Aeonas the Vindicated in the SW Cathedral. Must be L44" },
+		["Purifying Power"]={ rune="Purifying Power", phase=3, spellID=429144, level=47, icon=23, slot=9,
+				start=st.leylineSummary ..st.leylineSummaryExtra },		
+		["Hammer of the Righteous"]={ rune="Hammer of the Righteous", phase=3, spellID=409922, level=50, icon=24, slot=9,
+				start="Learn Fanaticism prior. Speak to Aeonas the Vindicated at the Bloodvenom Falls, Felwood. Must be L44.\n"
+					.."Along the way you'll go to the Grim Guzzler, inside Blackrock Depths, and Maraudon (group for that)" },
+		["Light's Grace"]={ rune="Rune of Grace", phase=3, spellID=428909, level=50, icon=25, slot=9,
+				start="Head to the Lower Wilds of Feralas, south east of Camp Mojache." },
 
 		spells={ "Crusader Strike", "Inspiration Exemplar", "Rebuke", "Aegis", "Horn of Lordaeron",
 			"Seal of Martyrdom", "Beacon of Light", "Hand of Reckoning", "Divine Sacrifice",
@@ -2252,7 +2262,7 @@ start="未知。人們認為發現它可能不值得付出努力" },
 --=======================================================================================================
 
 points[ 1416 ] = { -- Alterac Mountains
-	[39606080] = { item=213452, name="Dormant Holy Rune", class={ "PALADIN" }, spell={ "Guarded by the Light" },
+	[39616086] = { item=213452, name="Dormant Holy Rune", class={ "PALADIN" }, spell={ "Guarded by the Light" },
 					guide={ st.paladin.guardedLight } },
 	[40604700] = { name="Crushridge mobs (Various)", class={ "WARRIOR" }, spell={ "Blood Surge" }, guide={ st.warrior.bloodSurge },
 					quest={ { 79624, 79677, 79678 } }, questName={ { "Anyone Can Cook", "A Quick Grocery Run", "Taste Testing" } } },
@@ -3573,11 +3583,8 @@ points[ 1421 ] = { -- Silverpine Forest
 					spell={ "Beast Mastery" }, guide={ st.hunter.beastMastery } },
 	[46802660] = { npc=1778, name="Ferocious Grizzled Bear", class={ "HUNTER" },
 					spell={ "Beast Mastery" }, guide={ st.hunter.beastMastery } },
-	[47107110] = { object=410369, name="Dead Drop", class={ "ROGUE", "ROGUE" },
-					spell={ "Deadly Brew", "Shadowstep" },
-					guide={ st.rogue.deadlyBrew, st.rogue.shadowstep },
-					preRune={ {}, {}, { "Deadly Brew", "Shadowstep" } },
-					quest={ { 78261, 78307 }, { 78699,78676 } },
+	[47107110] = { object=410369, name="Dead Drop", class={ "ROGUE", "ROGUE" }, spell={ "Deadly Brew", "Shadowstep" },
+					guide={ st.rogue.deadlyBrew, st.rogue.shadowstep }, quest={ { 78261, 78307 }, { 78699,78676 } },
 					questName={ { "The Horn of Xelthos (Main)", "The Horn of Xelthos (Reward)" },
 						{ "The Eye of Bhossca (Dead Drop)", "The Eye of Bhossca (SM)" }, } },
 	[48607260] = { object=410369, name="Dead Drop", class={ "ROGUE" }, spell={ "Honor Among Thieves" },
@@ -3728,6 +3735,15 @@ points[ 1434 ] = { -- Stranglethorn Vale
 					guide={ st.pillaged }, quest={ { 79229, 79235, 79236, 79242 } }, 
 					questName={ { "Highway Robbery", "On the Lam", "Cherry for Your Thoughts", "No Honor Among Thieves" } } },
 	[27607660] = { npc=218229,name="CaptainAransas", class={ "ROGUE" }, spell={ "Master of Subtlety" }, guide={ st.rogue.subtlety } },
+	[27607740] = { name="Teleporter", class={ "PALADIN" }, spell={ "Light's Grace" },
+					tip="This teleporter is only available on completion\n"
+						.."of the above quest. That quest is part of the\n"
+						.."Phase 2 / Gnomeregan profession gear quest line.\n\n"
+						.."If you do use this portal then consider setting\n"
+						.."your hearth here as you'll need to return",
+					guide={ st.paladin.lightsGrace }, quest={ 79984 }, questName={ "Quadrangulation" } },
+	[28407580] = { npc=214954, name="Rix Xizzix", class={ "PALADIN" }, spell={ "Light's Grace" },
+					guide={ st.paladin.lightsGrace }, quest={ 79984 }, questName={ "Quadrangulation" } },
 	[28906200] = { item=737,name="Holy Water", class={ "PRIEST" }, spell={ "Dispersion" }, guide={ st.priest.dispersion } },
 	[30804700] = { npc=217620, name="Reckless Warlock", class={ "WARLOCK" }, spell={ "Dance of the Wicked" }, guide={ st.warlock.dance },
 					tip="Western side of the Gurubashi Arena" },
@@ -4070,16 +4086,16 @@ points[ 1420 ] = { -- Tirisfal Glades
 					spell={ "Frenzied Assault" },
 					guide={ st.warrior.frenziedAssault },
 					tip= "He'll be in the Inn's basement. Speak to Penny\nfirst if you haven't already done so" },
-	[60507350] = { npc=211033, name="Owen Thadd", class={ "MAGE" }, faction="Horde",
+	[60507350] = { npc=211022, name="Owen Thadd", class={ "MAGE" }, faction="Horde",
 					spell={ "Icy Veins" }, tip="Collect any 10 books", guide={ st.mage.books },
 					quest={ st.mage.booksQuestIDsH }, questName={ st.mage.booksQuestNamesH }, },
-	[62007500] = { npc=211033, name="Owen Thadd", class={ "MAGE" }, faction="Horde",
+	[62007500] = { npc=211022, name="Owen Thadd", class={ "MAGE" }, faction="Horde",
 					spell={ "Spell Power" }, tip="Collect any 20 books", guide={ st.mage.books },
 					quest={ st.mage.booksQuestIDsH }, questName={ st.mage.booksQuestNamesH }, },
-	[63507650] = { npc=211033, name="Owen Thadd", class={ "MAGE" }, faction="Horde",
+	[63507650] = { npc=211022, name="Owen Thadd", class={ "MAGE" }, faction="Horde",
 					spell={ "Deep Freeze" }, tip="Collect any 25 books", guide={ st.mage.books },
 					quest={ st.mage.booksQuestIDsH }, questName={ st.mage.booksQuestNamesH, }, },					
-	[60507650] = { npc=211033, name="Owen Thadd", class={ "MAGE" }, faction="Horde",
+	[60507650] = { npc=211022, name="Owen Thadd", class={ "MAGE" }, faction="Horde",
 					spell={ "Temporal Anomaly" }, guide={ st.mage.temporal },
 					quest={ 82084 }, questName={ "A Lesson in Literacy" }, },					
 	[63603080] = {  name="Vile Fin mobs (Various)", class={ "ROGUE", "ROGUE", "WARRIOR" }, faction="Horde",
@@ -4139,16 +4155,16 @@ points[ 1458 ] = { -- Undercity
 					spell={ "Devastate" }, guide={ st.warrior.devastate ..st.warrior.devastateDor }, },
 	[64603820] = { npc=214098, name="Gishah", faction="Horde",
 					class=st.allClass, spell=st.allSpellACA, guide={ st.supplyFaction } },
-	[72103150] = { npc=211033, name="Owen Thadd", class={ "MAGE" }, faction="Horde",
+	[72103150] = { npc=211022, name="Owen Thadd", class={ "MAGE" }, faction="Horde",
 					spell={ "Icy Veins" }, tip="Collect any 10 books", guide={ st.mage.books },
 					quest={ st.mage.booksQuestIDsH }, questName={ st.mage.booksQuestNamesH }, },
-	[73603300] = { npc=211033, name="Owen Thadd", class={ "MAGE" }, faction="Horde",
+	[73603300] = { npc=211022, name="Owen Thadd", class={ "MAGE" }, faction="Horde",
 					spell={ "Spell Power" }, tip="Collect any 20 books", guide={ st.mage.books },
 					quest={ st.mage.booksQuestIDsH }, questName={ st.mage.booksQuestNamesH }, },
-	[75103450] = { npc=211033, name="Owen Thadd", class={ "MAGE" }, faction="Horde",
+	[75103450] = { npc=211022, name="Owen Thadd", class={ "MAGE" }, faction="Horde",
 					spell={ "Deep Freeze" }, tip="Collect any 25 books", guide={ st.mage.books },
 					quest={ st.mage.booksQuestIDsH }, questName={ st.mage.booksQuestNamesH, }, },					
-	[72103450] = { npc=211033, name="Owen Thadd", class={ "MAGE" }, faction="Horde",
+	[72103450] = { npc=211022, name="Owen Thadd", class={ "MAGE" }, faction="Horde",
 					spell={ "Temporal Anomaly" }, guide={ st.mage.temporal },
 					quest={ 82084 }, questName={ "A Lesson in Literacy" }, },					
 	[83602620] = { npc=208682, name="Denton Bleakway", class={ "WARLOCK" }, faction="Horde",
@@ -4623,10 +4639,6 @@ points[ 1440 ] = { -- Ashenvale
 					questName={ { "A Strange Artifact", "Advice from Stormwind", "A Second Opinion", "Earning Your Salt", 
 						"It Must Be Destroyed", "Return to Delgren" }, { "The Orb of Soran'ruk", "Rumors Abound",
 						"The Conjuring", "The Mysterious Traveler", "Raszel Ander" } } },
-	[84205920] = { npc=11684, name="Warsong Shredder", class=st.allClass, spell=st.allSpellG,
-					guide={ st.grizzby }, quest={ 78267 }, questName={ "Shredder Turbochargers" } },
-	[84606260] = { npc=11684, name="Warsong Shredder", class=st.allClass, spell=st.allSpellG,
-					guide={ st.grizzby }, quest={ 78267 }, questName={ "Shredder Turbochargers" } },
 	[84607060] = { name="Mannoroc Lasher + (Infernals, Felguards, Hounds)", class={ "PALADIN", "WARLOCK" },
 					faction="Alliance",
 					spell={ "Divine Storm", "Metamorphosis" }, guide={ st.paladin.divineStorm, st.warlock.metamorphosis },
@@ -4641,6 +4653,8 @@ points[ 1440 ] = { -- Ashenvale
 					questName={ { "A Strange Artifact", "Advice from Stormwind", "A Second Opinion", "Earning Your Salt", 
 						"It Must Be Destroyed", "Return to Delgren" }, { "The Orb of Soran'ruk", "Rumors Abound",
 						"The Conjuring", "The Mysterious Traveler", "Raszel Ander" } } },
+	[85106070] = { npc=11684, name="Warsong Shredder", class=st.allClass, spell=st.allSpellG,
+					guide={ st.grizzby }, quest={ 78267 }, questName={ "Shredder Turbochargers" } },
 	[86007860] = { name="Mannoroc Lasher + (Infernals, Felguards, Hounds)", class={ "PALADIN", "WARLOCK" },
 					faction="Alliance",
 					spell={ "Divine Storm", "Metamorphosis" }, guide={ st.paladin.divineStorm, st.warlock.metamorphosis },
@@ -4649,8 +4663,6 @@ points[ 1440 ] = { -- Ashenvale
 						"It Must Be Destroyed", "Return to Delgren" }, { "The Orb of Soran'ruk", "Rumors Abound",
 						"The Conjuring", "The Mysterious Traveler", "Raszel Ander" } } },
 	[86205440] = { npc=11684, name="Warsong Shredder", class=st.allClass, spell=st.allSpellG,
-					guide={ st.grizzby }, quest={ 78267 }, questName={ "Shredder Turbochargers" } },
-	[86606160] = { npc=11684, name="Warsong Shredder", class=st.allClass, spell=st.allSpellG,
 					guide={ st.grizzby }, quest={ 78267 }, questName={ "Shredder Turbochargers" } },
 	[86954316] = { item=210044, name="Symbol of the First Owl", class={ "DRUID" },
 					spell={ "Wild Growth" }, guide={ st.druid.wildGrowth },
@@ -4661,7 +4673,8 @@ points[ 1440 ] = { -- Ashenvale
 					guide={ st.grizzby }, quest={ 78267 }, questName={ "Shredder Turbochargers" } },
 	[89205420] = { npc=11684, name="Warsong Shredder", class=st.allClass, spell=st.allSpellG,
 					guide={ st.grizzby }, quest={ 78267 }, questName={ "Shredder Turbochargers" } },
-	[89504060] = { name="Quartermaster Kyleen / Field Captain Hannalah", class=st.allClass, spell=st.emeraldSpell,
+	[89604040] = { name="Quartermaster Kyleen / Field Captain Hannalah", class=st.allClass, spell=st.emeraldSpell,
+					tip="Pin also used by the CGM AddOn so one\nmay be mostly overlapping the other",
 					guide={ st.nightmareIncursions } },
 	[89507700] = { object=409315, name="Shattered Orb", class={ "PALADIN" },
 					faction="Alliance", tip="Click below the weapons",
@@ -5116,7 +5129,7 @@ points[ 1445 ] = { -- Dustwallow Marsh
 	[57202080] = { object=423900, name="Waterlogged Book", class={ "MAGE" },
 					spell={ "Spell Power" }, guide={ st.mage.books }, alsoTestQuest=true,
 					tip="Discarded on the ground on the\neastern side of the murloc camp",
-					quest={ { 79952 } }, questName={ { "RwlRwlRwlRwl" } } },
+					quest={ { 79952 } }, questName={ { "RwlRwlRwlRwl!" } } },
 	[63704250] = { object=424264, name="Grave", class={ "PRIEST" }, tip="Theramore Echo",
 					spell={ "Pain Suppression" }, guide={ st.priest.painSuppression } },
 	[66604520] = { npc=221575, name="Elrick", class={ "PALADIN" }, faction="Alliance", preRune={ { "Sheath of Light" } },
@@ -5210,6 +5223,15 @@ points[ 1444 ] = { -- Feralas
 					guide={ "He'll be inside the round chamber. Hits very hard" } },
 	[79204950] = { object=442685, name="Old Chest", class={ "SHAMAN" }, spell={ "Tidal Waves" },
 					guide={ st.shaman.tidalWaves } },
+	[81604240] = { npc=220930, name="Frix Xizzix", class={ "PALADIN" }, spell={ "Light's Grace" },
+					guide={ st.paladin.lightsGrace }, quest={ 79984 }, questName={ "Quadrangulation" } },
+	[83004360] = { name="Teleporter", class={ "PALADIN" }, spell={ "Light's Grace" },
+					tip="This teleporter is always available for this\n"
+						.."rune. There's another portal in Booty Bay\n"
+						.."but it requires the quest above to have\nbeen completed",
+					guide={ st.paladin.lightsGrace }, quest={ 79984 }, questName={ "Quadrangulation" } },
+	[84204380] = { npc=218237, name="Wirdal Wondergear", class={ "PALADIN" }, spell={ "Light's Grace" },
+					guide={ st.paladin.lightsGrace }, quest={ 79984 }, questName={ "Quadrangulation" } },
 }
 points[ 1450 ] = { -- Moonglade
 	[41304360] = { npc=216289, name="Orokai", class={ "DRUID" }, spell={ "Nourish" }, guide={ st.druid.nourish },

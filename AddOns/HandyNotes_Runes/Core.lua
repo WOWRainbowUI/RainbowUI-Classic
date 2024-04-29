@@ -3,7 +3,7 @@
 
                                                 Runes
 
-                                       v2.08 - 9th April 2024
+                                       v2.14 - 28th April 2024
                                 Copyright (C) Taraezor / Chris Birch
                                          All Rights Reserved
 
@@ -123,7 +123,7 @@ local function ShowPinForThisClassQuest( quests, level, forceCheck )
 	end
 end
 
-local function ShowPinForThisClassSkillBook( spellID, forceCheck )
+local function ShowPinForThisClassSpellID( spellID, forceCheck )
 
 	if forceCheck == false and ns.db.hideIfRuneLearnt == false then return true end
 
@@ -142,7 +142,7 @@ local function ShowPinForThisClassSkillBook( spellID, forceCheck )
 	return true
 end
 
-local function ShowPinForThisClassSpell( spell, forceCheck ) -- English language spell from the Data file
+local function ShowPinForThisClassRune( spell, forceCheck ) -- English language spell from the Data file
 
 	if forceCheck == false and ns.db.hideIfRuneLearnt == false then return true end
 
@@ -183,6 +183,11 @@ end
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
+local function CompletedText( completed )
+	return ( completed == true ) and ( "\124cFF00FF00" ..ns.L[ "Completed" ] )
+								or ( "\124cFFFF0000" ..ns.L[ "Not Completed" ] )
+end
+
 function pluginHandler:OnEnter(mapFile, coord)
 	if self:GetCenter() > UIParent:GetCenter() then
 		GameTooltip:SetOwner(self, "ANCHOR_LEFT")
@@ -190,7 +195,7 @@ function pluginHandler:OnEnter(mapFile, coord)
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 	end
 
-	local completed, quests, questNames, preRunes;
+	local completed, quests, questsNames, justTheName, preRunes;
 	local pin = ns.points[mapFile] and ns.points[mapFile][coord]
 	local spaceBeforeQuests, spaceBeforePreRunes, spaceBeforeTitle = false, false, false
 	
@@ -198,23 +203,22 @@ function pluginHandler:OnEnter(mapFile, coord)
 		for k,v in pairs( ns.runes ) do
 			if k == ns.class then
 				local completed;
-				GameTooltip:SetText( ns.colour.class ..ns.classLocal .." Phase " ..pin.phase .." for " ..ns.name )
+				GameTooltip:SetText( ns.colour.class ..ns.classLocal .." : " ..ns.L["Phase"] .." " ..pin.phase
+						.." : " ..ns.name )
 				for r,s in ipairs( v.spells ) do
 				--	print( "r="..r.." s="..s.." v[s]?="..(v[s] and "true" or "false"))
 					if ns.runes[ k ][ s ].phase == pin.phase then
-						completed = not ShowPinForThisClassSpell( s, true )
+						completed = not ShowPinForThisClassRune( s, true )
 						GameTooltip:AddDoubleLine( ns.colour.prefix ..r .. ".  " ..ns.L[ s ] .."   (" ..v[s].level .."+)",
-								( ( completed == true ) and ( "\124cFF00FF00" ..ns.L["Completed"] ) 
-														or ( "\124cFFFF0000" ..ns.L["Not Completed"] ) )
-								.."     " ..ns.slotColour[ v[s].slot ] ..ns.slotList[ v[s].slot ] )
+								 CompletedText( completed ) .."     " ..ns.slotColour[ v[s].slot ] ..ns.slotList[ v[s].slot ] )
 						GameTooltip:AddLine( ns.colour.highlight ..v[s].rune )
 						GameTooltip:AddLine( ns.colour.plaintext ..v[s].start )
 					end
 				end
 				if pin.phase == 2 then
-					GameTooltip:AddLine( "\n" ..ns.colour.class .."Skill Books:" )
+					GameTooltip:AddLine( "\n" ..ns.colour.class ..ns.L["Skill Books"] ..":" )
 					for _,s in ipairs( v.skillBooks ) do
-						completed = not ShowPinForThisClassSkillBook( ns.runes[ k ][ s ].spellID, true )
+						completed = not ShowPinForThisClassSpellID( ns.runes[ k ][ s ].spellID, true )
 						GameTooltip:AddDoubleLine( ns.colour.prefix ..ns.L[ s ],
 								( ( completed == true ) and ( "\124cFF00FF00" ..ns.L["Completed"] ) 
 														or ( "\124cFFFF0000" ..ns.L["Not Completed"] ) ) )
@@ -250,18 +254,14 @@ function pluginHandler:OnEnter(mapFile, coord)
 						for j,w in ipairs( preRunes ) do
 							if spaceBeforePreRunes == false then GameTooltip:AddLine( "\n" ) end
 							spaceBeforePreRunes = true
-							completed = not ShowPinForThisClassSpell( w, true )
-							GameTooltip:AddDoubleLine( ns.colour.highlight ..preRunes[ j ],
-									( completed == true ) and ( "\124cFF00FF00" ..ns.L["Completed"] )
-									or ( "\124cFFFF0000" ..ns.L["Not Completed"] ) )
+							completed = not ShowPinForThisClassRune( w, true )
+							GameTooltip:AddDoubleLine( ns.colour.highlight ..preRunes[ j ], CompletedText( completed ) )
 						end
 						spaceBeforePreRunes = false
 					else
 						GameTooltip:AddLine( "\n" )
-						completed = not ShowPinForThisClassSpell( preRunes, true )
-						GameTooltip:AddDoubleLine( ns.colour.highlight ..preRunes,
-								( completed == true ) and ( "\124cFF00FF00" ..ns.L["Completed"] )
-								or ( "\124cFFFF0000" ..ns.L["Not Completed"] ) )
+						completed = not ShowPinForThisClassRune( preRunes, true )
+						GameTooltip:AddDoubleLine( ns.colour.highlight ..preRunes, CompletedText( completed ) )
 					end
 				end
 				
@@ -281,17 +281,20 @@ function pluginHandler:OnEnter(mapFile, coord)
 							if spaceBeforeQuests == false then GameTooltip:AddLine( "\n" ) end
 							spaceBeforeQuests = true
 							completed = IsQuestFlaggedCompleted( w )
-							GameTooltip:AddDoubleLine( ns.colour.highlight ..questsNames[ j ],
-									( completed == true ) and ( "\124cFF00FF00" ..ns.L["Completed"] )
-									or ( "\124cFFFF0000" ..ns.L["Not Completed"] ) )
+							if pin.npc and ( ( pin.npc == 211033 ) or ( pin.npc == 211022 ) ) then
+								-- Testing for the Mage Book NPCs as I have translated the Mage Book quests
+								-- Their quest names also include other stuff which needs to be ignored
+								justTheName = questsNames[ j ]:match( "(.+)" ..ns.colour.plaintext )
+								GameTooltip:AddDoubleLine( ns.colour.highlight ..ns.L[ justTheName ], CompletedText( completed ) )
+							else
+								GameTooltip:AddDoubleLine( ns.colour.highlight ..ns.L[ questsNames[ j ] ], CompletedText( completed ) )
+							end
 						end
 						spaceBeforeQuests = false
 					else
 						GameTooltip:AddLine( "\n" )
 						completed = IsQuestFlaggedCompleted( quests )
-						GameTooltip:AddDoubleLine( ns.colour.highlight ..questsNames,
-								( completed == true ) and ( "\124cFF00FF00" ..ns.L["Completed"] ) 
-									or ( "\124cFFFF0000" ..ns.L["Not Completed"] ) )
+						GameTooltip:AddDoubleLine( ns.colour.highlight ..ns.L[ questsNames ], CompletedText( completed ) )
 					end
 				end
 								
@@ -349,7 +352,7 @@ local function CheckAndShow( coord, pin )
 				if pin.skillBook then
 					-- Will have the spell field and follow the rune data rules, just isn't actually a rune
 					-- Intended for Season Two Spell Books, which result in a learnt spell - same as for a rune
-					if ShowPinForThisClassSkillBook( ns.runes[ v ][ pin.spell[ i ] ].spellID, false ) and ns.db.skillBook1 > 1 then
+					if ShowPinForThisClassSpellID( ns.runes[ v ][ pin.spell[ i ] ].spellID, false ) and ns.db.skillBook1 < 19 then
 						ns.passed.texture = ns.textures[ ns.db.skillBook1 ]
 						ns.passed.scale = ns.db.iconScale * ns.scaling[ ns.db.skillBook1 ]
 					end
@@ -360,7 +363,7 @@ local function CheckAndShow( coord, pin )
 					-- pin.spell is English language
 					ns.icon = ns.runes[ v ][ pin.spell[ i ] ].icon
 					ns.runeDB = ns.db[ "rune1" ..format( "%02d", ns.icon ) ]
-					if ( ns.runeDB > 1 ) and ShowPinForThisClassSpell( pin.spell[ i ], false ) then
+					if ( ns.runeDB > 1 ) and ShowPinForThisClassRune( pin.spell[ i ], false ) then
 						if pin.alsoTestQuest then
 							-- Added to support Mage book partial completion. Maybe other stuff in the future
 							-- Terrible field name. Can't think of better tbh
@@ -441,8 +444,8 @@ local function SetupDynamicContinent( mapID )
 							if ( pin.faction == nil ) or ( pin.faction == ns.faction ) then
 								if ns.zonePins[ map.mapID ][ "1" ][ pin.spell[ i ] ] == nil then
 									if pin.skillBook then
-										if ShowPinForThisClassSkillBook( ns.runes[ v ][ pin.spell[ i ] ].spellID, false ) 
-												and ns.db.skillBook1 > 1 then
+										if ShowPinForThisClassSpellID( ns.runes[ v ][ pin.spell[ i ] ].spellID, false ) 
+												and ns.db.skillBook1 < 19 then
 											ns.zonePins[ map.mapID ][ "1" ][ pin.spell[ i ] ] = true
 											AddToDynamicContinent( coord, pin, mapID,  map.mapID )
 										end
@@ -450,7 +453,7 @@ local function SetupDynamicContinent( mapID )
 								--		print("i="..i.." s="..pin.spell[ i ].." m="..map.mapID.." c="..coord)
 										ns.icon = ns.runes[ v ][ pin.spell[ i ] ].icon
 										ns.runeDB = ns.db[ "rune1" ..format( "%02d", ns.icon ) ]
-										if ( ns.runeDB > 1 ) and ShowPinForThisClassSpell( pin.spell[ i ], false ) then
+										if ( ns.runeDB > 1 ) and ShowPinForThisClassRune( pin.spell[ i ], false ) then
 											if pin.alsoTestQuest then
 												if ShowPinForThisClassQuest( pin.quest[ i ], pin.level, false ) then
 													ns.zonePins[ map.mapID ][ "1" ][ pin.spell[ i ] ] = true
@@ -503,7 +506,8 @@ end
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
-ns.iconChoice = L["1 = No Map Pin\n2 = Cyan\n3 = Green\n4 = Magenta\n5 = Red\n6 = Yellow"]
+ns.iconChoice = "1 = " ..ns.L["No Map Pin"] .."\n2 = " ..ns.L["Cyan"] .."\n3 = " ..ns.L["Green"] .."\n4 = " 
+					..ns.L["Magenta"] .."\n5 = " ..ns.L["Red"] .."\n6 = " ..ns.L["Yellow"]
 ns.iconStandard = "1 = " ..ns.L["White"] .."\n2 = " ..ns.L["Purple"] .."\n3 = " ..ns.L["Red"] .."\n4 = " 
 					..ns.L["Yellow"] .."\n5 = " ..ns.L["Green"] .."\n6 = " ..ns.L["Grey"] .."\n7 = " ..ns.L["Mana Orb"]
 					.."\n8 = " ..ns.L["Phasing"] .."\n9 = " ..ns.L["Raptor egg"] .."\n10 = " ..ns.L["Stars"]
@@ -548,9 +552,9 @@ ns.options = {
 								order = 91, },
 				selfShow = { type = "toggle", name = ns.name, desc = ns.L["Show"], arg = "selfShow", width = 0.9, order = 92, },
 				hideIfRuneLearnt = { type = "toggle", name = ns.L["Hide if learnt"], width = 1.2, arg = "hideIfRuneLearnt",
-								desc = L["Will also hide completed Icy Veins books (Mages), Skill Books"], order = 93, },
-				skillBook1 = { type = "range", name = ns.L["Skill Book"], desc = ns.iconChoice, width = 0.8,
-								min = 1, max = 6, step = 1, arg = "skillBook1", order = 94, },
+								desc = ns.L["Will also hide completed Icy Veins books (Mages), Skill Books"], order = 93, },
+				skillBook1 = { type = "range", name = ns.L["Skill Book"], desc = ns.iconStandard .."\n19 = " ..ns.L["No Map Pin"],
+								width = 0.8, min = 1, max = 19, step = 1, arg = "skillBook1", order = 94, },
 				separator1 = { type = "header", name = "", order = 95, },
 				rune101 = { type = "range", name = ns.L[ "Rune" ] .." 1", desc = ns.iconChoice, width = 0.8,
 								min = 1, max = 6, step = 1, arg = "rune101", order = 101, },
