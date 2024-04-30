@@ -1,4 +1,4 @@
-## Interface: 11502
+## Interface: 40400
 ## Title: TotemTimers
 ## Author:  Xianghar
 ## Version: 4.0.0
@@ -8,6 +8,7 @@
 ## X-LoadOn-Class: Shaman
 ## X-Curse-Project-ID: 339602
 ## X-WoWI-ID: 25223
+## X-Wago-ID: rkGrwANy
 
 ## Title-zhTW: |cffFF7373[職業]|r 薩滿圖騰快捷列
 ## Notes-zhTW: TotemTimers |n|n能快速施放圖騰的快捷列，並且會顯示圖騰、復生、閃電盾和武器增益效果的時間和提醒。|n|n|cffffd200使用方法: |r從Esc>選項>插件>薩滿圖騰，進行設定。
@@ -23,10 +24,9 @@ localization\localization.tw.lua
 XiTimers.lua
 XiTimers.xml
 
+cata\TotemData.lua
 TotemTimers.xml
 TotemTimers.lua
-
-vanilla\TotemData.lua
 
 Spells.lua
 
@@ -39,19 +39,18 @@ TTActionBars.lua
 DefaultSettings.lua
 Settings.lua
 SetupTimers.lua
+MultiSpell.lua
 SetupTrackers.lua
 Ankh.lua
 Shield.lua
 EarthShield.lua
 Weapon.lua
-vanilla\Weapon.lua
 EnhanceCDs.lua
-vanilla\PowerSurge.lua
 LongCooldowns.lua
-vanilla\SpiritAlpha.lua
-
+# Procs.lua
 Warnings.lua
 Masque.lua
+
 GUI\localization.lua
 GUI\localization.tw.lua
 GUI\localization.cn.lua
