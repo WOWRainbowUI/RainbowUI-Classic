@@ -1,7 +1,7 @@
 ## Interface: 40400
 ## Title: OmniBar
 ## Notes: Tracks enemy cooldowns
-## Version: v14.30
+## Version: v14.31
 ## Author: Jordon
 ## SavedVariables: OmniBarDB
 ## IconTexture: Interface\AddOns\OmniBar\Media\Textures\icon.blp
@@ -16,6 +16,6 @@
 
 Locales\Locales.xml
 OmniBar.xml
-OmniBar_Wrath.lua
+OmniBar_Cata.lua
 OmniBar.lua
 Options.lua
