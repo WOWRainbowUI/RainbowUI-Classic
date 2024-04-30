@@ -178,3 +178,67 @@ else
 	ns.L["Cozy Sleeping Bag"] = "Cozy Sleeping Bag"
 	ns.L["Nightmare Bloom / Seed"] = "Nightmare Bloom / Seed"
 end
+
+-- v1.09+ Quest Names
+
+if ns.locale == "zhCN" then
+	ns.L["...and that note you found"] = "……你所找到的纸条"
+	ns.L["A Fortuitous Turn of Events"] = "峰回路转"
+	ns.L["An Amalgamation of Nightmares"] = "梦魇的融合怪"
+	ns.L["Eagle's Fist"] = "鹰拳" -- No in game translation
+	ns.L["Going Under"] = "深入其中"
+	ns.L["Itharius"] = "伊萨里奥斯" -- No in game translation
+	ns.L["Quadrangulation"] = "四边定位"
+	ns.L["Return to Moonglade"] = "返回月光林地"
+	ns.L["Salvaging the Salvagematic"] = "回收器回收记"
+	ns.L["Scramble"] = "抢" -- No in game translation
+	ns.L["Secrets of Elune (1)"] = "艾露恩的秘密 (1)"
+	ns.L["Secrets of Elune (2)"] = "艾露恩的秘密 (2)"
+	ns.L["Secrets of the Light (1)"] = "圣光的秘密 (1)" -- No in game translation
+	ns.L["Secrets of the Light (2)"] = "圣光的秘密 (2)" -- No in game translation
+	ns.L["Secrets of the Loa (1)"] = "洛阿神灵的秘密 (1)" -- No in game translation
+	ns.L["Secrets of the Loa (2)"] = "洛阿神灵的秘密 (2)" -- No in game translation
+	ns.L["Secrets of Undeath (1)"] = "亡灵的秘密 (1)" -- No in game translation
+	ns.L["Secrets of Undeath (2)"] = "亡灵的秘密 (2)" -- No in game translation
+	ns.L["Shifting Scale Talisman"] = "幻变之鳞护符"
+	ns.L["Stepping Stones"] = "垫脚石" -- No in game translation
+	ns.L["The Bad News..."] = "坏消息是……"
+	ns.L["The Corroded Core"] = "腐蚀的核心"
+	ns.L["The Lost Vambraces"] = "失落的腕铠"
+	ns.L["The Salvagematic 9000!"] = "超级回收器9000型！"
+	ns.L["This Must Be The Place"] = "这一定是这个地方" -- No in game translation
+	ns.L["Waking the Nightmare"] = "梦魇乍醒"
+	ns.L["Warranty Claim"] = "保修索赔" -- No in game translation
+	ns.L["Wet Job"] = "湿工作" -- No in game translation
+elseif ns.locale == "zhTW" then
+	ns.L["...and that note you found"] = "……你所找到的紙條"
+	ns.L["A Fortuitous Turn of Events"] = "峰迴路轉"
+	ns.L["An Amalgamation of Nightmares"] = "夢魘的融合怪"
+	ns.L["Eagle's Fist"] = "鷹拳"
+	ns.L["Going Under"] = "深入其中"
+	ns.L["Itharius"] = "伊薩裡奧斯"
+	ns.L["Quadrangulation"] = "四邊定位"
+	ns.L["Return to Moonglade"] = "返回月光林地"
+	ns.L["Salvaging the Salvagematic"] = "回收器回收記"
+	ns.L["Scramble"] = "搶"
+	ns.L["Secrets of Elune (1)"] = "艾露恩的秘密 (1)"
+	ns.L["Secrets of Elune (2)"] = "艾露恩的秘密 (2)"
+	ns.L["Secrets of the Light (1)"] = "聖光的秘密 (1)"
+	ns.L["Secrets of the Light (2)"] = "聖光的秘密 (2)"
+	ns.L["Secrets of the Loa (1)"] = "洛阿神靈的秘密 (1)"
+	ns.L["Secrets of the Loa (2)"] = "洛阿神靈的秘密 (2)"
+	ns.L["Secrets of Undeath (1)"] = "亡靈的秘密 (1)"
+	ns.L["Secrets of Undeath (2)"] = "亡靈的秘密 (2)"
+	ns.L["Shifting Scale Talisman"] = "幻變之鱗護符"
+	ns.L["Stepping Stones"] = "墊腳石"
+	ns.L["The Bad News..."] = "壞消息是…"
+	ns.L["The Corroded Core"] = "腐蝕的核心"
+	ns.L["The Lost Vambraces"] = "失落的腕鎧"
+	ns.L["The Salvagematic 9000!"] = "超級回收器9000型！"
+	ns.L["This Must Be The Place"] = "這一定是這個地方"
+	ns.L["Waking the Nightmare"] = "夢魘乍醒"
+	ns.L["Warranty Claim"] = "保固索賠"
+	ns.L["Wet Job"] = "濕工作"
+else
+--	ns.L["An Amalgamation of Nightmares"] = "An Amalagamation of Nightmares" -- Do I use Blizzard's typo?
+end
