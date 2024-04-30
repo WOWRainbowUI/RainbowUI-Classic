@@ -13,25 +13,42 @@ local colourPlaintext	= ns.colour.plaintext
 local st = { druid={}, hunter={}, mage={}, paladin={}, priest={}, rogue={}, shaman={}, warlock={}, warrior={} }
 
 -- Druid Phase 1
-st.druid.ferocious = "可從西部荒野的許多河爪怪物、黑海岸的巢穴之母、銀松森林的蒼白者格里姆森，以及貧瘠之地三個半人馬寶箱中獲得。\n\n獲得並裝備後，對人形生物造成 20 次流血傷害。再次點擊神像以最終激活。"
-
-st.druid.ursineRage = "聯盟可以殺死泰達希爾的怒爪。部落可以殺死莫高雷的風險投資公司主管或剛毛野豬入侵者。\n\n兩個陣營都可以刷平原徘徊者、草原狼首領、利爪俯衝者、風怒女族長和女巫。\n\n查看神像的工具提示。保持怒氣！"
-
-st.druid.idolWild = "只需拾取怪物掉落的物品。然後裝備/右鍵點擊。對友方生物進行 10 次直接治療。現在再次點擊神像。"
-
-st.druid.lunarIdolA = "從 4 級以上的瑪丹特·強戈奧克那裡獲得卡多雷的遺物任務。\n\n殺死格雷爾金以獲得月神神像。裝備。\n\n現在殺死 6 個受月火術影響的怪物。現在再次點擊神像。"
-
-st.druid.lunarIdolH = "前往荊棘葉峽谷。\n\n拾取寶箱並裝備。\n\n現在殺死 6 個受月火術影響的怪物。現在再次點擊神像。"
-st.druid.naturalPotential = "收集 3 個莫高雷的草原花朵（部落）或 3 個泰達希爾的林間花朵（聯盟）。\n\n將它們組合成一個草原/林間花冠。\n\n前往 (37.60,49.50)（部落）或 (66.90,57.70)（聯盟）。\n\n等待木質雕像生成。對它使用花冠。殺死靈魂。拾取掉落物。"
-
-st.druid.lacerate = "聯盟最好前往洛克莫丹湖邊的卡拉·深水。購買一些彩虹鰭金槍魚誘餌（5 銀），然後將其餵給湖中的幼年瑟雷薩登。\n\n部落應該前往貧瘠之地，尋找一個廢棄的迅猛龍巢穴。拿起蛋，然後將其放入一個空的迅猛龍巢穴中。等待，然後點擊幼龍以獲得你的掉落物！\n\n兩個陣營都可以前往黑海岸。從黑木怪物身上刷取螃蟹零食，或者釣魚獲得。然後餵給幼年礁石爬行者（螃蟹）。\n\n或者前往西部荒野，從迪菲亞怪物身上刷取魔法南瓜種子。種植一個種子。殺死攻擊性的南瓜幼苗。獲利！\n\n銀松森林的月怒白頭皮和暗影行者也會掉落一個不平衡的神像。閱讀其工具提示。你需要 5 層三種增益效果。使用你的月火術、癒合之觸或生命之種，並在殺戮時變形。"
-
-st.druid.runeOfStars = "找到格魯吉姆登，在一座小橋下。然後前往樹樁。只有在樹樁處才應該吃蘑菇。剩下的就順理成章了。\n\n在幫助或靈魂奔跑的情況下可以提前完成。"
-
-st.druid.runeOfTheSun = "部落前往莫高雷，對三個附近的月石施放月火術。聯盟必須前往泰達希爾，注意其中兩個石頭在樹枝上。現在點擊月神寶箱。是的，這很簡單！"
-st.druid.swim = "從東邊的雕像/地圖標記開始。\n（如果你分析地形，你就會明白為什麼）。以水生形態游到西邊的雕像，爬上去點擊以獲得獎勵。以水生形態從東到西，你會有充足的時間。"
-
-st.druid.wildGrowth = "大約 21 級以上時，前往月光林地的訓練師洛加納爾。開始貓頭鷹試煉。\n注意：你可以在接取任務之前獲得三隻貓頭鷹。第一隻貓頭鷹：灰谷，第二隻貓頭鷹：暮色森林，第三隻貓頭鷹：希爾斯布萊德。只需交還任務即可獲得你的符文！"
+st.druid.ferocious = "從西部荒野的眾多河流之爪怪物、\n黑海岸的巢穴母親、\n"
+			.."銀松森林的蒼白的格里姆森和\n貧瘠之地的三個半人馬箱子中獲得。\n\n獲得並裝備後，對人形生物造成 20 次流血\n"
+			.."傷害。再次點擊偶像以\n最終激活"
+st.druid.ursineRage = "聯盟可以擊殺泰達希爾的怒爪。\n部落可以擊殺莫高雷的風險投資公司監工或\n"
+			.."剛鬃入侵者。\n\n兩個陣營都可以刷平原潛行者、\n"
+			.."草原狼首領、利爪俯衝者、\n風怒女族長和女巫。\n\n"
+			.."查看偶像的工具提示。保持怒氣！"
+st.druid.idolWild = "只需掠奪怪物。然後裝備 / 右鍵單擊。\n對友方怪物進行 10 次直接治療。\n"
+			.."現在再次點擊偶像"
+st.druid.lunarIdolA = "在 4 級以上時從\n瑪丹特·斯通戈克那裡獲得卡多雷的遺物任務。\n\n"
+			.."擊殺灰皮怪物以獲得月神偶像。裝備。\n\n現在擊殺 6 個受\n月火術影響的怪物。現在再次點擊偶像"
+st.druid.lunarIdolH = "前往荊棘葉峽谷。\n\n掠奪箱子並裝備\n\n現在擊殺 6 個受\n"
+			.."月火術影響的怪物。現在再次點擊偶像"
+st.druid.naturalPotential = "從莫高雷（部落）收集 3 個草原之花，\n從泰達希爾（聯盟）收集 3 個林地之花。\n\n"
+			.."組合成草原/林地花冠。\n\n前往 (37.60,49.50)（部落）或 (66.90,57.70)（聯盟）。\n\n"
+			.."等待木制雕像生成。\n對其使用花冠。殺死靈魂。掠奪"
+st.druid.lacerate = "聯盟最好前往洛克莫丹湖邊的\n卡拉·深水。購買一些\n"
+			.."彩虹鰭金槍魚誘餌（5 銀幣），然後餵給\n湖中的幼年雷龍。\n\n"
+			.."部落應該前往貧瘠之地尋找\n廢棄的迅猛龍巢穴。抓住蛋並\n"
+			.."將其放入空的迅猛龍巢穴中。等待，\n然後點擊幼龍以獲取你的戰利品！\n\n"
+			.."兩個陣營都可以前往黑海岸。刷\n黑木怪物以獲取螃蟹零食或釣魚\n"
+			.."起來。然後餵給幼年礁石爬行者（螃蟹）。\n\n或者前往西部荒野並刷\n"
+			.."迪菲亞兄弟會怪物以獲取魔法南瓜種子。種下\n種子。殺死攻擊性的小南瓜。獲利！\n\n"
+			.."還有銀松森林的月怒白頭皮和\n暗影奔跑者會掉落一個\n"
+			.."不平衡的偶像。閱讀其工具提示。你需要\n5 層三種增益效果。使用你的\n"
+			.."月火術、治療之觸或癒合，以及\n變形，同時進行殺戮"
+st.druid.runeOfStars = "找到格魯吉姆德恩，在一座小橋下。\n然後去樹樁那裡。只有在樹樁\n"
+			.."處你才應該吃蘑菇。剩下的就順理成章了。\n\n在幫助或靈魂奔跑的情況下可以及早實現"
+st.druid.runeOfTheSun = "部落前往莫高雷並對三個附近的月神\n石頭施放月火術。聯盟必須前往泰達希爾\n"
+			.."並注意其中兩塊石頭在樹枝上。\n現在點擊月神寶箱。是的，一個簡單的！"
+st.druid.swim = "從東邊的雕像/地圖標記開始。\n（如果你分析\n"
+			.."地形，你就會明白為什麼）。以水生形態游\n到西邊的雕像，爬上去並點擊\n"
+			.."以獲得你的獎勵。以水生形態，從東\n到西你將有充足的時間"
+st.druid.wildGrowth = "大約在 21 級以上時，前往月光林地\n的你的訓練師洛迦納爾。開始貓頭鷹的試煉。\n"
+			.."注意：你可以在\n接受任務之前獲得三隻貓頭鷹。第一隻貓頭鷹：灰谷，\n"
+			.."第二隻貓頭鷹：暮色森林，第三隻貓頭鷹：希爾斯布萊德。\n只需交任務即可獲得你的符文！"
 -- Druid Phase 2
 st.druid.berserk = "在扎伊恩基／野獸雕像的位置使用挑戰咆哮（28級）。殺死怪物並獲利。"
 st.druid.dreamstate = "殺死科爾卡半人馬（30-31級）\n直到他們掉落乾枯的種子莢。\n\n"
@@ -60,22 +77,36 @@ st.druid.improvedBarkskin = "學習樹皮術（44級）後，前往\n塔納利�
 			.."充能五次。右鍵點擊它"
 
 -- Hunter Phase 1
-st.hunter.beastMastery = "在西部荒野刷取許多戈雷塔斯克野豬的戈雷塔斯克豬腿，然後用它來生成銀色駿馬。殺死並拾取戰利品，西部荒野；或者在黑海岸刷取熊怪的螃蟹零食。然後將其餵給海岸上的幼年礁石爬行者（聯盟）；\n\n部落必須殺死銀松森林的兇猛灰熊，直到生成一個灰熊保護者。殺死，拾取戰利品；在陶拉祖營地北部的貧瘠之地，誘捕一隻巡邏的獵豹。現在你可以殺死它。豐厚的戰利品！（部落）"
-
-st.hunter.carve = "從丹莫羅的戈爾巴採石場的岩石下巴穴居人身上獲得兔子麝香，然後將麝香用於一隻兔子生物。現在馴服它。與丹莫羅琥珀靜農場的托比交談以獲得獎勵；\n\n在泰達希爾，從 gnarlpine 怪物身上獲得鹿麝香。用於鹿。馴服。與達納蘇斯的雷拉隆交談（聯盟）；在杜洛塔爾，從剃刀沼澤怪物身上獲得蝰蛇費洛蒙。與剃刀嶺的拉齊爾交談；在莫高雷，從白鬃怪物身上獲得草原土撥鼠麝香。與血蹄村的塔科達·日鬃交談（部落）。\n\n注意，當你馴服你的生物時，你不需要放棄你當前的寵物。"
-
-st.hunter.cobraStrikes = "從在南海鎮和塔倫米爾之間游走的齊克希爾那裡購買淡水鯛魚餌。\n\n現在在塔倫米爾南部湖上的小船上... 使用小船。科阿圖爾會生成！"
-
-st.hunter.explosiveShot = "丹莫羅的菲奧迪、嚎叫者埃丹、 mangeclaw、老冰鬍子、木材、瓦加什；泰達希爾巴尼希爾墓穴底部的怒爪（聯盟）； heavily camped 的薩科斯，試煉谷；莫高雷的阿拉切亞、幽靈嚎叫、馬扎納奇、耙子（部落）"
-st.hunter.flankingStrike = "喬魯爾，位於丹莫羅冰流湖東側的洞穴中；莫格，位於聯盟神諭林地河流東側的洞穴中；拉魯克，位於杜洛塔爾回音群島的北部島嶼上；莫克瓦，位於莫高雷血蹄村西北偏西方向（部落）\n\n要生成稀有精英，你必須刷取它的食物。請參閱工具提示。\n\n這些稀有精英是跨陣營的。殺死或馴服（10 級）後可獲得符文。熊（聯盟）和貓（部落）的技能和屬性只是中等水平。"
-
-st.hunter.heartLion = "卡羅丁，位於濕地塞爾根岩洞的後方（聯盟/部落）"
-
-st.hunter.killCommand = "這個過程以石爪山脈的吉克索·瘋狂火箭為中心，位於通往風剪懸崖的路上。\n\n第一個任務需要你殺死位於哀嚎洞穴盡頭的吞噬者穆塔努斯。穆塔努斯會掉落催眠水晶。哀嚎洞穴位於貧瘠之地。\n\n你還需要一根 gnarled 的野性魔法棒。從拍賣行/附魔師朋友那裡購買一根高級魔法棒。與灰谷熊怪掉落的野性魔法精華組合。\n\n第二個任務需要你見證吉克索馴服一隻雙足飛龍。輕而易舉！\n\n獵人的獎勵是我們獲得一根雙足飛龍馴服棒，它可以讓我們馴服石爪山脈的幼年驕傲之翼。我也標記了它們！"
-
-st.hunter.masterMark = "對沙沙作響的灌木叢使用獵人標記。一個偷獵者會生成。殺死它。拾取掉落物。"
-
-st.hunter.sniper = "帕克斯諾茲，位於黑海岸瑪西斯特拉廢墟的西邊；迪菲亞斥候，位於西部荒野的哨兵嶺；卡克爾，位於洛克莫丹的湖中（聯盟）。\n\n布魯茲，位於貧瘠之地棘齒城海岸附近（部落）"
+st.hunter.beastMastery = "在西部荒野從眾多戈雷塔斯克野豬身上刷戈雷塔斯克野豬腿，然後用它來生成銀蹄。殺死\n"
+			.."並掠奪，西部荒野；或者在黑海岸刷熊怪以獲取\n螃蟹零食。然後將其餵給海岸上的幼年礁石爬行者（聯盟）；\n\n"
+			.."部落必須擊殺兇猛的灰熊，直到\n灰熊守護者生成，銀松森林。殺死，掠奪；\n"
+			.."在貧瘠之地陶拉祖營地北部捕捉一隻巡邏的獵豹。你現在可以殺死它。豐厚的戰利品！（部落）"
+st.hunter.carve = "從丹莫羅的戈爾巴爾採石場的石顎穴居人身上獲得兔子麝香，然後將麝香用於\n"
+			.."兔子生物。現在馴服它。與丹莫羅\n琥珀松牧場的托比交談以獲得獎勵；\n\n"
+			.."在泰達希爾，從 gnarlpine 怪物身上獲取鹿\n麝香。用於鹿。馴服。與達納蘇斯的\n"
+			.."雷拉隆交談（聯盟）；杜隆塔爾從剃刀沼澤怪物身上獲取蝰蛇信息素。剃刀嶺的拉茲爾；\n"
+			.."莫高雷從蒼白鬃毛怪物身上獲取草原犬鼠麝香。血蹄村的塔科達·日鬃（部落）。\n\n"
+			.."請注意，當你馴服你的生物時，你\n不需要放棄你當前的同伴"
+st.hunter.cobraStrikes = "從在南海鎮和塔倫米爾之間遊蕩的\n齊克希爾那裡購買淡水笛鯛誘餌。\n\n"
+			.."現在在塔倫米爾南部湖上的\n小船上... 使用船。科阿圖爾生成！"
+st.hunter.explosiveShot = "菲奧迪、埃丹·咆哮者、 Mangeclaw、老冰鬚、\n木材、瓦加什，丹莫羅；班塞希爾墓穴底部的\n怒爪，泰達希爾（聯盟）；大量紮營的\n薩科斯，試煉谷；阿拉奇亞、幽靈嚎叫者、\n"
+			.."瑪茲拉納奇、耙子，莫高雷（部落）"
+st.hunter.flankingStrike = "喬魯爾，洞穴，冰流湖東側，丹莫羅；\n莫格，洞穴，先知林地河流東側（聯盟）；\n"
+			.."拉魯克，回音群島北部島嶼，杜隆塔爾；莫克瓦，\n莫高雷血蹄村西北偏西（部落）\n\n"
+			.."要生成稀有精英，你必須刷它的食物。查看工具提示\n\n這些稀有精英是跨陣營的。符文是在\n"
+			.."殺死或馴服（10 級）時獲得的。熊（聯盟）和貓（部落）的技能\n和屬性只是平均水平。"
+st.hunter.heartLion = "卡羅丁，塞爾根\n岩石洞穴後方，濕地（聯盟/部落）"
+st.hunter.killCommand = "這個過程圍繞著石爪山脈的\n吉克索·瘋狂火箭，在通往\n風剪峭壁的路上。\n\n"
+			.."第一個任務需要你擊殺\n吞噬者穆塔努斯，它位於哀嚎\n"
+			.."洞穴的盡頭。穆塔努斯會掉落催眠水晶。\nWC 地下城位於貧瘠之地。\n\n"
+			.."你還需要一根粗糙的野性魔法杖。從拍賣行 / 附魔師\n"
+			.."朋友那裡購買一根高級魔法杖。與灰谷熊怪怪物\n掉落的野性魔法精華組合。\n\n"
+			.."第二個任務需要你見證吉克索\n馴服一隻雙足飛龍。非常簡單！\n\n"
+			.."獵人的獎勵是我們獲得一根雙足飛龍馴服\n魔杖，它允許我們馴服石爪山脈的\n"
+			.."幼年驕傲之翼。我也標記了它們！"
+st.hunter.masterMark = "對沙沙作響的灌木叢使用獵人印記。\n一個偷獵者將會生成。殺死它。掠奪它"
+st.hunter.sniper = "帕克斯諾茲，瑪斯拉廢墟以西，黑海岸；\n迪菲亞斥候，哨兵嶺，西部荒野；咯咯，\n"
+			.."湖泊，洛克莫丹（聯盟）。\n\n布魯茲，棘齒城海岸外，貧瘠之地（部落）"
 -- Hunter Phase 2
 st.hunter.dualWield = "在此位置，你將獲得“危險！”增益效果。\n\n在這個區域徘徊，使用你的“照明彈”（32級）\n"
 			.."直到你找到血頭皮游擊隊（34級）。\n也使用追踪隱形。\n\n殺死並拾取"
@@ -105,74 +136,74 @@ st.mage.booksQuestIDsA = { 79953, 81955, 79949, 78145, 79091, 79092, 79535, 7909
 						78147, 79948, 79950, 81952, 78149, 79947, 78146, 81949, 79951, 78124, 
 						79093, 78148, 79952, 81947, 78143, 81953, 78127, 81951, 81954, 78150, 79536, 82208 }
 st.mage.booksQuestNamesA = {
-						"A Ludites Guide to Caring for Your Pet" ..colourPlaintext .."    Farm Lost Ones in the Swamp of Sorrows",
-						"A Mind of Metal" ..colourPlaintext .."    On a table in a tent, Searing Gorge",
-						"A Web of Lies: Debunking Myths and Legends" ..colourPlaintext .."    Alongside a tent. Winterbark Village, Arathi",
-						"Arcanic Systems Manual" ..colourPlaintext .."    The Sludge Fen, The Barrens",
-						"Archmage Antonidas: The Unabridged Autobiography" ..colourPlaintext .."    Hall of Explorers, Ironforge",
-						"Archmage Theocritus's Research Journal"..colourPlaintext .."    Tower of Azora, Elwynn Forest",
-						"Basilisks: Should Petrification be Feared?" ..colourPlaintext .."    Entrance to Crystalvein Mine, Stranglethorn",
-						"Baxtan: On Destructive Magics" ..colourPlaintext .."    Next to Gazlove, Ratchet, The Barrens",
-						"Bewitchments and Glamours" ..colourPlaintext .."    Moonbrook, Westfall",
-						"Conjurer's Codex" ..colourPlaintext .."    Go to the Blasted Lands",
-						"Crimes Against Anatomy" ..colourPlaintext .."    Raven Hill Crypt, Duskwood",
-						"Defensive Magics 101" ..colourPlaintext .."    Ogre Tower in Alterac Mountains",
-						"Demons and You" ..colourPlaintext .."    Inside the Thunder Axe Fortress",
-						"Everyday Etiquette" ..colourPlaintext .."    Heldar Encampment, Azshara",
-						"Fury of the Land" ..colourPlaintext .."    Near Grimtotems in Stonetalon Mountains",
-						"Geomancy: The Stone-Cold Truth" ..colourPlaintext .."    Inside a hut, Darkcloud Pinnacle, Thousand Needles",
-						"Goaz Scrolls" ..colourPlaintext .."    Whelgar's Excavation Site, Wetlands",
-						"Legends of the Tidesages" ..colourPlaintext .."    Inside a building in the Pirate Cove, Tanaris",
-						"Mummies: A Guide to the Unsavory Undead" ..colourPlaintext .."    Crypt within a mesa. Badlands",
-						"Nar'thalas Almanac" ..colourPlaintext .."    Darkshore Ruins",
-						"Rumi of Gnomeregan: The Collected Works" ..colourPlaintext .."    Thelsamar or Westfall Inn",
-						"Runes of the Sorcerer-Kings" ..colourPlaintext .."    The Ogre Cave in Loch Modan",
-						"RwlRwlRwlRwl!" ..colourPlaintext .."    Witch Hill murloc Camp, Swamp of Sorrows",
-						"Sanguine Sorcery" ..colourPlaintext .."    On top of the Sunken Temple, Swamp of Sorrows",
-						"Secrets of the Dreamers" ..colourPlaintext .."    Near the Wailing Caverns portal",
-						"Stonewrought Design" ..colourPlaintext .."    On Franclorn Forgewright's altar, Black Mountain",
-						"The Dalaran Digest" ..colourPlaintext .."    Amber Mill, Silverpine Forest",
-						"The Liminal and the Arcane" ..colourPlaintext .."    @ Oneiros, Feralas but ONLY with a Nightmare Incursion",
-						"Venomous Journeys" ..colourPlaintext .."    Behind a brown wall, The Hinterlands",
-						"Friend of the Library" ..colourPlaintext .."    The final step for Icy Veins!", 
-						"Greater Friend of the Library" ..colourPlaintext .."    The final step for Spell Power!",
-						"Greater Friend of the Library" ..colourPlaintext .."    The final step for Deep Freeze!" }
+						"盧迪特寵物護理指南" ..colourPlaintext .."    哀嚎洞穴中的迷失者農場",
+						"金屬思維" ..colourPlaintext .."    灼熱峽谷的一個帳篷裡的桌子上",
+						"謊言之網：揭穿神話和傳說" ..colourPlaintext .."    阿拉希高地冬泉村的一個帳篷旁邊",
+						"奧術系統手冊" ..colourPlaintext .."    貧瘠之地的污泥沼澤",
+						"大法師安東尼達斯：完整自傳" ..colourPlaintext .."    鐵爐堡的探險者大廳",
+						"大法師塞奧克里圖斯的研究日誌"..colourPlaintext .."    艾爾文森林的阿祖拉之塔",
+						"蛇怪：石化應該被恐懼嗎？" ..colourPlaintext .."    荊棘谷水晶礦脈入口",
+						"巴克斯坦：論毀滅魔法" ..colourPlaintext .."    貧瘠之地棘齒城的加茲洛夫旁邊",
+						"迷惑和魅力" ..colourPlaintext .."    西部荒野的月溪鎮",
+						"魔典" ..colourPlaintext .."    前往詛咒之地",
+						"解剖學罪行" ..colourPlaintext .."    暮色森林的烏鴉嶺墓穴",
+						"防禦魔法 101" ..colourPlaintext .."    奧特蘭克山脈的食人魔塔",
+						"惡魔與你" ..colourPlaintext .."    雷霆之斧要塞內",
+						"日常禮儀" ..colourPlaintext .."    艾薩拉的海達爾營地",
+						"大地之怒" ..colourPlaintext .."    石爪山脈的恐怖圖騰附近",
+						"地質學：冰冷的真相" ..colourPlaintext .."    千針石林的暗雲峰內的一間小屋",
+						"戈阿茲捲軸" ..colourPlaintext .."    濕地的維爾加挖掘場",
+						"潮汐賢者的傳說" ..colourPlaintext .."    塔納利斯海盜灣的一棟建築內",
+						"木乃伊：令人厭惡的不死生物指南" ..colourPlaintext .."    荒蕪之地的台地內的墓穴",
+						"納薩拉斯年鑑" ..colourPlaintext .."    黑海岸廢墟",
+						"諾莫瑞根的魯米：文集" ..colourPlaintext .."    塞爾薩瑪或西部荒野旅館",
+						"巫妖王的符文" ..colourPlaintext .."    洛克莫丹的食人魔洞穴",
+						"RwlRwlRwlRwl！" ..colourPlaintext .."    哀嚎洞穴的女巫山魚人營地",
+						"血魔法" ..colourPlaintext .."    哀嚎洞穴的沉沒的神廟頂部",
+						"夢境者的秘密" ..colourPlaintext .."    哀嚎洞穴傳送門附近",
+						"石雕設計" ..colourPlaintext .."    黑石山的弗蘭克羅恩·鍛造師的祭壇上",
+						"達拉然文摘" ..colourPlaintext .."    銀松森林的琥珀磨坊",
+						"界限與奧術" ..colourPlaintext .."    @ 費伍德森林的奧妮羅斯，但僅限於夢魘入侵期間",
+						"毒液之旅" ..colourPlaintext .."    辛特蘭的一堵棕色牆壁後面",
+						"圖書館之友" ..colourPlaintext .."    冰霜之脈的最後一步！", 
+						"高級圖書館之友" ..colourPlaintext .."    法術強度的最後一步！",
+						"高級圖書館之友" ..colourPlaintext .."    深度凍結的最後一步！" }
 st.mage.booksQuestIDsH = { 79953, 81955, 79949, 78145, 79096, 79535, 79097, 78142, 81956, 78147, 
 						79948, 79950, 81952, 78149, 79947, 78146, 81949, 79951, 78124, 78148, 
 						79952, 81947, 78143, 81953, 79095, 78127, 79094, 81951, 81954, 78150, 79536, 82208 }
 st.mage.booksQuestNamesH = {
-						"A Ludites Guide to Caring for Your Pet" ..colourPlaintext .."    Farm Lost Ones in the Swamp of Sorrows",
-						"A Mind of Metal" ..colourPlaintext .."    On a table in a tent, Searing Gorge",
-						"A Web of Lies: Debunking Myths and Legends" ..colourPlaintext .."    Alongside a tent. Winterbark Village, Arathi",
-						"Arcanic Systems Manual" ..colourPlaintext .."    The Sludge Fen, The Barrens",
-						"Ataeric: On Arcane Curiosities"..colourPlaintext .."    Sepulcher",
-						"Basilisks: Should Petrification be Feared?" ..colourPlaintext .."    Entrance to Crystalvein Mine, Stranglethorn",
-						"Baxtan: On Destructive Magics" ..colourPlaintext .."    Next to Gazlove, Ratchet, The Barrens",
-						"Bewitchments and Glamours" ..colourPlaintext .."    Moonbrook, Westfall",
-						"Conjurer's Codex" ..colourPlaintext .."    Go to the Blasted Lands",
-						"Crimes Against Anatomy" ..colourPlaintext .."    Raven Hill Crypt, Duskwood",
-						"Defensive Magics 101" ..colourPlaintext .."    Ogre Tower in Alterac Mountains",
-						"Demons and You" ..colourPlaintext .."    Inside the Thunder Axe Fortress",
-						"Everyday Etiquette" ..colourPlaintext .."    Heldar Encampment, Azshara",
-						"Fury of the Land" ..colourPlaintext .."    Near Grimtotems in Stonetalon Mountains",
-						"Geomancy: The Stone-Cold Truth" ..colourPlaintext .."    Inside a hut, Darkcloud Pinnacle, Thousand Needles",
-						"Goaz Scrolls" ..colourPlaintext .."    Whelgar's Excavation Site, Wetlands",
-						"Legends of the Tidesages" ..colourPlaintext .."    Inside a building in the Pirate Cove, Tanaris",
-						"Mummies: A Guide to the Unsavory Undead" ..colourPlaintext .."    Crypt within a mesa. Badlands",
-						"Nar'thalas Almanac" ..colourPlaintext .."    Darkshore Ruins",
-						"Runes of the Sorcerer-Kings" ..colourPlaintext .."    The Ogre Cave in Loch Modan",
-						"RwlRwlRwlRwl!" ..colourPlaintext .."    Witch Hill murloc Camp, Swamp of Sorrows",
-						"Sanguine Sorcery" ..colourPlaintext .."    On top of the Sunken Temple, Swamp of Sorrows",
-						"Secrets of the Dreamers" ..colourPlaintext .."    Near the Wailing Caverns portal",
-						"Stonewrought Design" ..colourPlaintext .."    On Franclorn Forgewright's altar, Black Mountain",
-						"The Apothecary's Metaphysical Primer" ..colourPlaintext .."    Brill alchemy Shop",
-						"The Dalaran Digest" ..colourPlaintext .."    Amber Mill, Silverpine Forest",
-						"The Lessons of Ta'zo" ..colourPlaintext .."    Valley of Sprits, Orgrimmar",
-						"The Liminal and the Arcane" ..colourPlaintext .."    @ Oneiros, Feralas but ONLY with a Nightmare Incursion",
-						"Venomous Journeys" ..colourPlaintext .."    Behind a brown wall, The Hinterlands",
-						"Friend of the Library" ..colourPlaintext .."    The final step for Icy Veins!", 
-						"Greater Friend of the Library" ..colourPlaintext .."    The final step for Spell Power!",
-						"Greater Friend of the Library" ..colourPlaintext .."    The final step for Deep Freeze!" }
+						"盧迪特寵物護理指南" ..colourPlaintext .."    哀嚎洞穴中的迷失者農場",
+						"金屬思維" ..colourPlaintext .."    灼熱峽谷的一個帳篷裡的桌子上",
+						"謊言之網：揭穿神話和傳說" ..colourPlaintext .."    阿拉希高地冬泉村的一個帳篷旁邊",
+						"奧術系統手冊" ..colourPlaintext .."    貧瘠之地的污泥沼澤",
+						"阿塔艾瑞克：論奧術珍品"..colourPlaintext .."    墓地",
+						"蛇怪：石化應該被恐懼嗎？" ..colourPlaintext .."    荊棘谷水晶礦脈入口",
+						"巴克斯坦：論毀滅魔法" ..colourPlaintext .."    貧瘠之地棘齒城的加茲洛夫旁邊",
+						"迷惑和魅力" ..colourPlaintext .."    西部荒野的月溪鎮",
+						"魔典" ..colourPlaintext .."    前往詛咒之地",
+						"解剖學罪行" ..colourPlaintext .."    暮色森林的烏鴉嶺墓穴",
+						"防禦魔法 101" ..colourPlaintext .."    奧特蘭克山脈的食人魔塔",
+						"惡魔與你" ..colourPlaintext .."    雷霆之斧要塞內",
+						"日常禮儀" ..colourPlaintext .."    艾薩拉的海達爾營地",
+						"大地之怒" ..colourPlaintext .."    石爪山脈的恐怖圖騰附近",
+						"地質學：冰冷的真相" ..colourPlaintext .."    千針石林的暗雲峰內的一間小屋",
+						"戈阿茲捲軸" ..colourPlaintext .."    濕地的維爾加挖掘場",
+						"潮汐賢者的傳說" ..colourPlaintext .."    塔納利斯海盜灣的一棟建築內",
+						"木乃伊：令人厭惡的不死生物指南" ..colourPlaintext .."    荒蕪之地的台地內的墓穴",
+						"納薩拉斯年鑑" ..colourPlaintext .."    黑海岸廢墟",
+						"巫妖王的符文" ..colourPlaintext .."    洛克莫丹的食人魔洞穴",
+						"RwlRwlRwlRwl！" ..colourPlaintext .."    哀嚎洞穴的女巫山魚人營地",
+						"血魔法" ..colourPlaintext .."    哀嚎洞穴的沉沒的神廟頂部",
+						"夢境者的秘密" ..colourPlaintext .."    哀嚎洞穴傳送門附近",
+						"石雕設計" ..colourPlaintext .."    黑石山的弗蘭克羅恩·鍛造師的祭壇上",
+						"藥劑師的形而上學入門" ..colourPlaintext .."    布瑞爾鍊金術商店",
+						"達拉然文摘" ..colourPlaintext .."    銀松森林的琥珀磨坊",
+						"塔佐的教訓" ..colourPlaintext .."    奧格瑞瑪的精神谷",
+						"界限與奧術" ..colourPlaintext .."    @ 費伍德森林的奧妮羅斯，但僅限於夢魘入侵期間",
+						"毒液之旅" ..colourPlaintext .."    辛特蘭的一堵棕色牆壁後面",
+						"圖書館之友" ..colourPlaintext .."    冰霜之脈的最後一步！", 
+						"高級圖書館之友" ..colourPlaintext .."    法術強度的最後一步！",
+						"高級圖書館之友" ..colourPlaintext .."    深度凍結的最後一步！" }
 
 -- Mage Phase 1
 st.mage.enlightenment = "聯盟應該前往艾爾文森林最東邊的嶺點\n塔，儘管任何有\n"
@@ -266,27 +297,27 @@ st.paladin.sheathLight = "必須已獲得神聖風暴符文。稍後你需要一
 .."現在擊敗血色修道院大教堂側廳的大審判官懷特邁恩。離開前找到\n"
 .."艾歐納斯！現在再次爐石並再次與凱瑟琳交談，你就差不多完成了。"
 -- Paladin Phase 3
-st.paladin.fanaticism = "Pick up the quest from Aeonis the Vindicated.\nHe's in the Stormwind Cathedral. Proceed to\n"
-			.."Theramore and give Elrick a whooping.\n\nSpeak to the Stern-Faced Bar Patron.\n\n"
-			.."Back at Katherine the Pure in the Cathedral,\nand she'll reward you grandly"
-st.paladin.hammerRighteous = "In Felwood you climb up the rope to reach Aeonis.\nNext speak with Gregory and accept the quest.\n\n"
-			.."Go north and farm the Shatter Scale Vale for 3 x\nFiery Infernal Core. Next meet the Tauren Brave\n"
-			.."Stonetorch, to the north of Tarren Mill in the Hillsbrad\nFoothills. You'll obtain the Symbol of Faith.\n\n"
-			.."The Shimmering Grave Dust is from a Grave Mound,\nobtained after killing Princess Theradras in\nMaraudon.\n\n"
-			.."The Tripple-Brewed Molten Lager you purchase from\nPlugger Spazzring at the Grim Guzzler tavern, well\n"
-			.."into Blackrock Depths. That's one mighty series of\ncorpse runs for solo players.\n\n"
-			.."Return to Gregory for the hand in. Accept your Rune!"
-st.paladin.lightsGrace = "You must travel to an inaccessible platform\nin Feralas. You may use a nearby teleporter,\n"
-			.."as marked or a different teleporter in Booty\nBay. The BB teleporter requires unlocking.\n\n"
-			.."The teleporter puts you near Wirdal Wondergear.\nLook across at the pin marked \"Frix Xizzix\".\n"
-			.."Go to him. You must do this via a knockback\nfrom a Tower Defense Automation (L57e) in the,\n"
-			.."same area as Wirdal. Set your Gadgetzan rep to\n\"At War\". Position yourself with the\n"
-			.."shortest distance to Frix and ensure you are\noptimally facing away from your flight path.\n\n"
-			.."Begin attacking and pray. Seriously. It's a\ngamble. Consider removing gear to save repair\n"
-			.."costs as you'll likely need a few attempts.\nThere's a nasty silence debuff, thus no bubbling.\n\n"
-			.."Now, speak to Frix and he'll send you to the Bay\nto speak to his brother. The rune is yours!"
-st.paladin.wrath = "North of Quel'Danil Lodge in The Hinterlands is\nwhere Paladins will use their Sense Undead to\n"
-			.."locate a Vengeful Spirit (L45). Kill it.\n\nSpeak to Magister Falath in the Mystic Ward of\nIronforge. Enjoy!"
+st.paladin.fanaticism = "從被平反的艾奧尼斯接下任務。\n他在暴風城教堂。前往\n"
+			.."塞拉摩並痛毆艾爾里克一頓。\n\n與嚴肅的酒吧常客交談。\n\n"
+			.."回到教堂的純潔的凱薩琳那裡，\n她會給予你豐厚的獎勵"
+st.paladin.hammerRighteous = "在費伍德森林，你爬上繩索到達艾奧尼斯。\n接下來與格雷戈里交談並接受任務。\n\n"
+			.."往北走，在碎鱗谷農場獲取 3 個\n火熱的地獄核心。接下來與牛頭人勇士\n"
+			.."石炬會面，他在希爾斯布萊德丘陵的\n塔倫米爾北部。你將獲得信仰象徵。\n\n"
+			.."閃光的墳墓塵土來自於墳堆，\n在擊敗瑪拉頓的塞雷布拉斯公主後獲得。\n\n"
+			.."三重釀造的熔火啤酒可以從\n黑石深淵深處的酒館老闆普拉格·斯帕茨林購買。\n"
+			.."對於獨行玩家來說，這是一段漫長的屍體跑路過程。\n\n"
+			.."回到格雷戈里那裡交任務。接受你的符文！"
+st.paladin.lightsGrace = "你必須前往菲拉斯一個無法進入的平台。\n你可以使用附近標記的傳送門，\n"
+			.."或者使用藏寶海灣的另一個傳送門。\nBB 傳送門需要解鎖。\n\n"
+			.."傳送門會把你傳送到靠近威爾達·奇蹟裝備的地方。\n看向標記為“弗里克斯·奇茲克斯”的位置。\n"
+			.."去找他。你必須通過\n與威爾達在同一區域的\n塔防自動機 (L57e) 的擊退效果來做到這一點。\n"
+			.."將你的加基森聲望設定為\n“交戰”。將自己定位在距離\n"
+			.."弗里克斯最短的距離，並確保你\n最佳地背對著你的飛行路線。\n\n"
+			.."開始攻擊並祈禱吧。說真的，這是一場\n賭博。考慮卸下裝備以節省維修\n"
+			.."費用，因為你可能需要嘗試幾次。\n有一個討厭的沉默減益效果，因此無法使用聖盾術。\n\n"
+			.."現在，與弗里克斯交談，他會派你去海灣\n與他的兄弟交談。符文是你的了！"
+st.paladin.wrath = "聖騎士們將在辛特蘭的\n奎爾丹尼爾小屋北部使用他們的感知亡靈技能\n"
+			.."找到一個復仇之魂 (L45)。殺死它。\n\n與鐵爐堡神秘區的法拉斯大師交談。享受吧！"
 
 -- Priest Phase 1
 st.priest.circle = "從迪菲亞怪物身上獲得黑暗洞察力，\n然後在隱蔽的墳墓中使用它"
@@ -470,37 +501,72 @@ st.rogue.unfair = "在塔納利斯的海灣扒竊海盜怪物，\n直到你獲�
 .."珍貴獎章的綁匪錢包。\n\n把它帶到熱砂港的 Jabbey 那裡，他會\n很樂意用它換取一個卑鄙伎倆符文！"
 
 -- Shaman Phase 1
-st.shaman.dyadicIcon = "巨魔/獸人：在試煉谷與希克里克會面，牛頭人：在納拉奇營地與米拉·黎明行者會面。\n\n巨魔/獸人留在他們的起始區域完成任務，但牛頭人需要在荊棘葉峽谷殺死剛毛野豬薩滿。\n\n裝備你的二元神像。注意工具提示。這裡可以使用相同的任務怪物。在十層時點擊你裝備的神像。交還任務以獲得豐厚的戰利品。"
-
-st.shaman.earthenRune = "獲得這個符文有兩種方法。第一種是在貧瘠之地刷沙漠幻影。掉落率和生成率都很高。牧師也會在那裡刷怪。15 級怪物。\n\n或者刷銀松森林的腐皮秘術師。怪物更容易殺死，但掉落率要低得多，你需要殺死第二個生成的怪物。\n\n去貧瘠之地吧！\n\n除此之外，它是一個直接掉落和學習的符文，沒有額外任務。"
-
-st.shaman.galvanicIcon = "前往莫高雷或杜洛塔爾，尋找並聆聽雷擊。\n\n莫高雷的位置靠近貧瘠之地。\n\n跑到一個“閃電灌注的圖騰”並點擊裝備。\n\n用閃電打擊殺死 10 個怪物。\n\n點擊裝備欄。"
-
-st.shaman.kajaricIcon = "在希爾斯布萊德丘陵東南角的農場刷薩滿豺狼人時，請避開泥 snout 豺狼人，因為它們不會掉落卡加里克神像。只有泥 snout 薩滿才會掉落。\n\n裝備（掉落率低）卡加里克神像。\n\n前往奧格瑪並進入怒焰裂谷。小心地在熔岩中玩耍以獲得勝利，儘管會變得更脆一點。"
-st.shaman.lavaLash = "在雷霆崖的主台地上與博爾頓·暗影圖騰會面。他是盜賊訓練師，被派來處理你這個小小的薩滿。\n\n他會有三個任務，第一個任務你會收到一個盜賊風格的“偽裝”。\n\n海福林炸藥是從標記的風險投資公司礦井中的推車中獲得的。\n\n他很快就會讓你明白，盜賊的東西不適合你。好吧。\n\n風怒錐很難看到，但我為你標記了一些。\n\n最後一個任務需要釣魚。我在地圖上標記了訓練師。\n\n瞧 - 雙重驚喜。雙持和熔岩鞭笞！！"
-
-st.shaman.earthShield = "在黑 Fathom 深淵中殺死阿夸尼斯男爵。\n\n將地球儀帶到佐拉姆海岸的吉努·聖克里亞。\n\n注意，他的任務之一需要藥劑。這些不是怪物掉落的。你可以在拍賣行上購買或製作它們。"
-
-st.shaman.runeFury = "只需殺死原始異常體。\n\n它在石爪山脈的焦灼山谷中游蕩。\n\n它在三種元素形態之間振盪。精英怪物，但如果你根據它的元素形態調整你的元素攻擊，你就可以單獨擊敗它。掉落並學習符文。掉落率很高。"
-
-st.shaman.sulfurousIcon = "前往雷霆崖西南部的貝爾敦挖掘場，在那裡掠奪貝爾敦矮人以獲得一個儲物櫃鑰匙。箱子裡面是你的符文。很容易。\n\n如果你喜歡痛苦，那就去杜洛塔爾東海岸，與剃刀嶺隔海相望。冰凍的馬庫拉需要五個同時存在的火焰減益效果。由於法師和術士也會去那裡，所以你可能會很幸運。\n\n像往常一樣，裝備神像。按照說明進行。用地震術殺死 10 個怪物。點擊並學習。勝利者！"
-
-st.shaman.tempestIcon = "選擇銀松森林的蒼白者格里姆森或在貧瘠之地刷半人馬以獲得箱子的鑰匙。本質上是一個 Hobson 的選擇。\n\n我猜是貧瘠之地的科爾卡箱子。\n\n獲得掉落物後裝備。然後殺死 10 個怪物，確保你使用了自然、火焰和冰霜攻擊。"
+st.shaman.dyadicIcon = "巨魔/獸人：在試煉谷與希克里克會面，\n牛頭人：在納拉奇營地與米拉·晨行者會面。\n\n"
+			.."巨魔/獸人留在他們的起始區域進行任務，\n但牛頭人需要在荊棘葉峽谷擊殺剛鬃薩滿祭司。\n\n裝備你的二元偶像。注意工具提示。同樣的\n"
+			.."任務怪物在這裡也可以。在十層時點擊你裝備的偶像。完成任務以獲得豐厚的戰利品"
+st.shaman.earthenRune = "有兩種方法可以獲得它。首先是\n在貧瘠之地刷沙漠幻象。掉落率和\n"
+			.."生成率都很高。牧師也會在那裡刷怪。15 級怪物。\n\n"
+			.."或者在銀松森林刷腐皮秘術師。更容易擊殺的怪物，但\n"
+			.."掉落率要低得多，你需要\n擊殺第二個生成的怪物。\n\n去貧瘠之地獲取吧！\n\n"
+			.."除此之外，它是一個直接掉落，\n學習符文沒有額外的任務"
+st.shaman.galvanicIcon = "前往莫高雷或杜隆塔爾，尋找\n並聆聽雷擊。\n\n"
+			.."莫高雷的位置靠近貧瘠之地。\n\n跑到一個“雷電灌注的圖騰”並\n"
+			.."點擊並裝備。\n\n"
+			.."用閃電箭擊殺 10 個怪物。\n\n點擊插槽"
+st.shaman.kajaricIcon = "在希爾斯布萊德丘陵東南角的農場刷薩滿祭司豺狼人時，\n"
+			.."請避開泥 snout 豺狼人，因為它們\n不會掉落卡加里克偶像。只有泥 snout\n薩滿祭司才會掉落。\n\n"
+			.."裝備（掉落率低）卡加里克偶像\n\n前往奧格瑞瑪並進入怒焰\n"
+			.."裂谷。小心地在熔岩中玩耍，雖然\n會有點脆"
+st.shaman.lavaLash = "在雷霆崖的主要台地上與\n波爾頓·暗影圖騰會面。他是潛行者訓練師，\n"
+			.."被派來應付你，一個小小的薩滿祭司。\n\n他會有三個任務，在第一個任務中\n"
+			.."你會收到一個潛行者風格的“偽裝”。\n\n海弗尤姆炸藥是從\n"
+			.."標記的風險投資公司礦井中的手推車中獲得的。\n\n他很快就會讓你明白，潛行者的\n"
+			.."東西不適合你。好吧。\n\n風怒錐很難看到，\n但我為你標記了一些。\n\n"
+			.."最後一個任務需要釣魚。我已經標記了\n地圖上的訓練師。\n\n"
+			.."瞧 - 一個雙重打擊。雙持和\n熔岩猛擊！！！"
+st.shaman.earthShield = "在黑海岸深淵擊殺男爵阿奎尼斯\n\n將地球儀帶給佐拉姆海岸的吉努·聖克里亞。\n\n"
+			.."請注意，他的任務之一需要靈藥。這些\n不是怪物掉落的。你可以在拍賣行購買或製作它們"
+st.shaman.runeFury = "只需擊殺原始異常體。\n\n在石爪山脈的焦炭谷遊蕩。\n"
+			.."在三種元素形態之間轉換。精英怪物，但如果\n"
+			.."你根據它的元素形態調整你的元素攻擊，\n那麼你可以單獨擊殺它。掉落並學習符文。掉落率很高"
+st.shaman.sulfurousIcon = "前往雷霆崖西南的巴爾丹挖掘場，\n在那裡掠奪巴爾丹矮人以獲得\n"
+			.."儲物櫃鑰匙。盒子裡就是你的符文。很容易。\n\n如果你喜歡痛苦，那就去\n"
+			.."杜隆塔爾東海岸，與剃刀嶺隔海相望。冰凍的\n瑪克魯拉需要五個同時存在的火系減益效果。\n"
+			.."由於法師和術士也會去那裡，所以你\n可能會很幸運。\n\n"
+			.."像往常一樣，裝備偶像。按照說明操作。\n用大地震擊擊殺 10 個怪物。點擊並學習。贏家！"
+st.shaman.tempestIcon = "選擇銀松森林的蒼白的格里姆森\n或在貧瘠之地刷半人馬以獲得\n"
+			.."箱子的鑰匙。本質上是一個霍布森的選擇。\n\n我猜是貧瘠之地的科爾卡箱子。\n\n"
+			.."獲得掉落後裝備。然後擊殺 10 個怪物，\n確保你使用了自然、火焰、冰霜攻擊"
 -- Shaman Phase 2
-st.shaman.decoyTotem = "在千針石林刷取 10 根堅固的鳥身女妖羽毛和 3 個雲端翔龍尖牙。\n\n從貿易供應商那裡購買一根絲線。\n\n在風靈祭壇將它們組合在一起。你現在擁有一個 30 秒的增益效果“風靈祭品”。\n\n立即從台地上跳下！檢查你的包包！"
-
-st.shaman.fireNova = "在淒涼之地雷霆之斧要塞的北邊，你會找到火焰先知杜貝倫。殺死他。拾取腐化的火焰圖騰。\n\n前往奧格瑪，與智慧谷的佐爾·孤木交談。現在前往淒涼之地的瑪拉頓。\n\n你不需要進入地牢。你將從紫色/粉紅色/左側前廳和橙色/紅色/右側前廳拾取塞拉德拉斯之淚。眼淚是藍色的，隱藏在紫色/橙色水晶結構中。\n\n最好使用轉生術（30 級）/屍體奔跑。\n\n返回佐爾·孤木。然後拜訪雷霆崖長者高地的哈穆爾·符文圖騰，然後在塔爾的幫助下飛往月光林地。\n\n與守護者雷姆洛斯交談，按照指示，盒子 -> 小瓶 -> 軟膏 -> 淨化 -> 豐厚的戰利品！"
-
-st.shaman.maelstrom = "擊敗 RFK 的最終 Boss，查爾加·剃刀側翼（33 級精英），並獲得一個筆記。這將開始“破爛的筆記”。\n\n交還給自由風哨站的勞·懸崖奔跑者，並接受“元素援助”。\n\n在奧特蘭克山脈找到風暴觀察者巴斯拉，並祈禱。你會獲得三個“力量...”任務。\n\n這三個任務需要在淒涼之地、荒蕪之地和塵泥沼澤刷怪。請參閱地圖以獲取信息。\n\n返回巴斯拉，同時帶上一個水晶小瓶。他會提供兩個後續任務，讓你回到勞那裡。\n\n你會與尼絲交談，進行一次特殊的飛行，殺死一隻豪豬，然後殺死一個肆虐風暴（38 級精英）。回到勞那裡。\n\n還有一個任務，是的，去巴斯拉那裡。終於，你的符文！"
+st.shaman.decoyTotem = "在千針石林刷 10 根強效鷹身人羽毛和\n3 個雲端翔龍尖牙。\n\n"
+			.."從貿易供應商那裡購買一根絲線。\n\n在風靈祭壇將它們組合\n"
+			.."在一起。你現在有一個 30 秒的增益效果\n“風靈祭品”。\n\n"
+			.."立即從台地上跳下去！檢查你的背包！"
+st.shaman.fireNova = "在淒涼之地雷霆之斧要塞的\n北部，你會找到烈焰先知杜貝倫。殺死。掠奪\n"
+			.."腐化的火焰圖騰。\n\n前往奧格瑞瑪並與智慧谷的\n"
+			.."佐爾·孤木交談。現在前往淒涼之地的瑪拉頓。\n\n你不需要進入地下城。你將\n"
+			.."從紫色/\n粉色/左側前廳和橙色/紅色/右側\n"
+			.."前廳掠奪塞雷布拉斯之淚。眼淚是藍色的，隱藏在\n紫色/橙色水晶結構中。\n\n"
+			.."最好使用轉生 (30 級) / 屍體跑路。\n\n返回佐爾·孤木。然後拜訪雷霆崖\n"
+			.."長者高地的哈缪爾·符文圖騰，然後在塔爾的幫助下飛往月光林地。\n\n"
+			.."與守護者雷姆洛斯交談，按照指示，\n盒子 -> 小瓶 -> 藥膏 -> 淨化 -> 豐厚的戰利品！"
+st.shaman.maelstrom = "擊敗 RFK 的最終 Boss 查爾加·剃刀側翼（33 級精英）\n並獲得一張紙條。這開始了“破損的紙條”。\n\n"
+			.."將其交給自由風哨站的勞·懸崖奔跑者並接受\n“元素援助”。\n\n"
+			.."在奧特蘭克山脈找到巴斯拉·風之守望者並\n祈禱。你會得到三個“力量...”任務。\n\n"
+			.."這三個任務需要在淒涼之地、荒蕪之地\n和塵泥沼澤刷怪。請查看地圖以獲取信息\n\n"
+			.."返回巴斯拉，同時帶上一個水晶小瓶。他\n提供兩個後續任務，讓你回到勞。\n\n"
+			.."你將與尼絲交談並進行一次特殊的飛行，殺死一個\n野豬人，然後是一個肆虐的暴風雨（38 級精英）。回到勞。\n\n"
+			.."還有一個任務，是的，差事到巴斯拉。最後，你的符文！"
 st.shaman.maelstromQ = { 79358, 79360, 79362, 79363, 79361, 79364, 79365, 79366, 79442 }
-st.shaman.maelstromQN = { "破爛的筆記", "元素的援助", "大地之力", "水之力", "風之力", 
-			"一個簡單的容器", "乘风破浪", "暴风雨前的平静", "迎頭趕上" }
-st.shaman.powerSurge = "殺死巨槌食人魔，直到掉落一個食人魔闪电棒\n將它插在附近山頂的軟土中。對它施放闪电箭 10\n次 -  塔姆卡爾（37 級精英）將會出現。\n\n"
-			.."注意：塔姆卡爾在 30 秒后會自動死亡，所以\n專注于治療他所有的闪电箭。\n\n"
-			.."确保你標記了！也就是說，至少擊中一次。拾取！"
-st.shaman.spiritAlpha = "從飛行管理员那里，走北邊的\n橋，然后走過下層的橋，\n"
-			.."這座橋會轉向哨所。\n\n向下看，你會看到箱子。跳\n"
-			.."下去。幽灵狼可能会有用。\n\n符文在箱子里" 
+st.shaman.maelstromQN = { "破損的紙條", "元素援助", "大地之力", "水之力", "風之力",
+			"一個簡單的容器", "風之翼", "暴風雨前的平靜", "追趕" }
+st.shaman.powerSurge = "擊殺巨石拳食人魔，直到掉落一個食人魔避雷\n針。將其插在附近山顶的\n"
+			.."軟土中。對其施放 10\n次閃電箭 - 塔姆卡爾（37 級精英）將會生成。\n\n"
+			.."注意：塔姆卡爾在 30 秒後會自動死亡，所以\n專注於治療他所有的閃電箭。\n\n"
+			.."確保你進行標記！也就是說，至少擊中一次。掠奪！"
+st.shaman.spiritAlpha = "從飛行管理員那裡，走北邊的\n橋，然後走過較低的橋，\n"
+			.."這座橋會轉回到哨站。\n\n往下看，你會看到箱子。跳\n"
+			.."下去。幽靈狼可能會有用。\n\n符文在箱子裡"
 -- Shaman Phase 3
 st.shaman.overcharged = "艾薩拉：農哈達爾怪物以獲得被水浸濕的\n薩滿筆記，這將開始一個任務。跑到\n"
 			.."靈石，喝下渾濁的水之精華\n（它會出現在你的背包中），與腐化的\n"
@@ -516,25 +582,72 @@ st.shaman.tidalWaves = "在標記位置的帳篷外有一個小盒子。你將�
 			.."在附近的湖泊/瀑布中，游到\n一艘沉船並掠奪舊箱子。\n\n"
 			.."別那麼快！四個閃光的元素\n將會出現（41-42 級）。準備好游走！" 
 -- Warlock Phase 1
-st.warlock.metamorphosis = "第一個任務**不需要**進入黑石深淵副本。你可以在副本外的廢墟中，從暮光教徒身上拾取索蘭魯克碎片。但你需要進入影牙城堡，從影牙黑暗靈魂身上拾取另一個碎片。\n\n（黑石深淵位於灰谷的北海岸，影牙城堡位於銀松森林的南部。）\n\n“流言四起”任務會派你前往赤脊山東北角的伊爾加拉之塔，以及黑海岸北部的阿薩拉克斯之塔。\n\n召喚儀式需要前往灰谷東部的費爾伍德峽谷。使用 10 個鮮血，你可以在附近的地獄咆哮祭壇上啟動儀式，並在站在紫色符文光環內使用吸取靈魂技能擊敗幾波惡魔。\n\n最終，神秘的旅行者會出現。\n\n回到多安那裡，接受最後的任務。恭喜你！"
-
-st.warlock.channeling = "有很多選擇。聯盟玩家最好找到格雷森·鐵爐，一個在洛克莫丹漫長道路上游走的商人。他出售惡毒派。吃了它，肚子疼之後檢查你的包包，你就是勝利者！\n\n部落玩家最好前往棘齒城西南部的荊棘祭壇，使用生命虹吸直到生命值降為零。聯盟玩家也可以來這裡。\n\n部落玩家也可以選擇銀松森林的虐待狂。你需要對他施放魯莽詛咒。\n\n聯盟和部落玩家都可以在黑海岸的阿薩拉克斯之塔，從黑暗海岸狂熱者身上獲得掉落物。\n\n另一個選擇是在西部荒野刷收割者。你將與其他玩家和法師雕文師競爭。你需要收集一個備用收割者零件（從守望者和魔像身上掉落）和一個元素核心（從沙塵暴身上掉落），製作一個原型引擎物品。將它安裝到收割者原型機中，啟動它，然後擊敗它，拾取掉落物！"
-
-st.warlock.grace = "你需要獲得一本不祥之書，它可以從以下怪物身上掉落：提瑞斯法林地阿加曼德磨坊的暗眼骨術師、杜洛塔爾回音群島的巫毒/被詛咒的巨魔（部落）、艾爾文森林碧玉礦洞前的狗頭人地卜師或石碑湖的迪菲亞盜賊巫師（聯盟）。\n\n"
-st.warlock.graceEF = "同時需要獲得豺狼人血液。好的地點包括霍格的營地（但不是霍格本人），以及石碑湖西北部，那裡很容易找到，但數量不多。\n\n也需要一個狼顎骨。石碑湖的北部或碧玉礦洞的南部最容易找到。\n\n前往暴風城西南部的被宰的羔羊旅館地下室，在召喚法陣上召喚索博茲。"
-
-st.warlock.graceDM = "同時需要獲得溫迪戈血液。溫迪戈位於卡拉諾斯下方/西部。狼顎骨很豐富。卡拉諾斯北部有很多狼，但寒脊山脈也有容易找到的。前往閃光嶺，在那裡你會找到一個召喚法陣。召喚並殺死索博茲。恭喜！"
-
-st.warlock.graceDur = "杜洛塔爾靠近奧格瑪的一些額外地點也被標記為不祥之書的掉落點。\n\n馬庫拉腿部掉落自海灘上的螃蟹。然而，頭骨位於提拉加德城堡區域。召喚儀式用的法陣位於主回音群島的東南角。召喚並殺死索博茲！"
-
-st.warlock.graceTG = "不祥之書從阿加曼德的暗眼骨術師身上掉落。豺狼人血液從加倫的鬼屋的腐皮豺狼人身上掉落。\n\n獵犬顎骨（不是你在網上看到的狼）隨處可見，但我在地圖上標記了一些位於阿加曼德/加倫區域之間的位置。\n\n當需要召喚索博茲時，前往幽暗城下水道入口。法陣位於大約一半的位置。召喚。殺死。恭喜！"
-
-st.warlock.firesWake = "從在南海鎮和塔倫米爾之間游走的齊克希爾那裡購買炸藥。\n\n然後前往敦霍爾德城堡。穿過橋，沿著小路前進，左轉，然後進入舊堡壘。向右看，有一堆瓦礫。\n\n站在它上面！！！你剛剛花了 1 個金幣！使用你的炸藥。\n\n從儲物櫃中拾取你的符文。快點！任何混蛋都可以偷走它！5 金幣！！！\n\n雕刻它。輕鬆獲勝，雞肉晚餐！"
-st.warlock.shadowbolts = "部落玩家只需前往貧瘠之地污泥沼澤的盧格維澤爾主管，就在奧格瑪附近。使用你的吸取靈魂。拿走你新的貪婪之魂，並在附近的飢餓神像上使用。恭喜！\n\n或者前往銀松森林，從 Ravenclaw 怪物身上獲得一個折磨的靈魂。獲得後，你必須首先使用生命分流。現在使用你的折磨的靈魂。殺死幽靈。勝利！\n\n聯盟玩家如果在黑海岸做一個特定的任務，可能會自動獲得符文。我已經標記了位置和任務狀態。\n\n聯盟玩家最好前往洛克莫丹的鐵環挖掘場。你會在東南角看到惡魔遺骸。用暗影法術攻擊它。殺死生成的怪物！\n\n或者，沿著西部荒野的南部海岸尋找老 Murk-Eye。使用你的吸取靈魂並獲得一個海洋之魂。前往海岸上的海洋神像。對它使用你的海洋之魂。恭喜！\n\n（我懷疑部落玩家也可以來這裡）\n\n（我認為聯盟玩家可以做兩個部落任務！）"
-
-st.warlock.tactics = "部落玩家前往提瑞斯法林地的一個死去的教徒。在湖的東邊，靠近通往血色修道院的路。\n\n聯盟玩家則在艾爾文森林碧玉礦洞盡頭的水晶湖以北找到死去的教徒。\n\n拾取死去的教徒。前往布瑞爾絞刑架之末樓上的魯珀特·博赫（部落）或金郡獅王之傲旅館樓下的馬克西米利安·克羅（聯盟）。\n\n你需要返回死去的教徒。\n\n接下來，你將有 10 分鐘的時間前往幽暗城法師區的卡倫丁·哈爾加（部落）或暴風城法師區被宰的羔羊旅館地下室的黑暗束縛者加金（聯盟）。\n\n享受你的獎勵！"
-
-st.warlock.soulSiphon = "聯盟玩家必須選擇丹莫羅東南角的鐵環營地的貝爾德隊長或艾爾文森林的霍格。\n\n部落玩家同樣會選擇奧格瑪外的骷髏岩洞穴中的加茲烏茲，或者提瑞斯法林地加倫鬼屋的房子裡的蛆眼。\n\n你的目標是吸取並獲得一個污染的靈魂碎片。\n\n你還需要從任何生物身上獲得一個純淨的靈魂碎片。\n\n將兩個碎片帶到卡拉諾斯旅館以南的加克利克·虛空扭曲者，或者如果你是聯盟，則帶到金郡獅王之傲旅館的達米安·凱恩。\n\n部落玩家將前往剃刀嶺兵營的達馬克·血嚎或幽暗城法師區的丹頓·布萊克威。\n\n你會收到你的靈魂虹吸符文！"
+st.warlock.metamorphosis = "第一個任務不需要你進入\nBFD 團隊副本。你可以從團隊副本外的\n廢墟中的暮光教徒身上掠奪索蘭魯克碎片。你需要進入 SFK 以從暗影之牙黑暗靈魂身上掠奪另一個\n"
+			.."碎片。\n\n（BFD 位於灰谷的北海岸，\nSFK 位於銀松森林南部）\n\n“流言四起”會把你送到\n"
+			.."赤脊山脈最東北角的伊爾加拉之塔和\n黑海岸最北端的阿爾薩拉克斯之塔。\n\n通過前往灰谷最東端的魔焰\n"
+			.."峽谷可以解決召喚問題。有了 10 個\n血液，你可以在站在紫色符文光環內\n"
+			.."使用吸取靈魂的同時激活附近的地獄咆哮祭壇並擊敗幾波惡魔。\n\n"
+			.."最終神秘的旅行者會出現。\n\n回到多安那裡，接受最後的任務。獲利！"
+st.warlock.channeling = "有很多選擇。對於聯盟來說，最好\n找到格雷森·鐵爐，一個\n"
+			.."在洛克莫丹漫長的道路上遊蕩的商人。他出售一個惡意的餡餅。\n"
+			.."吃掉它，肚子疼，然後檢查\n你的背包，你贏了！\n\n部落最好去棘齒城\n"
+			.."西南方的荊棘祭壇，\n使用生命通道直到生命值歸零。聯盟也可以來這裡 :o\n\n"
+			.."部落還有銀松森林的虐待狂\n作為一個選擇。你需要\n施放魯莽詛咒。\n\n"
+			.."聯盟/部落也可以從\n黑海岸阿爾薩拉克斯之塔的\n暗灘狂熱者身上獲得掉落。\n\n"
+			.."另一個選擇是在西部荒野刷收割者。你\n要與普通的任務者和法師雕刻師\n"
+			.."競爭。你將把備用收割者\n零件（來自守望者和魔像）和\n塵魔的元素核心組合成\n"
+			.."一個原型引擎物品。將其安裝\n到收割者原型中。這會激活它。擊敗它。掠奪它！"
+st.warlock.grace = "你需要從以下怪物身上獲得一個不祥之書的掉落：\n提瑞斯法林地阿加曼德磨坊的暗眼骨法師或\n"
+			.."杜隆塔爾回音群島的巫毒/被詛咒的巨魔（部落）或艾爾文森林\n"
+			.."碧玉礦洞前的狗頭人地卜師\n或石碑湖的迪菲亞盜賊\n巫師（聯盟）。\n\n"
+st.warlock.graceEF = "還要獲得豺狼人血液。好的地點是\n霍格的營地，但不是霍格，石碑湖\n"
+			.."西北方向很容易，但數量不多。\n\n還有一個狼顎骨。石碑湖\n"
+			.."北部或碧玉礦洞南部最容易。\n\n去暴風城\n"
+			.."被屠殺的羔羊旅館地下室，在召喚法陣上召喚索博茲"
+st.warlock.graceDM = "還要獲得溫迪戈血液。溫迪戈位於\n卡拉諾斯下方/西部。狼顎骨\n"
+			.."很豐富。卡拉諾斯北部\n有很多狼，但冷脊山脈也有很容易的。去\n"
+			.."微光嶺，在那裡你會找到一個召喚\n法陣。召喚並殺死索博茲。恭喜！"
+st.warlock.graceDur = "一些靠近\n奧格瑞瑪的杜隆塔爾地點也被標記為不祥之\n"
+			.."書的掉落點。\n\n瑪克魯拉腿是從沿海\n的螃蟹身上掉落的。然而，頭骨位於\n"
+			.."提拉加德城堡區域。儀式的召喚法陣位於\n"
+			.."回音群島主島的東南角。召喚並殺死索博茲！"
+st.warlock.graceTG = "不祥之書從阿加曼德的暗眼\n骨法師身上掉落。豺狼人血液從\n"
+			.."加倫鬼屋的腐皮豺狼人身上掉落。\n\n獵犬顎骨（不是你在網上看到的\n"
+			.."狼）到處都是，但我已經放了幾個\n在阿加曼德/加倫\n區域之間的標記。\n\n"
+			.."當需要召喚索博茲時，去\n幽暗城下水道入口。法陣位於\n"
+			.."大約一半的地方。召喚。殺死。恭喜！"
+st.warlock.firesWake = "從在南海鎮和塔倫米爾之間遊蕩的\n齊克希爾那裡購買炸藥。\n\n"
+			.."然後前往敦霍爾德城堡。穿過\n橋並沿著小路向上走，然後\n"
+			.."左轉，然後進入舊堡壘。向右看，有一堆\n瓦礫。\n\n"
+			.."站在上面！！！你剛花了 1\n%$@%$ 金幣！使用你的炸藥。\n\n"
+			.."從儲物櫃中掠奪你的符文。\n快點！任何混蛋都可以偷走它！5 金幣！！！\n\n"
+			.."雕刻它。輕鬆獲勝，雞肉晚餐！"
+st.warlock.shadowbolts = "部落只需要去貧瘠之地污泥沼澤的\n監工盧格維茲爾那裡，就在\n"
+			.."奧格瑞瑪附近。使用你的吸取靈魂。拿走\n你新獲得的貪婪之魂，並用於附近的\n飢餓的偶像。恭喜！\n\n"
+			.."或者去銀松森林，\n從 Ravenclaw 怪物身上獲得一個折磨的靈魂。\n"
+			.."一旦獲得，你必須首先使用生命分流。現在\n使用你的折磨的靈魂。殺死幽靈。贏了！\n\n"
+			.."聯盟如果\n在黑海岸執行某個任務，可能會自動獲得符文。\n"
+			.."我已經標記了位置和任務狀態。\n\n聯盟最好去洛克莫丹的鐵環挖掘\n"
+			.."場。你會在東南角看到惡魔\n遺骸。用暗影法術攻擊它，\n"
+			.."殺死生成的怪物！\n\n或者，沿著西部荒野的\n"
+			.."南部海岸尋找老墨眼。使用你的吸取靈魂\n並獲得一個海洋之魂。去海岸上的\n"
+			.."海洋偶像。對其使用你的海洋之魂。恭喜！\n\n（我懷疑部落也可以來這裡）\n"
+			.."(我認為聯盟可以做部落的兩個任務！)"
+st.warlock.tactics = "部落去提瑞斯法林地的一個死去的教徒那裡。\n在湖的東邊，靠近通往血色修道院的\n"
+			.."路。\n\n聯盟則在艾爾文森林\n水晶湖以北，碧玉礦洞\n"
+			.."盡頭找到死去的教徒。\n\n掠奪死去的教徒。去布瑞爾絞刑場\n"
+			.."樓上的魯伯特·博克（部落）或\n"
+			.."金海岸獅王之傲旅館樓下的\n馬克西米利安·克勞（聯盟）。\n\n你將需要返回\n"
+			.."死去的教徒那裡。\n\n接下來你將有 10 分鐘的時間到達\n幽暗城法師區的\n"
+			.."卡倫丁·哈爾加（部落）或暴風城法師區\n"
+			.."被屠殺的羔羊旅館地下室的\n黑暗束縛者加金（聯盟）。\n\n享受你的獎勵！"
+st.warlock.soulSiphon = "聯盟必須選擇丹莫羅\n最東南端的鐵環營地的貝爾德隊長或\n"
+			.."艾爾文森林的霍格。\n\n部落同樣會選擇奧格瑞瑪外的\n"
+			.."骷髏石洞穴的加祖斯，或者\n提瑞斯法林地加倫鬼屋的\n蛆眼。\n\n"
+			.."你的目標是吸取並獲得一個\n被污染的靈魂碎片。\n\n你還需要從任何生物身上\n"
+			.."獲得一個純淨的靈魂碎片。\n\n如果你們是聯盟，將兩個碎片帶到卡拉諾斯\n旅館南部的加克里克·虛空扭曲者或金海岸\n"
+			.."獅王之傲旅館的達米安·凱恩。\n\n部落將尋找剃刀嶺\n"
+			.."兵營的達馬克·血嚎或幽暗城法師區的\n丹頓·布萊克威。\n\n你將獲得你的靈魂虹吸符文！"
 -- Warlock Phase 2
 st.warlock.dance = "在奧特蘭克山脈、淒涼之地、荊棘谷或\n"
 			.."千針石林找到一具魯莽術士的屍體，並拾取一块硫磺雕刻。\n\n現在對自己使用地獄烈焰（30 級）。有隨機\n"
@@ -561,45 +674,59 @@ st.warlock.pandemic = "在一個死去的\n患病的恐怖圖騰薩滿附近找�
 
 -- Warrior Phase 1
 st.warrior.bloodFrenzy = "只是一場友好的決鬥。所以去打敗他吧！"
-
-st.warrior.consumedRage = "位於濕地塞爾根岩洞的後方（當然）。25 級，但不是特別難。獵人和戰士（聯盟/部落）"
-
-st.warrior.devastate = "一路上你會收到以下戰利品。每個 NPC 需要三個物品。你可以單獨或一起交還。\n\n物品掉落在與 NPC 相同的區域。部落 NPC 之間有一點重疊。\n\nNPC 和位置如下：\n* 朱尼·鋼鐵通行證，卡拉諾斯；* 維多利亞·伍茲，暴風城；* 德爾溫娜，達納蘇斯；* 瓦希·碎骨者，剃刀嶺；* 瓦特亞·木材蹄，血蹄村；* 多拉克·格雷夫斯，幽暗城。\n\n"
-
-st.warrior.devastateDel = "德爾溫娜需要一個被砍下的老虎頭、被砍下的貓頭鷹頭和被砍下的蜘蛛頭。所有這些都很豐富，特別是在多拉納爾東南部的星風村地區。避開神諭林地，因為那裡有網木蜘蛛。其他怪物被命名為“劍齒”和“尖嘯”。\n\n地圖上沒有標記任何一個。太多了！"
-
-st.warrior.devastateDor = "多拉克需要一個被砍下的蝙蝠頭，來自提瑞斯法林地各處的無數黃昏蝙蝠（阿加曼德磨坊除外），地圖上沒有標記；一個被砍下的豺狼人頭，來自加倫鬼屋南部和那裡的任何腐皮豺狼人；以及一個被砍下的魚人頭，來自海岸上的任何邪惡鰭魚人。"
-
-st.warrior.devastateJunni = "朱尼需要：來自東南角岩石下巴怪物的原始穴居人心臟；被砍下的巨魔頭，來自西南角的霜鬃怪物（大部分）；來自溫迪戈洞穴的溫迪戈的被砍下的溫迪戈爪子。"
-
-st.warrior.devastateVah = "瓦希需要一個來自南部海岸的被砍下的半人馬頭；一個來自奧格瑪/剃刀嶺之間的塵風鳥身女妖飛地的被砍下的鳥身女妖頭；以及來自剃刀嶺以西的剃刀沼澤野豬的被砍下的野豬頭。"
-
-st.warrior.devastateVat = "瓦特亞需要一個來自東北部剛毛野豬入侵者的被砍下的野豬頭；一個來自莫高雷北部邊緣的鳥身女妖的被砍下的鳥身女妖頭；以及一個來自血蹄村西部和南部的白鬃豺狼人的被砍下的豺狼人頭。"
-st.warrior.devastateVik = "維多利亞需要：來自任何礦井附近的穴居人的被砍下的狗頭人頭；來自水晶湖的被砍下的魚人頭；來自豺狼人的被砍下的豺狼人頭， 在霍格附近有很多。"
-
-st.warrior.endlessRage = "聯盟可以選擇追捕西部荒野南部海岸的老Murk-eye；與洛克莫丹東北角的精英食人魔戰鬥，或者擊敗你任務中心的Sedorax 女士。\n\n部落需要從十字路 口旅館旁grab 一個容易看到的旗幟，然後挑戰北望堡的Stonebrew 中尉，或者殺死銀松森林Skittering 黑暗洞穴中的一個怪物。\n\n做任何方便的事。"
-
-st.warrior.frenziedAssault = "與以下其中一位交談：\n薩姆加，奧格瑪的飛龍；\n奈塔莉·驕傲之風，雷霆崖的精神高地；\n"
-            .."潘妮·霍金斯，提瑞斯法林地布瑞爾旅館 (部落) 或\n布魯克·大鬍子，鐵爐堡的旅館老闆，莉芙\n"
-            .."布拉德福德，暴風城的公園；旅館老闆\n泰達希爾多蘭納爾的凱爾達米爾 (聯盟)\n\n"
-            .."他們會要求你彈飛某人。簡單！"
-st.warrior.furiousThunder = "艾爾文森林的霍格 (A/H)。\n\n"
-            .."艾丹·咆哮者、菲奧迪、老冰鬍、瓦加什和\n維杰雷克，丹莫羅；金牙、粗魯的迅齒，\n"
-            .."艾爾文森林； gnarlpine 儲物箱，泰達希爾 (聯盟)\n\n死亡剝皮者、閃電獸皮生物，杜洛塔；\n"
-            .."邪惡編織者斯科恩（稀有），加茲烏茲，杜洛塔骷髏岩洞穴；薩科斯，杜洛塔試煉谷；\n"
-            .."阿拉切生物，潛伏者，尖牙矛，耙子，\n哈特拉什修女，莫高雷；吉爾加，提瑞斯法 (部落)。\n\n呼！掠奪和學習！"
-st.warrior.harenTip = "當任何莫高雷食人魔掉落戰鬥圖騰時，\n用它來挑戰在湖附近奔跑的哈倫·迅蹄，\n"
-            .."進行決鬥"
-st.warrior.quickStrike = "部落應該去棘齒城的基爾克斯，買一個\n魚叉，然後游出去用魚叉\n"
-            .."網住布魯茲。\n\n聯盟的選擇包括，同樣，用粗糙的魚叉\n"
-            .."擊敗帕克斯諾茲。位置在\n黑海岸馬西斯特拉廢墟以西\n"
-            .."但首先從死海龜的頭上掠奪。\n\n"
-            .."聯盟還可以從西部荒野的任何\n迪菲亞暴徒那裡獲得魚鰓草，用它來殺死\n"
-            .."南海岸的魚人，以獲得大海的靈魂，\n然後去美杜莎雕像，然後殺死\n下一個怪物。\n\n"
-            .."更簡單的是洛克莫丹塞爾薩瑪爾以西的穴居人。\n他們會掉落一個晶洞。最好看看\n"
-            .."我提供的工具提示"
-
-st.warrior.ragingBlow = "需要取得三個物品。頭盔位於銀松森林南部的影牙城堡，這是一個22-30 級的地牢。它在第四個Boss 指揮官斯普林維爾身後的長凳 上。\n\n「黑鐵企業家」出售長矛。他位於濕地的Dun Modr，就在阿拉希高地邊界附近。\n\n盾牌很方便地掛在牆上，在赤脊山脈Stonewatch 城堡 的Gath'ilzogg 後面。部落應該在聯盟標記怪物後復活，哈哈。"
+st.warrior.consumedRage = "在濕地的塞爾根岩石\n洞穴的後面（當然）。25 級，但不是\n"
+			.."特別難。獵人和戰士（聯盟/部落）"
+st.warrior.devastate = "沿途你將獲得以下戰利品。\n每個 NPC 需要三件物品。你可以單獨\n"
+			.."或一起交任務。\n\n這些物品掉落在與 NPC 相同的區域。\n"
+			.."部落 NPC 之間有一點重疊。\n\nNPC 和位置如下：\n"
+			.."* 朱妮·鋼鐵通行證，卡拉諾斯；* 維多利亞·伍茲，暴風城；\n* 德爾溫娜，達納蘇斯；* 瓦希·碎骨者，剃刀嶺；\n"
+			.."* 瓦泰亞·木材蹄，血蹄村；* 多拉克·格雷夫斯，幽暗城。\n\n"
+st.warrior.devastateDel = "德爾溫娜需要一個被砍下的虎頭、被砍下的貓頭鷹\n頭和被砍下的蜘蛛頭。所有這些都很多，\n"
+			.."尤其是在多拉納爾東南的星風村地區。避開先知林地的網林蜘蛛。\n其他怪物被命名為“劍齒”和“夜梟”。\n\n地圖上沒有標記任何一個。太多了！"
+st.warrior.devastateDor = "多拉克需要一個被砍下的蝙蝠頭，來自\n提瑞斯法林地\n"
+			.."(除了阿加曼德磨坊) 到處都是的無數暮光蝙蝠，地圖上沒有標記；一個被砍下的豺狼人頭，來自加倫鬼屋\n"
+			.."南部和那裡的任何腐皮；還有一個被砍下的魚人頭，來自海岸線上的任何邪惡之鰭"
+st.warrior.devastateJunni = "朱妮需要：來自最東南端的石顎怪物的原始穴居人心臟；被砍下的巨魔頭，\n"
+			.."來自最西南端的霜鬃怪物（大部分）；來自他們洞穴中的溫迪戈的被砍下的溫迪戈爪子"
+st.warrior.devastateVah = "瓦希需要一個來自\n南部海岸的被砍下的半人馬頭；一個來自\n"
+			.."奧格瑞瑪/剃刀嶺之間的塵風鷹身人飛地的被砍下的鷹身人頭；以及來自剃刀嶺\n"
+			.."西部的剃刀沼澤野豬人的被砍下的野豬人頭"
+st.warrior.devastateVat = "瓦泰亞需要一個來自\n東北部剛鬃入侵者的被砍下的野豬人頭；一個來自\n"
+			.."莫高雷北部邊緣附近的鷹身人的被砍下的鷹身人頭；以及一個來自血蹄村\n"
+			.."西部和南部的蒼白鬃毛的被砍下的豺狼人頭"
+st.warrior.devastateVik = "維多利亞需要：來自兩個礦井附近的穴居人的被砍下的狗頭人頭；來自\n"
+			.."水晶湖的被砍下的魚人頭；來自豺狼人的被砍下的豺狼人頭，\n"
+			.."在霍格區域附近有很多"
+st.warrior.endlessRage = "聯盟可以選擇追捕\n西部荒野南部海岸的老墨眼；\n"
+			.."與洛克莫丹東北角的精英食人魔戰鬥，或擊敗\n"
+			.."你任務中心的塞多拉克斯夫人。\n\n部落需要從十字路口旅館\n"
+			.."旁邊拿到一個很容易看到的\n旗幟，然後挑戰北望堡的\n石釀中尉，或者在\n"
+			.."銀松森林的陰森恐怖的洞穴中擊殺\n一個怪物。\n\n做任何方便的事"
+st.warrior.frenziedAssault = "與以下其中一位交談：贊佳，龍穴，奧格瑞瑪；\n納塔莉·驕傲之風，精神高地，雷霆崖；\n"
+			.."彭妮·霍金斯，布瑞爾旅館，提瑞斯法林地（部落）或\n布魯克·大鬍子，鐵爐堡旅館老闆，莉芙\n"
+			.."布拉德福德，公園，暴風城；旅館老闆\n泰達希爾多拉納爾的凱爾達米爾（聯盟）\n\n"
+			.."他們會讓你彈飛某人。很容易！"
+st.warrior.furiousThunder = "艾爾文森林的霍格（聯盟/部落）。\n\n"
+			.."咆哮者埃丹、菲奧迪、老冰鬚、瓦加什和\n維傑雷克，丹莫羅；金牙、粗魯的迅猛咬，\n"
+			.."艾爾文森林；gnarlpine 儲物箱，泰達希爾（聯盟）\n\n剝皮者、閃電皮怪物，杜隆塔爾；\n"
+			.."邪惡編織者·斯科恩（稀有），加祖斯，骷髏石洞穴，\n杜隆塔爾；薩科斯，試煉谷，杜隆塔爾；\n"
+			.."阿拉奇亞怪物，潛伏鬃毛、 snagglespear、耙子、\n仇恨修女，莫高雷；吉爾加，提瑞斯法林地（部落）。\n\n呼！掠奪並學習！"
+st.warrior.harenTip = "當任何莫格羅什食人魔掉落戰鬥圖騰時，\n用它來挑戰在湖附近奔跑的\n"
+			.."哈倫·迅蹄，進行決鬥"
+st.warrior.quickStrike = "部落應該去棘齒城的基爾克斯，購買一個\n魚叉，然後游出去用魚叉\n"
+			.."捕捉布魯茲。\n\n同樣，聯盟的選擇包括用\n"
+			.."粗糙的魚叉擊敗帕克斯諾茲。地點位於\n黑海岸的瑪斯拉廢墟以西，\n"
+			.."但首先要從一隻死海龜的頭上掠奪。\n\n"
+			.."聯盟還可以從西部荒野的任何\n迪菲亞怪物身上獲得一個魚鰓殺手，用它來殺死\n"
+			.."南海岸的魚人以獲得一個海洋之魂，\n然後去美杜莎雕像，然後殺死下一個怪物。\n\n"
+			.."更簡單的是洛克莫丹塞爾薩瑪以西的\n穴居人。他們會掉落一個晶洞。最好查看\n"
+			.."我提供的工具提示"
+st.warrior.ragingBlow = "需要尋找三件物品。頭盔可以在\n影牙城堡中找到，這是一個位於\n"
+			.."銀松森林南部的 22-30 級地下城。它在第四個 Boss \n斯普林瓦爾指揮官身後的一張長凳上。\n\n"
+			.."“黑鐵企業家”出售\n長矛。他位於濕地的\n"
+			.."丹莫德，就在阿拉希高地邊境附近。\n\n盾牌很方便地掛在牆上，\n"
+			.."在赤脊山脈的石堡中的加西爾佐格身後。部落應該在\n"
+			.."聯盟標記了怪物後復活，哈哈。"
 -- Warrior Phase 2
 st.warrior.bloodSurge = "從巨槌（阿拉希）或碎脊（奧特蘭克）怪物\n身上獲得難以辨認的食譜后，\n"
 			.."前往阿拉希高地的斯孔克。\n\n斯孔克會讓你\n在阿拉希高地、荒蕪之地、希爾斯布萊德丘陵\n"
@@ -627,31 +754,44 @@ st.allSpellG = { "Survival of the Fittest", "Lone Wolf", "Rewind Time", "Divine 
 				"Dual Wield Specialization", "Demonic Pact", "Warbringer" }
 st.allSpellACA = { "Skull Bash", "Serpent Spread", "Arcane Surge", "Beacon of Light", "Mind Sear", "Just a Flesh Wound",
 					"Healing Rain", "Everlasting Affliction", "Single-Minded Fury" }
-
-st.duskwoodCrypts = "地圖標記指示首先進入哪個地下室。\n\n在第一個地下室左轉。點擊塵封的箱子，拿起破舊的護符盒。退出。\n\n在第二個地下室右轉進入王座室。在沉睡的骨頭上使用護符盒。\n\n你剛剛喚醒了一個 25 級的巫妖。拾取掉落物！"
-
-st.frozen = "部落前往剃刀嶺以東的冰凍馬庫拉，或提瑞斯法林地布萊特沃特湖西北部的冰凍魚人。\n\n聯盟也尋找冰凍魚人，在艾爾文森林的石碑湖，或者他們會去丹莫羅戈爾巴採石場的冰凍穴居人。\n\n這些需要解凍，你需要幫助施加足夠的火焰減益效果。"
-st.grizzby = "棘齒城的格里茲比在 20 級以上時有三個任務。然後你可以購買符文。\n\n第一個任務派你前往石爪山脈。掉落率約為 2/3，或者灰谷（聯盟）。\n\n前往濕地完成第二個任務。\n\n最後一個任務是魚油。可從艾澤拉斯各地獲得。我標記了費拉拉斯、悲傷沼澤、淒涼之地和荊棘谷。所有這些地方的掉落率都超過 40%。或者，如果你很富有，可以交易或在拍賣行上購買！"
-
-st.livAndStuart = "斯圖爾特通常站在樓梯腳下。如果你還沒有和利夫·布拉德福德交談過，請先和她交談。\n\n快速重生。兩者都在未命名的旅館裡。"
-
-st.secretCoven = "在被宰的羔羊旅館地下室的“秘密”術士結社中"
-
-st.starterZoneClass = "所有位置都在你的起始區域，從你的職業訓練師那裡。你不可能錯過！目標也標記了。"
-
-st.supplyFaction = "與艾澤拉斯商業管理局（聯盟）或杜洛塔爾供應和後勤（部落）達到友好聲望。現在你可以購買符文了！\n\n（任務需要 8/9 級）"
-
-st.woundedAdventurer = "前往丹莫羅的灰熊巢穴；艾爾文森林傑羅德登陸場以東的山丘；泰達希爾神諭林地以東（聯盟）。\n\n通過莫高雷風險投資公司礦井的北出口到達壁架；杜洛塔爾森金村以西的科爾卡懸崖。\n\n點擊骨架。另一個人點擊召喚門戶。\n\n點擊靈魂以獲得戰利品。"
-
-st.zixil = "他擁有艾澤拉斯所有限量庫存物品中最廣泛的清單。最好現在就囤積！"
+st.duskwoodCrypts = "地圖標記了首先要進入哪個墓穴。\n\n在第一個墓穴中左轉。點擊塵土飛揚的\n"
+			.."箱子並抓住破舊的護符盒。退出\n\n在第二個墓穴中右轉進入王座\n"
+			.."室。對沉睡的骨頭使用護符盒。\n\n你剛剛喚醒了一個 25 級的巫妖。掠奪！"
+st.frozen = "部落前往剃刀嶺以東的冰凍瑪克魯拉\n或提瑞斯法林地\n"
+			.."光明之泉湖西北的冰凍魚人\n\n聯盟也尋找冰凍魚人，在\n"
+			.."艾爾文森林的石Cairn 湖，或者他們會去\n丹莫羅戈爾巴爾採石場的冰凍穴居人。\n\n"
+			.."這些需要解凍，你需要幫助\n施加足夠的火系減益效果"
+st.grizzby = "棘齒城的格里茲比在 20 級以上時有三個任務。\n然後你可以購買符文。\n\n"
+			.."第一個任務會把你送到石爪山脈。\n掉落率約為 2/3，或者灰谷（聯盟）。\n\n"
+			.."去濕地完成第二個任務。\n\n最後一個任務是魚油。可以從艾澤拉斯\n"
+			.."各地獲得。我標記了菲拉斯、哀嚎洞穴、\n淒涼之地和荊棘谷。所有掉落率都超過 40%。\n或者如果你很富有，那就去交易或拍賣行！"
+st.livAndStuart = "斯圖爾特通常站在樓梯腳下。如果你還沒有這樣做，請先\n與莉芙·布拉德福德交談。\n"
+			.."快速重生。兩者都在未命名的旅館"
+st.secretCoven = "在被屠殺的羔羊\n地下室的“秘密”術士集會中"
+st.starterZoneClass = "所有地點都在你的起始區域，\n來自你的職業訓練師。你不可能錯過它！\n"
+			.."目標也標記了。"
+st.supplyFaction = "與艾澤拉斯商業\n權威（聯盟）或杜隆塔爾供應和\n"
+			.."物流（部落）達到友善。你現在可以購買\n符文了！\n\n（任務需要 8/9 級）"
+st.woundedAdventurer = "去丹莫羅的灰熊巢穴；傑羅德碼頭\n以東的山丘，艾爾文森林；\n"
+			.."泰達希爾先知林地以東（聯盟）\n\n通過莫高雷風險投資公司\n礦井的北部出口到達壁架；塞恩津\n"
+			.."村以西的科爾卡峭壁，杜隆塔爾\n\n點擊骨架。另一個人\n點擊召喚傳送門。\n\n"
+			.."點擊靈魂以獲取戰利品"
+st.zixil = "他擁有艾澤拉斯\n最廣泛的限量庫存物品清單。\n最好現在就囤貨！"
 
 -- Common Phase 2
-st.amaryllis = "首先前往悲傷沼澤的阿瑪麗利斯·韋伯，在那裡你可以購買一個昆蟲學入門套件，50 銀。\n\n按任意順序，在荊棘谷納茲費里蒂伐木營地以東和東南方向捕捉一隻樹棲狼蛛；在阿拉希高地的一個穀倉或馬廄中捕捉一隻乾草象鼻蟲；在淒涼之地的科多獸骨墓地捕捉一隻食肉甲蟲。\n\n返回阿瑪麗利斯以獲得豐厚的戰利品。"
-
-st.dalaranAgent = "前往死亡之風山口的阿里登營地。它靠近悲傷沼澤的路徑。\n\n與達拉然特工交談，從她那裡獲得阿里登的印記。裝備它。現在你必須找到並殺死 7 個黑暗騎士（41 級），並拾取他們的遺物。\n\n當黑暗騎士在附近時，你會收到一個黑暗存在增益效果。\n\n區域包括：阿拉希高地、荒蕪之地、死亡之風山口、淒涼之地、暮色森林、悲傷沼澤和貧瘠之地。\n\n完成後，返回達拉然特工並交還每個“任務”。最後一個任務會獎勵你叢林之王符文。\n\n黑暗騎士的重生時間為 5 分鐘。"
-
+st.amaryllis = "首先前往哀嚎洞穴的阿瑪麗利斯·韋伯，\n在那裡你將購買一個昆蟲學入門套件，50 銀幣。\n\n"
+			.."以任何順序，在荊棘谷\n納茲費里蒂湖伐木場的東部和\n"
+			.."東南部捕捉一隻樹棲狼蛛；在阿拉希高地的\n穀倉或馬廄中捕捉一隻乾草象鼻蟲；從\n"
+			.."淒涼之地的科多獸骨骼墓地中捕捉一隻食肉蟲。\n\n返回阿瑪麗利斯以獲得豐厚的戰利品"
+st.dalaranAgent = "前往逆風小徑的阿里登營地。它\n靠近哀嚎洞穴的路徑。\n\n"
+			.."與達拉然特工交談並從她那裡獲得\n阿里登的印記。裝備它。你現在必須\n"
+			.."找到並擊殺 7 個黑暗騎士（41 級）\n並掠奪他們的遺物。\n\n"
+			.."當黑暗騎士靠近時，你會收到一個黑暗存在增益效果。\n\n"
+			.."區域是：阿拉希高地、荒蕪之地、\n逆風小徑、淒涼之地、暮色森林、哀嚎洞穴\n"
+			.."和貧瘠之地。\n\n完成後，返回達拉然特工並\n"
+			.."交出每個“任務”。最後一個任務將\n獎勵你叢林之王符文。\n\n"
+			.."黑暗騎士的重生時間為 5 分鐘"
 st.dalaranRelic = "奇怪的達拉然遺物（"
-
 st.dalaranSpeakTo = "與死亡之風山口阿里登營地的達拉然特工交談"
 st.dalaranQuest = { 80098, 80147, 80148, 80149, 80150, 80151, 80152, 80120 }
 st.dalaranQuestName = { st.dalaranRelic .."好奇的)", st.dalaranRelic .."閃閃發光的)",
@@ -959,36 +1099,34 @@ start="黑海岸北部阿塔哈卡神廟頂端" },
 ["Exorcist"] = { rune="放逐聖契", phase=1, spellID=415076, level=25, icon=12, slot=7,
 start="暮色森林南部邊界的迪菲亞怪物" },
 		-- Phase 2
-		["Sacred Shield"]={ rune="Libram of Deliverance", phase=2, spellID=412019, level=18, icon=13, slot=8,
-				start="Loot the Libram of Deliverance in Nigel's Point, Desolace" },
-		["Guarded by the Light"]={ rune="Rune of the Guardian", phase=2, spellID=415059, level=30, icon=14, slot=8,
-				start="Loot the Dormant Holy Rune in the Alterac Mountains. Later, requires a helper" },
-		["The Art of War"]={ rune="Rune of Warfare", phase=2, spellID=426157, level=30, icon=15, slot=8,
-				start="Go to a pillaged campsite in Desolace" },
-		["Enlightened Judgements"]={ rune="Rune of Piety", phase=2, spellID=426173, level=34, icon=16, slot=6, 
-				start="Farm mobs in Arathi Highlands (wetlands) for three types of beads. Purify and then combine the beads" },
-		["Infusion of Light"]={ rune="Rune of Infusions", phase=2, spellID=426065, level=40, icon=17, slot=6, start=st.dalaranSpeakTo },
-		["Sheath of Light"]={ rune="Sheath of Light", phase=2, spellID=426158, level=40, icon=18, slot=6,
-				start="Find a Broken Hammer in Mannoroc Cove in Desolace to commence a quest chain. Requires Cathedral wing access to SM" },
-		-- Phase 2 Skill Books
-		["Enhanced Blessings"]={ skillBook="Testament of Enhanced Blessings", spellID=435984, level=1, start=st.dungeonSummary },
-		-- Phase 3
-		["Improved Hammer of Wrath"]={ rune="Rune of the Hammer", phase=3, spellID=429152, level="23/37/47", icon=19, slot=9,
+		["Sacred Shield"]={ rune="解放聖典", phase=2, spellID=412019, level=18, icon=13, slot=8,
+				start="在淒涼之地的奈傑爾岬掠奪解放聖典" },
+		["Guarded by the Light"]={ rune="守護者符文", phase=2, spellID=415059, level=30, icon=14, slot=8,
+				start="在奧特蘭克山脈掠奪休眠的聖符文。之後，需要一名助手" },
+		["The Art of War"]={ rune="戰爭符文", phase=2, spellID=426157, level=30, icon=15, slot=8,
+				start="前往淒涼之地的一個被掠奪的營地" },
+		["Enlightened Judgements"]={ rune="虔誠符文", phase=2, spellID=426173, level=34, icon=16, slot=6, 
+				start="在阿拉希高地（濕地）刷怪以獲取三種珠子。淨化然後組合珠子" },
+		["Infusion of Light"]={ rune="灌注符文", phase=2, spellID=426065, level=40, icon=17, slot=6, start=st.dalaranSpeakTo },
+		["Sheath of Light"]={ rune="聖光護鞘", phase=2, spellID=426158, level=40, icon=18, slot=6,
+				start="在淒涼之地的瑪諾洛克海灣找到一把破碎的錘子，開始一個任務鏈。需要進入血色修道院大教堂側翼的權限" },
+		-- 第 2 階段技能書
+		["Enhanced Blessings"]={ skillBook="強化祝福聖典", spellID=435984, level=1, start=st.dungeonSummary },
+		-- 第 3 階段
+		["Improved Hammer of Wrath"]={ rune="錘子符文", phase=3, spellID=429152, level="23/37/47", icon=19, slot=9,
 				start=st.emeraldWardens },
-		["Wrath"]={ rune="Rune of Wrath", phase=3, spellID=429139, level=42, icon=20, slot=1,
-				start="With Sense Undead learnt, go to north of Quel'Danil Lodge, The Hinterlands, between 9pm and 3am\n"
-					.."server time. Kill a Vengeful Spirit (L45). Go to the Mystic Ward in Ironforge for the turn in" },
-		["Improved Sanctuary"]={ rune="Improved Sanctuary", phase=3, spellID=429133, level=40, icon=21, slot=1,
+		["Wrath"]={ rune="憤怒符文", phase=3, spellID=429139, level=42, icon=20, slot=1,
+				start="學習感知亡靈後，在伺服器時間晚上 9 點到凌晨 3 點之間前往辛特蘭的奎爾丹尼爾小屋北部。\n殺死一個復仇之魂 (L45)。前往鐵爐堡的神秘區交任務" },
+		["Improved Sanctuary"]={ rune="強化庇護所", phase=3, spellID=429133, level=40, icon=21, slot=1,
 				start=st.wildGodsStart },
-		["Fanaticism"]={ rune="Fanaticism", phase=3, spellID=429142, level=44, icon=22, slot=1,
-				start="Learn the Sheath of Light rune prior. Speak to Aeonas the Vindicated in the SW Cathedral. Must be L44" },
-		["Purifying Power"]={ rune="Purifying Power", phase=3, spellID=429144, level=47, icon=23, slot=9,
+		["Fanaticism"]={ rune="狂熱", phase=3, spellID=429142, level=44, icon=22, slot=1,
+				start="事先學習聖光護鞘符文。與暴風城大教堂的被平反的艾奧納斯交談。必須達到 44 級" },
+		["Purifying Power"]={ rune="淨化之力", phase=3, spellID=429144, level=47, icon=23, slot=9,
 				start=st.leylineSummary ..st.leylineSummaryExtra },		
-		["Hammer of the Righteous"]={ rune="Hammer of the Righteous", phase=3, spellID=409922, level=50, icon=24, slot=9,
-				start="Learn Fanaticism prior. Speak to Aeonas the Vindicated at the Bloodvenom Falls, Felwood. Must be L44.\n"
-					.."Along the way you'll go to the Grim Guzzler, inside Blackrock Depths, and Maraudon (group for that)" },
-		["Light's Grace"]={ rune="Rune of Grace", phase=3, spellID=428909, level=50, icon=25, slot=9,
-				start="Head to the Lower Wilds of Feralas, south east of Camp Mojache." },
+		["Hammer of the Righteous"]={ rune="正義之錘", phase=3, spellID=409922, level=50, icon=24, slot=9,
+				start="事先學習狂熱。與費伍德森林血毒瀑布的被平反的艾奧納斯交談。必須達到 44 級。\n沿途你將前往黑石深淵內的恐怖酒館和瑪拉頓（需要組隊前往）" },
+		["Light's Grace"]={ rune="恩典符文", phase=3, spellID=428909, level=50, icon=25, slot=9,
+				start="前往菲拉斯的低級荒野，莫沙徹營地的東南方。" },
 
 		spells={ "Crusader Strike", "Inspiration Exemplar", "Rebuke", "Aegis", "Horn of Lordaeron",
 			"Seal of Martyrdom", "Beacon of Light", "Hand of Reckoning", "Divine Sacrifice",
