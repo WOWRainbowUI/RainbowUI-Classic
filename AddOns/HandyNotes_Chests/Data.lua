@@ -58,7 +58,6 @@ ns.nightmare = "(1) At L50, enter the Ashenvale Emerald Dream portal. Go south t
 			.."previous \"debuff\" location. A Nightmare Amalgamation pats the area. Kill it, but\n"
 			.."you'll need a 5 man group. Hard hits. It drops the purple Mantle of Nightmares!!!\n\n"
 			.."(7) Head back to the Shadowy Figure. She's now your go-to for Phase 3 Gear!"   
-ns.nightmareSeed = "Blooms have a 10% chance to contain Seeds.\nSeeds are a reagent for Nightmare Gear.\nAlso dropped by Sunken Temple trash"
 ns.nightmareTitle = "Nightmare Gear Guide"
 ns.twoMeditate = "At level 17 go to The Park in Stormwind (Human /\nDwarf), Temple of the Moon, Darnassus (Night Elf),\n"
 			.."War Quarter, Undercity (All Horde) for a RACIAL\nquest from a Priest trainer.\n\n"
@@ -440,7 +439,7 @@ points[ 1434 ] = { -- Stranglethorn Vale
 
 	[27507740] = { title=ns.gnomereganTitle, npc=7853, name="Scooty", icon=9, guide=ns.gnomeregan,
 					quest={ 79626, 79705, 79981, 79984, 79982 }, continent=true,
-					questName={ "The Salvagematic 9000", "Salvaging the Salvagematic", "The Corroded Core",
+					questName={ "The Salvagematic 9000!", "Salvaging the Salvagematic", "The Corroded Core",
 						"Quadrangulation", "Warranty Claim" }, },
 
 	[26807720] = { npc=222444, name="Injured Gnome", title=ns.nightmareTitle, icon=10,
@@ -636,7 +635,8 @@ points[ 1440 ] = { -- Ashenvale
 						"The Lost Vambraces", "Waking the Nightmare" }, },
 	[89404060] = { npc=221477, name="Field Captain Hannalah", title=ns.nightmareTitle, icon=10,
 					guide=ns.nightmare,
-					tip="She is located in \"regular\"\nAshenvale, outside the Nightmare",
+					tip="She is located in \"regular\"\nAshenvale, outside the Nightmare.\n\n"
+						.."Pin also used by the Runes AddOn so one\nmay be mostly overlapping the other",
 					quest= { 82017, 82018, 82019, 82020, 82021, 82022, 82023, 81986 },
 					questName = { "An Amalgamation of Nightmares", "Itharius", "Going Under",
 						"Return to Moonglade", "A Fortuitous Turn of Events", "The Bad News...",
@@ -812,7 +812,7 @@ points[ 1443 ] = { -- Desolace
 
 	[32017272] = { title=ns.gnomereganTitle, object=424075, name="Quadrangulation Beacon 002", icon=9, guide=ns.gnomeregan,
 					quest={ 79626, 79705, 79981, 79984, 79982 }, continent=true,
-					questName={ "The Salvagematic 9000", "Salvaging the Salvagematic", "The Corroded Core",
+					questName={ "The Salvagematic 9000!", "Salvaging the Salvagematic", "The Corroded Core",
 						"Quadrangulation", "Warranty Claim" }, },
 }
 
@@ -878,7 +878,7 @@ points[ 1411 ] = { -- Durotar
 points[ 1445 ] = { -- Dustwallow Marsh
 	[58601300] = { title=ns.gnomereganTitle, object=424074, name="Quadrangulation Beacon 001", icon=9, guide=ns.gnomeregan,
 					quest={ 79626, 79705, 79981, 79984, 79982 }, continent=true,
-					questName={ "The Salvagematic 9000", "Salvaging the Salvagematic", "The Corroded Core",
+					questName={ "The Salvagematic 9000!", "Salvaging the Salvagematic", "The Corroded Core",
 						"Quadrangulation", "Warranty Claim" }, },
 }
 
@@ -896,19 +896,19 @@ points[ 1444 ] = { -- Feralas
 	[29309380] = { title=ns.gnomereganTitle, object=424077, name="Quadrangulation Beacon 004", icon=9, guide=ns.gnomeregan,
 					quest={ 79626, 79705, 79981, 79984, 79982 }, continent=true,
 					tip="Stay on the coast to avoid L60e.\nThe cave is also a dead end",
-					questName={ "The Salvagematic 9000", "Salvaging the Salvagematic", "The Corroded Core",
+					questName={ "The Salvagematic 9000!", "Salvaging the Salvagematic", "The Corroded Core",
 						"Quadrangulation", "Warranty Claim" }, },
 	[84204380] = { title=ns.gnomereganTitle, npc=218237, name="Wirdal Wondergear", icon=9, guide=ns.gnomeregan,
 					quest={ 79626, 79705, 79981, 79984, 79982 }, continent=true,
 					tip="Stay on the coast to avoid L60e.\nThe cave is also a dead end",
-					questName={ "The Salvagematic 9000", "Salvaging the Salvagematic", "The Corroded Core",
+					questName={ "The Salvagematic 9000!", "Salvaging the Salvagematic", "The Corroded Core",
 						"Quadrangulation", "Warranty Claim" }, },
 }
 
 points[ 1450 ] = { -- Moonglade
 	[52404050] = { npc=12042, name="Loganaar", title=ns.nightmareTitle, icon=10,
 					guide=ns.nightmare, continent=true,
-					tip="Ensure you are friendly\nwith the Cenarion Circle",
+					tip="Ensure you are friendly with the Cenarion Circle",
 					quest= { 82017, 82018, 82019, 82020, 82021, 82022, 82023, 81986 },
 					questName = { "An Amalgamation of Nightmares", "Itharius", "Going Under",
 						"Return to Moonglade", "A Fortuitous Turn of Events", "The Bad News...",
@@ -1000,7 +1000,7 @@ points[ 1442 ] = { -- Stonetalon Mountains
 points[ 1446 ] = { -- Tanaris
 	[37802730] = { title=ns.gnomereganTitle, object=424076, name="Quadrangulation Beacon 003", icon=9, guide=ns.gnomeregan,
 					quest={ 79626, 79705, 79981, 79984, 79982 }, continent=true,
-					questName={ "The Salvagematic 9000", "Salvaging the Salvagematic", "The Corroded Core",
+					questName={ "The Salvagematic 9000!", "Salvaging the Salvagematic", "The Corroded Core",
 						"Quadrangulation", "Warranty Claim" }, },
 }
 

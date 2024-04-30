@@ -3,7 +3,7 @@
 
                                         Chests, Gear and More
 
-                                       v1.08 - 25th April 2024
+                                       v1.09 - 29th April 2024
                                 Copyright (C) Taraezor / Chris Birch
                                          All Rights Reserved
 
@@ -73,14 +73,14 @@ function pluginHandler:OnEnter(mapFile, coord)
 			for j,w in ipairs( pin.quest ) do
 				if w > 0 then
 					completed = IsQuestFlaggedCompleted( w )
-					GameTooltip:AddDoubleLine( ns.colour.highlight ..pin.questName[ j ],
+					GameTooltip:AddDoubleLine( ns.colour.highlight ..ns.L[ pin.questName[ j ] ],
 							( completed == true ) and ( "\124cFF00FF00" ..ns.L["Completed"] )
 							or ( "\124cFFFF0000" ..ns.L["Not Completed"] ) )
 				end
 			end
 		else
 			completed = IsQuestFlaggedCompleted( pin.quest )
-			GameTooltip:AddDoubleLine( ns.colour.highlight ..pin.questName[ j ],
+			GameTooltip:AddDoubleLine( ns.colour.highlight ..ns.L[ pin.questName[ j ] ],
 					( completed == true ) and ( "\124cFF00FF00" ..ns.L["Completed"] )
 					or ( "\124cFFFF0000" ..ns.L["Not Completed"] ) )
 		end

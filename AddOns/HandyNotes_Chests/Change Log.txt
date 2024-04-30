@@ -1,3 +1,9 @@
+== v1.09 - 29th April 2024
+* All quest names translated
+* "The Salvagematic 9000" changed to "The Salvagematic 9000!"
+* Warning to players that the Runes/CGM AddOn share the same Hannalah pin so may be overlapping
+* "Ensure you are friendly with the Cenarion Circle" is a single line now
+
 == v1.08 - 25th April 2024
 * Nightmare Blooms / Seeds added to Ashenvale
 
