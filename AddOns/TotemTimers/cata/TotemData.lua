@@ -33,6 +33,8 @@ TotemTimers.SpellIDs = {
     Windfury = 8512, --
     Sentry = 6495, --
     WrathOfAir = 3738,
+    TranquilMind = 87718,
+    SpiritLink = 98008,
 	
     
     Ankh = 20608, --Reincarnation
@@ -79,6 +81,14 @@ TotemTimers.SpellIDs = {
     ChainHeal = 1064,
 
     ClearCasting = 16246,
+
+    Earthquake = 61882,
+    SpiritwalkersGrace = 79206,
+    PrimalStrike = 73899,
+    BindElemental = 76780,
+    GreaterHealingWave = 77472,
+    UnleashElements = 73680,
+    HealingRain = 73920,
 
 
 
@@ -166,20 +176,12 @@ TotemData = {
 	[SpellIDs.Magma] = {
 		element = FIRE_TOTEM_SLOT,
 	},
-    [SpellIDs.FrostResistance] = {
-        element = FIRE_TOTEM_SLOT,
-        buff = 8182,
-    },
     [SpellIDs.Flametongue] = {
         element = FIRE_TOTEM_SLOT,
         buff = 52109,
     },
     [SpellIDs.FireElemental] = {
         element = FIRE_TOTEM_SLOT,
-    },
-    [SpellIDs.Wrath] = {
-        element = FIRE_TOTEM_SLOT,
-        buff = 30708,
     },
     [SpellIDs.HealingStream] = {
 		element = WATER_TOTEM_SLOT,
@@ -189,11 +191,6 @@ TotemData = {
     [SpellIDs.ManaTide] = {
         element = WATER_TOTEM_SLOT,
         warningPoint = 2,
-        rangeCheck = 30,
-    },
-    [SpellIDs.Cleansing] = {
-        element = WATER_TOTEM_SLOT,
-        flashInterval = 5,
         rangeCheck = 30,
     },
     [SpellIDs.ManaSpring] = {
@@ -211,21 +208,22 @@ TotemData = {
 		--flashInterval = 10,
         buff = 8178,
 	},
-    [SpellIDs.NatureResistance] = {
-        element = AIR_TOTEM_SLOT,
-        buff = 10596,
-    },
     [SpellIDs.Windfury] = {
         element = AIR_TOTEM_SLOT,
         buff = 8515,
         --rangeCheck = 20,
     },
-    [SpellIDs.Sentry] = {
-        element = AIR_TOTEM_SLOT,
-    },
     [SpellIDs.WrathOfAir] = {
         element = AIR_TOTEM_SLOT,
         buff = 2895,
+    },
+    [SpellIDs.TranquilMind] = {
+        element = WATER_TOTEM_SLOT,
+        buff = 87717,
+    },
+    [SpellIDs.SpiritLink] = {
+        element = AIR_TOTEM_SLOT,
+        buff = 98008,
     },
 }
 
@@ -349,6 +347,7 @@ TotemTimers.CombatCooldownSpells = {
         SpellIDs.StormStrike,
         SpellIDs.FlameShock,
         SpellIDs.EarthShock,
+        SpellIDs.UnleashElements,
         SpellIDs.FireNova,
         SpellIDs.LavaLash,
         SpellIDs.WindShear,
@@ -362,15 +361,19 @@ TotemTimers.CombatCooldownSpells = {
         SpellIDs.ChainLightning,
         SpellIDs.LightningBolt,
         SpellIDs.LavaBurst,
-        SpellIDs.Thunderstorm,
+        SpellIDs.UnleashElements,
+        SpellIDs.EarthQuake,
         SpellIDs.WindShear,
 
     },
     [3] = {
         SpellIDs.Riptide,
+        SpellIDs.HealingRain,
+        SpellIDs.UnleashElements,
         SpellIDs.FlameShock,
         SpellIDs.EarthShock,
         SpellIDs.WindShear,
+
     },
 }
 
@@ -391,6 +394,9 @@ TotemTimers.LongCooldownSpells = {
     {
         spell = SpellIDs.ElementalMastery,
         buff = SpellIDs.ElementalMastery,
+    },
+    {
+        spell = SpellIDs.Thunderstorm,
     },
     {
         spell = SpellIDs.TidalForce,
