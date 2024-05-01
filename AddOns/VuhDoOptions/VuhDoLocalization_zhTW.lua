@@ -654,10 +654,6 @@ VUHDO_I18N_TT.K593 = "選擇非公開性的光環圖示的大小。";
 VUHDO_I18N_TT.K594 = "將寵物排列在最後面。";
 VUHDO_I18N_TT.K595 = "顯示玩家的有效血量 (包含護盾的血量)。";
 
--- TBCC game version specific strings (tooltip IDs begin at K900)
-
-VUHDO_I18N_TT.K900 = "使用 LibHealComm-4.0 顯示即將治療預估。";
-
 VUHDO_I18N_DEFAULT_PROFILE = "預設設定檔";
 VUHDO_I18N_DEFAULT_LAYOUT = "預設按鍵配置";
 VUHDO_I18N_APPLY_TO_ALL = "全部套用";
@@ -1200,10 +1196,6 @@ VUHDO_I18N_Y = "Y";
 VUHDO_I18N_PRIVATE_AURAS = "非公開性的光環";
 
 VUHDO_I18N_PETS_LAST = "寵物最後";
-
--- TBCC game version specific strings
-
-VUHDO_I18N_LIBHEALCOMM = "使用 Lib\nHealComm";
 
 VUHDO_I18N_SHOW_EFFECTIVE = "有效血量";
 VUHDO_I18N_DEBUFF_IGNORE_IMPORTED = "減益效果忽略清單已匯入成功。";

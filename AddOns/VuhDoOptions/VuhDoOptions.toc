@@ -2,7 +2,7 @@
 
 ## Title: VuhDo ['vu:du:] - Options
 ## Author: Iza@Gilneas, humfras, Ivaria@Hyjal
-## Version: 3.163-wotlkc
+## Version: 3.164-catac
 ## Notes: VuhDo Options
 ## Title-zhTW: |cffFF7F00[團隊]|r 框架 (巫毒)-設定選項
 ## Notes-zhTW: VuhDo ['vu:du:] - Options |n|n巫毒治療框架的設定選項。|n|n|cffffd200使用方法: |r點小地圖按鈕開啟設定。
@@ -11,7 +11,7 @@
 ## IconTexture: Interface\AddOns\VuhDo\Images\TemporaryPortrait-Female-BloodElf-VuhDo
 
 ## X-Curse-Project-ID: 7950
-## X-WoWI-ID: 26372
+## X-WoWI-ID: 26722
 ## X-Wago-ID: yQKynG71
 
 ## SavedVariables: VUHDO_OPTIONS_SETTINGS
@@ -35,7 +35,6 @@ VuhDoNewOptionsGeneralScan.xml
 VuhDoNewOptionsGeneralThreat.xml
 VuhDoNewOptionsGeneralMisc.xml
 VuhDoNewOptionsGeneralCluster.xml
-VuhDoNewOptionsGeneralIndicators.xml
 VuhDoNewOptionsGeneralSpellTrace.xml
 VuhDoNewOptionsGeneral.xml
 VuhDoNewOptionsSpellMouse.xml
@@ -54,6 +53,7 @@ VuhDoNewOptionsPanelText.xml
 VuhDoNewOptionsPanelMisc.xml
 VuhDoNewOptionsPanelHotBars.xml
 VuhDoNewOptionsPanelHots.xml
+VuhDoNewOptionsPanelIndicators.xml
 VuhDoNewOptionsPanelPanel.xml
 VuhDoNewOptionsColorsClasses.xml
 VuhDoNewOptionsColorsHots.xml
