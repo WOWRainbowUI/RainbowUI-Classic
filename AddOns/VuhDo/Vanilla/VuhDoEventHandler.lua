@@ -36,7 +36,6 @@ local VUHDO_DEFERRED_UPDATE_TYPES = {
 
 local VUHDO_parseAddonMessage;
 local VUHDO_spellcastFailed;
-local VUHDO_spellcastSucceeded;
 local VUHDO_spellcastSent;
 local VUHDO_parseCombatLogEvent;
 local VUHDO_updateAllOutRaidTargetButtons;
@@ -105,7 +104,6 @@ local function VUHDO_eventHandlerInitLocalOverrides()
 	VUHDO_updateAllOutRaidTargetButtons = _G["VUHDO_updateAllOutRaidTargetButtons"];
 	VUHDO_parseAddonMessage = _G["VUHDO_parseAddonMessage"];
 	VUHDO_spellcastFailed = _G["VUHDO_spellcastFailed"];
-	VUHDO_spellcastSucceeded = _G["VUHDO_spellcastSucceeded"];
 	VUHDO_spellcastSent = _G["VUHDO_spellcastSent"];
 	VUHDO_parseCombatLogEvent = _G["VUHDO_parseCombatLogEvent"];
 	VUHDO_updateHealthBarsFor = _G["VUHDO_updateHealthBarsFor"];
@@ -115,7 +113,6 @@ local function VUHDO_eventHandlerInitLocalOverrides()
 	VUHDO_updateAllRaidTargetIndices = _G["VUHDO_updateAllRaidTargetIndices"];
 	VUHDO_updateAllClusters = _G["VUHDO_updateAllClusters"];
 	VUHDO_aoeUpdateAll = _G["VUHDO_aoeUpdateAll"];
-	--VUHDO_updateBouquetsForEvent = _G["VUHDO_updateBouquetsForEvent"];
 	VuhDoGcdStatusBar = _G["VuhDoGcdStatusBar"];
 	VuhDoDirectionFrame = _G["VuhDoDirectionFrame"];
 	VUHDO_updateDirectionFrame = _G["VUHDO_updateDirectionFrame"];
@@ -387,6 +384,7 @@ end
 --
 local tLevel = 0;
 local function VUHDO_init()
+
 	if tLevel == 0 or VUHDO_VARIABLES_LOADED then
 		tLevel = 1;
 		return;
@@ -443,6 +441,10 @@ local function VUHDO_init()
 		VUHDO_loadDefaultProfile();
 		VUHDO_loadDefaultLayout();
 	end
+
+	-- FIXME: Classic Era patch 1.15.2 has a bug where spells are not initialized by VuhDo init time
+	C_Timer.After(1, VUHDO_initBuffs);
+
 end
 
 
@@ -478,7 +480,9 @@ function VUHDO_OnEvent(_, anEvent, anArg1, anArg2, anArg3, anArg4, anArg5, anArg
 			if VUHDO_INTERNAL_TOGGLES[36] then -- VUHDO_UPDATE_SHIELD
 				-- for SPELL events with _AURA suffixes the amount healed is the 16th arg
 				-- for SPELL_HEAL/SPELL_PERIODIC_HEAL the amount absorbed is the 17th arg
-				VUHDO_parseCombatLogShieldAbsorb(anArg2, anArg4, anArg8, anArg13, anArg16, anArg12, anArg17, anArg15, anArg18, anArg20, anArg21, anArg22, anArg19);
+				-- for SPELL_ABSORBED the absorb spell ID is either the 16th or 19th arg
+				-- FIXME: Wrath Classic the 19th arg for SPELL_ABSORBED is not absorb spell ID
+				VUHDO_parseCombatLogShieldAbsorb(anArg2, anArg4, anArg8, anArg13, anArg16, anArg12, anArg17, anArg19, anArg15, anArg18, anArg20, anArg21, anArg22, anArg19);
 			end
 
 			if VUHDO_INTERNAL_TOGGLES[37] then -- VUHDO_UPDATE_SPELL_TRACE
@@ -552,9 +556,6 @@ function VUHDO_OnEvent(_, anEvent, anArg1, anArg2, anArg3, anArg4, anArg5, anArg
 			VUHDO_updateHealAbsorbBar(anArg1);
 		end
 ]];
-
-	elseif "UNIT_SPELLCAST_SUCCEEDED" == anEvent then
-		if (VUHDO_RAID or tEmptyRaid)[anArg1] then VUHDO_spellcastSucceeded(anArg1, anArg3); end
 
 	elseif "UNIT_SPELLCAST_SENT" == anEvent then
 		if VUHDO_VARIABLES_LOADED then VUHDO_spellcastSent(anArg1, anArg2, anArg4); end
@@ -1056,23 +1057,23 @@ end
 function VUHDO_updateGlobalToggles()
 	if not VUHDO_INSTANCE then return; end
 
-	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_THREAT_LEVEL] = VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_THREAT_LEVEL);
+	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_THREAT_LEVEL] = VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_THREAT_LEVEL);
 
 	VUHDO_UnRegisterEvent(VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_THREAT_LEVEL]
-		or VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_AGGRO),
+		or VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_AGGRO),
 		"UNIT_THREAT_SITUATION_UPDATE"
 	);
 
-	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_THREAT_PERC] = VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_THREAT_PERC);
-	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_AGGRO] = VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_AGGRO);
+	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_THREAT_PERC] = VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_THREAT_PERC);
+	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_AGGRO] = VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_AGGRO);
 
 	VUHDO_TIMERS["UPDATE_AGGRO"] =
 		 (VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_THREAT_PERC] or VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_AGGRO])
 		 and 1 or -1;
 
-	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_NUM_CLUSTER] = VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_NUM_CLUSTER);
-	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_MOUSEOVER_CLUSTER] = VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_MOUSEOVER_CLUSTER);
-	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_AOE_ADVICE] = VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_AOE_ADVICE);
+	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_NUM_CLUSTER] = VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_NUM_CLUSTER);
+	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_MOUSEOVER_CLUSTER] = VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_MOUSEOVER_CLUSTER);
+	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_AOE_ADVICE] = VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_AOE_ADVICE);
 
 	if VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_NUM_CLUSTER]
 	 or VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_MOUSEOVER_CLUSTER]
@@ -1085,23 +1086,23 @@ function VUHDO_updateGlobalToggles()
 		VUHDO_TIMERS["UPDATE_AOE"] = -1;
 	end
 
-	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_MOUSEOVER] = VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_MOUSEOVER);
-	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_MOUSEOVER_GROUP] = VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_MOUSEOVER_GROUP);
+	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_MOUSEOVER] = VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_MOUSEOVER);
+	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_MOUSEOVER_GROUP] = VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_MOUSEOVER_GROUP);
 
 	VUHDO_UnRegisterEvent(
-		VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_MANA)
-	 	or VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_OTHER_POWERS)
-	 	or VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_ALT_POWER)
-	 	or VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_OWN_HOLY_POWER)
-	 	or VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_CHI)
-		or VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_COMBO_POINTS) 
-		or VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_SOUL_SHARDS) 
-		or VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_RUNES) 
-		or VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_ARCANE_CHARGES),
+		VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_MANA)
+		or VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_OTHER_POWERS)
+		or VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_ALT_POWER)
+		or VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_OWN_HOLY_POWER)
+		or VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_CHI)
+		or VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_COMBO_POINTS)
+		or VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_SOUL_SHARDS)
+		or VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_RUNES)
+		or VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_ARCANE_CHARGES),
 		"UNIT_DISPLAYPOWER", "UNIT_MAXPOWER", "UNIT_POWER_UPDATE", "UNIT_POWER_FREQUENT"
 	);
 
-	if VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_UNIT_TARGET) then
+	if VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_UNIT_TARGET) then
 		VUHDO_INSTANCE:RegisterEvent("UNIT_TARGET");
 		VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_UNIT_TARGET] = true;
 		VUHDO_TIMERS["REFRESH_TARGETS"] = 1;
@@ -1111,7 +1112,7 @@ function VUHDO_updateGlobalToggles()
 		VUHDO_TIMERS["REFRESH_TARGETS"] = -1;
 	end
 
-	VUHDO_UnRegisterEvent(VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_ALT_POWER),
+	VUHDO_UnRegisterEvent(VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_ALT_POWER),
 		"UNIT_POWER_BAR_SHOW", "UNIT_POWER_BAR_HIDE");
 
 	VUHDO_TIMERS["REFRESH_INSPECT"] = VUHDO_CONFIG["IS_SCAN_TALENTS"] and 1 or -1
@@ -1134,13 +1135,13 @@ function VUHDO_updateGlobalToggles()
 		VUHDO_PANEL_SETUP["BAR_COLORS"]["HOTS"]["showShieldAbsorb"]
 			or VUHDO_CONFIG["SHOW_SHIELD_BAR"] 
 			or VUHDO_CONFIG["SHOW_HEAL_ABSORB_BAR"]
-			or VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_SHIELD);
+			or VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_SHIELD);
 
 --	VUHDO_UnRegisterEvent(VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_SHIELD], "UNIT_ABSORB_AMOUNT_CHANGED");
 --	VUHDO_UnRegisterEvent(VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_SHIELD], "UNIT_HEAL_ABSORB_AMOUNT_CHANGED");
 
 	VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_SPELL_TRACE] = VUHDO_CONFIG["SHOW_SPELL_TRACE"] 
-		or VUHDO_isAnyoneInterstedIn(VUHDO_UPDATE_SPELL_TRACE);
+		or VUHDO_isAnyoneInterestedIn(VUHDO_UPDATE_SPELL_TRACE);
 
 	VUHDO_UnRegisterEvent(sParseCombatLog or VUHDO_INTERNAL_TOGGLES[VUHDO_UPDATE_SPELL_TRACE], 
 		"COMBAT_LOG_EVENT_UNFILTERED");
@@ -1669,7 +1670,7 @@ local VUHDO_ALL_EVENTS = {
 	"PLAYER_FLAGS_CHANGED",
 	"PLAYER_LOGOUT",
 	"UNIT_DISPLAYPOWER", "UNIT_MAXPOWER", "UNIT_POWER_UPDATE", --"RUNE_POWER_UPDATE", 
-	"UNIT_SPELLCAST_SENT", "UNIT_SPELLCAST_SUCCEEDED",
+	"UNIT_SPELLCAST_SENT",
 	"PARTY_MEMBER_ENABLE", "PARTY_MEMBER_DISABLE",
 	"COMBAT_LOG_EVENT_UNFILTERED",
 	"UNIT_THREAT_SITUATION_UPDATE",

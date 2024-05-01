@@ -44,7 +44,6 @@ local VUHDO_getUnitGroupPrivileges;
 local VUHDO_getLatestCustomDebuff;
 local VUHDO_getUnitOverallShieldRemain;
 
-local sIsInverted;
 local sBarColors;
 local sIsDistance;
 
@@ -53,6 +52,7 @@ local sIsDistance;
 
 
 function VUHDO_bouquetValidatorsInitLocalOverrides()
+
 	VUHDO_RAID = _G["VUHDO_RAID"];
 	VUHDO_USER_CLASS_COLORS = _G["VUHDO_USER_CLASS_COLORS"];
 	VUHDO_PANEL_SETUP = _G["VUHDO_PANEL_SETUP"];
@@ -79,9 +79,9 @@ function VUHDO_bouquetValidatorsInitLocalOverrides()
 	VUHDO_getLatestCustomDebuff = _G["VUHDO_getLatestCustomDebuff"];
 	VUHDO_getUnitOverallShieldRemain = _G["VUHDO_getUnitOverallShieldRemain"];
 
-	sIsInverted = VUHDO_INDICATOR_CONFIG["CUSTOM"]["HEALTH_BAR"]["invertGrowth"];
 	sBarColors = VUHDO_PANEL_SETUP["BAR_COLORS"];
 	sIsDistance = VUHDO_CONFIG["DIRECTION"]["isDistanceText"];
+
 end
 
 
@@ -758,18 +758,7 @@ end
 local tHealth;
 local function VUHDO_statusHealthValidator(anInfo, _)
 
-	if sIsInverted then
-		if VUHDO_CONFIG["SHOW_SHIELD_BAR"] then
-			tHealth = anInfo["health"] + VUHDO_getIncHealOnUnit(anInfo["unit"]) + VUHDO_getUnitOverallShieldRemain(anInfo["unit"]);
-		else
-			tHealth = anInfo["health"] + VUHDO_getIncHealOnUnit(anInfo["unit"]);
-		end
-
-		return true, nil, tHealth, -1, anInfo["healthmax"], nil, anInfo["health"];
-	else
-		return true, nil, anInfo["health"], -1,
-			anInfo["healthmax"], nil, anInfo["health"];
-	end
+	return true, nil, anInfo["health"], -1, anInfo["healthmax"], nil, anInfo["health"];
 
 end
 
@@ -878,18 +867,7 @@ local tHealth;
 local function VUHDO_statusHealthIfActiveValidator(anInfo, _)
 
 	if VUHDO_getIsCurrentBouquetActive() then
-		if sIsInverted then
-			if VUHDO_CONFIG["SHOW_SHIELD_BAR"] then
-				tHealth = anInfo["health"] + VUHDO_getIncHealOnUnit(anInfo["unit"]) + VUHDO_getUnitOverallShieldRemain(anInfo["unit"]);
-			else
-				tHealth = anInfo["health"] + VUHDO_getIncHealOnUnit(anInfo["unit"]);
-			end
-
-			return true, nil, tHealth, -1, anInfo["healthmax"], VUHDO_getCurrentBouquetColor(), anInfo["health"];
-		else
-			return true, nil, anInfo["health"], -1,
-				anInfo["healthmax"], VUHDO_getCurrentBouquetColor(), anInfo["health"];
-		end
+		return true, nil, anInfo["health"], -1, anInfo["healthmax"], VUHDO_getCurrentBouquetColor(), anInfo["health"];
 	else
 		return false, nil, -1, -1, -1;
 	end
@@ -1262,13 +1240,21 @@ local VUHDO_BLOCKED_FUNCTIONS = {
 	EditMacro = true,
 	DevTools_DumpCommand = true,
 	hash_SlashCmdList = true,
+	RegisterNewSlashCommand = true,
 	CreateMacro = true,
 	SetBindingMacro = true,
 	GuildDisband = true,
 	GuildUninvite = true,
 	securecall = true,
 	DeleteCursorItem = true,
-	ChatEdit_SendText = true
+	ChatEdit_SendText = true,
+	ChatEdit_ActivateChat = true,
+	ChatEdit_ParseText = true,
+	ChatEdit_OnEnterPressed = true,
+	GetButtonMetatable = true,
+	GetEditBoxMetatable = true,
+	GetFontStringMetatable = true,
+	GetFrameMetatable = true
 };
 
 local VUHDO_BLOCKED_TABLES = {
@@ -1286,7 +1272,9 @@ local VUHDO_BLOCKED_TABLES = {
 	WeakAurasOptionsSaved = true,
 	PlaterDB = true,
 	_detalhes_global = true,
-	_detalhes = true
+	_detalhes = true,
+	DEFAULT_CHAT_FRAME = true,
+	ChatFrame1 = true
 };
 
 
@@ -2142,7 +2130,7 @@ VUHDO_BOUQUET_BUFFS_SPECIAL = {
 		["validator"] = VUHDO_customFlagValidator, 
 		["custom_type"] = VUHDO_BOUQUET_CUSTOM_TYPE_CUSTOM_FLAG,
 		["updateCyclic"] = true,
-		["interests"] = { VUHDO_UPDATE_INC, VUHDO_UPDATE_HEALTH, VUHDO_UPDATE_RANGE, VUHDO_UPDATE_HEALTH_MAX, VUHDO_UPDATE_ALIVE, VUHDO_UPDATE_NUM_CLUSTER, VUHDO_UPDATE_HEALTH_COMBAT_LOG }, --ignoring some for now (eg. VUHDO_UPDATE_MANA, VUHDO_UPDATE_DC, etc.)
+		["interests"] = { VUHDO_UPDATE_HEALTH, VUHDO_UPDATE_HEALTH_MAX, VUHDO_UPDATE_RANGE, VUHDO_UPDATE_ALIVE, VUHDO_UPDATE_HEALTH_COMBAT_LOG }, --ignoring some for now (eg. VUHDO_UPDATE_INC, VUHDO_UPDATE_NUM_CLUSTER, VUHDO_UPDATE_MANA, VUHDO_UPDATE_DC, etc.)
 	},
 
 };
