@@ -100,7 +100,7 @@ Addon.ANCHOR_POINT_TEXT = {
 }
 
 ThreatPlates.AlignH = {LEFT = L["Left"], CENTER = L["Center"], RIGHT = L["Right"]}
-ThreatPlates.AlignV = {BOTTOM = L["Bottom"], CENTER = L["Center"], TOP = L["Top"]}
+ThreatPlates.AlignV = {BOTTOM = L["Bottom"], MIDDLE = L["Middle"], TOP = L["Top"]}
 
 ThreatPlates.AUTOMATION = {
   NONE = L["No Automation"],
@@ -1304,7 +1304,7 @@ ThreatPlates.DEFAULT_SETTINGS = {
       VerticalOffset = 12,
     },
     threatWidget = {
-      ON = true,
+      ON = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and true or false),
       x = 0,
       y = 26,
       anchor = "CENTER",
@@ -1314,8 +1314,8 @@ ThreatPlates.DEFAULT_SETTINGS = {
         Type = "SCALED_PERCENTAGE",
         SecondPlayersName = true,
         ShowAlways = false,
-        ShowInGroups = true,
-        ShowWithPet = true,
+        ShowInGroups = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and true or false),
+        ShowWithPet = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and true or false),
 		-- Layout
         Anchor = "LEFT",
         InsideAnchor = false,
@@ -1738,7 +1738,76 @@ ThreatPlates.DEFAULT_SETTINGS = {
             Legacy = ""
           },
         }
-      },		
+      },
+	  {
+		Trigger = {
+		  Type = "Name",
+          Name = {
+            Input = "炸藥",
+            AsArray = {"炸藥",},
+          },
+        },
+		Enable = {
+		  UnitReaction = {
+		    FRIENDLY = false,
+		  },
+		  OutOfInstances = false,
+		},
+		name = "炸藥",
+		showIcon = false,
+		useColor = false,
+		overrideAlpha = false,
+		scale = 1.5,
+	  },
+	  {
+		scale = 1.2,
+		showIcon = false,
+		useColor = true,
+		Trigger = {
+		  Type = "Aura",
+		  Name = {
+		    Input = "",
+		  },
+		  Aura = {
+		    Input = "狂怒;激勵",
+			AsArray = {
+				"狂怒",
+				"激勵",
+			},
+		  },
+		},
+		overrideAlpha = true,
+		color = {
+		  g = 0.5019607843137255,
+		  b = 0,
+		},
+		Enable = {
+		  UnitReaction = {
+			FRIENDLY = false,
+		  },
+		},
+		allowMarked = false,
+	  },
+	  {
+		Trigger = {
+		  Type = "Name",
+          Name = {
+            Input = "幻影複製體",
+            AsArray = {"幻影複製體",},
+          },
+        },
+		Enable = {
+		  UnitReaction = {
+		    FRIENDLY = false,
+		  },
+		  OutOfInstances = false,
+		},
+		name = "幻影複製體",
+		showIcon = false,
+		useColor = false,
+		overrideAlpha = true,
+		scale = 0.7,
+	  },
 	},
     CVarsBackup = {}, -- Backup for CVars that should be restored when TP is disabled
     settings = {
