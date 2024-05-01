@@ -756,10 +756,6 @@ VUHDO_I18N_TT.K593 = "Выберите размер для иконок прив
 VUHDO_I18N_TT.K594 = "Check to sort pet units last.";
 VUHDO_I18N_TT.K595 = "Show effective HP (health including shields) of player.";
 
--- TBCC game version specific strings (tooltip IDs begin at K900)
-
-VUHDO_I18N_TT.K900 = "Check to show incoming heal using LibHealComm-4.0.";
-
 VUHDO_I18N_DEFAULT_PROFILE = "Стандартный\nпрофиль";
 VUHDO_I18N_DEFAULT_LAYOUT = "Стандартная раскладка клавиш ";
 VUHDO_I18N_APPLY_TO_ALL = "Применить\nко всем";
@@ -1377,7 +1373,3 @@ VUHDO_I18N_PETS_LAST = "Питомцы последние";
 
 VUHDO_I18N_SHOW_EFFECTIVE = "Показать\nЭффективное";
 VUHDO_I18N_DEBUFF_IGNORE_IMPORTED = "Список игнорируемых дебаффов успешно импортирован.";
-
--- TBCC game version specific strings
-
-VUHDO_I18N_LIBHEALCOMM = "Use Lib\nHealComm";

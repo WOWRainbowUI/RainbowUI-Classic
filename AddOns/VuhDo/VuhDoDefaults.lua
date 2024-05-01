@@ -617,7 +617,6 @@ local VUHDO_DEFAULT_CONFIG = {
 	["SHOW_OVERHEAL"] = true,
 	["SHOW_OWN_INCOMING"] = true,
 	["SHOW_TEXT_OVERHEAL"] = true,
-	["SHOW_LIBHEALCOMM_INCOMING"] = true,
 	["SHOW_SHIELD_BAR"] = true,
 	["SHOW_OVERSHIELD_BAR"] = false,
 	["SHOW_HEAL_ABSORB_BAR"] = true,
@@ -1630,9 +1629,7 @@ function VUHDO_loadDefaultPanelSetup()
 				tAktPanel["PANEL_COLOR"]["TEXT"]["textSize"] = 12;
 			end
 		end
-	end
 
-	for tPanelNum = 1, 10 do -- VUHDO_MAX_PANELS
 		if not VUHDO_PANEL_SETUP[tPanelNum]["POSITION"] and tPanelNum == 1 then
 			VUHDO_PANEL_SETUP[tPanelNum]["POSITION"] = {
 				["x"] = 130,

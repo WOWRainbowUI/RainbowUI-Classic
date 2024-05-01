@@ -1,13 +1,13 @@
-## Interface: 30403
+## Interface: 40400
 
 ## Title: VuhDo ['vu:du:] - Options
 ## Author: Iza@Gilneas, humfras, Ivaria@Hyjal
-## Version: 3.163-wotlkc
+## Version: 3.164-catac
 ## Notes: VuhDo Options
 ## IconTexture: Interface\AddOns\VuhDo\Images\TemporaryPortrait-Female-BloodElf-VuhDo
 
 ## X-Curse-Project-ID: 7950
-## X-WoWI-ID: 26372
+## X-WoWI-ID: 26722
 ## X-Wago-ID: yQKynG71
 
 ## SavedVariables: VUHDO_OPTIONS_SETTINGS
@@ -32,7 +32,6 @@ VuhDoNewOptionsGeneralScan.xml
 VuhDoNewOptionsGeneralThreat.xml
 VuhDoNewOptionsGeneralMisc.xml
 VuhDoNewOptionsGeneralCluster.xml
-VuhDoNewOptionsGeneralIndicators.xml
 VuhDoNewOptionsGeneralSpellTrace.xml
 VuhDoNewOptionsGeneral.xml
 VuhDoNewOptionsSpellMouse.xml
@@ -51,6 +50,7 @@ VuhDoNewOptionsPanelText.xml
 VuhDoNewOptionsPanelMisc.xml
 VuhDoNewOptionsPanelHotBars.xml
 VuhDoNewOptionsPanelHots.xml
+VuhDoNewOptionsPanelIndicators.xml
 VuhDoNewOptionsPanelPanel.xml
 VuhDoNewOptionsColorsClasses.xml
 VuhDoNewOptionsColorsHots.xml

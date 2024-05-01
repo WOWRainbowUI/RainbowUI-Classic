@@ -5,28 +5,22 @@ local type = type;
 local UnitGetTotalAbsorbs = VUHDO_unitGetTotalAbsorbs;
 
 local VUHDO_SHIELDS = {
-	[17] = 30,    -- Power Word: Shield (rank 1)
-	[592] = 30,   -- Power Word: Shield (rank 2)
-	[600] = 30,   -- Power Word: Shield (rank 3)
-	[3747] = 30,  -- Power Word: Shield (rank 4)
-	[6056] = 30,  -- Power Word: Shield (rank 5)
-	[6066] = 30,  -- Power Word: Shield (rank 6)
-	[10898] = 30, -- Power Word: Shield (rank 7)
-	[10899] = 30, -- Power Word: Shield (rank 8)
-	[10900] = 30, -- Power Word: Shield (rank 9)
-	[10901] = 30, -- Power Word: Shield (rank 10)
-	[25217] = 30, -- Power Word: Shield (rank 11)
-	[25218] = 30, -- Power Word: Shield (rank 12)
-	[48065] = 30, -- Power Word: Shield (rank 13)
-	[48066] = 30, -- Power Word: Shield (rank 14)
-	[56160] = 30, -- Glyph of Power Word: Shield
+	[17] = 15, -- VUHDO_SPELL_ID.POWERWORD_SHIELD
+	[47509] = 15, -- VUHDO_SPELL_ID.DIVINE_AEGIS
+	[47753] = 15, -- VUHDO_SPELL_ID.DIVINE_AEGIS
+	[76669] = 5, -- VUHDO_SPELL_ID.ILLUMINATED_HEALING
+	[86273] = 5, -- VUHDO_SPELL_ID.ILLUMINATED_HEALING
+	[11426] = 60, -- VUHDO_SPELL_ID.ICE_BARRIER
+	[1463] = 60, -- VUHDO_SPELL_ID.MANA_SHIELD
+	[7812] = 30, -- VUHDO_SPELL_ID.SACRIFICE
+	[85285] = 15, -- VUHDO_SPELL_ID.SACRED_SHIELD
+	[62606] = 10, -- VUHDO_SPELL_ID.SAVAGE_DEFENSE
 }
 
 
 --
 local VUHDO_PUMP_SHIELDS = {
-	[VUHDO_SPELL_ID.DIVINE_AEGIS] = 0.3,
-	[VUHDO_SPELL_ID.OVERFLOWING_LIGHT] = 0.15,
+	[VUHDO_SPELL_ID.DIVINE_AEGIS] = 0.4,
 }
 
 
@@ -40,10 +34,14 @@ local VUHDO_IMMEDIATE_HOTS = {
 
 
 local VUHDO_ABSORB_DEBUFFS = {
-	[109379] = function(aUnit) return 200000, 5 * 60; end, -- Searing Plasma
-	[105479] = function(aUnit) return 200000, 5 * 60; end,
+	[109379] = function() return 200000, 5 * 60; end, -- Searing Plasma
+	[109362] = function() return 300000, 5 * 60; end,
+	[105479] = function() return 200000, 5 * 60; end,
+	[109364] = function() return 420000, 5 * 60; end,
+	[109363] = function() return 280000, 5 * 60; end,
 
-	[110214] = function(aUnit) return 280000, 2 * 60; end, -- Consuming Shroud
+	[110598] = function() return 420000, 2 * 60; end, -- Consuming Shroud
+	[110214] = function() return 280000, 2 * 60; end,
 
 	-- Patch 6.2 - Hellfire Citadel
 	[189030] = function(aUnit) return select(17, VUHDO_unitDebuff(aUnit, VUHDO_SPELL_ID.DEBUFF_BEFOULED)), 10 * 60; end, -- Fel Lord Zakuun
@@ -111,11 +109,14 @@ local VUHDO_ABSORB_DEBUFFS = {
 
 
 local sMissedEvents = {
+	["SPELL_ABSORBED"] = true
+--[[
 	["SWING_MISSED"] = true,
 	["RANGE_MISSED"] = true,
 	["SPELL_MISSED"] = true,
 	["SPELL_PERIODIC_MISSED"] = true,
 	["ENVIRONMENTAL_MISSED"] = true
+]];
 };
 
 
@@ -342,15 +343,30 @@ end
 
 
 --
-local tUnit;
+local tUnit, tInfo;
 local VUHDO_DEBUFF_SHIELDS = { };
 local tDelta, tShieldName;
-function VUHDO_parseCombatLogShieldAbsorb(aMessage, aSrcGuid, aDstGuid, aShieldName, anAmount, aSpellId, anAbsorbAmount, aHealAmount, aCritical, anAbsorbSpellName, anAbsorbSpellSchool, anAbsorbSpellDamageAmount, anAbsorbSwingDamageAmount)
-	tUnit = VUHDO_RAID_GUIDS[aDstGuid];
-	if not tUnit then return; end
+local tDoUpdate;
+function VUHDO_parseCombatLogShieldAbsorb(aMessage, aSrcGuid, aDstGuid, aShieldName, anAmount, aSpellId, anAbsorbAmount, anAbsorbSpellId)
 
+	tUnit = VUHDO_RAID_GUIDS[aDstGuid];
+
+	if not tUnit then
+		return;
+	end
+
+	-- only trigger a shield update on subevent SPELL_ABSORBED, no longer for *_MISSED events
+	-- event optionally includes the spell payload if trigger by SPELL_DAMAGE
+	-- this moves the absorb spell ID from the 16th arg (anAmount) to the 19th arg (anAbsorbSpellId)
 	if sMissedEvents[aMessage] then
-		VUHDO_updateShields(tUnit);
+		if type(anAmount) == "number" then
+			anAbsorbSpellId = anAmount;
+		end
+
+		if VUHDO_SHIELDS[anAbsorbSpellId] then
+			VUHDO_updateShield(tUnit, anAbsorbSpellId);
+		end
+
 		return;
 	end
 
@@ -358,35 +374,23 @@ function VUHDO_parseCombatLogShieldAbsorb(aMessage, aSrcGuid, aDstGuid, aShieldN
 
 	--[[if ("SPELL_AURA_APPLIED" == aMessage) then
 		VUHDO_xMsg(aShieldName, aSpellId);
-	end]]
+	end]];
+
+	tDoUpdate = true;
 
 	if VUHDO_SHIELDS[aSpellId] then
 
 		if "SPELL_AURA_REFRESH" == aMessage then 
-			if not anAmount then -- anAmount is always nil in Wrath Classic
-				anAmount = VUHDO_SHIELD_LEFT_TEMP[tUnit][aShieldName] or 0;
-			end
-
 			VUHDO_updateShieldValue(tUnit, aShieldName, anAmount, VUHDO_SHIELDS[aSpellId]);
 		elseif "SPELL_AURA_APPLIED" == aMessage then 
-			if not anAmount then -- anAmount is always nil in Wrath Classic
-				anAmount = VUHDO_SHIELD_LEFT_TEMP[tUnit][aShieldName] or 0;
-			end
-
 			VUHDO_initShieldValue(tUnit, aShieldName, anAmount, VUHDO_SHIELDS[aSpellId]);
 			VUHDO_SHIELD_LAST_SOURCE_GUID[tUnit][aShieldName] = aSrcGuid;
 		elseif "SPELL_AURA_REMOVED" == aMessage
 			or "SPELL_AURA_BROKEN" == aMessage
 			or "SPELL_AURA_BROKEN_SPELL" == aMessage then
 			VUHDO_removeShield(tUnit, aShieldName);
-		elseif "SPELL_HEAL" == aMessage and aSpellId == 56160 then -- Glyph of Power Word: Shield
-			anAmount = aHealAmount / 0.2; -- the glyph heal amount is 20% of the absorb amount
-
-			if aCritical then
-				anAmount = math.floor(anAmount / 1.5); -- critical heals in Wrath Classic are 150%
-			end
-
-			VUHDO_SHIELD_LEFT_TEMP[tUnit][VUHDO_SPELL_ID.POWERWORD_SHIELD] = anAmount;
+		else
+			tDoUpdate = false;
 		end
 	elseif VUHDO_ABSORB_DEBUFFS[aSpellId] then
 
@@ -400,44 +404,48 @@ function VUHDO_parseCombatLogShieldAbsorb(aMessage, aSrcGuid, aDstGuid, aShieldN
 			or "SPELL_AURA_BROKEN_SPELL" == aMessage then
 			VUHDO_removeShield(tUnit, aShieldName);
 			VUHDO_DEBUFF_SHIELDS[tUnit] = nil;
+		else
+			tDoUpdate = false;
 		end
 	elseif ("SPELL_HEAL" == aMessage or "SPELL_PERIODIC_HEAL" == aMessage)
 		and VUHDO_DEBUFF_SHIELDS[tUnit]
 		and (tonumber(anAbsorbAmount) or 0) > 0 then
+
 		tShieldName = VUHDO_DEBUFF_SHIELDS[tUnit];
 		tDelta = VUHDO_getShieldLeftAmount(tUnit, tShieldName) - anAbsorbAmount;
 		VUHDO_updateShieldValue(tUnit, tShieldName, tDelta);
 	elseif "UNIT_DIED" == aMessage then
+
 		VUHDO_SHIELD_SIZE[tUnit] = nil;
 		VUHDO_SHIELD_LEFT[tUnit] = nil;
 		VUHDO_SHIELD_EXPIRY[tUnit] = nil;
 		VUHDO_DEBUFF_SHIELDS[tUnit] = nil;
 		VUHDO_SHIELD_LAST_SOURCE_GUID[tUnit] = nil;
-	elseif ((VUHDO_IMMEDIATE_HOTS[aShieldName] and VUHDO_ACTIVE_HOTS[aShieldName]) or (VUHDO_IMMEDIATE_HOTS[tostring(aSpellId)] and VUHDO_ACTIVE_HOTS[tostring(aSpellId)])) and 
-		("SPELL_AURA_APPLIED" == aMessage or "SPELL_AURA_REMOVED" == aMessage or 
-		 "SPELL_AURA_REFRESH" == aMessage or "SPELL_AURA_BROKEN" == aMessage or 
-		 "SPELL_AURA_BROKEN_SPELL" == aMessage) then
-		VUHDO_updateAllHoTs();
-		VUHDO_updateAllCyclicBouquets(true);
-	elseif "SPELL_ABSORBED" == aMessage then
-		-- SPELL_ABSORBED optionally includes the spell payload if triggered from what would be SPELL_DAMAGE
-		-- this offsets the CLEU payload by +3
-		-- see: https://wowpedia.fandom.com/wiki/COMBAT_LOG_EVENT#SPELL_ABSORBED
-		if anAbsorbSpellSchool then
-			tShieldName = anAbsorbSpellName;
-			anAmount = anAbsorbSpellDamageAmount or 0;
-		else
-			tShieldName = anAbsorbAmount;
-			anAmount = anAbsorbSwingDamageAmount or 0;
-		end
+	elseif ((VUHDO_IMMEDIATE_HOTS[aShieldName] and VUHDO_ACTIVE_HOTS[aShieldName]) or
+		(VUHDO_IMMEDIATE_HOTS[tostring(aSpellId)] and VUHDO_ACTIVE_HOTS[tostring(aSpellId)])) and
+		("SPELL_AURA_APPLIED" == aMessage or "SPELL_AURA_REMOVED" == aMessage or
+		"SPELL_AURA_REFRESH" == aMessage or "SPELL_AURA_BROKEN" == aMessage or
+		"SPELL_AURA_BROKEN_SPELL" == aMessage) then
 
-		if VUHDO_SHIELD_LEFT[tUnit][tShieldName] then
-			tDelta = VUHDO_getShieldLeftAmount(tUnit, tShieldName) - anAmount;
-			VUHDO_updateShieldValue(tUnit, tShieldName, tDelta);
+		tinfo = VUHDO_RAID[tUnit];
+
+		if tInfo then
+			VUHDO_updateHots(tUnit, tInfo);
+
+			-- FIXME: why all?
+			VUHDO_updateAllCyclicBouquets(true);
+		else
+			tDoUpdate = false;
 		end
+	else
+		tDoUpdate = false;
 	end
 
-	VUHDO_updateBouquetsForEvent(tUnit, 36); -- VUHDO_UPDATE_SHIELD
-	VUHDO_updateShieldBar(tUnit);
-	VUHDO_updateHealAbsorbBar(tUnit);
+	if tDoUpdate then
+		VUHDO_updateBouquetsForEvent(tUnit, 36); -- VUHDO_UPDATE_SHIELD
+
+		VUHDO_updateShieldBar(tUnit);
+		VUHDO_updateHealAbsorbBar(tUnit);
+	end
+
 end

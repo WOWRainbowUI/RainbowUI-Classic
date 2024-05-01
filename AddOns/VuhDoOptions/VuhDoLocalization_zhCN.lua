@@ -653,10 +653,6 @@ VUHDO_I18N_TT.K593 = "Select a size for your private aura icons.";
 VUHDO_I18N_TT.K594 = "Check to sort pet units last.";
 VUHDO_I18N_TT.K595 = "Show effective HP (health including shields) of player.";
 
--- TBCC game version specific strings (tooltip IDs begin at K900)
-
-VUHDO_I18N_TT.K900 = "使用LibHealComm-4.0显示治疗预估";
-
 VUHDO_I18N_DEFAULT_PROFILE = "预设存档";
 VUHDO_I18N_DEFAULT_LAYOUT = "预设按键配置";
 VUHDO_I18N_APPLY_TO_ALL = "全部应用";
@@ -1202,7 +1198,3 @@ VUHDO_I18N_PETS_LAST = "Pets last";
 
 VUHDO_I18N_SHOW_EFFECTIVE = "Show\nEffective";
 VUHDO_I18N_DEBUFF_IGNORE_IMPORTED = "Debuff ignore list successfully imported.";
-
--- TBCC game version specific strings
-
-VUHDO_I18N_LIBHEALCOMM = "使用 Lib\nHealComm";
