@@ -12,24 +12,24 @@
 ## X-Category-zhTW: 介面
 ## DefaultState: disabled
 
-Cata\Declares.lua
-Cata\Const.lua
+Declares.lua
+Const.lua
 Locale-enUS.lua
 Locale-zhCN.lua
 Locale-zhTW.lua
-Cata\EventManager.lua
-Cata\UILibLayers.xml
-Cata\UILibConfigPage.xml
-Cata\UILibClickMask.lua
-Cata\UILibDragIcon.lua
-Cata\UILibCreateButton.lua
-Cata\UILibInputBox.lua
-Cata\UILibLines.lua
-Cata\Util.lua
-Cata\UILibToolbar.xml
-Cata\KeyBinder.xml
-Cata\Button.lua
-Cata\Bar.lua
-Cata\CustomAction.lua
-Cata\bindings.lua
-Cata\ButtonForge_API1.lua
+EventManager.lua
+UILibLayers.xml
+UILibConfigPage.xml
+UILibClickMask.lua
+UILibDragIcon.lua
+UILibCreateButton.lua
+UILibInputBox.lua
+UILibLines.lua
+Util.lua
+UILibToolbar.xml
+KeyBinder.xml
+Button.lua
+Bar.lua
+CustomAction.lua
+bindings.lua
+ButtonForge_API1.lua
