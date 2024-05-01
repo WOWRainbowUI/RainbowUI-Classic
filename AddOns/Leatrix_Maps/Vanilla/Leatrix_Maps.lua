@@ -1,6 +1,6 @@
 ﻿
 	----------------------------------------------------------------------
-	-- 	Leatrix Maps 1.15.28 (24th April 2024)
+	-- 	Leatrix Maps 1.15.29 (1st May 2024)
 	----------------------------------------------------------------------
 
 	-- 10:Func, 20:Comm, 30:Evnt, 40:Panl
@@ -12,7 +12,7 @@
 	local LeaMapsLC, LeaMapsCB, LeaDropList, LeaConfigList, LeaLockList = {}, {}, {}, {}, {}
 
 	-- Version
-	LeaMapsLC["AddonVer"] = "1.15.28"
+	LeaMapsLC["AddonVer"] = "1.15.29"
 
 	-- Get locale table
 	local void, Leatrix_Maps = ...
@@ -2454,7 +2454,7 @@
 		----------------------------------------------------------------------
 		-- Create panel in game options panel
 		----------------------------------------------------------------------
---[[
+
 		do
 
 			local interPanel = CreateFrame("FRAME")
@@ -2489,7 +2489,7 @@
 			InterfaceOptions_AddCategory(interPanel)
 
 		end
---]]
+
 		----------------------------------------------------------------------
 		-- Add zone map dropdown to main panel
 		----------------------------------------------------------------------
@@ -3454,7 +3454,7 @@
 			LeaMapsLC:LoadVarNum("BattleMapY", 83, -5000, 5000)			-- Battlefield map Y axis
 
 			LeaMapsLC:LoadVarNum("ZoneMapMenu", 1, 1, 3)				-- Zone map dropdown menu
-			LeaMapsLC:LoadVarChk("ShowMinimapIcon", "Off")				-- Show minimap button
+			LeaMapsLC:LoadVarChk("ShowMinimapIcon", "On")				-- Show minimap button
 
 			-- Panel
 			LeaMapsLC:LoadVarAnc("MainPanelA", "CENTER")				-- Panel anchor
