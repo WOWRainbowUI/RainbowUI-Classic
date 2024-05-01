@@ -2,7 +2,7 @@
 	
 	<Script file="UILibLayers.lua"/>
 	
-	<Frame name="BFOverlay" mixin="BackdropTemplateMixin" enablemouse="true" hidden="true" virtual="true">
+	<Frame name="BFOverlay" enablemouse="true" hidden="true" virtual="true" inherits="BackdropTemplate">
 		<Anchors>
 			<Anchor point="TOPLEFT" relativeTo="UIParent" relativePoint="TOPLEFT">
 				<Offset>
@@ -15,6 +15,7 @@
 				</Offset>
 			</Anchor>
 		</Anchors>
+		<!--
 		<Backdrop bgFile="Interface/Tooltips/UI-Tooltip-Background" edgeFile="" tile="true">
 			<TileSize>
 				<AbsValue val="16" />
@@ -23,12 +24,13 @@
 				<AbsValue val="16" />
 			</EdgeSize>
 		</Backdrop>
+	-->
 	</Frame>
 
 	
 	
 	<!-- The primary configure layer, all configuration UI descends from this -->
-	<Frame name="BFConfigureLayer" parent="UIParent" frameStrata="LOW" hidden="true" inherits="SecureHandlerBaseTemplate">
+	<Frame name="BFConfigureLayer" parent="UIParent" frameStrata="LOW" hidden="true">
 		<Scripts>
 			<OnShow>
 				BFUILib.ConfigureModeEnabled();

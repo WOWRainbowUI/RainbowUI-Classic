@@ -68,10 +68,121 @@ Util.ButtonWidgetMap = {};
 Util.UpdateMacroEventCount = 0;
 Util.MacroCheckDelayComplete = false;
 Util.ForceOffCastOnKeyDown = false;
-Util.MountCompanionIndexToMountID = {};
-Util.MountActionSlotToMountSpellID = {};
-Util.MountNameToMountID = {};
-Util.BattlePetNameToBattlePetGUID = {};
+Util.MountUselessIndexToIndex = {};
+
+
+local DefaultBarSave = {};
+DefaultBarSave["Left"]			= 0;
+DefaultBarSave["Top"]			= 0;
+DefaultBarSave["Scale"]			= 1;
+DefaultBarSave["Order"]			= 0;
+DefaultBarSave["Label"]			= nil;
+DefaultBarSave["Rows"]			= Const.DefaultRows;
+DefaultBarSave["Cols"]			= Const.DefaultCols;
+DefaultBarSave["VDriver"]		= nil;
+DefaultBarSave["HVehicle"]		= true;
+DefaultBarSave["HSpec1"]		= false;
+DefaultBarSave["HSpec2"]		= false;
+DefaultBarSave["HSpec3"]		= false;
+DefaultBarSave["HSpec4"]		= false;
+DefaultBarSave["HBonusBar"] 	= true;
+DefaultBarSave["HPetBattle"] 	= true;
+DefaultBarSave["GridAlwaysOn"] 	= true;
+DefaultBarSave["ButtonsLocked"] = false;
+DefaultBarSave["TooltipsOn"] 	= true;
+DefaultBarSave["MacroText"] 	= true;
+DefaultBarSave["KeyBindText"] 	= true;
+DefaultBarSave["ButtonGap"] 	= 6;
+DefaultBarSave["Enabled"] 		= true;
+DefaultBarSave["BonusBar"] 		= false;
+DefaultBarSave["GUI"] 			= true;
+DefaultBarSave["Alpha"] 		= 1;
+
+local DefaultBonusBarSave = {};
+DefaultBonusBarSave["Left"]				= 0;
+DefaultBonusBarSave["Top"]				= 0;
+DefaultBonusBarSave["Scale"]			= 1;
+DefaultBonusBarSave["Order"]			= 0;
+DefaultBonusBarSave["Label"]			= nil;
+DefaultBonusBarSave["Rows"]						= 1;
+DefaultBonusBarSave["Cols"]						= 13;
+DefaultBonusBarSave["VDriver"]					= "[overridebar][vehicleui] show; hide";
+DefaultBonusBarSave["HVehicle"]					= false;
+DefaultBonusBarSave["HSpec1"]			= false;
+DefaultBonusBarSave["HSpec2"]			= false;
+DefaultBonusBarSave["HSpec3"]			= false;
+DefaultBonusBarSave["HSpec4"]			= false;
+DefaultBonusBarSave["HBonusBar"]				= false;
+DefaultBonusBarSave["HPetBattle"] 		= true;
+DefaultBonusBarSave["GridAlwaysOn"] 			= false;
+DefaultBonusBarSave["ButtonsLocked"] 			= true;
+DefaultBonusBarSave["TooltipsOn"] 		= true;
+DefaultBonusBarSave["MacroText"] 		= true;
+DefaultBonusBarSave["KeyBindText"] 		= true;
+DefaultBonusBarSave["ButtonGap"] 		= 6;
+DefaultBonusBarSave["Enabled"] 			= true;
+DefaultBonusBarSave["BonusBar"] 				= true;
+DefaultBonusBarSave["GUI"] 				= true;
+DefaultBonusBarSave["Alpha"] 			= 1;
+
+local CleanseEcho = function(v) return v end;
+
+local BarSaveCleanseFunctions = {};
+BarSaveCleanseFunctions["Left"]			= tonumber;
+BarSaveCleanseFunctions["Top"]			= tonumber;
+BarSaveCleanseFunctions["Scale"]			= tonumber;
+BarSaveCleanseFunctions["Order"]			= tonumber;
+BarSaveCleanseFunctions["Label"]			= CleanseEcho;
+BarSaveCleanseFunctions["Rows"]			= tonumber;
+BarSaveCleanseFunctions["Cols"]			= tonumber;
+BarSaveCleanseFunctions["VDriver"]					= CleanseEcho;
+BarSaveCleanseFunctions["HVehicle"]					= CleanseEcho;
+BarSaveCleanseFunctions["HSpec1"]					= CleanseEcho;
+BarSaveCleanseFunctions["HSpec2"]					= CleanseEcho;
+BarSaveCleanseFunctions["HSpec3"]					= CleanseEcho;
+BarSaveCleanseFunctions["HSpec4"]					= CleanseEcho;
+BarSaveCleanseFunctions["HBonusBar"] 				= CleanseEcho;
+BarSaveCleanseFunctions["HPetBattle"] 				= CleanseEcho;
+BarSaveCleanseFunctions["GridAlwaysOn"] 			= CleanseEcho;
+BarSaveCleanseFunctions["ButtonsLocked"] 			= CleanseEcho;
+BarSaveCleanseFunctions["TooltipsOn"] 				= CleanseEcho;
+BarSaveCleanseFunctions["MacroText"] 				= CleanseEcho;
+BarSaveCleanseFunctions["KeyBindText"] 				= CleanseEcho;
+BarSaveCleanseFunctions["ButtonGap"] 	= tonumber;
+BarSaveCleanseFunctions["Enabled"] 					= CleanseEcho;
+BarSaveCleanseFunctions["BonusBar"] 				= CleanseEcho;
+BarSaveCleanseFunctions["GUI"] 						= CleanseEcho;
+BarSaveCleanseFunctions["Alpha"] 		= tonumber;
+
+local ValidateNumeric = function(v) return type(v) == "number" end;
+local ValidateBoolean = function(v) return type(v) == "boolean" end;
+
+local BarSaveValidationFunctions = {};
+BarSaveValidationFunctions["Left"]			= ValidateNumeric;
+BarSaveValidationFunctions["Top"]			= ValidateNumeric;
+BarSaveValidationFunctions["Scale"]			= function(v) return ValidateNumeric(v) and v >= 0 end;
+BarSaveValidationFunctions["Order"]			= function(v) return ValidateNumeric(v) and v >= 0 end;
+BarSaveValidationFunctions["Label"]			= function(v) return true end;
+BarSaveValidationFunctions["Rows"]			= function(v) return ValidateNumeric(v) and v >= 1 end;
+BarSaveValidationFunctions["Cols"]			= function(v) return ValidateNumeric(v) and v >= 1 end;
+BarSaveValidationFunctions["VDriver"]					= function(v) return true end;
+BarSaveValidationFunctions["HVehicle"]					= ValidateBoolean;
+BarSaveValidationFunctions["HSpec1"]					= ValidateBoolean;
+BarSaveValidationFunctions["HSpec2"]					= ValidateBoolean;
+BarSaveValidationFunctions["HSpec3"]					= ValidateBoolean;
+BarSaveValidationFunctions["HSpec4"]					= ValidateBoolean;
+BarSaveValidationFunctions["HBonusBar"] 				= ValidateBoolean;
+BarSaveValidationFunctions["HPetBattle"] 				= ValidateBoolean;
+BarSaveValidationFunctions["GridAlwaysOn"] 				= ValidateBoolean;
+BarSaveValidationFunctions["ButtonsLocked"] 			= ValidateBoolean;
+BarSaveValidationFunctions["TooltipsOn"] 				= ValidateBoolean;
+BarSaveValidationFunctions["MacroText"] 				= ValidateBoolean;
+BarSaveValidationFunctions["KeyBindText"] 				= ValidateBoolean;
+BarSaveValidationFunctions["ButtonGap"] 	= ValidateNumeric;
+BarSaveValidationFunctions["Enabled"] 					= ValidateBoolean;
+BarSaveValidationFunctions["BonusBar"] 					= ValidateBoolean;
+BarSaveValidationFunctions["GUI"] 						= ValidateBoolean;
+BarSaveValidationFunctions["Alpha"] 		= function(v) return ValidateNumeric(v) and v >= 0 and v <= 1 end;
 
 
 --One quick override function
@@ -86,10 +197,7 @@ local function PickupSpellBookItem(NameRank, Book)
 	return G_PickupSpellBookItem(NameRank);
 end
 
---Dirty fix for classic, will keep it as is until i know what the hell does HasOverrideActionBar...
--- function HasOverrideActionBar()
-  -- return false;
--- end
+
 
 --[[
 	Make sure that the saved data is kept inline with the version being run
@@ -109,15 +217,22 @@ function Util.UpdateSavedData()
 	------The following section updates the per character saved data------
 	
 	--Need to allocate save structure
-	if (not ButtonForgeSave or ButtonForgeSave["Version"] == nil) then
+	if (not ButtonForgeSave) then
 		--Swap v0.9.0 / v0.9.1 / v0.9.2 users to the new save structure
-		ButtonForgeSave = {};
-		ButtonForgeSave["ConfigureMode"] = true;
-		ButtonForgeSave["AdvancedMode"] = false;
-		ButtonForgeSave["RightClickSelfCast"] = false;
-		ButtonForgeSave["Version"] = Const.Version;
-		ButtonForgeSave["VersionMinor"] = Const.VersionMinor;
-		ButtonForgeSave.Bars = {};
+		if (type(BFSave) == "table" and BFSave["Version"] and BFSave["VersionMinor"] and
+			BFSave["Version"] == 0.9 and BFSave["VersionMinor"] <= 2) then
+			--the above test checks if a legitimate ButtonForge BFSave exists before we adopt it to the new table name
+			ButtonForgeSave = BFSave;
+			BFSave = nil;
+		else
+			ButtonForgeSave = {};
+			ButtonForgeSave["ConfigureMode"] = true;
+			ButtonForgeSave["AdvancedMode"] = false;
+			ButtonForgeSave["RightClickSelfCast"] = false;
+			ButtonForgeSave["Version"] = Const.Version;
+			ButtonForgeSave["VersionMinor"] = Const.VersionMinor;
+			ButtonForgeSave.Bars = {};
+		end
 		ButtonForgeSave["AddonName"] = "Button Forge";
 	end
 	
@@ -174,6 +289,9 @@ function Util.UpdateSavedData()
 	
 	--v0.9.25 update
 	if (ButtonForgeSave["Version"] == 0.9 and ButtonForgeSave["VersionMinor"] < 25) then
+		for i = 1, #ButtonForgeSave.Bars do
+			ButtonForgeSave.Bars[i]["HPetBattle"] = true;
+		end
 		ButtonForgeSave["VersionMinor"] = 25;
 		DEFAULT_CHAT_FRAME:AddMessage(Util.GetLocaleString("UpgradedChatMsg").."v0.9.25", .5, 1, 0, 1);
 	end
@@ -189,9 +307,14 @@ function Util.UpdateSavedData()
 	
 	-- v0.9.36 update
 	if (ButtonForgeSave["Version"] == 0.9 and ButtonForgeSave["VersionMinor"] < 36) then
+		for i = 1, #ButtonForgeSave.Bars do
+			Util.UpdateBattlePets602(ButtonForgeSave.Bars[i].Buttons);
+		end
+		
 		if (ButtonForgeSave.UndoProfileBars ~= nil) then
 			for i = 1, #ButtonForgeSave.UndoProfileBars do
 				Util.UpdateMounts602(ButtonForgeSave.UndoProfileBars[i].Buttons);
+				Util.UpdateBattlePets602(ButtonForgeSave.UndoProfileBars[i].Buttons);
 			end
 		end
 		ButtonForgeSave["VersionMinor"] = 36;
@@ -245,7 +368,7 @@ function Util.UpdateSavedData()
 		DEFAULT_CHAT_FRAME:AddMessage(Util.GetLocaleString("UpgradedChatMsg").."v0.9.44", .5, 1, 0, 1);
 	end
 
-	-- v1.0.20
+	-- v1.0.20 -- added for Cata 04/29/2024
 	if ButtonForgeSave["Version"] < 1.0 or (ButtonForgeSave["Version"] == 1.0 and ButtonForgeSave["VersionMinor"] < 0.20) then
 		for i = 1, #ButtonForgeSave.Bars do
 			Util.UpdateCompanionsv1_20(ButtonForgeSave.Bars[i].Buttons);
@@ -260,28 +383,37 @@ function Util.UpdateSavedData()
 		ButtonForgeSave["VersionMinor"] = 0.20;
 		DEFAULT_CHAT_FRAME:AddMessage(Util.GetLocaleString("UpgradedChatMsg").."v1.0.20", .5, 1, 0, 1);
 	end
-	
+
+	-- v1.0.22 -- added for Cata 04/30/2024
+	if ButtonForgeSave["Version"] < 1.0 or (ButtonForgeSave["Version"] == 1.0 and ButtonForgeSave["VersionMinor"] < 0.22) then
+		for i = 1, #ButtonForgeSave.Bars do
+			Util.UpdateCompanionsv1_22(ButtonForgeSave.Bars[i].Buttons);
+		end
+
+		if (ButtonForgeSave.UndoProfileBars ~= nil) then
+			for i = 1, #ButtonForgeSave.UndoProfileBars do
+				Util.UpdateCompanionsv1_22(ButtonForgeSave.UndoProfileBars[i].Buttons);
+			end
+		end
+		ButtonForgeSave["Version"] = 1.0;
+		ButtonForgeSave["VersionMinor"] = 0.22;
+		DEFAULT_CHAT_FRAME:AddMessage(Util.GetLocaleString("UpgradedChatMsg").."v1.0.22", .5, 1, 0, 1);
+	end
+
 
 	--Bring v up to the latest version
-	-- if (ButtonForgeSave["Version"] < Const.Version) then
-	--	ButtonForgeSave["Version"] = Const.Version;
-	--	ButtonForgeSave["VersionMinor"] = Const.VersionMinor;
-	--	DEFAULT_CHAT_FRAME:AddMessage(Util.GetLocaleString("UpgradedChatMsg").."v"..Const.Version.."."..Const.VersionMinor, .5, 1, 0, 1);
-	-- elseif (ButtonForgeSave["Version"] == Const.Version and ButtonForgeSave["VersionMinor"] < Const.VersionMinor) then
-	--	ButtonForgeSave["VersionMinor"] = Const.VersionMinor;
-	--	DEFAULT_CHAT_FRAME:AddMessage(Util.GetLocaleString("UpgradedChatMsg").."v"..Const.Version.."."..Const.VersionMinor, .5, 1, 0, 1);
-	--end
-
-	--Bring ButtonForgeSave up to the latest version
-	 if (ButtonForgeSave["Version"] ~= Const.Version) or (ButtonForgeSave["VersionMinor"] ~= Const.VersionMinor) then
+	if (ButtonForgeSave["Version"] < Const.Version) then
 		ButtonForgeSave["Version"] = Const.Version;
+		ButtonForgeSave["VersionMinor"] = Const.VersionMinor;
+		DEFAULT_CHAT_FRAME:AddMessage(Util.GetLocaleString("UpgradedChatMsg").."v"..Const.Version.."."..Const.VersionMinor, .5, 1, 0, 1);
+	elseif (ButtonForgeSave["Version"] == Const.Version and ButtonForgeSave["VersionMinor"] < Const.VersionMinor) then
 		ButtonForgeSave["VersionMinor"] = Const.VersionMinor;
 		DEFAULT_CHAT_FRAME:AddMessage(Util.GetLocaleString("UpgradedChatMsg").."v"..Const.Version.."."..Const.VersionMinor, .5, 1, 0, 1);
 	end
 	
 	
 	-----This section updates the global button forge data (introduced at 0.9.16)
-	if (not ButtonForgeGlobalSettings) or (ButtonForgeGlobalSettings == nil) or (ButtonForgeGlobalSettings["Version"] == nil) then
+	if (not ButtonForgeGlobalSettings) then
 		ButtonForgeGlobalSettings = {};
 		ButtonForgeGlobalSettings["Version"] = 0.9;
 		ButtonForgeGlobalSettings["VersionMinor"] = 16;
@@ -302,7 +434,7 @@ function Util.UpdateSavedData()
 	end
 	
 	--pre v0.9.36 Safety process
-	if (not ButtonForgeGlobalProfiles) or (ButtonForgeGlobalProfiles == nil) then
+	if (not ButtonForgeGlobalProfiles) then
 		ButtonForgeGlobalProfiles = {};
 	end
 	
@@ -311,6 +443,7 @@ function Util.UpdateSavedData()
 		for k,v in pairs(ButtonForgeGlobalProfiles) do
 			for i = 1, #v.Bars do
 				Util.UpdateMounts602(v.Bars[i].Buttons);
+				Util.UpdateBattlePets602(v.Bars[i].Buttons);
 			end
 		end
 		ButtonForgeGlobalSettings["VersionMinor"] = 36;
@@ -354,7 +487,7 @@ function Util.UpdateSavedData()
 		end
 	end
 
-	-- v1.0.20
+	-- v1.0.20 -- added for Cata 04/29/2024
 	if ButtonForgeGlobalSettings["Version"] < 1.0 or (ButtonForgeGlobalSettings["Version"] == 1.0 and ButtonForgeGlobalSettings["VersionMinor"] < 0.20) then
 		for k, v in pairs(ButtonForgeGlobalProfiles) do
 			for i = 1, #v.Bars do
@@ -364,21 +497,26 @@ function Util.UpdateSavedData()
 		ButtonForgeGlobalSettings["Version"] = 1.0;
 		ButtonForgeGlobalSettings["VersionMinor"] = 0.20;
 	end
-	
-	--Bring the global settings up to the latest version
-	--if (ButtonForgeGlobalSettings["Version"] < Const.Version) then
-	--	ButtonForgeGlobalSettings["Version"] = Const.Version;
-	--	ButtonForgeGlobalSettings["VersionMinor"] = Const.VersionMinor;
-	--elseif (ButtonForgeGlobalSettings["Version"] == Const.Version and ButtonForgeGlobalSettings["VersionMinor"] < Const.VersionMinor) then
-	--	ButtonForgeGlobalSettings["VersionMinor"] = Const.VersionMinor;
-	--end
 
-	--Bring the global settings up to the latest version
-	if (ButtonForgeGlobalSettings["Version"] ~= Const.Version) or (ButtonForgeGlobalSettings["VersionMinor"] ~= Const.VersionMinor) then
-		ButtonForgeGlobalSettings["Version"] = Const.Version;
-		ButtonForgeGlobalSettings["VersionMinor"] = Const.VersionMinor;
+	-- v1.0.22 -- added for Cata 04/30/2024
+	if ButtonForgeGlobalSettings["Version"] < 1.0 or (ButtonForgeGlobalSettings["Version"] == 1.0 and ButtonForgeGlobalSettings["VersionMinor"] < 0.22) then
+		for k, v in pairs(ButtonForgeGlobalProfiles) do
+			for i = 1, #v.Bars do
+				Util.UpdateCompanionsv1_22(v.Bars[i].Buttons);
+			end
+		end
+		ButtonForgeGlobalSettings["Version"] = 1.0;
+		ButtonForgeGlobalSettings["VersionMinor"] = 0.22;
 	end
 
+
+	--Bring the global settings up to the latest version
+	if (ButtonForgeGlobalSettings["Version"] < Const.Version) then
+		ButtonForgeGlobalSettings["Version"] = Const.Version;
+		ButtonForgeGlobalSettings["VersionMinor"] = Const.VersionMinor;
+	elseif (ButtonForgeGlobalSettings["Version"] == Const.Version and ButtonForgeGlobalSettings["VersionMinor"] < Const.VersionMinor) then
+		ButtonForgeGlobalSettings["VersionMinor"] = Const.VersionMinor;
+	end
 end
 
 
@@ -399,6 +537,15 @@ function Util.UpdateMounts602(Buttons)
 				Buttons[j]["Mode"] = "mount";
 				Buttons[j]["MountID"]		= MountID;
 			end
+		end
+	end
+end
+
+function Util.UpdateBattlePets602(Buttons)
+	for j = 1, #Buttons do
+		if (Buttons[j]["Mode"] == "battlepet") then
+			Buttons[j]["Mode"] = nil;
+			Buttons[j]["BattlePetId"] = nil;
 		end
 	end
 end
@@ -427,7 +574,7 @@ function Util.UpdateMounts700(Buttons)
 	end
 end
 
-function Util.UpdateCompanionsv1_20(Buttons)
+function Util.UpdateCompanionsv1_20(Buttons) -- added for Cata 04/29/2024
 	for j = 1, #Buttons do
 		if (Buttons[j]["Mode"] == "mount") then
 			local Name = Buttons[j]["MountName"];
@@ -448,17 +595,28 @@ function Util.UpdateCompanionsv1_20(Buttons)
 					Buttons[j]["MountSpellID"] = MountSpellID;
 				end
 			else
+				-- This step doesn't really work as the BattlePetGUID's are not immediately available even though at player login even though the other pet info is
 				local BattlePetGUID = Util.GetBattlePetGUIDFromName(Name);
 				if type(BattlePetGUID) == "string" then
 					local speciesID, customName, level, xp, maxXp, displayID, isFavorite, name, icon, petType, creatureID, sourceText, description, isWild, canBattle, tradable, unique = C_PetJournal.GetPetInfoByPetID(BattlePetGUID);
 					if type(speciesID) == "number" then
 						-- Is BattlePet and successfully converted
 						Buttons[j]["Mode"] = "battlepet";
-						Buttons[j]["BattlePetGUID"] = BattlePetGUID;
+						Buttons[j]["BattlePetId"] = BattlePetGUID; -- changed for Cata 04/29/2024
 						Buttons[j]["SpeciesID"] = speciesID;
 						Buttons[j]["BattlePetName"] = name;
 					end
 				end
+			end
+		end
+	end
+end
+
+function Util.UpdateCompanionsv1_22(Buttons) -- added for Cata 04/30/2024
+	for j = 1, #Buttons do
+		if (Buttons[j]["Mode"] == "battlepet") then
+			if Buttons[j]["BattlePetId"] == nil then
+				Buttons[j]["BattlePetId"] = Buttons[j]["BattlePetGUID"]
 			end
 		end
 	end
@@ -482,10 +640,6 @@ function Util.Load()
 	CharRealm = CharRealm.."-"..GetRealmName();
 	ButtonForgeGlobalBackup[CharRealm] = ButtonForgeSave;
 
-	Util.ForceOffCastOnKeyDown = ButtonForgeGlobalSettings["ForceOffCastOnKeyDown"];
-	if (not Util.ForceOffCastOnKeyDown) then
-		hooksecurefunc("SetCVar", MiscFrame.SetCVarCalled);
-	end
 	if (ButtonForgeSave.ConfigureMode) then
 		ConfigureLayer:Show();
 	end
@@ -551,6 +705,7 @@ function Util.LoadProfile(ProfileName)
 	for i = 1, #ButtonForgeSave.Bars do
 		Util.NewBar(0, 0, ButtonForgeSave.Bars[i]);
 	end
+	Util.RefreshCompanions();
 	Util.RefreshMacros();
 	Util.RefreshEquipmentSets();
 	Util.RefreshSpells();
@@ -651,6 +806,7 @@ function Util.UndoProfile()
 	for i = 1, #ButtonForgeSave.Bars do
 		Util.NewBar(0, 0, ButtonForgeSave.Bars[i]);
 	end
+	Util.RefreshCompanions();
 	Util.RefreshMacros();
 	Util.RefreshEquipmentSets();
 	Util.RefreshSpells();
@@ -706,20 +862,20 @@ function Util.CreateBlizzardBarWrappers()
 	end
 
 	Util.BlizBarWrappers[1] = CreateFrame("FRAME", nil, UIParent);
-	Util.BlizBarWrappers[1]:SetPoint("TOPLEFT", MultiBarBottomLeftButton1, "TOPLEFT", -Const.I, Const.I + 1);
-	Util.BlizBarWrappers[1]:SetPoint("BOTTOMRIGHT", MultiBarBottomLeftButton12, "BOTTOMRIGHT", Const.I, -Const.I + 1);
+	Util.BlizBarWrappers[1]:SetPoint("TOPLEFT", MultiBarBottomLeftButton1, "TOPLEFT", -Const.I, Const.I);
+	Util.BlizBarWrappers[1]:SetPoint("BOTTOMRIGHT", MultiBarBottomLeftButton12, "BOTTOMRIGHT", Const.I, -Const.I);
 
 	Util.BlizBarWrappers[2] = CreateFrame("FRAME", nil, UIParent);
-	Util.BlizBarWrappers[2]:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", -Const.I, Const.I + 1);
-	Util.BlizBarWrappers[2]:SetPoint("BOTTOMRIGHT", MultiBarBottomRightButton12, "BOTTOMRIGHT", Const.I, -Const.I + 1);
+	Util.BlizBarWrappers[2]:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", -Const.I, Const.I);
+	Util.BlizBarWrappers[2]:SetPoint("BOTTOMRIGHT", MultiBarBottomRightButton12, "BOTTOMRIGHT", Const.I, -Const.I);
 
 	Util.BlizBarWrappers[3] = CreateFrame("FRAME", nil, UIParent);
-	Util.BlizBarWrappers[3]:SetPoint("TOPLEFT", MultiBarRightButton1, "TOPLEFT", -Const.I, Const.I + 1);
-	Util.BlizBarWrappers[3]:SetPoint("BOTTOMRIGHT", MultiBarRightButton12, "BOTTOMRIGHT", Const.I, -Const.I + 1);
+	Util.BlizBarWrappers[3]:SetPoint("TOPLEFT", MultiBarRightButton1, "TOPLEFT", -Const.I, Const.I);
+	Util.BlizBarWrappers[3]:SetPoint("BOTTOMRIGHT", MultiBarRightButton12, "BOTTOMRIGHT", Const.I, -Const.I);
 	
 	Util.BlizBarWrappers[4] = CreateFrame("FRAME", nil, UIParent);
-	Util.BlizBarWrappers[4]:SetPoint("TOPLEFT", MultiBarLeftButton1, "TOPLEFT", -Const.I, Const.I + 1);
-	Util.BlizBarWrappers[4]:SetPoint("BOTTOMRIGHT", MultiBarLeftButton12, "BOTTOMRIGHT", Const.I, -Const.I + 1);
+	Util.BlizBarWrappers[4]:SetPoint("TOPLEFT", MultiBarLeftButton1, "TOPLEFT", -Const.I, Const.I);
+	Util.BlizBarWrappers[4]:SetPoint("BOTTOMRIGHT", MultiBarLeftButton12, "BOTTOMRIGHT", Const.I, -Const.I);
 
 
 end
@@ -777,30 +933,12 @@ end
 --]]
 function Util.NewBarSave()
 	local Save = {};
-	Save["Left"]	= 0;
-	Save["Top"]		= 0;
-	Save["Scale"]	= 1;
-	Save["Order"]	= #Util.ActiveBars;
-	Save["Label"]	= nil;
-	Save["Rows"]	= Const.DefaultRows;
-	Save["Cols"]	= Const.DefaultCols;
-	Save["VDriver"]	= nil;
-	Save["HVehicle"]	= true;
-	Save["HSpec1"]	= false;
-	Save["HSpec2"]	= false;
-	Save["HSpec3"]	= false;
-	Save["HSpec4"]	= false;
-	Save["HBonusBar"] = true;
-	Save["GridAlwaysOn"] = true;
-	Save["ButtonsLocked"] = false;
-	Save["TooltipsOn"] = true;
-	Save["MacroText"] = true;
-	Save["KeyBindText"] = true;
-	Save["ButtonGap"] = 6;
-	Save["Enabled"] = true;
-	Save["BonusBar"] = false;
-	Save["GUI"] = true;
-	Save["Alpha"] = 1;
+	for k, v in pairs(DefaultBarSave) do
+		Save[k] = v;
+	end
+
+	-- special case for order
+	Save["Order"] = #Util.ActiveBars;
 	Save["Buttons"]	= {};
 	
 	return Save;
@@ -812,15 +950,37 @@ function Util.NewBar(Left, Top, BarSave)
 	end
 	local NewBar;
 	
-	if (not BarSave) then
+	if (type(BarSave) ~= "table") then
 		BarSave = Util.NewBarSave();
 		BarSave["Left"] = Left;
 		BarSave["Top"] = Top;
-		if (ButtonForgeSave.Bars == nil) then
-      ButtonForgeSave.Bars = {};
-		end;
 		table.insert(ButtonForgeSave.Bars, BarSave);
 		PlaySound(177, "Master");
+	else
+		-- Make sure the BarSave has no missing or invalid settings
+		-- First choose if we use normal defaults, or those for the Bonus Bar
+		local Defaults;
+		if (BarSave["BonusBar"]) then
+			Defaults = DefaultBonusBarSave;
+		else
+			Defaults = DefaultBarSave;
+		end
+
+		-- Scan through each setting, and run the validation function, if fail then grab the default value
+		for k, v in pairs(Defaults) do
+			BarSave[k] = BarSaveCleanseFunctions[k](BarSave[k]);
+			if (not BarSaveValidationFunctions[k](BarSave[k])) then
+				BarSave[k] = v;
+				if (k == "Order") then
+					BarSave[k] = #Util.ActiveBars;
+				end
+			end
+		end
+
+		-- Make sure the Buttons table exists (downstream code will handle setting up empty button entries)
+		if (type(BarSave["Buttons"]) ~= "table") then
+			BarSave["Buttons"] = {};
+		end
 	end
 	
 	if (#(Util.InactiveBars) > 0) then
@@ -845,20 +1005,15 @@ function Util.NewBonusBar(Left, Top)
 	if (InCombatLockdown()) then
 		return;
 	end
-	local BarSave = Util.NewBarSave();
-	BarSave["BonusBar"] = true;
+	local BarSave = {};
+	for k, v in pairs(DefaultBonusBarSave) do
+		BarSave[k] = v;
+	end
 	BarSave["Left"] = Left;
 	BarSave["Top"] = Top;
-	BarSave["Rows"] = 1;
-	BarSave["Cols"] = 13;
-	BarSave["HBonusBar"] = false;
-	BarSave["HVehicle"] = false;
-	BarSave["VDriver"] = "[overridebar][vehicleui] show; hide";
-	BarSave["ButtonsLocked"] = true;
-	BarSave["GridAlwaysOn"] = false;
-  if (ButtonForgeSave.Bars == nil) then
-    ButtonForgeSave.Bars = {};
-  end;
+	BarSave["Order"] = #Util.ActiveBars;
+	BarSave["Buttons"] = {};
+
 	table.insert(ButtonForgeSave.Bars, BarSave);
 	PlaySound(177, "Master");
 	return Util.NewBar(Left, Top, BarSave);
@@ -1369,25 +1524,39 @@ SlashCmdList["BUTTONFORGE"] = function(msg, editbox)
 			if (Commands["-createbar"]) then
 				Util.ApplySlashCommands(Commands);
 			else
-				local BarName;
+				local BarNames;
 				if (Commands["-bar"]) then
-					BarName = Commands["-bar"][1];
+					BarNames = Commands["-bar"][1];
 				elseif (Commands["-destroybar"]) then
-					BarName = Commands["-destroybar"][1];
+					BarNames = Commands["-destroybar"][1];
 				end
-				local barFound = false;
-				for i = 1, #Bars do
-					if ((not BarName) or strlower(BarName) == strlower(Bars[i].BarSave["Label"])) then
-						Util.ApplySlashCommands(Commands, Bars[i]);
-						barFound = true;
-					end
-				end
-				-- bar name not found, check with Index
-				if ( barFound == false ) then
+
+				if (not BarNames) then
+					-- apply to all bars
 					for i = 1, #Bars do
-						if ( tonumber(BarName) == i ) then
-							Util.ApplySlashCommands(Commands, Bars[i]);
-							barFound = true;
+						Util.ApplySlashCommands(Commands, Bars[i]);
+					end
+				else
+					local BarName;
+					for BarName in string.gmatch(BarNames, '([^,]+)') do
+						local barFound = false;
+						for i = 1, #Bars do
+							if ((not BarName) or strlower(BarName) == strlower(Bars[i].BarSave["Label"])) then
+								Util.ApplySlashCommands(Commands, Bars[i]);
+								barFound = true;
+							end
+						end
+						-- bar name not found, check with Index
+						if ( barFound == false ) then
+							for i = 1, #Bars do
+								if ( tonumber(BarName) == i ) then
+									Util.ApplySlashCommands(Commands, Bars[i]);
+									barFound = true;
+								end
+							end
+						end
+						if (barFound == false) then
+							DEFAULT_CHAT_FRAME:AddMessage(string.gsub(Util.GetLocaleString("SlashListBarNotFound"), "<LABEL>", BarName), .5, 1, 0, 1);
 						end
 					end
 				end
@@ -1397,7 +1566,7 @@ SlashCmdList["BUTTONFORGE"] = function(msg, editbox)
 		end
 
 	else
-		Util.SlashShowMessageByLine(Util.GetLocaleString("SlashHelpFormatted"));		--]]
+		Util.SlashShowMessageByLine(Util.GetLocaleString("SlashHelpFormatted"));
 	end
 
 end
@@ -1417,8 +1586,9 @@ function Util.ApplySlashCommands(Commands, Bar)
 		local Bars = Util.ActiveBars;
 		for i = 1, #Bars do
 			local label = string.gsub(Util.GetLocaleString("SlashListBarWithLabel"), "<LABEL>", Bars[i].BarSave["Label"]);
+			label = string.gsub(label, "<INDEX>", i);
 			if (Bars[i].BarSave["Label"] == "") then
-				label = string.gsub(Util.GetLocaleString("SlashListBarWithIndex"), "<LABEL>", i);
+				label = string.gsub(Util.GetLocaleString("SlashListBarWithIndex"), "<INDEX>", i);
 			end
 			DEFAULT_CHAT_FRAME:AddMessage(label, .5, 1, 0, 1);
 		end
@@ -1496,6 +1666,10 @@ function Util.ApplySlashCommands(Commands, Bar)
 		Bar:SetHBonusBar(Commands["-hideoverridebar"][1]);
 	end
 	
+	if (Commands["-hidepetbattle"]) then
+		Bar:SetHPetBattle(Commands["-hidepetbattle"][1]);
+	end	
+
 	if (Commands["-vismacro"]) then
 		Bar:SetVD(Commands["-vismacro"][1]);
 	end
@@ -1516,6 +1690,63 @@ function Util.ApplySlashCommands(Commands, Bar)
 		Bar:SetButtonGap(tonumber(Commands["-gap"][1]));
 	end
 
+	if (Commands["-where"]) then
+
+		local mapID = C_Map.GetBestMapForUnit("player");
+		Util.SlashShowMessageByLine(format("You are in %s |c"..Const.LightBlue.."(%d)|r", C_Map.GetMapInfo(mapID).name, mapID));
+
+	end
+
+	if (Commands["-aura"]) then
+
+		for i=1,40 do 
+			local name,_,_,_,_,_,_,_,_,spellId=UnitAura("player",i);
+			if(spellId ~= nil) then
+				Util.SlashShowMessageByLine(format("%s |c"..Const.LightBlue.."(%d)|r", name, spellId));
+			else
+				break;
+			end
+		end
+	
+	end
+
+	if (Commands["-quests"]) then
+
+		local String = "";
+
+		-- check super track
+		superTrackedQuestID = C_SuperTrack.GetSuperTrackedQuestID();
+		if(superTrackedQuestID > 0) then
+			title = C_QuestLog.GetTitleForQuestID(superTrackedQuestID);
+			String = String .. "|c"..Const.DarkOrange..title.."|r |c"..Const.LightBlue.."("..superTrackedQuestID..")|r\n";
+		end
+		
+		-- quests log
+		local numEntries = C_QuestLog.GetNumQuestLogEntries();
+		QuestMapFrame.ignoreQuestLogUpdate = true;
+
+		-- visible quests
+		for questLogIndex = 1, numEntries do
+			local info = C_QuestLog.GetInfo(questLogIndex);
+			if ( info.questID > 0 and info.isHidden == false ) then
+				String = String .. info.title.." |c"..Const.LightBlue.."("..info.questID..")|r\n";
+			end
+		end
+
+		-- hidden quests
+		for questLogIndex = 1, numEntries do
+			local info = C_QuestLog.GetInfo(questLogIndex);
+			if ( info.questID > 0 and info.isHidden == true ) then
+				String = String .. "|c"..Const.DarkBlue.."(Hidden) "..info.title.."|r |c"..Const.LightBlue.."("..info.questID..")|r\n";
+			end
+		end
+
+		if (String ~= "") then
+			Util.SlashShowMessageByLine(String);
+		end
+
+	end
+
 	if (Commands["-info"]) then
 		--print out the bar info's
 		local String = 	Util.GetLocaleString("InfoLabel")..": "..(Bar:GetLabel() or "").."\n"..
@@ -1534,6 +1765,7 @@ function Util.ApplySlashCommands(Commands, Bar)
 					Util.GetLocaleString("InfoHSpec4")..": "..select(2, Bar:GetHSpec4()).."\n"..
 					Util.GetLocaleString("InfoHVehicle")..": "..select(2, Bar:GetHVehicle()).."\n"..
 					Util.GetLocaleString("InfoHBonusBar5")..": "..select(2, Bar:GetHBonusBar()).."\n"..
+					Util.GetLocaleString("InfoHPetBattle")..": "..select(2, Bar:GetHPetBattle()).."\n"..
 					Util.GetLocaleString("InfoVisibilityMacro")..": "..(Bar:GetVD() or "").."\n"..
 					Util.GetLocaleString("InfoGUI")..": "..select(2, Bar:GetGUI()).."\n"..
 					Util.GetLocaleString("InfoAlpha")..": "..Bar:GetAlpha().."\n"..
@@ -1624,44 +1856,55 @@ end
 function Util.SetCursor(Command, Data, Subvalue, Subsubvalue)
 	ClearCursor();
 	UILib.StopDraggingIcon();
---	SpellFlyout:Hide();
+	-- SpellFlyout:Hide(); -- removed for cata 04/27/2024
 	if (Command == "spell") then
 		-- pet spell or not
 		local name = GetSpellInfo(Subsubvalue);
+		local subtext = GetSpellSubtext(Subsubvalue) or "";
 		if ( Util.PetSpellIndex[name] ) then
 			PickupSpellBookItem(Util.PetSpellIndex[name], BOOKTYPE_PET);
 		else
-			PickupSpell(Subsubvalue);
+			-- Shadowlands Covenants spells seem to be different from standard spell
+			-- attempt to detect them because PickupSpell won't work with those
+			contextualID = nil;
+			if name ~= nil then
+				skillType, contextualID = GetSpellBookItemInfo(name .. "(" .. subtext .. ")");
+			end
+			if contextualID ~= nil then
+				PickupSpell(contextualID);
+			else
+				-- scan spellbook and pickupspell by slot id
+				function findSpell(spellName, bookType)
+				   local i, s;
+				   local found = false;
+				   for i = 1, MAX_SKILLLINE_TABS do
+				      local name, texture, offset, numSpells = GetSpellTabInfo(i);
+				      if (not name) then break; end
+				      for s = offset + 1, offset + numSpells do
+				         local    spell, rank = GetSpellBookItemName(s, bookType);
+				         if (spell == spellName) then found = true; end
+				         if (found and spell ~=spellName) then return s-1; end
+				      end
+				   end
+				   if (found) then return s; end
+				   return nil;
+				end
+				local bookType = BOOKTYPE_SPELL;
+				local id = findSpell(name, bookType);
+				if id ~= nil then
+					PickupSpellBookItem(id,bookType);
+				end
+			end
 		end;
 	elseif (Command == "item") then
 		PickupItem(Data);
 	elseif (Command == "macro") then
 		PickupMacro(Data);
-	elseif (Command == "companion" and Subvalue == "MOUNT") then
-		-- To pickup a mount, the mount must pass the current journal filter. so temporarily unset filtering that could impact
-		local collectedFilterSetting = C_MountJournal.GetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_COLLECTED)
-		if not collectedFilterSetting then
-			C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_COLLECTED, true)
-		end
-		C_MountJournal.SetSearch("");
-
-		-- attempt to pickup the mount
-		local Index = Util.LookupMountIndex(Subsubvalue)
-		if type(Index) == "number" then
-			C_MountJournal.Pickup(Index);
-		end	
-
-		-- Reapply mount filtering
-		if not collectedFilterSetting then
-			C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_COLLECTED, collectedFilterSetting)
-		end
-		if type(MountJournalSearchBox) == "table" then
-			C_MountJournal.SetSearch(MountJournalSearchBox:GetText());
-		end
-	elseif (Command == "companion" and Subvalue == "CRITTER") then
-		if type(Subsubvalue) == "string" then
-			C_PetJournal.PickupPet(Subsubvalue)
-		end
+	elseif (Command == "mount") then
+		--if (Subvalue == nil) then
+		--	Data = Util.GetMountIndexFromUselessIndex(Data);
+		--end
+		C_MountJournal.Pickup(Util.GetMountIndexFromMountID(Data));
 	elseif (Command == "equipmentset") then
 		local SetCount = C_EquipmentSet.GetNumEquipmentSets();
 		for i=0,SetCount-1 do
@@ -1672,12 +1915,12 @@ function Util.SetCursor(Command, Data, Subvalue, Subsubvalue)
 			end
 		end;
 	elseif (Command == "bonusaction") then
-		local page = 12; --The page for vehicleactionbar
+		local page = Const.BonusActionPageOffset;
 		if (HasOverrideActionBar()) then
-			page = 14;
+			page = Const.OverrideActionPageOffset;
 		end
 		local Texture = GetActionTexture(Data + ((page - 1) * 12));
-		if (Texture and (HasOverrideActionBar())) then
+		if (Texture and (HasOverrideActionBar() or HasVehicleActionBar())) then
 			UILib.StartDraggingIcon(Texture, 23, 23, "bonusaction", Data);
 		else
 			UILib.StartDraggingIcon(Const.ImagesDir.."Bonus"..Data, 23, 23, "bonusaction", Data);
@@ -1689,6 +1932,8 @@ function Util.SetCursor(Command, Data, Subvalue, Subsubvalue)
 		end
 	elseif (Command == "customaction") then
 		CustomAction.SetCursor(Data);
+	elseif (Command == "battlepet") then
+		C_PetJournal.PickupPet(Data);
 	end
 end
 
@@ -1713,13 +1958,17 @@ function Util.PostCombatStateUpdate()
 		Util.RefreshMacros();
 		Util.DelayedRefreshMacros = nil;
 	end
-	if (Util.DelayedUpdateButtonClickHandling) then
-		Util.UpdateButtonClickHandling();
-		Util.DelayedUpdateButtonClickHandling = nil;
+	if (Util.DelayedSecureClickWrapperFrame_UpdateCVarInfo) then
+		Util.SecureClickWrapperFrame_UpdateCVarInfo();
+		Util.DelayedSecureClickWrapperFrame_UpdateCVarInfo = nil;
 	end
 	if (Util.DelayedPromoteSpells) then
 		Util.PromoteSpells();
 		Util.DelayedPromoteSpells = nil;
+	end
+	if (Util.DelayedRefreshCompanions) then
+		Util.RefreshCompanions();
+		Util.DelayedRefreshCompanions = nil;
 	end
 	if (Util.DelayedRefreshEquipmentSets) then
 		Util.RefreshEquipmentSets();
@@ -1770,22 +2019,17 @@ function Util.RightClickSelfCast(Value)
 end
 
 
-
-
-
 --[[---------------------------------------
 	Spell Functions
 -------------------------------------------]]
-function Util.GetFullSpellName(Name, Rank)
---BFA fix: GetSpellInfo now returns a nil for the rank.  That's passed in here
---So we check to make sure rank exists or only pass back the name itself.
-	if (Rank) then
-		Rank = "("..Rank..")";
+function Util.GetFullSpellName(Name, Subtext)
+	if (Subtext) then
+		Subtext = "("..Subtext..")";
 	else
-		Rank = "";
+		Subtext = "";
 	end
 	if (Name) then
-		return Name..Rank;
+		return Name..Subtext;
 	end
 end
 
@@ -1794,31 +2038,28 @@ function Util.GetSpellId(NameRank)
 	return select(3, strfind(Link, "spell:(%d+)|"));
 end
 
-function Util.IsSpellIdTalentOld(SpellId)
-	-- local TalentInfoFuncs = {GetTalentInfo, GetPvpTalentInfo};
-	local TalentInfoFuncs = GetTalentInfo;
+function Util.IsSpellIdTalentRetail(SpellId)
+	local TalentInfoFuncs = {GetTalentInfo, GetPvpTalentInfo};
 
 	-- Scan both normal and PvP talents
 	-- Note rather than assume number of talents, we just scan till the rows and columns till we hit a nil
-	--for _, TalentInfoFunc in ipairs(TalentInfoFuncs) do
+	for _, TalentInfoFunc in ipairs(TalentInfoFuncs) do
 		local r = 1;
 		local c = 1;
-		-- local TalentSpellID = select(6, TalentInfoFunc(r, c, 1));
-		local TalentSpellID = select(6, TalentInfoFuncs(r, c));
-		while (TalentSpellID <= 0) do
-			while (TalentSpellID <= 0) do
+		local TalentSpellID = select(6, TalentInfoFunc(r, c, 1));
+		while (TalentSpellID) do
+			while (TalentSpellID) do
 				if (TalentSpellID == SpellId) then
 					return true;
 				end
 				c = c + 1;
-				-- TalentSpellID = select(6, TalentInfoFunc(r, c, 1));
-				TalentSpellID = select(6, TalentInfoFuncs(r, c));
+				TalentSpellID = select(6, TalentInfoFunc(r, c, 1));
 			end
 			r = r + 1;
 			c = 1;
-			-- TalentSpellID = select(6, TalentInfoFunc(r, c, 1));
+			TalentSpellID = select(6, TalentInfoFunc(r, c, 1));
 		end
-	--end
+	end
 	return false;
 end
 
@@ -1862,9 +2103,10 @@ function Util.CacheSpellIndexes()
 	
 	for i = total, 1, -1 do
 		ItemType, Id = GetSpellBookItemInfo(i, BOOKTYPE_SPELL);
-		-- local Name, Rank, Icon, castTime, minRange, maxRange, spellId = GetSpellInfo(i, BOOKTYPE_SPELL);
-		local Name, Rank, Icon, castTime, minRange, maxRange, spellId = Util.GetSpellInfo(Id); -- TBC Fix 06/18/2021
-		local NameRank = Util.GetFullSpellName(Name, Rank);
+		--local Name, Rank, Icon, PowerCost, IsFunnel, PowerType = GetSpellInfo(i, BOOKTYPE_SPELL);
+		local Name, Rank, Icon, PowerCost, IsFunnel, PowerType = GetSpellInfo(Id);
+		local Subtext = GetSpellSubtext(Id);
+		local NameRank = Util.GetFullSpellName(Name, Subtext);
 		if (ItemType == "SPELL") then
 			NewSI[NameRank] = i;
 			
@@ -1972,9 +2214,134 @@ function Util.RefreshSpells()
 	end
 end
 
+function Util.RefreshBattlePets()
+	for k, v in pairs(Util.ActiveButtons) do
+		v:RefreshBattlePet();
+	end
+end
+
+function Util.RefreshZoneAbility()
+	local zoneAbilities = C_ZoneAbility.GetActiveAbilities();
+	local found = 0;
+	for i, zoneAbility in ipairs(zoneAbilities) do
+		for j, spell in ipairs(Util.ActiveSpells) do
+			if ( zoneAbility.spellID == spell.SpellId ) then
+				found = found + 1;
+				break;
+			end
+		end
+	end
+	if (found == table.getn(zoneAbilities)) then
+		ZoneAbilityFrame:SetShown(false);
+	else
+		ZoneAbilityFrame:SetShown(true);
+	end
+end
+
+function Util.CustomMacro_Map(VDText)
+	local match, mapIds = string.match(VDText, '(map%s*:%s*(%d+[%s;%s%d+]*))');
+	if ( match ~= nil and mapIds ~= nil ) then
+
+		-- current map location
+		local currentMapID = C_Map.GetBestMapForUnit("player");
+		for mapId in string.gmatch(mapIds, "([^;]+)") do
+			if ( currentMapID == (mapId + 0) ) then
+				return VDText:gsub(match, ""); -- always true
+			end
+		end
+
+		return VDText:gsub(match, "dead, nodead"); -- always false
+
+	end
+	return VDText;
+end
+
+function Util.CustomMacro_Quest(VDText)
+	local match, questIds = string.match(VDText, '(quest%s*:%s*(%d+[%s;%s%d+]*))');
+	if ( match ~= nil and questIds ~= nil ) then
+
+		-- check super track
+		superTrackedQuestID = C_SuperTrack.GetSuperTrackedQuestID();
+		for questId in string.gmatch(questIds, "([^;]+)") do
+			if ( superTrackedQuestID == tonumber(questId) ) then
+				return VDText:gsub(match, ""); -- always true
+			end
+		end
+
+		-- search quest log
+		local numEntries = C_QuestLog.GetNumQuestLogEntries();
+		QuestMapFrame.ignoreQuestLogUpdate = true;
+		for questId in string.gmatch(questIds, "([^;]+)") do
+			for questLogIndex = 1, numEntries do
+				local info = C_QuestLog.GetInfo(questLogIndex);
+				if ( info.questID > 0 ) then
+					if ( info.questID == tonumber(questId) ) then
+						return VDText:gsub(match, ""); -- always true
+					end
+				end
+			end
+		end
+
+		return VDText:gsub(match, "dead, nodead"); -- always false
+
+	end
+	return VDText;
+end
+
+function Util.CustomMacro_Aura(VDText)
+	local match, spellIds = string.match(VDText, '(aura%s*:%s*(%d+[%s;%s%d+]*))');
+	if ( match ~= nil and spellIds ~= nil ) then
+
+		for spellId in string.gmatch(spellIds, "([^;]+)") do
+
+			for i=1,40 do 
+				local name,_,_,_,_,_,_,_,_,auraId=UnitAura("player",i);
+				if(auraId ~= nil) then
+					if ( auraId == tonumber(spellId) ) then
+						return VDText:gsub(match, ""); -- always true
+					end
+				else
+					break;
+				end
+			end
+
+		end
+
+		return VDText:gsub(match, "dead, nodead"); -- always false
+
+	end	
+	return VDText;
+end
+
+
+function Util.TriggerZoneChanged()
+	-- Refesh Zone Abilities
+	Util.RefreshZoneAbility();
+
+	-- Support for custom macros
+	for i = 1, #Util.ActiveBars do
+		Util.ActiveBars[i]:ApplyCustomMacrosVD();
+	end
+end
+
+function Util.TriggerQuestsChanged()
+	-- Support for custom macros
+	for i = 1, #Util.ActiveBars do
+		Util.ActiveBars[i]:ApplyCustomMacrosVD();
+	end
+end
+
+function Util.TriggerAuraChanged()
+	-- Support for custom macros
+	for i = 1, #Util.ActiveBars do
+		Util.ActiveBars[i]:ApplyCustomMacrosVD();
+	end
+end
+
 function Util.AddSpell(Value)
 	if (not Util.FindInTable(Util.ActiveSpells, Value)) then
 		table.insert(Util.ActiveSpells, Value);
+		-- Util.RefreshZoneAbility(); -- removed for Cata 04/04/2024
 	end
 end
 
@@ -1982,8 +2349,62 @@ function Util.RemoveSpell(Value)
 	local Index = Util.FindInTable(Util.ActiveSpells, Value);
 	if (Index) then
 		table.remove(Util.ActiveSpells, Index);
+		-- Util.RefreshZoneAbility(); -- removed for Cata 04/04/2024
 	end
 end
+
+
+
+
+
+
+--[[---------------------------------------
+	Companion Functions
+-------------------------------------------]]
+function Util.CacheCompanions()
+	Util.Critters = {};
+    --[[
+    for i = 1, GetNumCompanions("CRITTER") do
+        local Id, Name = GetCompanionInfo("CRITTER", i);
+		if (not Name) then
+			return;
+		end
+        Util.Critters[Name] = i;
+    end]]
+	
+	Util.Mounts = {};
+	for i, mountID in pairs(C_MountJournal.GetMountIDs()) do
+		local creatureName, spellID = C_MountJournal.GetMountInfoByID(mountID);
+		if (not creatureName) then
+			return;
+		end
+        Util.Mounts[spellID] = mountID;
+	end
+	Util.CompanionsCached = true;
+end
+
+function Util.LookupCompanion(Name)
+    if (Util.Critters[Name]) then
+        return "CRITTER", Util.Critters[Name]; 
+    elseif (Util.Mounts[Name]) then
+        return "MOUNT", Util.Mounts[Name];
+    else
+        return nil, nil;
+    end
+end
+
+function Util.RefreshCompanions()
+	if (InCombatLockdown()) then
+		Util.DelayedRefreshCompanions = true;
+		return;
+	end
+	for k, v in pairs(Util.ActiveButtons) do
+		v:RefreshCompanion();
+	end
+end
+
+
+
 
 
 --[[---------------------------------------
@@ -2001,9 +2422,11 @@ function Util.CacheBagItems()
 	local BagItemNameId = {};
 	local ItemId;
 	local ItemName;
-	for b = 4, 0, -1 do
-		for s =  C_Container.GetContainerNumSlots(b), 1, -1 do
-			ItemId =  C_Container.GetContainerItemID(b, s);
+	-- for b = BACKPACK_CONTAINER, NUM_TOTAL_EQUIPPED_BAG_SLOTS do -- changed for Cata 04/04/2024
+	for b = 4, 0, -1 do -- changed for Cata 04/04/2024
+		  -- for s = 1, C_Container.GetContainerNumSlots(b) do -- changed for Cata 04/04/2024
+			for s =  C_Container.GetContainerNumSlots(b), 1, -1 do -- changed for Cata 04/04/2024
+			ItemId = C_Container.GetContainerItemID(b, s);
 			ItemName = GetItemInfo(ItemId or "");
 			if (ItemName ~= nil and ItemName ~= "") then
 				BagItemNameIndexes[ItemName] = {b, s};
@@ -2088,9 +2511,9 @@ function Util.LookupItemInvSlot(ItemId)
 
 	local Id;
 	local Name = "";
-	for b = 0, 4 do
-		for s = 1,  C_Container.GetContainerNumSlots(b) do
-			Id =  C_Container.GetContainerItemID(b, s);
+	for b = BACKPACK_CONTAINER, NUM_TOTAL_EQUIPPED_BAG_SLOTS do
+		for s = 1, C_Container.GetContainerNumSlots(b) do
+			Id = C_Container.GetContainerItemID(b, s);
 			if (Id) then
 				Name = GetItemInfo(Id);
 				if (ItemId == Id) then
@@ -2150,21 +2573,6 @@ function Util.RemoveBonusAction(Value)
 	local Index = Util.FindInTable(Util.ActiveBonusActions, Value);
 	if (Index) then
 		table.remove(Util.ActiveBonusActions, Index);
-	end
-end
-
-
-function Util.UpdateButtonClickHandling()
-	if (InCombatLockdown() or not Util.Loaded) then
-		Util.DelayedUpdateButtonClickHandling = true;
-		return;
-	end
-	
-	for i = 1, #Util.ActiveButtons do
-		Util.ActiveButtons[i]:SetupActionButtonClick();
-	end
-	for i = 1, #Util.InactiveButtons do
-		Util.InactiveButtons[i]:SetupActionButtonClick();
 	end
 end
 
@@ -2431,12 +2839,14 @@ function Util.GetButtonActionInfo(ButtonName)
 	elseif (Button.Mode == "macro") then
 		return "macro", Button.MacroIndex;
 	elseif (Button.Mode == "companion") then
-		local spellid = select(3,  GetCompanionInfo(Button.CompanionType, Button.CompanionIndex));
+		local spellid = select(3, GetCompanionInfo(Button.CompanionType, Button.CompanionIndex));
 		return "companion", spellid, Button.CompanionType;
 	elseif (Button.Mode == "equipmentset") then
 		return "equipmentset", Button.EquipmentSetName;
 	elseif (Button.Mode == "flyout") then
 		return "flyout", Button.FlyoutId;
+	elseif (Button.Mode == "battlepet") then
+		return "battlepet", Button.BattlePetId;
 	end
 end
 	
@@ -2460,9 +2870,7 @@ function Util.GetButtonActionInfo2(ButtonName)
 	--]]
 		
 	if (Button.Mode == "spell") then
-		-- local Rank = select(2, GetSpellInfo(Button.SpellId));
-		local Rank = select(2, Util.GetSpellInfo(Button.SpellId)); -- TBC Fix 06/18/2021
-
+		local Rank = select(2, GetSpellInfo(Button.SpellId));
 		return "spell", Button.SpellName, Rank, Button.SpellId, Util.LookupSpellIndex(Button.SpellNameRank), Button.SpellBook;
 	elseif (Button.Mode == "item") then
 		return "item", Button.ItemId, Button.ItemName;
@@ -2478,208 +2886,116 @@ function Util.GetButtonActionInfo2(ButtonName)
 		return "bonusaction", Button.BonusActionSlot;
 	elseif (Button.Mode == "customaction") then
 		return "customaction", Button.CustomActionName;
+	elseif (Button.Mode == "battlepet") then
+		return "battlepet", Button.BattlePetId;
 	end
 end
 
 
+
+
+--[[
+	It turns out a work around for the Mount Index is needed again
+	This work around is slightly different, instead of caching everything
+	it will capture the index when the mount of pet is picked up through a
+	two step process.
+	First using the tooltip it captures the action slot pet/mount if it has one
+	then if a pickup action occurs it will use that id which can then be used if
+		the pet/mount is put on a BF Button
+
+	Note the pre held step is because once picked up the player might mouse over another
+	action button showing its tool tip
+]]
+function Util.HookSecureFunc_C_MountJournal_Pickup(Index)
+	local creatureName, spellID, icon, active, isUsable, sourceType, isFavorite, isFactionSpecific, faction, isFiltered, isCollected, mountID, isForDragonriding = C_MountJournal.GetDisplayedMountInfo(Index)
+	Util.HeldMountID = mountID
+end
+hooksecurefunc(C_MountJournal, "Pickup", Util.HookSecureFunc_C_MountJournal_Pickup)
+
+
+--[[---------------------------------------
+	HookSecureFunc_C_PetJournal_PickupPet
+
+	Quick Hack to catch what pet is picked up from the Pet Journal
+	needed since GetCursorInfo does not currently provide the required BattlePet info
+-------------------------------------------]]
+function Util.HookSecureFunc_C_PetJournal_PickupPet(petID)
+	-- petID is the GUID, we retain this until the cusor changes
+	Util.HeldBattlePetID = petID
+end
+hooksecurefunc(C_PetJournal, "PickupPet", Util.HookSecureFunc_C_PetJournal_PickupPet)
+
+
+function Util.HookSecureFunc_GameTooltip_SetAction(_, slot)
+	if slot == nil or slot < 1 or slot > 1000 then
+		return
+	end
+	local command, data, subvalue = GetActionInfo(slot)
+	--Util.PreHeldMountID = nil
+	--Util.PreHeldBattlePetID = nil
+	if command == "companion" and subvalue == "MOUNT" then
+		Util.PreHeldMountID = C_MountJournal.GetMountFromSpell(data)
+	elseif command == "companion" and subvalue == "CRITTER" then
+		local name = GetSpellInfo(data)
+		local _, petID = C_PetJournal.FindPetIDByName(name)
+		Util.PreHeldBattlePetID = petID
+	end
+end
+hooksecurefunc(GameTooltip, "SetAction", Util.HookSecureFunc_GameTooltip_SetAction)
+
+
+function Util.HookSecureFunc_PickupAction(slot)
+	Util.HeldMountID = Util.PreHeldMountID
+	Util.HeldBattlePetID = Util.PreHeldBattlePetID
+end
+hooksecurefunc(_G, "PickupAction", Util.HookSecureFunc_PickupAction)
+
+
+
 --[[------------------------------------------------
-	Get Correct Mount ID
-	
-	The Issue:
-	The Index reported from GetCursorInfo is the old
-	"companion" index, not the newer journal index which can differ
-	More over we specifically need the MountID
-
-	The Solution:
-	At the time a mount is placed on the cursor capture information
-	to allow matching the "companion" index to the MountID
-
-
-	Implementation:
+	Get Correct Mount Index
+	The Hack:
 		hooksecurefunc
 			C_MountJournal.Pickup
 			GameTooltip:SetAction
-			PickupAction
-
-	hooksecurefunc will call the ButtonForge func AFTER
-	calling the hooked function
-
-	C_MountJournal.Pickup
-	This function takes the journalIndex as a parameter
-	We can grab the companionIndex from GetCursorInfo, and
-	query the MountID using the journalIndex passed to the Pickup function
-
-	PickupAction
-	We can catch which slot an action was picked up from
-	and match that to the companionIndex on the cursor
-	Unfortunately the action has been removed from the slot already
-	so it is not possible to directly query if/what mount was in it.
-	So the hook below is used
-
-	GameTooltip:SetAction
-	To support the PickupAction hook, we catch what mount is sitting in an action slot when
-	it's tooltip is triggered... There are other ways this step could be achieved!
-	The GetActionInfo will report the MountSpellID (not the MountID)
-
-	This is a less than ideal work around. At such time that GetCursorInfo
-	reports either the journalIndex or the MountID this code should be removed
+	Both these functions offer a moment when both
+	the UselessIndex and the actual Index or SpellID
+	for a mount is available... Also in theory
+	one of these will have to fire before the player
+	can actually put a mount on the cursor - so we
+	simply patch work build a map of these
+	Useless Index to useful index mappings.
+	It does rely on the useless index not changing during
+	a session - i suspect it wont, but it might when a new
+	mount is learned, something that is hard to test on my
+	account these days
 --------------------------------------------------]]
-
---[[------------------------------------------------
-	HookSecureFunc_C_MountJournal_Pickup
-	Map CompanionIndex to MountID
---------------------------------------------------]]
+--[[ should no longer be needed
 function Util.HookSecureFunc_C_MountJournal_Pickup(Index)
-	local CompanionIndex = select(2, GetCursorInfo());
-	if (Index and CompanionIndex) then
-		Util.MountCompanionIndexToMountID[CompanionIndex] = C_MountJournal.GetDisplayedMountID(Index);
+	local UselessIndex = select(2, GetCursorInfo());
+	if (Index and UselessIndex) then
+		Util.MountUselessIndexToIndex[select(2, GetCursorInfo())] = Index;
 	end
 end
 hooksecurefunc(C_MountJournal, "Pickup", Util.HookSecureFunc_C_MountJournal_Pickup);
 
---[[------------------------------------------------
-	HookSecureFunc_GameTooltip_SetAction
-	Map Slot to MountSpellID
---------------------------------------------------]]
 function Util.HookSecureFunc_GameTooltip_SetAction(_, Slot)
 	if (Slot == nil or Slot < 1 or Slot > 1000) then
 		return;
 	end
-	local Command, MountSpellID, Subdata = GetActionInfo(Slot);
-	if Command == "companion" and Subdata == "MOUNT" then
-		Util.MountActionSlotToMountSpellID[Slot] = MountSpellID
+	local Command, UselessIndex = GetActionInfo(Slot);
+	if (Command == "summonmount") then
+		if (Util.MountUselessIndexToIndex[UselessIndex] == nil) then
+			Util.MountUselessIndexToIndex[UselessIndex] = Util.GetMountIndexFromSpellID(select(3, GameTooltip:GetSpell()));
+		end
 	end
 end
 hooksecurefunc(GameTooltip, "SetAction", Util.HookSecureFunc_GameTooltip_SetAction);
 
---[[------------------------------------------------
-	HookSecureFunc_PickupAction
-	Map CompanionIndex to MountID (utlising the Slot to MountSpellID map)
---------------------------------------------------]]
-function Util.HookSecureFunc_PickupAction(Slot)
-	if (Slot == nil or Slot < 1 or Slot > 1000) then
-		return;
-	end
-
-	local Command, CompanionIndex, Subdata = GetCursorInfo();
-	if Command == "companion" and Subdata == "MOUNT" then
-		local MountSpellID = Util.MountActionSlotToMountSpellID[Slot]
-		if MountSpellID then
-			Util.MountCompanionIndexToMountID[CompanionIndex] = C_MountJournal.GetMountFromSpell(MountSpellID);
-		end
-	end
+function Util.GetMountIndexFromUselessIndex(Index)
+	return Util.MountUselessIndexToIndex[Index];
 end
-hooksecurefunc("PickupAction", Util.HookSecureFunc_PickupAction);
-
---[[------------------------------------------------
-	GetMountIDFromCompanionIndex
---------------------------------------------------]]
-function Util.GetMountIDFromCompanionIndex(CompanionIndex)
-	return Util.MountCompanionIndexToMountID[CompanionIndex];
-end
-
-
---[[------------------------------------------------
-	CacheMounts
-	All mount names should be available from the journal
-	regardless of filter settings/collected status
-
-	This only needs to be run once at start of session
---------------------------------------------------]]
-function Util.CacheMounts()
-	for _, MountID in pairs(C_MountJournal.GetMountIDs()) do
-		local name, spellID, icon, isActive, isUsable, sourceType, isFavorite, isFactionSpecific, faction, shouldHideOnChar, isCollected, mountID, isForDragonriding = C_MountJournal.GetMountInfoByID(MountID)
-		Util.MountNameToMountID[name] = mountID
-	end
-end
-
-function Util.GetMountIDFromName(Name)
-	if type(Name) == "string" then
-		return Util.MountNameToMountID[Name]
-	end
-end
-
-
-function Util.LookupMountIndex(MountID)
-
-	local Num = C_MountJournal.GetNumMounts();
-	if (MountID == SUMMON_RANDOM_FAVORITE_MOUNT_SPELL) then
-		return 0;
-	end
-	for i = 1, Num do
-		if (select(12, C_MountJournal.GetDisplayedMountInfo(i)) == MountID) then
-			return i;
-		end
-	end
-
-end
-
-
---[[------------------------------------------------
-	CacheBattlePets
-	Cache known BattlePets
-
-	Done on demand
---------------------------------------------------]]
-function Util.CacheBattlePets()
-	if Util.BattlePetsCached then
-		return;
-	end
-	local CollectedFilterValue = C_PetJournal.IsFilterChecked(LE_PET_JOURNAL_FILTER_COLLECTED)
-	local NotCollectedFilterValue = C_PetJournal.IsFilterChecked(LE_PET_JOURNAL_FILTER_NOT_COLLECTED)
-
-	-- Configure Pet journal filters to only cache known battlepets
-	C_PetJournal.SetFilterChecked(LE_PET_JOURNAL_FILTER_COLLECTED, true)
-	C_PetJournal.SetFilterChecked(LE_PET_JOURNAL_FILTER_NOT_COLLECTED, false)
-	C_PetJournal.SetSearchFilter("")
-
-	-- only cache pets that are known
-	for i = 1, C_PetJournal.GetNumPets() do
-		local battlePetGUID, speciesID, isOwned, customName, level, favorite, isRevoked, name, icon, petType, _, _, _, _, canBattle = C_PetJournal.GetPetInfoByIndex(i);
-		if type(name) == "string" then
-			Util.BattlePetNameToBattlePetGUID[name] = battlePetGUID
-		end
-	end
-	Util.BattlePetsCached = true;
-
-	-- Set the pet journal filters back to how they were
-	C_PetJournal.SetFilterChecked(LE_PET_JOURNAL_FILTER_COLLECTED, CollectedFilterValue)
-	C_PetJournal.SetFilterChecked(LE_PET_JOURNAL_FILTER_NOT_COLLECTED, NotCollectedFilterValue)
-	if type(PetJournalSearchBox) == "table" then
-		C_PetJournal.SetSearchFilter(PetJournalSearchBox:GetText())
-	end
-end
-
-function Util.AddBattlePetToCache(BattlePetGUID)
-	local speciesID, customName, level, xp, maxXp, displayID, isFavorite, name, icon, petType, creatureID, sourceText, description, isWild, canBattle, tradable, unique = C_PetJournal.GetPetInfoByPetID(BattlePetGUID);
-	if type(name) == "string" then
-		Util.BattlePetNameToBattlePetGUID[name] = BattlePetGUID
-	end
-end
-
-function Util.GetBattlePetGUIDFromCompanionIndex(CompanionIndex)
-	if not Util.BattlePetsCached then
-		Util.CacheBattlePets()
-	end
-
-	local _, name = GetCompanionInfo("CRITTER", CompanionIndex)
-	if type(name) == "string" then
-		return Util.BattlePetNameToBattlePetGUID[name];
-	end
-end
-
-function Util.GetBattlePetGUIDFromName(Name)
-	if not Util.BattlePetsCached then
-		Util.CacheBattlePets()
-	end
-
-	if type(Name) == "string" then
-		return Util.BattlePetNameToBattlePetGUID[Name];
-	end
-end
-
-
-
+]]
 
 --[[------------------------------------------------
 	GetCorrectMountIndex
@@ -2699,9 +3015,32 @@ function Util.GetMountIndexFromSpellID(SpellID)
 end
 ]]
 
+--[[------------------------------------------------
+	
+--------------------------------------------------]]
 
+function Util.GetMountIDFromName(Name)
+	local Num = C_MountJournal.GetNumMounts();
+	
+	for i = 1, Num do
+		if (C_MountJournal.GetDisplayedMountInfo(i) == Name) then
+			return select(12, C_MountJournal.GetDisplayedMountInfo(i));
+		end
+	end
+	return nil;
+end
 
-
+function Util.GetBattlePetGUIDFromName(Name) -- added for Cata 04/29/2024
+	local Num = C_PetJournal.GetNumPets()
+	
+	for i = 1, Num do
+		local petID, speciesID, isOwned, customName, level, favorite, isRevoked, compareName, icon, petType, _, _, _, _, canBattle = C_PetJournal.GetPetInfoByIndex(i)
+		if compareName == Name then
+			return petID
+		end
+	end
+	return nil
+end
 
 function Util.GetMountIndexFromMountID(MountID)
 	local Num = C_MountJournal.GetNumMounts();
@@ -2764,234 +3103,7 @@ function Util.LookupEquipmentSetIndex(EquipmentSetID)
 		end
 	end
 	return nil;
-end
-
-
--- TBC Fix new functions for ranks 06/17/2021
-function Util.InitCacheSpellBookRanksVars()
-  BF_PlayerName = UnitName("player")
-  BF_ClassName = UnitClass("player")
-  
-  -- table of spellnames, spellIds and spellranks
-  BF_kwnSpellsTable = {} 
-  BF_kwnSpellsTable[BF_PlayerName] = {}
-
-  -- used to build spellranks using string.find, sorted by spellname, spellid
-  BF_kwnSpellsTableVis = {}  
-  BF_kwnSpellsTableVis[BF_PlayerName] = {}
-
-  -- for looped, each time spellname found, rank is bumped up
-  BF_kwntblSpellNames = {}
-  BF_kwntblSpellNames[BF_PlayerName] = {} 
-  
-  -- stores rank for each spellId found
-  BF_kwnSpellsRank = {} 
-  BF_kwnSpellsRank[BF_PlayerName] = {}
-
-  -- stores spellId for max rank for spellname
-  BF_kwnSpellsTableR = {} 
-  BF_kwnSpellsTableR[BF_PlayerName] = {}
-  
-  -- total known spells found
-  BF_kwntblSpellCount = {} 
-  BF_kwntblSpellCount[BF_PlayerName] = 0
-end
-
--- spellId converted to text and padded for sorting
-function Util.PadiSpellId(t)
-  if strlen(t) == 2 then
-    tnum = "0000"..t
-    return tnum
-  elseif strlen(t) == 3 then
-    tnum = "000"..t
-    return tnum
-  elseif strlen(t) == 4 then
-    tnum = "00"..t
-    return tnum
-  elseif strlen(t) == 5 then
-    tnum = "0"..t
-    return tnum
-  end
-  return t
-end
-
--- Parse player's spellbook and build a list of available spells
-function Util.CacheSpellBookRanks()
- 
-  Util.InitCacheSpellBookRanksVars() -- reset known spells for character
- 
-  local i = 0
-  local iIndex = 0
-  local iSpellId = 0
-  local old_iSpellId = 0
-  local txt_iSpellId = ""
-  
-  for i = 1, GetNumSpellTabs() do
-	  -- local _, _, offset, numSlots = GetSpellTabInfo(i)
-	  local _, _, offset, numSlots, isGuild, offspecID  = GetSpellTabInfo(i) -- Wrath change 08/01/2022
-
-	  for iIndex = offset, offset+numSlots do
-      local slotType, iSpellId = GetSpellBookItemInfo(iIndex, BOOKTYPE_SPELL)
-
-      if slotType == "SPELL" then
-        local slotName = GetSpellBookItemName(iIndex, "spell")
-        local spellName = GetSpellInfo(slotName)
-
-        if (spellName) then
-         txt_iSpellId = Util.PadiSpellId(tostring(iSpellId))
-          -- make sure iSpellId has not been seen
-
-          if not BF_kwnSpellsRank[BF_PlayerName][iSpellId] then
-            BF_kwnSpellsRank[BF_PlayerName][iSpellId] = 0
-            BF_kwntblSpellNames[BF_PlayerName][spellName] = spellName
-
-            if old_iSpellId ~= iSpellId then
-              old_iSpellId = iSpellId
-              BF_kwntblSpellCount[BF_PlayerName] = BF_kwntblSpellCount[BF_PlayerName] + 1
-              BF_kwnSpellsTable[BF_PlayerName][BF_kwntblSpellCount[BF_PlayerName]] = { BF_ClassName, "known", spellName, txt_iSpellId, 0 }
-              BF_kwnSpellsTableVis[BF_PlayerName][BF_kwntblSpellCount[BF_PlayerName]] = BF_ClassName..", known, "..spellName..", "..txt_iSpellId
-            end
-          end
-        end
-      end
-    end -- for
-  end -- for
-
-  table.sort({BF_kwnSpellsTable[BF_PlayerName]})
-  table.sort(BF_kwnSpellsTableVis[BF_PlayerName])
-
-  local spellRank = 0
-  local tstr = ""
-
-  -- known entries, spellranks for each spellId
-  for spellName, _ in pairs(BF_kwntblSpellNames[BF_PlayerName]) do
-    spellRank = 0
-    for loop = 1, BF_kwntblSpellCount[BF_PlayerName] do
-      tstr = BF_kwnSpellsTableVis[BF_PlayerName][loop]
-
-      if string.match(tstr, spellName) then
-        spellRank = spellRank + 1
-        BF_kwnSpellsTableVis[BF_PlayerName][loop] = tstr..", Rank-"..spellRank
-        tstr2 = BF_kwnSpellsTableVis[BF_PlayerName][loop]
-
-        for loop2 = 1, BF_kwntblSpellCount[BF_PlayerName] do
-          txt_iSpellId = BF_kwnSpellsTable[BF_PlayerName][loop2][4]
-
-          if string.match(tstr2,txt_iSpellId) then                
-            BF_kwnSpellsTable[BF_PlayerName][loop2][5] = spellRank
-            BF_kwnSpellsRank[BF_PlayerName][tonumber(txt_iSpellId)] = spellRank
-          end
-        end        
-      end
-    end
-  end
-
-  -- build spell maxrank table
-  for loop = 1, BF_kwntblSpellCount[BF_PlayerName] do
-    spellName = BF_kwnSpellsTable[BF_PlayerName][loop][3]
-    iSpellId = tonumber(BF_kwnSpellsTable[BF_PlayerName][loop][4])
-
-    if BF_kwnSpellsTableR[BF_PlayerName][spellName] == nil then
-      BF_kwnSpellsTableR[BF_PlayerName][spellName] = {}
-    end
-    table.insert(BF_kwnSpellsTableR[BF_PlayerName][spellName], iSpellId)
-  end
-end
-
---[[ example to find max rank for spellId
-  if BF_kwnSpellsTableR[BF_PlayerName][spellName] ~= nil then
-    maxrank = #BF_kwnSpellsTableR[BF_PlayerName][spellName]
-    findSpellId = BF_kwnSpellsTableR[BF_PlayerName][spellName][maxrank]
-    return 
-  end  
-]]
-
-
--- return highest rank for spellname
-function Util.GetMaxSpellRank(spellname)
-  -- print("Function Util.GetMaxSpellRank(spellname) :"..spellname)
-  local Rank = 1
-  if BF_kwnSpellsRank[BF_PlayerName][spellname] ~= nil then
-    Rank = #BF_kwnSpellsRank[BF_PlayerName][spellname]
-    -- print("Function Util.GetMaxSpellRank(spellname) :"..spellname..", Max Rank found :"..Rank)
-    return Rank
-  end
-  -- print("Function Util.GetMaxSpellRank(spellname) :"..spellname..", Max Rank not found")
-  return Rank
-end
-
-
--- return rank for spellId
-function Util.GetSpellRank(Id)
-  -- print("Function Util.GetSpellRank(Id) :"..Id)
-  local Rank = 1
-  if BF_kwnSpellsRank[BF_PlayerName][Id] ~= nil then
-    Rank = BF_kwnSpellsRank[BF_PlayerName][Id]
-    --  print("Function Util.GetSpellRank(Id) :"..Id..", Rank found :"..Rank)
-    return Rank
-  end
-  -- print("Function Util.GetSpellRank(Id) :"..Id..", Rank not found")
-  return Rank
-end
-
--- our wrapper for GetSpellInfo() 06/18/2021
-function Util.GetSpellInfo(sName, spellId_or_Rank)
-  local rank = 1
-
-  -- Util.GetSpellInfo("Thorns",3) -- example: return info for spell thorns, rank 3 spellId
-  if (type(sName) ~= "number" and type(spellId_or_Rank) == "number") then -- spellname and looking for spellid of rank
-    sRank = spellId_or_Rank
-    rank = sRank
-    if BF_kwnSpellsTableR[BF_PlayerName][sName] ~= nil then
-      if BF_kwnSpellsTableR[BF_PlayerName][sName][sRank] ~= nil then
-        spellId = BF_kwnSpellsTableR[BF_PlayerName][sName][sRank]
-        local name, _, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(spellId);
-       	return name,rank,icon,castTime,minRange,maxRange,spellId
-      end
-    end
-
-    -- rank not found in BF_kwnSpellsTableR, this should not happen
-    rank = 0 
-    local name, _, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(sName);
-   	return name,rank,icon,castTime,minRange,maxRange,spellId
-
-  -- Util.GetSpellInfo("Thorns")   -- example: return info for spellId for highest rank known for Thorns
-  elseif type(sName) ~= "number" then -- spellname only, return spellId for max rank
-    
-    if BF_kwnSpellsTableR[BF_PlayerName][sName] ~= nil then
-	    maxrank = #BF_kwnSpellsTableR[BF_PlayerName][sName]
-	    Id = BF_kwnSpellsTableR[BF_PlayerName][sName][maxrank]
-      local name, _, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(Id);
-      return name,maxrank,icon,castTime,minRange,maxRange,Id
-    end	      
-    -- rank not found in BF_kwnSpellsTableR, this should not happen
-    rank = 0 
-    local name, _, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(sName);
-   	return name,rank,icon,castTime,minRange,maxRange,spellId
-
-  
-  -- Util.GetSpellInfo(9910)       -- example: return info for spellId
-  elseif type(sName) == "number" then -- spellId passed, not spell name, don't bother with sRank here
-    Id = sName
-    local name, _, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(Id);
-    rank = Util.GetSpellRank(Id)
-    if spellId ~= Id then
-      print("Error in Util.GetSpellInfo, spellid mismatch "..spellId.." should match "..Id)
-    end
-   	return name,rank,icon,castTime,minRange,maxRange,Id
-  end
-
-  print("Error in Util.GetSpellInfo, params match didn't happen")
-  local name, _, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(sName);
-	return name, 0
-end
-
-function Util_GetCurspec()
-  local curspec = 1
-  if  GetActiveTalentGroup() ~= nil then
-    curspec = GetActiveTalentGroup()
-  end
-  return(curspec)
+	
 end
 
 function Util.GetBindingText(Key)

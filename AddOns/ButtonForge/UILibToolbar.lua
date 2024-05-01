@@ -16,6 +16,7 @@ function UILib.ToggleCreateBarMode(ForceOff)
 	if (BFCreateBarOverlay:IsShown() or ForceOff) then
 		BFCreateBarOverlay:Hide();
 		BFToolbarCreateBar:SetChecked(false);
+		BFToolbarCreateBonusBar:SetChecked(false);
 		UILib.CreateBarMode = false;
 		UILib.CreateBonusBarMode = false;
 		SetCursor(nil);
@@ -39,12 +40,14 @@ function UILib.ToggleCreateBonusBarMode(ForceOff)
 	if (BFCreateBarOverlay:IsShown() or ForceOff) then
 		BFCreateBarOverlay:Hide();
 		BFToolbarCreateBar:SetChecked(false);
+		BFToolbarCreateBonusBar:SetChecked(false);
 		UILib.CreateBarMode = false;
 		UILib.CreateBonusBarMode = false;
 		SetCursor(nil);
 	elseif (not InCombatLockdown()) then
 		UILib.CreateBonusBarMode = true;
 		BFCreateBarOverlay:Show();
+		BFToolbarCreateBonusBar:SetChecked(true);
 		SetCursor("REPAIRNPC_CURSOR");
 	end
 	EventFull.RefreshButtons = true;
@@ -80,12 +83,14 @@ function UILib.ToggleAdvancedTools()
 		BFToolbarAdvanced:SetChecked(false);
 		ButtonForgeSave.AdvancedMode = false;
 		BFToolbar:SetSize(225, 97);
+		BFToolbarCreateBonusBar:Hide();
 		BFToolbarRightClickSelfCast:Hide();
 	else
 		BFAdvancedToolsLayer:Show();
 		BFToolbarAdvanced:SetChecked(true);
 		ButtonForgeSave.AdvancedMode = true;
 		BFToolbar:SetSize(225, 129);
+		BFToolbarCreateBonusBar:Show();
 		BFToolbarRightClickSelfCast:Show();
 	end
 	EventFull.RefreshButtons = true;

@@ -9,9 +9,16 @@
 local Const = BFConst;
 Const.SUMMON_RANDOM_FAVORITE_MOUNT_SPELL = 150544;
 Const.SUMMON_RANDOM_FAVORITE_MOUNT_ID = 268435455;
-Const.Version				= 1.0;
-Const.VersionMinor			= 0.21;
-Const.MAX_ACCOUNT_MACROS 	= 120;
+Const.SUMMON_RANDOM_FAVORITE_BATTLE_PET_ID = "BattlePet-0-FFFFFFFFFFFFFF";
+Const.SUMMON_RANDOM_FAVORITE_BATTLE_PET_TEXTURE = "Interface/Icons/INV_Pet_Achievement_CaptureAPetFromEachFamily_Battle";
+Const.HOLY_PRIEST_PVP_TALENT_SPIRIT_OF_THE_REDEEMER_ID = 215769;
+Const.HOLY_PRIEST_PVP_TALENT_SPIRIT_OF_THE_REDEEMER_NAME = "Spirit of Redemption(PVP Talent)";
+Const.PRIEST_PVP_TALENT_INNER_LIGHT_ID = 355897;
+Const.PRIEST_PVP_TALENT_INNER_SHADOW_ID = 355898;
+Const.COVENANT_WARRIOR_FURY_CONDEMN_ID = 330325;
+Const.Version				= 1.0;        -- changed for Cata 04/04/2024
+Const.VersionMinor			= 0.22;   -- changed for Cata 04/04/2024
+Const.MAX_ACCOUNT_MACROS 	= 120;  
 Const.ButtonNaming 			= "ButtonForge"
 Const.ButtonSeq 			= 1;					--This value will increment (so not technically a const...)
 Const.BarNaming				= "ButtonForge"
@@ -20,8 +27,8 @@ Const.DefaultCols 			= 4;
 Const.DefaultRows 			= 1;
 Const.BarInset				= 21;		--I
 Const.BarEdge				= 3.5;
-Const.ButtonGap 			= 6;		--BG		--Don't mess with the ButtonSize/Gap
-Const.ButtonSize 			= 36;		--BS
+Const.ButtonGap 			= 6;		--BG		 -- changed for Cata 04/04/2024
+Const.ButtonSize 			= 36;		--BS     -- changed for Cata 04/04/2024
 Const.MinScale 				= 0.2;
 Const.MiniIconSize 			= 16;
 Const.MiniIconGap 			= 2;
@@ -34,7 +41,7 @@ Const.KeyBindOverlayColor 		= {0.3, 0.7, 0.1, 0.4};
 Const.BarBackdrop 				= {0.1, 0.1, 0.4, 0.85};
 Const.BonusBarBackdrop 			= {0.1, 0.5, 0.1, 0.85};
 Const.IconDragOverlayColor		= {0.0, 0.1, 0.3, 0.0};
-Const.ImagesDir 			= "Interface\\AddOns\\ButtonForge\\Images\\";
+Const.ImagesDir 			= "Interface\\Addons\\ButtonForge\\Images\\";
 Const.SlashNumLines			= 4;		--Num of lines to show before breaking the message up
 
 Const.DisableAutoAlignAgainstDefaultBars	= false;	--Set to true and reload UI in order to not check the Blizzard bars when performing auto-alignment, this probably isn't needed but just in case
@@ -52,6 +59,24 @@ Const.ThresholdVSnapSq		= 6 * 6;
 Const.ThresholdVPressureSq	= 12 * 12;
 Const.ThresholdHSnapSq		= 10 * 10;
 Const.ThresholdHPressureSq	= 20 * 20;
+
+
+--[[
+for lActionSlot = 1, 300 do
+	local lActionText = GetActionText(lActionSlot);
+	local lActionTexture = GetActionTexture(lActionSlot);
+	if lActionTexture then
+		local lMessage = "Slot " .. lActionSlot .. ": [" .. lActionTexture .. "]";
+		if lActionText then
+			lMessage = lMessage .. " \"" .. lActionText .. "\"";
+		end
+		DEFAULT_CHAT_FRAME:AddMessage(lMessage);
+	end
+end
+* It looks like in Dragonflights BonusActionIds page starts at (180/12) + 1
+]]--
+Const.BonusActionPageOffset = 16;
+Const.OverrideActionPageOffset = 18;
 
 
 Const.StealthSpellIds = {};
@@ -117,6 +142,7 @@ Const.SlashCommands["-hidespec3"] = {params = "bool", group = "bar"};
 Const.SlashCommands["-hidespec4"] = {params = "bool", group = "bar"};
 Const.SlashCommands["-hidevehicle"] = {params = "bool", group = "bar"};
 Const.SlashCommands["-hideoverridebar"] = {params = "bool", group = "bar"};
+Const.SlashCommands["-hidepetbattle"] = {params = "bool", group = "bar"};
 Const.SlashCommands["-vismacro"] = {params = "^%s*(.-)%s*$", group = "bar"};		-- I'm tempted to make this one require a bar, but to some degree it is player beware until/if I implement an undo stack
 Const.SlashCommands["-gui"] = {params = "bool", group = "bar"};
 Const.SlashCommands["-alpha"] = {params = "^%s*(%d*%.?%d+)%s*$", group = "bar", validate = function (p) return tonumber(p) <= 1; end};
@@ -136,8 +162,13 @@ Const.SlashCommands["-removemissingmacros"] = {params = "bool", group = "globals
 Const.SlashCommands["-forceoffcastonkeydown"] = {params = "bool", group = "globalsettings"};
 Const.SlashCommands["-usecollectionsfavoritemountbutton"] = {params = "bool", group = "globalsettings"};
 
-Const.SlashCommands["-globalsettings"] = {params = "^()$", group = "globalsettings"};
+Const.SlashCommands["-quests"] = {params = "^()$", incompat = {"ALL"}};
+Const.SlashCommands["-where"] = {params = "^()$", incompat = {"ALL"}};
+Const.SlashCommands["-aura"] = {params = "^()$", incompat = {"ALL"}};
 
+
+
+Const.SlashCommands["-globalsettings"] = {params = "^()$", group = "globalsettings"};
 
 Const.KeyBindingAbbr = {
 	-- This is the short display version you see on the Button

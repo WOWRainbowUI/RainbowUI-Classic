@@ -39,7 +39,6 @@ function UILib.StartDraggingIcon(Icon, Width, Height, Command, Data, Subvalue, T
 	Util.CursorAction = true;
 	MiscFrame:OnEvent("ACTIONBAR_SHOWGRID");	--to cause the updates we want to happen
 
-  -- CURSOR_UPDATE changed to CURSOR_CHANGED classic wrath beta 07/28/2022
 	DragIcon:RegisterEvent("CURSOR_CHANGED");	-- I can't remember why we don't do it here - but this event was a real pain to get working as desired here!
 	DragIcon.Started = true;
 
@@ -47,16 +46,13 @@ end
 
 function UILib.StopDraggingIcon()
 	if (DragIcon.CustomCommand) then
-	  -- CURSOR_UPDATE changed to CURSOR_CHANGED classic wrath beta 07/28/2022
-		-- DragIcon:UnregisterEvent("CURSOR_UDPATE");
+		DragIcon:UnregisterEvent("CURSOR_CHANGED");
 		DragIcon:UnregisterEvent("CURSOR_CHANGED");
 		DragIcon.CustomCommand = nil;
 		DragIcon.CustomData = nil;
 		DragIcon.CustomSubvalue = nil;
 		PlaySoundFile(567524); --sound/interface/uspellicondrop.ogg
 		SetCursor(nil);
-		-- CURSOR_UPDATE changed to CURSOR_CHANGED classic wrath beta 07/28/2022
-    -- DragIcon:UnregisterEvent("CURSOR_UPDATE");	
 		DragIcon:UnregisterEvent("CURSOR_CHANGED");	
 		Util.CursorAction = false;
 		MiscFrame:OnEvent("ACTIONBAR_HIDEGRID");	--to cause the updates we want to happen
@@ -81,8 +77,6 @@ GetCursorPosition();
 	if (DragIcon.Started) then
 		SetCursor("ITEM_CURSOR");
 		DragIcon.Started = false;
-		-- CURSOR_UPDATE changed to CURSOR_CHANGED classic wrath beta 07/28/2022
-    -- DragIcon:RegisterEvent("CURSOR_UPDATE");
 		DragIcon:RegisterEvent("CURSOR_CHANGED");
 	end
 	if (self.Left ~= Left or self.Top ~= Top) then	

@@ -100,6 +100,7 @@ Locale["SlashHelpFormatted"]    =
 	"|c"..Const.LightBlue.."-hidespec4 <on/off>|r\n"..
 	"|c"..Const.LightBlue.."-hidevehicle <on/off>|r\n"..
 	"|c"..Const.LightBlue.."-hideoverridebar <on/off>|r\n"..
+	"|c"..Const.LightBlue.."-hidepetbattle <on/off>|r\n"..
 	"|c"..Const.LightBlue.."-vismacro <visibility macro>|r\n"..
 	"|c"..Const.LightBlue.."-gui <on/off>|r (off = hides bar without disabling keybinds)\n"..
 	"|c"..Const.LightBlue.."-alpha <opacity>|r (0 - 1, 1 is completely opaque)\n"..
