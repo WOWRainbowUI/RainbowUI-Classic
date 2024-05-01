@@ -385,8 +385,10 @@ function BG.DuiZhang0()
     local b = Maxb[FB]
     for i = 1, Maxi[FB] do
         local zhuangbei = BG.DuiZhangFrame[FB]["boss" .. b]["zhuangbei" .. i]
+        local myjine = BG.DuiZhangFrame[FB]["boss" .. b]["myjine" .. i]
         if zhuangbei then
             zhuangbei:SetText("")
+            myjine:SetText("")
         end
     end
 end

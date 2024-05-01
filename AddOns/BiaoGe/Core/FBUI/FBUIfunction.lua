@@ -238,7 +238,7 @@ local function OnTextChanged(self)
         BG.UpdateFilter(self)
     end
 
-    if self ~= BG.Frame[FB]["boss" .. Maxb[FB]]["zhuangbei" .. i] and self ~= BG.Frame[FB]["boss" .. Maxb[FB] + 1]["zhuangbei" .. i] and self ~= BG.Frame[FB]["boss" .. Maxb[FB] + 2]["zhuangbei" .. i] then
+    if bossnum ~= Maxb[FB] and bossnum ~= Maxb[FB] + 1 and bossnum ~= Maxb[FB] + 2 then
         BG.DuiZhangFrame[FB]["boss" .. BossNum(FB, b, t)]["zhuangbei" .. i]:SetText(self:GetText())
     end
 
@@ -391,10 +391,11 @@ function BG.FBZhuangBeiUI(FB, t, b, bb, i, ii)
         self.isEnter = true
         BG.FrameDs[FB .. 1]["boss" .. BossNum(FB, b, t)]["ds" .. i]:Show()
         if not tonumber(self:GetText()) then
-            local itemLink = bt:GetText()
-            local itemID = GetItemInfoInstant(itemLink)
+            local link = bt:GetText()
+            local itemID = GetItemInfoInstant(link)
             BG.Hide_AllHiLight()
-            BG.HighlightBag(itemLink)
+            BG.HighlightBag(link)
+            BG.HighlightItemGuoQi(link)
             if itemID then
                 if BG.ButtonIsInRight(self) then
                     GameTooltip:SetOwner(self, "ANCHOR_LEFT", 0, 0)
@@ -792,7 +793,8 @@ function BG.FBJinEUI(FB, t, b, bb, i, ii)
                 self:SetCursorPosition(1)
             end
         end
-        if self ~= BG.Frame[FB]["boss" .. Maxb[FB]]["jine" .. i] and self ~= BG.Frame[FB]["boss" .. Maxb[FB] + 1]["jine" .. i] and self ~= BG.Frame[FB]["boss" .. Maxb[FB] + 2]["jine" .. i] then
+
+        if bossnum ~= Maxb[FB] and bossnum ~= Maxb[FB] + 1 and bossnum ~= Maxb[FB] + 2 then
             BG.DuiZhangFrame[FB]["boss" .. BossNum(FB, b, t)]["myjine" .. i]:SetText(self:GetText())
         end
 

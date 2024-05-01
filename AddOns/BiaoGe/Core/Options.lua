@@ -966,6 +966,49 @@ local function OptionsUI()
 
         O.CreateLine(biaoge, height - h)
         h = h + 15
+        -- 装备过期提醒
+        do
+            local name = "guoqiRemind"
+            BG.options[name .. "reset"] = 1
+            BiaoGe.options[name] = BiaoGe.options[name] or BG.options[name .. "reset"]
+            local ontext = {
+                L["装备过期提醒"],
+                L["当装备剩余可交易时间低于一定时（默认是低于30分钟），会有语音+文字提醒。每次提醒的最低间隔是5分钟，避免提醒过于频繁。"],
+                " ",
+                L["该功能只有你是团长或物品分配者时起作用。"],
+            }
+            local f = O.CreateCheckButton(name, AddTexture("QUEST") .. BG.STC_g1(L["装备过期提醒"] .. "*"), biaoge, 15, height - h, ontext)
+            BG.options["button" .. name] = f
+            f:HookScript("OnClick", function()
+                local name1 = "guoqiRemindMinTime"
+                if f:GetChecked() then
+                    BG.options["button" .. name1]:Show()
+                else
+                    BG.options["button" .. name1]:Hide()
+                end
+            end)
+        end
+        -- 剩余多少分钟时提醒
+        do
+            local name = "guoqiRemindMinTime"
+            BG.options[name .. "reset"] = 30
+            BiaoGe.options[name] = BiaoGe.options[name] or BG.options[name .. "reset"]
+            local ontext = {
+                L["剩余时间低于多少时提醒"] .. L["|cff808080（右键还原设置）|r"],
+                L["当装备剩余可交易时间低于该时间时，会提醒，默认是30分钟。"],
+                -- " ",
+                -- L[""],
+            }
+            local f = O.CreateSlider(name, "|cffFFFFFF" .. L["剩余时间低于多少时提醒(分)"] .. "*" .. "|r", biaoge, 1, 120, 1, 220, height - h - 25, ontext)
+            BG.options["button" .. name] = f
+            if BiaoGe.options["guoqiRemind"] ~= 1 then
+                f:Hide()
+            end
+        end
+        h = h + 80
+
+        O.CreateLine(biaoge, height - h)
+        h = h + 15
         -- 快速记账
         do
             local name = "fastCount"
@@ -1165,6 +1208,10 @@ local function OptionsUI()
                 "alchemyReady",
                 "tailorReady",
                 "leatherworkingReady",
+                "pingjia",
+                "biaogefull",
+                "guoqi",
+                -- "",
             }
 
             local dropDown = LibBG:Create_UIDropDownMenu(nil, biaoge)
@@ -2144,40 +2191,42 @@ frame:SetScript("OnEvent", function(self, event, addonName)
 
             for FB, _ in pairs(BiaoGe.History) do
                 for dt, v in pairs(BiaoGe.History[FB]) do
-                    for b = 1, Maxb[FB] + 2 do
-                        for i = 1, Maxi[FB] + 10 do
-                            if BiaoGe.History[FB][dt]["boss" .. b]["zhuangbei" .. i] then
-                                if BiaoGe.History[FB][dt]["boss" .. b]["zhuangbei" .. i] == "" then
-                                    BiaoGe.History[FB][dt]["boss" .. b]["zhuangbei" .. i] = nil
+                    for b = 1, 25 do
+                        if BiaoGe.History[FB][dt]["boss" .. b] then
+                            for i = 1, 35 do
+                                if BiaoGe.History[FB][dt]["boss" .. b]["zhuangbei" .. i] then
+                                    if BiaoGe.History[FB][dt]["boss" .. b]["zhuangbei" .. i] == "" then
+                                        BiaoGe.History[FB][dt]["boss" .. b]["zhuangbei" .. i] = nil
+                                    end
+                                    if BiaoGe.History[FB][dt]["boss" .. b]["maijia" .. i] == "" then
+                                        BiaoGe.History[FB][dt]["boss" .. b]["maijia" .. i] = nil
+                                        BiaoGe.History[FB][dt]["boss" .. b]["color" .. i] = nil
+                                    end
+                                    if BiaoGe.History[FB][dt]["boss" .. b]["jine" .. i] == "" then
+                                        BiaoGe.History[FB][dt]["boss" .. b]["jine" .. i] = nil
+                                    end
                                 end
-                                if BiaoGe.History[FB][dt]["boss" .. b]["maijia" .. i] == "" then
-                                    BiaoGe.History[FB][dt]["boss" .. b]["maijia" .. i] = nil
-                                    BiaoGe.History[FB][dt]["boss" .. b]["color" .. i] = nil
-                                end
-                                if BiaoGe.History[FB][dt]["boss" .. b]["jine" .. i] == "" then
-                                    BiaoGe.History[FB][dt]["boss" .. b]["jine" .. i] = nil
-                                end
-                            end
 
-                            if BiaoGe[FB]["boss" .. b]["zhuangbei" .. i] or BiaoGe[FB]["boss" .. b]["qiankuan" .. i] then
-                                if BiaoGe[FB]["boss" .. b]["zhuangbei" .. i] == "" then
-                                    BiaoGe[FB]["boss" .. b]["zhuangbei" .. i] = nil
-                                end
-                                if BiaoGe[FB]["boss" .. b]["maijia" .. i] == "" then
-                                    BiaoGe[FB]["boss" .. b]["maijia" .. i] = nil
-                                    BiaoGe[FB]["boss" .. b]["color" .. i] = nil
-                                end
-                                if BiaoGe[FB]["boss" .. b]["jine" .. i] == "" then
-                                    BiaoGe[FB]["boss" .. b]["jine" .. i] = nil
-                                end
-                                if BiaoGe[FB]["boss" .. b]["qiankuan" .. i] == "" then
-                                    BiaoGe[FB]["boss" .. b]["qiankuan" .. i] = nil
+                                if BiaoGe[FB]["boss" .. b]["zhuangbei" .. i] or BiaoGe[FB]["boss" .. b]["qiankuan" .. i] then
+                                    if BiaoGe[FB]["boss" .. b]["zhuangbei" .. i] == "" then
+                                        BiaoGe[FB]["boss" .. b]["zhuangbei" .. i] = nil
+                                    end
+                                    if BiaoGe[FB]["boss" .. b]["maijia" .. i] == "" then
+                                        BiaoGe[FB]["boss" .. b]["maijia" .. i] = nil
+                                        BiaoGe[FB]["boss" .. b]["color" .. i] = nil
+                                    end
+                                    if BiaoGe[FB]["boss" .. b]["jine" .. i] == "" then
+                                        BiaoGe[FB]["boss" .. b]["jine" .. i] = nil
+                                    end
+                                    if BiaoGe[FB]["boss" .. b]["qiankuan" .. i] == "" then
+                                        BiaoGe[FB]["boss" .. b]["qiankuan" .. i] = nil
+                                    end
                                 end
                             end
-                        end
-                        if BiaoGe.History[FB][dt]["boss" .. b]["time"] then
-                            if BiaoGe.History[FB][dt]["boss" .. b]["time"] == "" then
-                                BiaoGe.History[FB][dt]["boss" .. b]["time"] = nil
+                            if BiaoGe.History[FB][dt]["boss" .. b]["time"] then
+                                if BiaoGe.History[FB][dt]["boss" .. b]["time"] == "" then
+                                    BiaoGe.History[FB][dt]["boss" .. b]["time"] = nil
+                                end
                             end
                         end
                     end
@@ -2187,33 +2236,54 @@ frame:SetScript("OnEvent", function(self, event, addonName)
         end
 
         -- 修正击杀用时文本
-        if not BiaoGe.options.SearchHistory["yongshi240420"] then
+        if not BiaoGe.options.SearchHistory["yongshi240425"] then
             for _, FB in pairs(BG.FBtable) do
-                for b = 1, Maxb[FB] + 2 do
-                    local t = BiaoGe[FB]["boss" .. b].time
-                    if t then
-                        local m, s = t:match("(%d+)分(%d+)秒")
-                        -- pt(m, s)
-                        if m and s then
-                            BiaoGe[FB]["boss" .. b].time = m .. ":" .. s
+                for b = 1, 25 do
+                    if BiaoGe[FB]["boss" .. b] then
+                        local t = BiaoGe[FB]["boss" .. b].time
+                        if t then
+                            if t == "" then
+                                BiaoGe[FB]["boss" .. b].time = nil
+                            else
+                                local m, s = t:match("(%d+)分(%d+)秒")
+                                if m and s then
+                                    BiaoGe[FB]["boss" .. b].time = m .. ":" .. s
+                                else
+                                    m, s = t:match("(%d+):(%d+)")
+                                    if m and s then
+                                        BiaoGe[FB]["boss" .. b].time = m .. ":" .. s
+                                    end
+                                end
+                            end
                         end
                     end
                 end
             end
             for FB, _ in pairs(BiaoGe.History) do
                 for dt, v in pairs(BiaoGe.History[FB]) do
-                    for b = 1, Maxb[FB] + 2 do
-                        local t = BiaoGe.History[FB][dt]["boss" .. b].time
-                        if t then
-                            local m, s = t:match("(%d+)分(%d+)秒")
-                            if m and s then
-                                BiaoGe.History[FB][dt]["boss" .. b].time = m .. ":" .. s
+                    for b = 1, 25 do
+                        if BiaoGe.History[FB][dt]["boss" .. b] then
+                            local t = BiaoGe.History[FB][dt]["boss" .. b].time
+                            if t then
+                                if t == "" then
+                                    BiaoGe.History[FB][dt]["boss" .. b].time = nil
+                                else
+                                    local m, s = t:match("(%d+)分(%d+)秒")
+                                    if m and s then
+                                        BiaoGe.History[FB][dt]["boss" .. b].time = m .. ":" .. s
+                                    else
+                                        m, s = t:match("(%d+):(%d+)")
+                                        if m and s then
+                                            BiaoGe.History[FB][dt]["boss" .. b].time = m .. ":" .. s
+                                        end
+                                    end
+                                end
                             end
                         end
                     end
                 end
             end
-            BiaoGe.options.SearchHistory["yongshi240420"] = true
+            BiaoGe.options.SearchHistory["yongshi240425"] = true
         end
     end
 end)

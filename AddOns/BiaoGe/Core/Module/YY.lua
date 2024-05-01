@@ -1450,17 +1450,17 @@ frame:SetScript("OnEvent", function(self, event, addonName)
         local function OnHyperlinkLeave(self, link)
             GameTooltip:Hide()
         end
-        local f = CreateFrame("Frame")
-        f:RegisterEvent("PLAYER_ENTERING_WORLD")
-        f:SetScript("OnEvent", function(self, even, isLogin, isReload)
-            if not (isLogin or isReload) then return end
-            local i = 1
-            while _G["ChatFrame" .. i] do
-                _G["ChatFrame" .. i]:HookScript("OnHyperlinkEnter", OnHyperlinkEnter)
-                _G["ChatFrame" .. i]:HookScript("OnHyperlinkLeave", OnHyperlinkLeave)
-                i = i + 1
-            end
-        end)
+        -- local f = CreateFrame("Frame")
+        -- f:RegisterEvent("PLAYER_ENTERING_WORLD")
+        -- f:SetScript("OnEvent", function(self, even, isLogin, isReload)
+        --     if not (isLogin or isReload) then return end
+        local i = 1
+        while _G["ChatFrame" .. i] do
+            _G["ChatFrame" .. i]:HookScript("OnHyperlinkEnter", OnHyperlinkEnter)
+            _G["ChatFrame" .. i]:HookScript("OnHyperlinkLeave", OnHyperlinkLeave)
+            i = i + 1
+        end
+        -- end)
     end
 
     ------------------记录团长发过的YY号------------------

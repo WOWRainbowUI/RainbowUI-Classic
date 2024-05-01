@@ -135,7 +135,7 @@ function BG.DuiZhangZhuangBeiUI(FB, t, b, bb, i, ii)
     bt.icon = bt:CreateTexture(nil, 'ARTWORK')
     bt.icon:SetPoint('LEFT', -22, 0)
     bt.icon:SetSize(16, 16)
-    if BiaoGe[FB]["boss" .. b]["zhuangbei" .. i] then
+    if BiaoGe[FB]["boss" .. b]["zhuangbei" .. i] and b ~= Maxb[FB] and b ~= Maxb[FB] + 1 then
         bt:SetText(BiaoGe[FB]["boss" .. b]["zhuangbei" .. i])
         BG.EditItemCache(bt, OnTextChanged)
     end
@@ -206,7 +206,7 @@ function BG.DuiZhangMyJinEUI(FB, t, b, bb, i, ii)
     button:SetAutoFocus(false)
     button:SetEnabled(false)
     button:SetTextColor(RGB("00BFFF"))
-    if BiaoGe[FB]["boss" .. b]["jine" .. i] then
+    if BiaoGe[FB]["boss" .. b]["jine" .. i] and b ~= Maxb[FB] and b ~= Maxb[FB] + 1 then
         button:SetText(BiaoGe[FB]["boss" .. b]["jine" .. i])
     end
     preWidget = button
