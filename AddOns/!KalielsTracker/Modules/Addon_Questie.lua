@@ -290,7 +290,7 @@ end
 function M:OnInitialize()
     _DBG("|cffffff00Init|r - "..self:GetName(), true)
     db = KT.db.profile
-    self.isLoaded = (KT:CheckAddOn("Questie", "9.4.9") and db.addonQuestie)
+    self.isLoaded = (KT:CheckAddOn("Questie", "10.0.2") and db.addonQuestie)
 end
 
 function M:OnEnable()

@@ -1,7 +1,7 @@
 ## Interface: 11502
 ## Title: Kaliel's Tracker
 ## Notes: Classic Era Objective Tracker
-## Version: 3.6.0
+## Version: 4.0.0
 ## Author: Kaliel (Marouan Sabbagh)
 
 ## SavedVariables: KalielsTrackerDB
@@ -12,16 +12,16 @@
 ## Notes-zhTW: Kaliel's Tracker |n|n增強畫面右方任務追蹤清單的功能。|n|n|cffffd200使用方法: |r從Esc>選項>插件>任務-追蹤清單，進行設定和移動位置。
 ## X-Category-zhTW: 任務
 
-Vanilla\Compatibility.lua
-Vanilla\Blizzard_Core_Vanilla.xml
+Compatibility.lua
+Blizzard_Core_Vanilla.xml
 
-Vanilla\Libs.xml
-Vanilla\Constants.lua
-Vanilla\Utils.lua
-Vanilla\Media.lua
+Libs.xml
+Constants.lua
+Utils.lua
+Media.lua
 
-Vanilla\KalielsTracker.lua
-Vanilla\KalielsTracker.xml
-Vanilla\Options.lua
+KalielsTracker.lua
+KalielsTracker.xml
+Options.lua
 
-Vanilla\Modules.xml
+Modules.xml

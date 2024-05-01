@@ -146,7 +146,7 @@ local options = {
 							order = 0.11,
 						},
 						build = {
-							name = " |cffffd100Build:|r  WotLK Classic",
+							name = " |cffffd100Build:|r  "..(WOW_PROJECT_ID > WOW_PROJECT_CLASSIC and "Cataclysm Classic" or "Classic Era"),
 							type = "description",
 							width = "normal",
 							fontSize = "medium",
@@ -778,7 +778,7 @@ local options = {
 							order = 4.43,
 						},
 						headerOtherButtons = {
-							name = "顯示任務日誌和成就按鈕",
+							name = "顯示"..(WOW_PROJECT_ID > WOW_PROJECT_CLASSIC and "任務日誌和成就按鈕" or "任務日誌按鈕"),
 							type = "toggle",
 							width = "double",
 							set = function()
@@ -1088,14 +1088,14 @@ local options = {
 					},
 				},
 				sec3 = {
-					name = "滑鼠提示",
+					name = "浮動提示資訊",
 					type = "group",
 					inline = true,
 					order = 3,
 					args = {
 						tooltipShow = {
-							name = "顯示滑鼠提示",
-							desc = "顯示任務 / 成就滑鼠提示。",
+							name = "顯示浮動提示資訊",
+							desc = "顯示任務 / 成就浮動提示資訊。",
 							type = "toggle",
 							set = function()
 								db.tooltipShow = not db.tooltipShow
@@ -1104,7 +1104,7 @@ local options = {
 						},
 						tooltipShowRewards = {
 							name = "顯示獎勵",
-							desc = "在滑鼠提示內顯示任務獎勵 - 神兵之力、職業大廳資源、金錢、裝備...等。",
+							desc = "在浮動提示資訊內顯示任務獎勵 - 神兵之力、職業大廳資源、金錢、裝備...等。",
 							type = "toggle",
 							disabled = function()
 								return not db.tooltipShow
@@ -1116,7 +1116,7 @@ local options = {
 						},
 						tooltipShowID = {
 							name = "顯示 ID",
-							desc = "在滑鼠提示內顯示任務 / 成就的 ID。",
+							desc = "在浮動提示資訊內顯示任務 / 成就的 ID。",
 							type = "toggle",
 							disabled = function()
 								return not db.tooltipShow
@@ -1322,6 +1322,14 @@ function KT:SetupOptions()
 	self.db.RegisterCallback(self, "OnProfileChanged", "InitProfile")
 	self.db.RegisterCallback(self, "OnProfileCopied", "InitProfile")
 	self.db.RegisterCallback(self, "OnProfileReset", "InitProfile")
+
+	-- Classic Era - resets and hides some options
+	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+		general.sec7.args.messageAchievement = nil
+		db.messageAchievement = false
+		content.sec2 = nil
+		db.achievementsHeaderTitleAppend = false
+	end
 end
 
 SettingsPanel:HookScript("OnHide", function(self)
@@ -1401,6 +1409,7 @@ function GetModulesOptionsTable()
 			name = "|T:1:55|t|cff808080"..defaultText,
 			type = "description",
 			width = "normal",
+			fontSize = "medium",
 			order = i + 0.3,
 		}
 	end
