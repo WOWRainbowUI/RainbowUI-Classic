@@ -1,4 +1,4 @@
-## Interface: 20504
+## Interface: 30403
 ## Version: v10.2.7
 ## Title: SexyMap
 ## Notes: Spice up your minimap with some sexy options.
@@ -25,11 +25,11 @@ localization\enUS.lua
 localization\zhTW.lua
 localization\zhCN.lua
 
-SexyMap_TBC.lua
+SexyMap_Wrath.lua
 
 Shapes_Classic.lua
 
-Buttons_TBC.lua
+Buttons_Wrath.lua
 BorderPresets.lua
 Borders_Classic.lua
 Clock.lua
