@@ -1,7 +1,7 @@
 # Skillet-Classic  -Ace3-
 
-## [1.83](https://github.com/b-morgan/Skillet-Classic/tree/1.83) (2024-04-05)
-[Full Changelog](https://github.com/b-morgan/Skillet-Classic/compare/1.82...1.83) [Previous Releases](https://github.com/b-morgan/Skillet-Classic/releases)
+## [1.84](https://github.com/b-morgan/Skillet-Classic/tree/1.84) (2024-04-05)
+[Full Changelog](https://github.com/b-morgan/Skillet-Classic/compare/1.82...1.84) [Previous Releases](https://github.com/b-morgan/Skillet-Classic/releases)
 
 - Better handling of tradeskill scan errors  
 - Update TOC  
