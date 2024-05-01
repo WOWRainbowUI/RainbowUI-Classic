@@ -1,8 +1,8 @@
-## Interface: 40400
-## Title: |TInterface/Icons/Spell_Frost_Stun:16:16:0:0:512:512:64:448:64:448|t SpellActivationOverlay |cffa2f3ff1.3.1|r
+## Interface: 11502
+## Title: |TInterface/Icons/Spell_Frost_Stun:16:16:0:0:512:512:64:448:64:448|t SpellActivationOverlay |cffa2f3ff1.3.2|r
 ## Notes: Mimic Spell Activation Overlays from Modern World of Warcraft
 ## Author: Vinny/Ennvina
-## Version: 1.3.1
+## Version: 1.3.2
 ## SavedVariables: SpellActivationOverlayDB
 
 # SpellActivationOverlay.lua, SpellActivationOverlay.xml and all textures were created by Blizzard Entertainment, Inc.
@@ -16,12 +16,9 @@
 # World of Warcraft®: Warlords of Draenor™
 # ©2014 Blizzard Entertainment, Inc. All rights reserved. Warlords of Draenor is a trademark, and World of Warcraft, Warcraft and Blizzard Entertainment are trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries.
 
-## Title-zhTW: |cffFF2D2D[戰鬥]|r 法術警告
-## Notes-zhTW: SpellActivationOverlay |n|n顯示和正式服一樣的法術警告效果，技能觸發時在角色周圍顯示材質圖案，以及快捷列的按鈕發光。|n|n|cffffd200使用方法: |r從Esc>選項>插件>法術警告，進行設定。
-## X-Category-zhTW: 戰鬥
-
 components\aura.lua
 components\counter.lua
+components\effect.lua
 components\events.lua
 components\glow.lua
 components\item.lua
@@ -35,7 +32,6 @@ components\util.lua
 textures\texname.lua
 
 classes\common.lua
-classes\deathknight.lua
 classes\druid.lua
 classes\hunter.lua
 classes\mage.lua

@@ -171,7 +171,7 @@
     </Frames>
     <Layers>
       <Layer level="ARTWORK">
-        <FontString name="$parentSpellAlertLabel" text="法術警告" inherits="GameFontHighlight" justifyH="LEFT" justifyV="TOP">
+        <FontString name="$parentSpellAlertLabel" text="Spell Alerts" inherits="GameFontHighlight" justifyH="LEFT" justifyV="TOP">
           <Anchors>
             <Anchor point="TOPLEFT" relativeTo="$parentSpellAlertTestButton" relativePoint="TOPRIGHT">
               <Offset>
