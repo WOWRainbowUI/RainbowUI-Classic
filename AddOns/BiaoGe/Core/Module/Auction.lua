@@ -483,7 +483,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             BG.StartAuction(link, self)
         end)
     end
-    ------------------团员插件版本------------------
+    ------------------插件版本------------------
     do
         BG.guildBiaoGeVersion = {}
         BG.guildClass = {}
@@ -692,7 +692,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         end
 
         local bt = CreateFrame("Button", nil, BG.MainFrame)
-        bt:SetPoint("LEFT", BG.ButtonMove, "RIGHT", 15, 0)
+        bt:SetPoint("LEFT", BG.ButtonGuoQi, "RIGHT", 15, 0)
         bt:SetNormalFontObject(BG.FontGreen15)
         bt:SetDisabledFontObject(BG.FontDis15)
         bt:SetHighlightFontObject(BG.FontWhite15)

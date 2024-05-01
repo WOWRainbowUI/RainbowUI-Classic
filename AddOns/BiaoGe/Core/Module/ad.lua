@@ -32,6 +32,9 @@ local player = UnitName("player")
 BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
     if addonName ~= AddonName then return end
 
+    BG.ButtonAd = BG.ButtonOnLineCount
+    if BG.ButtonAd then return end
+
     local adtitle = "飞越工会"
     local adtext1 = "飞越工会招收优质指挥，精英玩家！欢迎团长来YY 65538 开团，提供资源，私人补助！"
     local adtext2 = L["< 点击复制YY号 >"]

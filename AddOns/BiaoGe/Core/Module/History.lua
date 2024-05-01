@@ -139,11 +139,7 @@ function BG.HistoryUI()
                         end
                     end
                 end
-                if BG.Frame[FB]["boss" .. b]["time"] then
-                    if BG.Frame[FB]["boss" .. b]["time"]:GetText() ~= "" then
-                        BiaoGe.History[FB][DT]["boss" .. b]["time"] = BG.Frame[FB]["boss" .. b]["time"]:GetText()
-                    end
-                end
+                BiaoGe.History[FB][DT]["boss" .. b]["time"] = BiaoGe[FB]["boss" .. b]["time"]
             end
             local d = { DT, format(L["%s%s %s人 工资:%s"], DTcn, BG.GetFBinfo(FB, "localName"),
                 BG.Frame[FB]["boss" .. Maxb[FB] + 2]["jine" .. 4]:GetText(),
@@ -167,7 +163,9 @@ function BG.HistoryUI()
             GameTooltip:SetOwner(self, "ANCHOR_NONE")
             GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
             GameTooltip:ClearLines()
-            GameTooltip:SetText(L["把当前表格保存至历史表格"])
+            GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
+            GameTooltip:AddLine(L["把当前表格保存至历史表格。"], 1, 0.82, 0, true)
+            GameTooltip:Show()
         end)
         bt:SetScript("OnLeave", function(self)
             GameTooltip:Hide()
@@ -200,7 +198,9 @@ function BG.HistoryUI()
             GameTooltip:SetOwner(self, "ANCHOR_NONE")
             GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
             GameTooltip:ClearLines()
-            GameTooltip:SetText(L["把当前表格发给别人，类似发WA那样"])
+            GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
+            GameTooltip:AddLine(L["把当前表格发给别人，类似发WA那样。"], 1, 0.82, 0, true)
+            GameTooltip:Show()
         end)
         bt:SetScript("OnLeave", function(self)
             GameTooltip:Hide()
@@ -297,7 +297,9 @@ function BG.HistoryUI()
             GameTooltip:SetOwner(self, "ANCHOR_NONE")
             GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
             GameTooltip:ClearLines()
-            GameTooltip:SetText(L["把表格导出为文本"])
+            GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
+            GameTooltip:AddLine(L["把表格导出为文本。"], 1, 0.82, 0, true)
+            GameTooltip:Show()
         end)
         bt:SetScript("OnLeave", function(self)
             GameTooltip:Hide()
@@ -418,7 +420,9 @@ function BG.HistoryUI()
             GameTooltip:SetOwner(self, "ANCHOR_NONE")
             GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
             GameTooltip:ClearLines()
-            GameTooltip:SetText(L["把该历史表格复制粘贴到当前表格，这样你可以编辑内容"])
+            GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
+            GameTooltip:AddLine(L["把该历史表格复制粘贴到当前表格，这样你可以编辑内容。"], 1, 0.82, 0, true)
+            GameTooltip:Show()
         end)
         bt:SetScript("OnLeave", function(self)
             GameTooltip:Hide()

@@ -542,6 +542,7 @@ do
             BG["sound_error" .. name] = Interface .. name .. "\\检测到配置文件错误，现已重置.mp3"
             BG["sound_pingjia" .. name] = Interface .. name .. "\\给个评价吧.mp3"
             BG["sound_biaogefull" .. name] = Interface .. name .. "\\表格满了.mp3"
+            BG["sound_guoqi" .. name] = Interface .. name .. "\\装备快过期了.mp3"
         end
     end
 end
