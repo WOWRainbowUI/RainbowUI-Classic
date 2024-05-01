@@ -14,5 +14,5 @@
 libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 locales.xml
 templates.xml
-Cata\Config.lua
-Cata\HidingBar.lua
+Config.lua
+HidingBar.lua
