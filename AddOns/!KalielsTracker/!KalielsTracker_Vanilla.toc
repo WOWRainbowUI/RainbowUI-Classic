@@ -1,0 +1,23 @@
+## Interface: 11502
+## Title: Kaliel's Tracker
+## Notes: Classic Era Objective Tracker
+## Version: 4.0.0
+## Author: Kaliel (Marouan Sabbagh)
+
+## SavedVariables: KalielsTrackerDB
+## Dependencies: Blizzard_UIWidgets
+## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSink-2.0, MSA-DropDownMenu-1.0, Questie
+
+Compatibility.lua
+Blizzard_Core_Vanilla.xml
+
+Libs.xml
+Constants.lua
+Utils.lua
+Media.lua
+
+KalielsTracker.lua
+KalielsTracker.xml
+Options.lua
+
+Modules.xml
