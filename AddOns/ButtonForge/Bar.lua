@@ -71,7 +71,6 @@ function Bar.New(BarSave)
 				ButtonFrame:SetAttribute("_onshow", [[local B, Key;
 													for i = 1, #Buttons do
 														B = Buttons[i];
-														B:Enable(); 
 														Key = B:GetAttribute("KeyBindValue"); 
 														if (Key) then 
 															B:SetBindingClick(false, Key, B);
@@ -81,7 +80,6 @@ function Bar.New(BarSave)
 				ButtonFrame:SetAttribute("_onshow", [[local B, Key;
 													for i = 1, #Buttons do
 														B = Buttons[i];
-														B:Enable(); 
 														Key = B:GetAttribute("KeyBindValue"); 
 														if (Key) then 
 															B:SetBindingClick(false, Key, B, "KeyBind");
@@ -91,7 +89,6 @@ function Bar.New(BarSave)
 			ButtonFrame:SetAttribute("_onhide", [[local B, Key;
 												for i = 1, #Buttons do 
 													B = Buttons[i];
-													B:Disable();
 													Key = B:GetAttribute("KeyBindValue");
 													if (Key) then
 														B:ClearBindings();
@@ -122,11 +119,11 @@ function Bar.New(BarSave)
 			ButtonFrame:WrapScript(BFSecureSpecialBarFrame, "OnAttributeChanged",
 												[[local B, id, page;
 												if (value == "overridebar") then
-													page = 14;
+													page = 18; --Const.OverrideActionPageOffset
 												elseif (value == "vehicleui") then
-													page = 12;
+													page = 16; --Const.BonusActionPageOffset
 												else
-													page = 12;
+													page = 16; --Const.BonusActionPageOffset
 												end
 												
 												for i = 1, #Buttons do
@@ -141,8 +138,7 @@ function Bar.New(BarSave)
 			NewBar.ButtonFrame = ButtonFrame;
 		
 		--[[Background Layer, this will contain all controls and is used in resizing]]--
-			local Background = CreateFrame("FRAME", nil, ControlFrame);
-			Mixin(Background, BackdropTemplateMixin)
+			local Background = CreateFrame("FRAME", nil, ControlFrame, "BackdropTemplate");
 			Background:SetSize(1, 1);
 			Background:SetPoint("TOPLEFT", ControlFrame, "TOPLEFT");
 			Background:SetBackdrop({bgFile = Const.ImagesDir.."Backdrop.tga", edgeFile = "Interface/Tooltips/UI-Tooltip-Border", tile = true, tileSize = 16, edgeSize = 16, insets = {left=3, right=3, bottom=3, top=3}});
@@ -176,15 +172,14 @@ function Bar.New(BarSave)
 			
 		--[[Tile Texture, used to indicate where new buttons will be created when the cols and rows buttons are used]]--
 			local TileTexture = Background:CreateTexture();
-			TileTexture:SetTexture(Const.ImagesDir.."BarBackdrop.tga", true);
+			TileTexture:SetTexture(Const.ImagesDir.."BarBackdrop.tga", "REPEAT", "REPEAT");
 			TileTexture:SetAlpha(.3);
 			TileTexture:SetPoint("TOPLEFT", Background, "TOPLEFT", Const.I, -Const.I);
 			TileTexture:Hide();
 			NewBar.TileTexture = TileTexture;
 		
 		--[[Label Frame]]--
-			local LabelFrame = CreateFrame("FRAME", nil, ControlFrame);
-			Mixin(LabelFrame, BackdropTemplateMixin)
+			local LabelFrame = CreateFrame("FRAME", nil, ControlFrame, "BackdropTemplate");
 			LabelFrame:SetSize(1, 1);
 			LabelFrame:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background", edgeFile = "Interface/Tooltips/UI-Tooltip-Border", tile = true, tileSize = 16, edgeSize = 8, insets = {left=1.5, right=1.5, bottom=1.5, top=1.5}});
 			LabelFrame:SetBackdropColor(0, 0, 0, 1);
@@ -325,7 +320,9 @@ function Bar.New(BarSave)
 			--table.insert(NewBar.LeftControls, NewBar.LabelButton);
 
 		-- a bit hacky - but to get this out sooner rather than a bigger refactor
-			local NumSpecs = GetNumTalentGroups() -- Wrath change 08/01/2022
+			-- local NumSpecs = GetNumSpecializations() 
+			local NumSpecs = GetNumTalentGroups() -- changed for Cata 04/04/2024
+			
 			for i = 1, NumSpecs do
 				--[[Hide On Talent # Button]]--
 				NewBar["HSpec"..i.."Button"] = UILib.CreateButton(Background, Const.MiniIconSize, Const.MiniIconSize,		--parent, width, height
@@ -421,17 +418,17 @@ function Bar:PrepareButtonSecureState()
 	local page, barType;
 	barType = BFSecureSpecialBarFrame:GetAttribute("bar");
 	--[[if (barType == "overridebar") then
-		page = 14;
+		page = Const.OverrideActionPageOffset;
 	elseif (barType == "vehicleui") then
-		page = 12;
+		page = Const.BonusActionPageOffset;
 	else
-		page = 12;
+		page = Const.BonusActionPageOffset;
 	end
 	--]]
 	if (HasOverrideActionBar()) then
-		page = 14;
+		page = Const.OverrideActionPageOffset;
 	else
-		page = 12;
+		page = Const.BonusActionPageOffset;
 	end
 	local Buttons = self.Buttons;
 	for i = 1, #Buttons do
@@ -524,6 +521,7 @@ function Bar:Configure(BarSave)
 	self:SetHSpec4(BarSave["HSpec4"]);
 	self:SetHVehicle(BarSave["HVehicle"]);
 	self:SetHBonusBar(BarSave["HBonusBar"]);
+	self:SetHPetBattle(BarSave["HPetBattle"]);
 	self:SetVD(BarSave["VDriver"]);
 	self:SetGridAlwaysOn(BarSave["GridAlwaysOn"]);
 	self:SetButtonsLocked(BarSave["ButtonsLocked"]);
@@ -535,6 +533,7 @@ function Bar:Configure(BarSave)
 	self:SetAlpha(BarSave["Alpha"]);
 	self:SetGUI(BarSave["GUI"]);
 
+	-- self:SetFlyoutDirection(BarSave["FlyoutDirection"]); removed for cata 04/27/2024
 	self.ControlFrame:SetClampedToScreen(true);
 end
 
@@ -745,6 +744,7 @@ function Bar:SetNumButtons(Cols, Rows)
 --	self.ButtonFrame:Execute("Buttons = newtable(owner:GetChildren());");
 	self:SetGridAlwaysOn(self.BarSave["GridAlwaysOn"]);
 	self:SetTooltips(self.BarSave["TooltipsOn"]);
+	self:SetFlyoutDirection(self.BarSave["FlyoutDirection"]);
 	self:UpdateSize();
 
 end
@@ -799,7 +799,7 @@ function Bar:UpdateTileSize(Cols, Rows)
 	local Tile = self.TileTexture;
 	local BWidth = (Cols * self.BSize - self.BG) * Scale;
 	local BHeight = (Rows * self.BSize - self.BG) * Scale;
-	
+
 	Tile:SetSize(BWidth, BHeight);
 	Tile:SetTexCoord(0, Cols - self.GFrac, 0, Rows - self.GFrac);
 end
@@ -1138,7 +1138,7 @@ end
 --]]
 function Bar:DestroyBar()
 	if (not InCombatLockdown()) then
-		PlaySoundFile("sound/spells/meltoretarget.ogg"); --PlaySoundFile(569366)
+		PlaySoundFile(569366); --sound/spells/meltoretarget.ogg
 		Util.DeallocateBar(self);
 	end
 	UILib.ToggleDestroyBarMode(true);
@@ -1581,6 +1581,23 @@ function Bar:GetHBonusBar()
 	end
 end
 
+function Bar:SetHPetBattle(Value)
+	if (not InCombatLockdown()) then
+		if (Value == "toggle") then
+			Value = not self.BarSave["HPetBattle"];
+		end
+		self.BarSave["HPetBattle"] = Value;
+		self:SetVD(self.BarSave["VDriver"]);
+	end
+end
+function Bar:GetHPetBattle()
+	if (self.BarSave["HPetBattle"]) then
+		return self.BarSave["HPetBattle"], Util.GetLocaleString("Hidden");
+	else
+		return self.BarSave["HPetBattle"], Util.GetLocaleString("Shown");
+	end
+end
+
 --[[
 		Handle updating the Visibility State Driver
 --]]
@@ -1602,11 +1619,20 @@ function Bar:SetVD(VDText)
 		if (not self.BarSave["Enabled"]) then
 			Text = Text.."hide; ";
 		end
+		if (self.BarSave["HPetBattle"]) then
+			Text = Text.."[petbattle] hide; ";
+		end
 		if (self.BarSave["HSpec1"]) then
-		  Text = Text.."[spec:1] hide; ";
+			Text = Text.."[spec:1] hide; ";
 		end
 		if (self.BarSave["HSpec2"]) then
- 			Text = Text.."[spec:2] hide; ";
+			Text = Text.."[spec:2] hide; ";
+		end
+		if (self.BarSave["HSpec3"]) then
+			Text = Text.."[spec:3] hide; ";
+		end
+		if (self.BarSave["HSpec4"]) then
+			Text = Text.."[spec:4] hide; ";
 		end
 		if (self.BarSave["HVehicle"]) then
 			Text = Text.."[vehicleui] hide; ";
@@ -1618,7 +1644,22 @@ function Bar:SetVD(VDText)
 		VDText = VDText or "";
 		if (VDText ~= "") then
 			self.VDButton:SetNormalTexture(Const.ImagesDir.."VDriverSet.tga");
-			RegisterStateDriver(self.ButtonFrame, "visibility", Text..VDText);
+
+			-- Note: Only 1 custom macro per type is allowed
+
+			VDText_Modified = VDText;
+
+			-- Support for custom macro "[map:mapID]"
+			VDText_Modified = Util.CustomMacro_Map(VDText_Modified);
+
+			-- Support for custom macro "[quest:questID]"
+			VDText_Modified = Util.CustomMacro_Quest(VDText_Modified);
+
+			-- Support for custom macro "[aura:spellID]"
+			VDText_Modified = Util.CustomMacro_Aura(VDText_Modified);
+
+			RegisterStateDriver(self.ButtonFrame, "visibility", Text..VDText_Modified);
+
 			self.VDButton.Tooltip = Util.GetLocaleString("VisibilityTooltip").."|c"..Const.DarkBlue..VDText.."|r";
 		else
 			self.VDButton:SetNormalTexture(Const.ImagesDir.."VDriver.tga");
@@ -1636,6 +1677,16 @@ function Bar:SetVD(VDText)
 end
 function Bar:GetVD()
 	return self.BarSave["VDriver"];
+end
+function Bar:ApplyCustomMacrosVD()
+	VDText = self:GetVD();
+	-- we only need to reapply the VD for custom macros
+	local VDText_Map   = Util.CustomMacro_Map(VDText);
+	local VDText_Quest = Util.CustomMacro_Quest(VDText);
+	local VDText_Aura = Util.CustomMacro_Aura(VDText);
+	if ( VDText_Map ~= VDText or VDText_Quest ~= VDText or VDText_Aura ~= VDText ) then
+		self:SetVD(VDText);
+	end
 end
 function Bar:CancelInputVD()
 	self.VDButton:SetChecked(false);

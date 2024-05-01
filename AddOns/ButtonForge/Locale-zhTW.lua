@@ -106,9 +106,10 @@ Locale["SlashHelpFormatted"]	=
 	"|c"..Const.LightBlue.."-hidespec4 <on/off>|r\n"..
 	"|c"..Const.LightBlue.."-hidevehicle <on/off>|r\n"..
 	"|c"..Const.LightBlue.."-hideoverridebar <on/off>|r\n"..
+	"|c"..Const.LightBlue.."-hidepetbattle <on/off>|r\n"..
 	"|c"..Const.LightBlue.."-vismacro <控制顯示的巨集>|r\n"..
 	"|c"..Const.LightBlue.."-gui <on/off>|r (off = 隱藏快捷列但不停用快捷鍵)\n"..
-	"|c"..Const.LightBlue.."-alpha <不透明度>|r (0 - 1, 1 是完全不透明)\n"..
+	"|c"..Const.LightBlue.."-alpha <不透明度>|r (0 - 1, 1 is 是完全不透明)\n"..
 	"|c"..Const.LightBlue.."-enabled <on/off>|r\n"..
 	"|c"..Const.LightBlue.."-info|r\n"..
 	"|c"..Const.LightBlue.."-technicalinfo|r\n"..

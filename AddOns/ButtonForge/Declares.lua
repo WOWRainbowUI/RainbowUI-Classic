@@ -7,17 +7,11 @@
 
 ]]
 
-BFLocales 	      = {};
-BFConst 	        = {};
-BFUtil 		        = {};
-BFUILib 	        = {};
-BFButton        	= {};
-BFBar 		        = {};
-BFCustomAction    = {};
-ButtonForge_API1  = {};
-ButtonForgeSave   = {};
-
-ButtonForgeGlobalSettings = {};
-ButtonForgeGlobalProfiles = {};
-ButtonForgeGlobalBackup   = {};
-
+BFLocales 	= {};
+BFConst 	= {};
+BFUtil 		= {};
+BFUILib 	= {};
+BFButton 	= {};
+BFBar 		= {};
+BFCustomAction = {};
+ButtonForge_API1 = {};

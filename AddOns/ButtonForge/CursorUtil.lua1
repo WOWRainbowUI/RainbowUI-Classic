@@ -36,6 +36,7 @@ local CompatibleActions = {
 	, ["flyout"] = true
 	, ["petaction"] = true
 	, ["companion"] = true
+	, ["battlepet"] = true
 	, ["equipmentset"] = true};
 function CursorUtil.CursorHasAction()
 	return CompatibleActions[GetCursorInfo()] or CustomCommand ~= nil;
