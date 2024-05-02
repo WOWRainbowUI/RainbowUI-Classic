@@ -2,7 +2,7 @@
 ## Title: <BiaoGe> |cff00BFFF金团表格|r
 ## Notes: 插件命令：/BiaoGe 或 /GBG
 ## Author: 苍穹之霜
-## Version: 1.8.5
+## Version: 1.8.6
 ## SavedVariables: BiaoGe
 
 ## Title-zhTW: |cffFF7F00[團隊]|r 金團表格
