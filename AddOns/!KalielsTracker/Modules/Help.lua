@@ -253,6 +253,9 @@ local function SetupTutorials()
 			imageY = WOW_PROJECT_ID > WOW_PROJECT_CLASSIC and 9 or 16,
 			imageAbsolute = true,
 			text = "            |T"..helpPath.."help_whats-new_title:32:181:0:0:256:32:0:181:0:32|t\n\n"..
+					cTitle.."Version 4.0.1|r\n"..
+					"- FIXED (quests) - Classic Era - error when clicking on a completed quest\n"..
+					"\n"..
 					cTitle.."Version 4.0.0|r\n"..
 					"- 新增 - 支援 WoW 4.4.0\n"..
 					"- 更新 (說明) - 更新資訊頁面\n"..

@@ -62,6 +62,12 @@ elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
         end
     end
 
+    if not GetQuestLogIsAutoComplete then
+        GetQuestLogIsAutoComplete = function()
+            return false
+        end
+    end
+
     if not GetNumTrackedAchievements() then
         GetNumTrackedAchievements = function()
             return 0

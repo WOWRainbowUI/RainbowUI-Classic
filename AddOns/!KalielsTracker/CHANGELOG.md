@@ -1,4 +1,6 @@
 # Kaliel's Tracker Classic changelog
+### 4.0.1
+- FIXED (quests) - Classic Era - error when clicking on a completed quest
 ### 4.0.0
 - ADDED - support for WoW 4.4.0
 - CHANGED (help) - page &quot;What&#x27;s New&quot;
