@@ -557,6 +557,29 @@ function VUHDO_initDebuffs()
 	end
 --	VUHDO_Msg("---");
 
+	if tClass == "DRUID" then
+		-- Nature's Cure Restoration talent
+		local _, _, _, _, tRank, _, _, _ = GetTalentInfo(3, 15, false);
+
+		if (tRank or 0) == 0 then
+			VUHDO_PLAYER_ABILITIES[VUHDO_DEBUFF_TYPE_MAGIC] = nil;
+		end
+	elseif tClass == "SHAMAN" then
+		-- Improve Cleanse Spirit Restoration talent
+		local _, _, _, _, tRank, _, _, _ = GetTalentInfo(3, 14, false);
+
+		if (tRank or 0) == 0 then
+			VUHDO_PLAYER_ABILITIES[VUHDO_DEBUFF_TYPE_MAGIC] = nil;
+		end
+	elseif tClass == "PALADIN" then
+		-- Sacred Cleansing Holy talent
+		local _, _, _, _, tRank, _, _, _ = GetTalentInfo(1, 7, false);
+
+		if (tRank or 0) == 0 then
+			VUHDO_PLAYER_ABILITIES[VUHDO_DEBUFF_TYPE_MAGIC] = nil;
+		end
+	end
+
 	if not VUHDO_CONFIG then VUHDO_CONFIG = _G["VUHDO_CONFIG"]; end
 
 	twipe(VUHDO_CUSTOM_DEBUFF_CONFIG);
