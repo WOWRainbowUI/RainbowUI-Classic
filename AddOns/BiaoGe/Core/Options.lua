@@ -1750,8 +1750,13 @@ local function OptionsUI()
                 if not BiaoGe.options[name] then
                     BiaoGe.options[name] = BG.options[name .. "reset"]
                 end
-                local ontext = L["|cffffffff< 团本攻略字体大小 >|r|cff808080（右键还原设置）|r\n\n1、调整该字体的大小"]
-                local f = O.CreateSlider(name, "|cffFFFFFF" .. L["团本攻略字体大小"] .. "|r", boss, 10, 20, 1, 15, height - 30, ontext)
+                local ontext = {
+                    L["团本攻略字号"] .. L["|cff808080（右键还原设置）|r"],
+                    L["调整该字体的大小。"],
+                    -- " ",
+                    -- L[""],
+                }
+                local f = O.CreateSlider(name, "|cffFFFFFF" .. L["团本攻略字号"] .. "|r", boss, 10, 20, 1, 15, height - 30, ontext)
                 BG.options["button" .. name] = f
             end
         end

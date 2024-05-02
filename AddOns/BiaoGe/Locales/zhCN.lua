@@ -1,6 +1,6 @@
 local AddonName, ADDONSELF = ...
 
-ADDONSELF.ver = "v1.8.5"
+ADDONSELF.ver = "v1.8.6"
 
 if (GetLocale() == "zhTW") then return end
 
@@ -26,6 +26,10 @@ do --简体说明书
     -- update = update .. "|cff00FF00" .. "" .. "|r\n"
     -- update = update .. [[]] .. "\n"
     -- update = update .. [[]] .. "\n\n"
+
+    update = update .. "|cff00FF00" .. "5月2日更新v1.8.6" .. "|r\n"
+    update = update .. [[-<CTM前夕>角色总览：增加正义点数，删除寒冰纹章、凯旋纹章等]] .. "\n"
+    update = update .. [[-<CTM前夕>装备过滤：增加精通词缀，删除护甲穿透词缀]] .. "\n\n"
 
     update = update .. "|cff00FF00" .. "5月1日更新v1.8.5" .. "|r\n"
     update = update .. [[-通报账单：增加仅通报支出]] .. "\n"
@@ -98,6 +102,9 @@ ADDONSELF.L = L
 
 local L = {}
 do
+    L["团本攻略字号"] = true
+
+
     L["没有支出"] = true
     L["———通报支出———"] = true
     L["(长按CTRL：仅通报支出)"] = true
