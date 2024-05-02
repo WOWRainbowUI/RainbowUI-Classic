@@ -11,6 +11,7 @@ EventUtil.ContinueOnAddOnLoaded("Blizzard_CraftUI", function()
 function CraftFrame_Update()
 	local numCrafts = GetNumCrafts();
     local craftName = GetCraftName()
+	if not craftName then return end -- 暫時修正
 	local db = dbCache[craftName]
     
     if not db then
