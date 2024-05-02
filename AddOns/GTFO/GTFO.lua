@@ -1970,7 +1970,7 @@ function GTFO_CheckTankMode()
 			end
 		elseif ((not (GTFO.ClassicMode or GTFO.BurningCrusadeMode or GTFO.WrathMode)) and (GTFO.PlayerClass == "MONK" or GTFO.PlayerClass == "DEMONHUNTER" or GTFO.PlayerClass == "WARRIOR" or GTFO.PlayerClass == "DEATHKNIGHT" or GTFO.PlayerClass == "PALADIN")) then
 			-- Get the exact specialization role as defined by the class
-			local spec = GetSpecialization();
+			local spec = GetSpecialization and GetSpecialization() or nil; -- 暫時修正
 			if (spec and GetSpecializationRole(spec) == "TANK") then
 				--GTFO_DebugPrint("Tank spec found - tank mode activated");
 				return true;
@@ -1992,9 +1992,9 @@ function GTFO_CheckCasterMode()
 			return true;
 		end
 
-		if not (GTFO.CataclysmMode or GTFO.ClassicMode or GTFO.BurningCrusadeMode or GTFO.WrathMode) then -- 暫時修正
+		if not (GTFO.ClassicMode or GTFO.BurningCrusadeMode or GTFO.WrathMode) then
 			-- Get the exact specialization role as defined by the class
-			local spec = GetSpecialization();
+			local spec = GetSpecialization and GetSpecialization() or nil; -- 暫時修正
 			if (spec) then
 				local role = GetSpecializationRole(spec);
 				if (role == "TANK") then
