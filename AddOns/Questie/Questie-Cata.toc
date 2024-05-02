@@ -17,6 +17,7 @@
 ## Title-zhTW: |cff00FFFF[任務]|r 位置提示
 ## Notes-zhTW: Questie |n|n在地圖上標示出任務位置，包含任務 NPC 和任務怪的位置。|n|n|cffffd200使用方法: 點小地圖按鈕，或從Esc>選項>插件>任務-位置，開啟設定選項。
 ## X-Category-zhTW: 任務
+## DefaultState: disabled
 
 Modules\QuestieCompat.lua
 Modules\WorldMapTaintWorkaround.lua

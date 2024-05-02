@@ -1921,7 +1921,7 @@ D["QuestC"] = {
 	},
 };
 D["Questie"] = {
-    defaultEnable = 1,
+    defaultEnable = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and 1 or 0,
 	tags = { "QUEST" },
 	title = "任務位置提示",
 	desc = "在地圖上標示出任務位置，包含任務 NPC 和任務怪的位置。``還有個人冒險日記的功能，讓你可以隨時撰寫冒險筆記以及查看已完成/未完成的任務。`",
