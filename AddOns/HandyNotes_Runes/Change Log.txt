@@ -1,3 +1,6 @@
+== v2.15 - 2nd May 2024
+* Wild Gods / Wild Offering revamp based upon the latest information
+
 == v2.14 - 28th April 2024
 * Altered code in the Tooltip popup to better handle completion flagging and to handle Mage Book translations
 * Translated Mage Book Quest names
