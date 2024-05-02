@@ -40,6 +40,15 @@ Button.lua
 -- migration code added to clear BattlePet entries to avoid a corrupt action being set for the BattlePet 
 
 
+changed from:
+
+		prof1, prof2 = GetProfessions();
+
+to:
+
+		-- prof1, prof2 = GetProfessions(); -- removed for Cata 05/01/2024
+
+
 
 changed from:
 

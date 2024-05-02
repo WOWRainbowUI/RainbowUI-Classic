@@ -1168,7 +1168,7 @@ function Button:SetAttributes(Type, Value)
 	--Now if a valid type is passed in set it
 	if (Type == "spell") then
 
-		prof1, prof2 = GetProfessions();
+		-- prof1, prof2 = GetProfessions(); -- removed for Cata 05/01/2024
 		if ( prof1 ) then
 			prof1_name, _, _, _, _, _, prof1_skillLine = GetProfessionInfo(prof1);
 		end
