@@ -1639,6 +1639,9 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
     do
         BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, even, isLogin, isReload)
             if not (isLogin or isReload) then return end
+            -- if not IsAddOnLoaded("Blizzard_GuildControlUI") then
+            --     UIParentLoadAddOn("Blizzard_GuildControlUI")
+            -- end
             if not IsAddOnLoaded("Blizzard_Communities") then
                 UIParentLoadAddOn("Blizzard_Communities")
             end

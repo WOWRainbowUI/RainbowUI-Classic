@@ -43,6 +43,8 @@ end
 BG.IsVanilla = ADDONSELF.IsVanilla
 BG.IsVanilla_Sod = ADDONSELF.IsVanilla_Sod
 BG.IsVanilla_60 = ADDONSELF.IsVanilla_60
+BG.IsWLK = ADDONSELF.IsWLK
+BG.IsCTM = ADDONSELF.IsCTM
 BG.IsAlliance = ADDONSELF.IsAlliance
 BG.IsHorde = ADDONSELF.IsHorde
 
@@ -696,8 +698,21 @@ local function DataBase()
             end
             BiaoGeA.Hope = nil
         end
+
+        -- 记录服务器名称
+        do
+            BiaoGe.realmName = BiaoGe.realmName or {}
+            BiaoGe.realmName[RealmId] = GetRealmName()
+        end
+        -- 记录每个角色的职业
+        do
+            BiaoGe.class = BiaoGe.class or {}
+            BiaoGe.class[RealmId] = BiaoGe.class[RealmId] or {}
+            BiaoGe.class[RealmId][player] = select(2, UnitClass("player"))
+        end
     end
 end
+
 
 
 
