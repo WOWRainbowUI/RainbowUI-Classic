@@ -13,6 +13,7 @@
 ## Notes-zhTW: RangeDisplay Options |n|n顯示距離的設定選項。|n|n|cffffd200使用方法: |r從Esc>選項>插件>距離，鎖定/解鎖框架位置和進行設定。
 ## X-Category-zhTW: 戰鬥
 ## IconTexture: Interface\Icons\ability_hunter_pathfinding
+## DefaultState: disabled
 
 localizations.lua
 Options.lua
