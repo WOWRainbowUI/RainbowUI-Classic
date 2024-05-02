@@ -208,7 +208,7 @@ UnitFramesPlusDefaultDB = {
 
     extra = {
         -- bosshppct = 1,   --BOSS生命值百分比
-        rangecheck = 1,     --治疗职业距离检测
+        rangecheck = 0,     --治疗职业距离检测
         instanceonly = 1,   --治疗职业距离检测仅在副本内生效
         -- pvpmouseshow = 0,--PVP鼠标滑过时才显示数值
         -- pvphppct = 1,    --PVP目标生命值百分比
