@@ -17,7 +17,7 @@
 ## IconTexture: Interface\Icons\reliquarybag_icon
 ## DefaultState: disabled
 
-libs\LibWindow-1.1\LibWindow-1.1.lua
+
 libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 
 templates\container.xml
