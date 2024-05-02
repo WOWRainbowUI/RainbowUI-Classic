@@ -50,30 +50,30 @@
 
 embeds.xml
 
-Cata\Dcr_DIAG.lua
-Cata\Dcr_DIAG.xml
+Dcr_DIAG.lua
+Dcr_DIAG.xml
 
 Localization\load.xml
 
-Cata\DCR_init.lua
-Cata\Dcr_LDB.lua
-Cata\Dcr_utils.lua
+DCR_init.lua
+Dcr_LDB.lua
+Dcr_utils.lua
 
 
-Cata\Dcr_opt.lua
-Cata\Dcr_Events.lua
+Dcr_opt.lua
+Dcr_Events.lua
 
-Cata\Dcr_Raid.lua
+Dcr_Raid.lua
 
-Cata\Decursive.lua
-Cata\Decursive.xml
+Decursive.lua
+Decursive.xml
 
-Cata\Dcr_lists.lua
-Cata\Dcr_lists.xml
+Dcr_lists.lua
+Dcr_lists.xml
 
-Cata\Dcr_DebuffsFrame.lua
-Cata\Dcr_DebuffsFrame.xml
+Dcr_DebuffsFrame.lua
+Dcr_DebuffsFrame.xml
 
-Cata\Dcr_LiveList.lua
-Cata\Dcr_LiveList.xml
+Dcr_LiveList.lua
+Dcr_LiveList.xml
 
