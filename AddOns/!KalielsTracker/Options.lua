@@ -111,7 +111,7 @@ local defaults = {
 
 		tooltipShow = true,
 		tooltipShowRewards = true,
-		tooltipShowID = true,
+		tooltipShowID = false,
 
 		modulesOrder = KT.BLIZZARD_MODULES,
 

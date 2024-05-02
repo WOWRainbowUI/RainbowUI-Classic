@@ -254,7 +254,7 @@ local function SetupTutorials()
 			imageAbsolute = true,
 			text = "            |T"..helpPath.."help_whats-new_title:32:181:0:0:256:32:0:181:0:32|t\n\n"..
 					cTitle.."Version 4.0.1|r\n"..
-					"- FIXED (quests) - Classic Era - error when clicking on a completed quest\n"..
+					"- 修正 (任務) - 經典時期 - 點擊已完成的任務時發生的錯誤\n"..
 					"\n"..
 					cTitle.."Version 4.0.0|r\n"..
 					"- 新增 - 支援 WoW 4.4.0\n"..
