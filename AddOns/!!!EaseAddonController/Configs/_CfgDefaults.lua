@@ -659,9 +659,9 @@ D["ClassicSpellActivations"] = {
 	desc = "技能觸發時快捷列上的技能圖示會發光。``目前支援戰士、聖騎士、盜賊、獵人和術士的特定幾個技能。``無法自行設定技能，如有需要其他技能發光，建議使用 'WA技能提醒' 插件。|r",
 };
 D["ColorPickerPlus"] = {
-	defaultEnable = 0,
+	defaultEnable = 1,
 	tags = { "ENHANCEMENT" },
-	title = "(暫時停用) 顏色選擇器 Plus",
+	title = "顏色選擇器 Plus",
 	desc = "提供更方便的方式來選擇顏色，可以輸入顏色數值、直接選擇職業顏色，或是將自訂顏色儲存成色票供日後使用。`",
 	modifier = "彩虹ui",
 	--icon = "Interface\\Icons\\achievement_doublerainbow",
