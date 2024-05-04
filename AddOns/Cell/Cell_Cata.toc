@@ -1,8 +1,8 @@
-## Interface: 11502
+## Interface: 40400
 ## Title: Cell
-## Version: r222-beta
+## Version: r222-release
 ## Author: enderneko
-## X-Flavor: Vanilla
+## X-Flavor: Cata
 ## SavedVariables: CellDB
 ## SavedVariablesPerCharacter: CellCharacterDB
 
@@ -21,12 +21,12 @@ Locales\zhTW.lua
 
 Libs\LoadLibs_Classic.xml
 
-Core_Vanilla.lua
+Core_Cata.lua
 Utils.lua
 Revise.lua
 Comm\LoadComm.xml
 Widgets\LoadWidgets_Classic.xml
-Defaults\LoadDefaults_Vanilla.xml
+Defaults\LoadDefaults_Cata.xml
 
 HideBlizzard.lua
 
@@ -44,10 +44,10 @@ RaidFrames\MainFrame.lua
 
 RaidDebuffs\ExpansionData\LoadExpansionData.xml
 Modules\LoadModules_Classic.xml
-Utilities\LoadUtilities_Vanilla.xml
-RaidDebuffs\LoadRaidDebuffs_Vanilla.xml
+Utilities\LoadUtilities_Cata.xml
+RaidDebuffs\LoadRaidDebuffs_Cata.xml
 
-RaidFrames\UnitButton_Vanilla.lua
+RaidFrames\UnitButton_Cata.lua
 RaidFrames\UnitButton.xml
 RaidFrames\Groups\SoloFrame.lua
 RaidFrames\Groups\PartyFrame.lua
