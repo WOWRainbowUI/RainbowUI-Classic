@@ -336,11 +336,13 @@ do
     InterfaceOptions_AddCategory(UnitFramesPlus_PartyTarget_Options);
 
     --其他设置菜单
+	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
     local UnitFramesPlus_Extra_Options = CreateFrame("Frame", "UnitFramesPlus_Extra_Options", UIParent);
-    UnitFramesPlus_Extra_Options.name = "└"..UFP_OP_Ext_Options;
-    UnitFramesPlus_Extra_Options.parent = UFP_OP_Name;
-    UnitFramesPlus_Extra_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_Extra_Options);
+		UnitFramesPlus_Extra_Options.name = "└"..UFP_OP_Ext_Options;
+		UnitFramesPlus_Extra_Options.parent = UFP_OP_Name;
+		UnitFramesPlus_Extra_Options:Hide();
+		InterfaceOptions_AddCategory(UnitFramesPlus_Extra_Options);
+	end
 
     --全局设定
     local globalconfig = UnitFramesPlus_Global_Options:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge");
@@ -4012,44 +4014,46 @@ end
         self:SetChecked(UnitFramesPlusDB["partytarget"]["debuff"]==1);
     end)
 
-    --额外设定
-    local otherconfig = UnitFramesPlus_Extra_Options:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge");
-    otherconfig:ClearAllPoints();
-    otherconfig:SetPoint("TOPLEFT", 16, -16);
-    otherconfig:SetText(UFP_OP_Ext_Options);
+	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+		--额外设定
+		local otherconfig = UnitFramesPlus_Extra_Options:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge");
+		otherconfig:ClearAllPoints();
+		otherconfig:SetPoint("TOPLEFT", 16, -16);
+		otherconfig:SetText(UFP_OP_Ext_Options);
 
-    --治疗职业距离检测
-    if UnitFramesPlusVar["rangecheck"]["enable"] == 1 then
-        local UnitFramesPlus_OptionsFrame_ExtraRangeCheck = CreateFrame("CheckButton", "UnitFramesPlus_OptionsFrame_ExtraRangeCheck", UnitFramesPlus_Extra_Options, "InterfaceOptionsCheckButtonTemplate");
-        UnitFramesPlus_OptionsFrame_ExtraRangeCheck:ClearAllPoints();
-        UnitFramesPlus_OptionsFrame_ExtraRangeCheck:SetPoint("TOPLEFT", otherconfig, "TOPLEFT", 0, -30);
-        UnitFramesPlus_OptionsFrame_ExtraRangeCheck:SetHitRectInsets(0, -100, 0, 0);
-        UnitFramesPlus_OptionsFrame_ExtraRangeCheckText:SetText(UFP_OP_RangeCheck);
-        UnitFramesPlus_OptionsFrame_ExtraRangeCheck:SetScript("OnClick", function(self)
-            UnitFramesPlusDB["extra"]["rangecheck"] = 1 - UnitFramesPlusDB["extra"]["rangecheck"];
-            if UnitFramesPlusDB["extra"]["rangecheck"] == 1 then
-                BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance);
-                UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstanceText:SetTextColor(1, 1, 1);
-            else
-                BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance);
-            end
-            UnitFramesPlus_RangeCheck();
-            self:SetChecked(UnitFramesPlusDB["extra"]["rangecheck"]==1);
-        end)
-    end
+		--治疗职业距离检测
+		if UnitFramesPlusVar["rangecheck"]["enable"] == 1 then
+			local UnitFramesPlus_OptionsFrame_ExtraRangeCheck = CreateFrame("CheckButton", "UnitFramesPlus_OptionsFrame_ExtraRangeCheck", UnitFramesPlus_Extra_Options, "InterfaceOptionsCheckButtonTemplate");
+			UnitFramesPlus_OptionsFrame_ExtraRangeCheck:ClearAllPoints();
+			UnitFramesPlus_OptionsFrame_ExtraRangeCheck:SetPoint("TOPLEFT", otherconfig, "TOPLEFT", 0, -30);
+			UnitFramesPlus_OptionsFrame_ExtraRangeCheck:SetHitRectInsets(0, -100, 0, 0);
+			UnitFramesPlus_OptionsFrame_ExtraRangeCheckText:SetText(UFP_OP_RangeCheck);
+			UnitFramesPlus_OptionsFrame_ExtraRangeCheck:SetScript("OnClick", function(self)
+				UnitFramesPlusDB["extra"]["rangecheck"] = 1 - UnitFramesPlusDB["extra"]["rangecheck"];
+				if UnitFramesPlusDB["extra"]["rangecheck"] == 1 then
+					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance);
+					UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstanceText:SetTextColor(1, 1, 1);
+				else
+					BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance);
+				end
+				UnitFramesPlus_RangeCheck();
+				self:SetChecked(UnitFramesPlusDB["extra"]["rangecheck"]==1);
+			end)
+		end
 
-    --治疗职业距离检测仅在副本内生效
-    if UnitFramesPlusVar["rangecheck"]["enable"] == 1 then
-        local UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance = CreateFrame("CheckButton", "UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance", UnitFramesPlus_Extra_Options, "InterfaceOptionsCheckButtonTemplate");
-        UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance:ClearAllPoints();
-        UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance:SetPoint("TOPLEFT", UnitFramesPlus_OptionsFrame_ExtraRangeCheck, "TOPLEFT", 180, 0);
-        UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance:SetHitRectInsets(0, -100, 0, 0);
-        UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstanceText:SetText(UFP_OP_RangeCheck_InInstance);
-        UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance:SetScript("OnClick", function(self)
-            UnitFramesPlusDB["extra"]["instanceonly"] = 1 - UnitFramesPlusDB["extra"]["instanceonly"];
-            self:SetChecked(UnitFramesPlusDB["extra"]["instanceonly"]==1);
-        end)
-    end
+		--治疗职业距离检测仅在副本内生效
+		if UnitFramesPlusVar["rangecheck"]["enable"] == 1 then
+			local UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance = CreateFrame("CheckButton", "UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance", UnitFramesPlus_Extra_Options, "InterfaceOptionsCheckButtonTemplate");
+			UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance:ClearAllPoints();
+			UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance:SetPoint("TOPLEFT", UnitFramesPlus_OptionsFrame_ExtraRangeCheck, "TOPLEFT", 180, 0);
+			UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance:SetHitRectInsets(0, -100, 0, 0);
+			UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstanceText:SetText(UFP_OP_RangeCheck_InInstance);
+			UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance:SetScript("OnClick", function(self)
+				UnitFramesPlusDB["extra"]["instanceonly"] = 1 - UnitFramesPlusDB["extra"]["instanceonly"];
+				self:SetChecked(UnitFramesPlusDB["extra"]["instanceonly"]==1);
+			end)
+		end
+	end
 end
 
 function UnitFramesPlus_OptionPanel_OnShow()
@@ -4551,11 +4555,13 @@ end
 	-- UnitFramesPlus_OptionsFrame_ArenaEnemyMouseShow:SetChecked(UnitFramesPlusDB["extra"]["pvpmouseshow"]==1);
     -- UnitFramesPlus_OptionsFrame_ArenaEnemyHPPct:SetChecked(UnitFramesPlusDB["extra"]["pvphppct"]==1);
     -- UnitFramesPlus_OptionsFrame_ExtraBossHPPct:SetChecked(UnitFramesPlusDB["extra"]["bosshppct"]==1);
-    if UnitFramesPlusVar["rangecheck"]["enable"] == 1 then
-        UnitFramesPlus_OptionsFrame_ExtraRangeCheck:SetChecked(UnitFramesPlusDB["extra"]["rangecheck"]==1);
-        UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance:SetChecked(UnitFramesPlusDB["extra"]["instanceonly"]==1);
-        if UnitFramesPlusDB["extra"]["rangecheck"] ~= 1 then
-            BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance);
-        end
-    end
+    if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+		if UnitFramesPlusVar["rangecheck"]["enable"] == 1 then
+			UnitFramesPlus_OptionsFrame_ExtraRangeCheck:SetChecked(UnitFramesPlusDB["extra"]["rangecheck"]==1);
+			UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance:SetChecked(UnitFramesPlusDB["extra"]["instanceonly"]==1);
+			if UnitFramesPlusDB["extra"]["rangecheck"] ~= 1 then
+				BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance);
+			end
+		end
+	end
 end
