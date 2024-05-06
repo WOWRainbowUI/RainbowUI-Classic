@@ -25,7 +25,7 @@ local function UnitFramesPlus_RangeCheckInit()
         spellname = GetSpellInfo(635);--圣光术635,1+，圣光闪现19750,8+
     elseif class == "PRIEST" then
         enable = 1;
-        spellname = GetSpellInfo(2052);--次级治疗术2052,1+，快速治疗2061,10+
+        spellname = GetSpellInfo(2061);--次级治疗术2052,1+，快速治疗2061,10+
     -- elseif class == "MONK" then
     --     enable = 1;
     --     spellname = GetSpellInfo(116670);--活血术,8+
