@@ -419,3 +419,12 @@ L["Vertical Groups"] = true
 L["Visibility"] = true
 L["Weak Purple Glow"] = true
 L["You must manually enable either the 'Party Frames' or 'Raid Frames' in Blizzard's 'HUD Edit Mode'."] = true
+
+-- 自行加入
+L["Omni|cff33ff99CD|r"] = true
+L["OmniCD"] = true
+L["Blizzard"] = true
+L["Removing Invalid ID: |cffffd700"] = true
+L["Highlighting"] = true
+L["Type /oc or /omnicd to open the option panel."] = true
+L["Open Option Panel"] = true

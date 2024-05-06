@@ -3,7 +3,7 @@ local E, L = select(2, ...):unpack()
 local GetNumSpecializationsForClassID = GetNumSpecializationsForClassID
 local GetSpecializationInfoForClassID = GetSpecializationInfoForClassID
 local GetSpecializationInfoByID = GetSpecializationInfoByID
-if E.preMoP then
+if E.preCata then
 	GetNumSpecializationsForClassID = function() return 0 end
 	GetSpecializationInfoForClassID = E.Noop
 	GetSpecializationInfoByID = E.Noop
@@ -383,7 +383,7 @@ local customSpellInfo = {
 	},
 }
 
-if not E.preMoP then
+if not E.preCata then
 	local customSpellSpecInfo = {
 		enabled = {
 			name = ENABLE,

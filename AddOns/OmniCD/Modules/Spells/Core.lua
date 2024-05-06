@@ -85,7 +85,7 @@ function E:ProcessSpellDB()
 	end
 end
 
-if E.preMoP then
+if E.preCata then
 	E.spell_cxmod_azerite = E.BLANK
 	E.spellcast_cdr_azerite = E.BLANK
 	E.spell_damage_cdr_azerite = E.BLANK

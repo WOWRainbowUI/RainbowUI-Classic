@@ -29,8 +29,7 @@ local queriedGUID
 local queueEntries = {}
 local staleEntries = {}
 
-CM.SERIALIZATION_VERSION = 5
-CM.ACECOMM = LibStub("AceComm-3.0"):Embed(CM)
+CM.SERIALIZATION_VERSION = E.isDF and 4 or 1
 
 function CM:Enable()
 	if self.enabled then
@@ -38,15 +37,13 @@ function CM:Enable()
 	end
 
 	self.AddonPrefix = E.AddOn
-
-
-
-	self:RegisterComm(self.AddonPrefix, 'CHAT_MSG_ADDON')
+	C_ChatInfo.RegisterAddonMessagePrefix(self.AddonPrefix)
+	self:RegisterEvent('CHAT_MSG_ADDON')
 	self:RegisterEvent('PLAYER_EQUIPMENT_CHANGED')
 	self:RegisterEvent('PLAYER_LEAVING_WORLD')
-	if E.isWOTLKC or E.isCata then
+	if E.isWOTLKC then
 		self:RegisterEvent('PLAYER_TALENT_UPDATE')
-	elseif E.preMoP then
+	elseif E.preCata then
 		self:RegisterEvent('CHARACTER_POINTS_CHANGED')
 	else
 		self:RegisterUnitEvent('PLAYER_SPECIALIZATION_CHANGED', "player")
@@ -204,7 +201,7 @@ function CM:RequestInspect()
 			local elapsed = now - addedTime
 			if not UnitIsConnected(unit) or elapsed > INSPECT_TIMEOUT or info.isAdminObsForMDI then
 				self:DequeueInspect(unitGUID)
-			elseif E.preMoP and
+			elseif E.preCata and
 				not CheckInteractDistance(unit,1) or
 				not CanInspect(unit) then
 				staleEntries[unitGUID] = addedTime
@@ -523,7 +520,7 @@ local function GetEquippedItemData(info, unit, specID, list)
 						if list then list[#list + 1] = equipBonusID .. ":S" end
 					end
 					if tierSetBonus then
-						local specBonus = E.preMoP and tierSetBonus or tierSetBonus[specID]
+						local specBonus = E.preCata and tierSetBonus or tierSetBonus[specID]
 						if specBonus and numTierSetBonus < 2 and specBonus[1] ~= foundTierSpecBonus then
 							foundTierSpecBonus = FindSetBonus(info, specBonus, list)
 							if foundTierSpecBonus then
@@ -611,7 +608,7 @@ local talentIDFix = { [103211]=377779,[103216]=343240,[103224]=377623, }
 
 local talentChargeFix = { [36554]={[259]=1,[261]=1},[191634]=true,[47568]=true,[5394]=true }
 
-local MAX_NUM_TALENTS = MAX_NUM_TALENTS or ((E.isWOTLKC or E.isCata) and 31 or 25)
+local MAX_NUM_TALENTS = MAX_NUM_TALENTS or (E.isWOTLKC and 31 or 25)
 
 local GetSelectedTalentData = (E.isDF and function(info, inspectUnit, isInspect)
 	local list, c
@@ -757,59 +754,6 @@ end) or (E.isWOTLKC and function(info, inspectUnit, isInspect)
 	end
 
 	return list
-end) or (E.isCata and function(info, inspectUnit, isInspect)
-	local list
-	if not isInspect then
-		list = { CM.SERIALIZATION_VERSION, true, "^T" }
-	end
-
-	if list then
-		for i = 1, 9 do
-			local _,_,_, glyphSpellID = GetGlyphSocketInfo(i)
-			if glyphSpellID then
-				info.talentData[glyphSpellID] = true
-				list[#list + 1] = glyphSpellID
-			end
-		end
-	end
-
-	local talentGroup = GetActiveTalentGroup and GetActiveTalentGroup(isInspect, nil)
-	for tabIndex = 1, 3 do
-		local spentPoints = 0
-		for talentIndex = 1, MAX_NUM_TALENTS do
-			local name, _,_,_, currentRank = GetTalentInfo(tabIndex, talentIndex, isInspect, inspectUnit, talentGroup)
-			if not name then
-				break
-			end
-			if currentRank > 0 then
-				local talentRankIDs = E.talentNameToRankIDs[name]
-				if talentRankIDs then
-					if type(talentRankIDs[1]) == "table" then
-						for _, t in pairs(talentRankIDs) do
-							local talentID = t[currentRank]
-							if talentID then
-								info.talentData[talentID] = true
-								if list then list[#list + 1] = talentID end
-							end
-						end
-					else
-						local talentID = talentRankIDs[currentRank]
-						if talentID then
-							info.talentData[talentID] = true
-							if list then list[#list + 1] = talentID end
-						end
-					end
-				end
-				spentPoints = spentPoints + currentRank
-			end
-		end
-		if spentPoints > 10 then
-			info.talentData[tabIndex] = true
-			if list then list[#list + 1] = tabIndex end
-		end
-	end
-
-	return list
 end) or function(info, inspectUnit, isInspect)
 	local list
 	if not isInspect then
@@ -856,7 +800,7 @@ function CM:InspectUnit(guid)
 	end
 
 	local inspectUnit = info.unit
-	local specID = E.preMoP and info.raceID or GetInspectSpecialization(inspectUnit)
+	local specID = E.preCata and info.raceID or GetInspectSpecialization(inspectUnit)
 	if not specID or specID == 0 then
 		return
 	end
@@ -997,7 +941,7 @@ end
 function CM:InspectUser()
 	local info = P.userInfo
 	local specID
-	if E.preMoP then
+	if E.preCata then
 		specID = info.raceID
 	else
 		local specIndex = GetSpecialization()

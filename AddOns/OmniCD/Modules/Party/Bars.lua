@@ -6,7 +6,7 @@ local UnitHealth, UnitIsConnected, UnitIsDeadOrGhost = UnitHealth, UnitIsConnect
 local GetSpellLevelLearned = GetSpellLevelLearned
 if E.spell_requiredLevel then
 	GetSpellLevelLearned = function(id) return not P.isInTestMode and E.spell_requiredLevel[id] or 0 end
-elseif E.preMoP then
+elseif E.preCata then
 	GetSpellLevelLearned = function() return 0 end
 end
 
@@ -84,8 +84,7 @@ local function CooldownBarFrame_OnEvent(self, event, ...)
 
 		if P.spell_enabled[spellID] or E.spell_modifiers[spellID] then
 			E.ProcessSpell(spellID, guid)
-		elseif spellID == 384255
-			or ((E.isWOTLKC or E.isCata) and (spellID == 63644 or spellID == 63645)) then
+		elseif spellID == 384255 or (E.isWOTLKC and (spellID == 63644 or spellID == 63645)) then
 			if guid ~= E.userGUID and not CM.syncedGroupMembers[guid] then
 				CM:EnqueueInspect(nil, guid)
 			end
@@ -104,7 +103,7 @@ local function CooldownBarFrame_OnEvent(self, event, ...)
 
 
 		if not UnitIsDeadOrGhost(unit) then
-			if E.preMoP then
+			if E.preCata then
 				local icon = info.spellIcons[20608]
 				if icon then
 					local mult = info.talentData[16184] and 0.3 or (info.talentData[16209] and 0.4) or 0.2
@@ -188,7 +187,6 @@ local function CooldownBarFrame_OnEvent(self, event, ...)
 		if UnitIsConnected(unit) then
 			CM:EnqueueInspect(nil, guid)
 		end
-
 	elseif event == 'UNIT_CONNECTION' then
 		local unit, isConnected = ...
 		if unit == info.unit then
@@ -505,7 +503,7 @@ function P:UpdateUnitBar(guid, isUpdateBarsOrGRU)
 		return
 	end
 
-	if not E.preMoP and notUser then
+	if not E.preCata and notUser then
 		frame:RegisterUnitEvent('PLAYER_SPECIALIZATION_CHANGED', unit)
 	end
 	if E.isBFA then
@@ -640,7 +638,7 @@ function P:UpdateUnitBar(guid, isUpdateBarsOrGRU)
 
 				if isValidSpell then
 					local cd = self:GetValueByType(spell.duration, guid, item2)
-					if not E.preMoP or not self.isInArena or cd < 900 then
+					if not E.preCata or not self.isInArena or cd < 900 then
 						local category, buffID, iconTexture = spell.class, spell.buff, spell.icon
 						local ch = self:GetValueByType(spell.charges, guid) or 1
 						local baseCooldown = cd
@@ -689,7 +687,7 @@ function P:UpdateUnitBar(guid, isUpdateBarsOrGRU)
 
 								modData = E.spell_cdmod_by_haste[spellID]
 								if modData == true or modData == info.spec then
-									if E.preMoP then
+									if E.preCata then
 										cd = cd + (info.rangedWeaponSpeed or 0)
 									else
 										local spellHasteMult = info.spellHasteMult or 1/(1 + UnitSpellHaste("player")/100)

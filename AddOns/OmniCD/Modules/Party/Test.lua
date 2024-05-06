@@ -115,7 +115,7 @@ function TM:Test(key)
 		if not self.indicator then
 			self.indicator = CreateFrame("Frame", nil, UIParent, "OmniCDTemplate")
 			self.indicator.anchor.background:SetColorTexture(0, 0, 0, 1)
-			if E.isDF or E.isCata or E.isWOTLKC341 or E.isClassic1144 then
+			if E.isDF or E.isWOTLKC341 or E.isClassic1144 then
 				self.indicator.anchor.background:SetGradient("HORIZONTAL", CreateColor(1, 1, 1, 1), CreateColor(1, 1, 1, 0))
 			else
 				self.indicator.anchor.background:SetGradientAlpha("Horizontal", 1, 1, 1, 1, 1, 1, 1, 0)
@@ -137,6 +137,8 @@ function TM:Test(key)
 
 		P:Refresh(true)
 
+		if not P.groupInfo[E.userGUID] then return end -- 暫時修正
+		
 		local frame = P.groupInfo[E.userGUID].bar
 		self.indicator.anchor:ClearAllPoints()
 		self.indicator.anchor:SetPoint("BOTTOMLEFT", frame.anchor, "BOTTOMRIGHT")
@@ -175,7 +177,7 @@ function TM:Test(key)
 		end
 
 		wipe(config)
-		self.indicator:Hide()
+		if self.indicator then self.indicator:Hide() end -- 暫時修正
 		self:UnregisterEvent('PLAYER_LEAVING_WORLD')
 
 		P:Refresh(true)

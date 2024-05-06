@@ -19,16 +19,13 @@ CM.serializedSyncData = NULL
 
 function CM:SendComm(...)
 	local message = strjoin(",", ...)
-
-
-
-
+	if strlen(message) > 255 then
+		error("Message length exceeds 255 bytes")
+	end
 	if IsInRaid() then
-
-		self:SendCommMessage(self.AddonPrefix, message, (not IsInRaid(LE_PARTY_CATEGORY_HOME) and IsInRaid(LE_PARTY_CATEGORY_INSTANCE)) and "INSTANCE_CHAT" or "RAID")
+		C_ChatInfo.SendAddonMessage(self.AddonPrefix, message, (not IsInRaid(LE_PARTY_CATEGORY_HOME) and IsInRaid(LE_PARTY_CATEGORY_INSTANCE)) and "INSTANCE_CHAT" or "RAID")
 	elseif IsInGroup() then
-
-		self:SendCommMessage(self.AddonPrefix, message, (not IsInGroup(LE_PARTY_CATEGORY_HOME) and IsInGroup(LE_PARTY_CATEGORY_INSTANCE)) and "INSTANCE_CHAT" or "PARTY")
+		C_ChatInfo.SendAddonMessage(self.AddonPrefix, message, (not IsInGroup(LE_PARTY_CATEGORY_HOME) and IsInGroup(LE_PARTY_CATEGORY_INSTANCE)) and "INSTANCE_CHAT" or "PARTY")
 	end
 end
 
@@ -53,7 +50,7 @@ function CM:IsVersionIncompatible(serializationVersion)
 	return serializationVersion ~= self.SERIALIZATION_VERSION
 end
 
-local aceUserNameFix = CM.ACECOMM and E.userName or gsub(E.userNameWithRealm, " ", "")
+local aceUserNameFix = CM.isAceComm and E.userName or gsub(E.userNameWithRealm, " ", "")
 
 local CLASS_TREE_IDS = {
 	["WARRIOR"] = 850,
@@ -151,7 +148,7 @@ function CM:CHAT_MSG_ADDON(prefix, message, _, sender)
 				spellID = tonumber(spellID)
 				if ( spellID ) then
 					if ( spellID > 0 ) then
-						spellID = E.isDF and nodeIndices[spellID] or spellID
+						spellID = nodeIndices[spellID] or spellID
 						info.talentData[spellID] = tonumber(rank) or 1
 					else
 						info.talentData[-spellID] = "PVP"
@@ -468,10 +465,9 @@ local function CooldownSyncFrame_OnUpdate(_, elapsed)
 				end
 			end
 		end
-
-
-
-
+		if c >= 35 then
+			break
+		end
 	end
 
 	elapsedTime = 0
