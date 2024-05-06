@@ -7,10 +7,10 @@
 -- Main non-UI code
 ------------------------------------------------------------
 
-PawnVersion = 2.0811
+PawnVersion = 2.0901
 
 -- Pawn requires this version of VgerCore:
-local PawnVgerCoreVersionRequired = 1.17
+local PawnVgerCoreVersionRequired = 1.18
 
 -- Floating point math
 local PawnEpsilon = 0.0000000001
@@ -736,7 +736,7 @@ function PawnInitializeOptions()
 		if FrostDK then FrostDK.DoNotShow2HUpgrades = false end
 	end
 	if ((VgerCore.IsMainline) and PawnCommon.LastVersion < PawnMrRobotLastUpdatedVersion) or
-		((VgerCore.IsClassic or VgerCore.IsBurningCrusade or VgerCore.IsWrath) and PawnCommon.LastVersion < PawnClassicLastUpdatedVersion) then
+		((VgerCore.IsClassic or VgerCore.IsBurningCrusade or VgerCore.IsWrath or VgerCore.IsCataclysm) and PawnCommon.LastVersion < PawnClassicLastUpdatedVersion) then
 		-- If the Ask Mr. Robot scales have been updated since the last time they used Pawn, re-scan gear.
 		PawnInvalidateBestItems()
 	end
@@ -3171,16 +3171,16 @@ function PawnCorrectScaleErrors(ScaleName)
 	ThisScale.Multistrike = nil
 
 	-- These were introduced in Classic versions.
-	if not (VgerCore.IsClassic or VgerCore.IsBurningCrusade or VgerCore.IsWrath) then
+	if not (VgerCore.IsClassic or VgerCore.IsBurningCrusade or VgerCore.IsWrath or VgerCore.IsCataclysm) then
 		ThisScale.SpellPenetration = nil
 	end
-	if not (VgerCore.IsBurningCrusade or VgerCore.IsWrath) then
+	if not (VgerCore.IsBurningCrusade or VgerCore.IsWrath or VgerCore.IsCataclysm) then
 		ThisScale.ExpertiseRating = nil
 		ThisScale.ResilienceRating = nil
 	end
 
 	-- Spell power appeared in Wrath but disappeared again later.
-	if not VgerCore.IsWrath then
+	if not (VgerCore.IsWrath or VgerCore.IsCataclysm) then
 		ThisScale.SpellPower = nil
 	end
 
@@ -3201,7 +3201,7 @@ function PawnCorrectScaleErrors(ScaleName)
 	ThisScale.DominationSocket = nil
 
 	-- Wrath Classic merges SpellDamage and Healing into SpellPower, and melee and spell ratings.
-	if VgerCore.IsWrath then
+	if VgerCore.IsWrath or VgerCore.IsCataclysm then
 		PawnCombineStats(ThisScale, "SpellPower", "SpellDamage")
 		PawnCombineStats(ThisScale, "SpellPower", "Healing")
 		PawnCombineStats(ThisScale, "HitRating", "SpellHitRating")
@@ -3487,7 +3487,7 @@ function PawnIsItemAnUpgrade(Item, DoNotRescan)
 	local CompareUsingItemLevelOnly = (Item.Rarity == 6)
 	local InvType = Item.InvType
 	if not InvType or InvType == "" or InvType == "INVTYPE_BAG" or InvType == "INVTYPE_QUIVER" or InvType == "INVTYPE_TABARD" or InvType == "INVTYPE_BODY" or ((not VgerCore.RangedSlotExists) and (InvType == "INVTYPE_THROWN" or InvType == "INVTYPE_AMMO" or InvType == "INVTYPE_RELIC")) then return nil end
-	local SkipScoreBasedUpgrades = InvType == "INVTYPE_TRINKET"
+	local SkipScoreBasedUpgrades = InvType == "INVTYPE_TRINKET" or PawnGetSlotsForItemType(InvType) == nil
 	local UnenchantedItemLink, NeedsEnhancements = PawnUnenchantItemLink(Item.Link, true)
 	VgerCore.Assert(UnenchantedItemLink ~= nil, "PawnIsItemAnUpgrade failed to get an item link for item " .. tostring(Item.ID))
 
@@ -5672,7 +5672,7 @@ end
 -- Wraps the GetSpecializationInfoForClassID function so that it can be called on WoW Classic.
 -- On WoW Classic, this only returns: _, LocalizedSpecName, _, IconID, Role
 function PawnGetSpecializationInfoForClassID(ClassID, SpecID)
-	if GetSpecializationInfoForClassID then return GetSpecializationInfoForClassID(ClassID, SpecID) end
+	if VgerCore.IsMainline then return GetSpecializationInfoForClassID(ClassID, SpecID) end
 
 	local SpecInfo = PawnLocal.Specs[ClassID][SpecID]
 	-- The second-to-last parameter should be SpecInfo.Icon, but many of the icons used in BfA aren't valid on Classic.
