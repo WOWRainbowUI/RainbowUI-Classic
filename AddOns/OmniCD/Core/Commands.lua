@@ -153,20 +153,20 @@ function E:OpenOptionPanel()
 end
 
 local interfaceOptionPanel = CreateFrame("Frame", nil, UIParent)
-interfaceOptionPanel.name = L["OmniCD"]
+interfaceOptionPanel.name = E.AddOn
 interfaceOptionPanel:Hide()
 
 interfaceOptionPanel:SetScript("OnShow", function(self)
 	local title = self:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 	title:SetPoint("TOPLEFT", 16, -16)
-	title:SetText(L["Omni|cff33ff99CD|r"])
+	title:SetText(E.AddOn)
 
 	local context = self:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
 	context:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
-	context:SetText(L["Type /oc or /omnicd to open the option panel."])
+	context:SetText("Type /oc or /omnicd to open the option panel.")
 
 	local open = CreateFrame("Button", nil, self, "UIPanelButtonTemplate")
-	open:SetText(L["Open Option Panel"])
+	open:SetText("Open Option Panel")
 	open:SetWidth(177)
 	open:SetHeight(24)
 	open:SetPoint("TOPLEFT", context, "BOTTOMLEFT", 0, -30)
@@ -179,8 +179,11 @@ interfaceOptionPanel:SetScript("OnShow", function(self)
 end)
 
 if Settings and Settings.RegisterCanvasLayoutCategory then
-	local category, layout = Settings.RegisterCanvasLayoutCategory(interfaceOptionPanel, L["OmniCD"])
+	local category, layout = Settings.RegisterCanvasLayoutCategory(interfaceOptionPanel, E.AddOn)
 	Settings.RegisterAddOnCategory(category)
+
+
+
 else
 	InterfaceOptions_AddCategory(interfaceOptionPanel)
 end

@@ -7,13 +7,13 @@ G.optionPanelScale = 1
 C.tooltipID = false
 C.Party = {
 	["visibility"] = {
-		["arena"] = false,
+		["arena"] = true,
 		["pvp"] = false,
 		["party"] = true,
 		["raid"] = false,
 		["scenario"] = false,
 		["none"] = false,
-		["finder"] = false,
+		["finder"] = true,
 		["size"] = 5,
 	},
 	["groupSize"] = {
@@ -24,8 +24,8 @@ C.Party = {
 		["scenario"] = 40,
 		["none"] = 40,
 	},
-	["noneZoneSetting"] = "party",
-	["scenarioZoneSetting"] = "party",
+	["noneZoneSetting"] = "arena",
+	["scenarioZoneSetting"] = "arena",
 	["customPriority"] = {},
 }
 
@@ -44,7 +44,7 @@ C.Party.arena = {
 		["anchor"] = "TOPLEFT",
 		["attach"] = "TOPRIGHT",
 		["offsetX"] = 4,
-		["offsetY"] = 12,
+		["offsetY"] = 0,
 		["layout"] = "horizontal",
 		["columns"] = 6,
 		["paddingX"] = 3,
