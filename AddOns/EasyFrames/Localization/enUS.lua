@@ -18,6 +18,7 @@ L["Current + Max"] = true
 L["Current + Max + Percent"] = true
 L["Current + Percent"] = true
 L["Custom format"] = true
+L["Current"] = true
 L["Smart"] = true
 
 L["None"] = true

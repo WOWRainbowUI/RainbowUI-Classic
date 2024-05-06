@@ -1,0 +1,27 @@
+## Title: Easy Frames
+## Interface: 40400
+## Notes: Make your unit frames colored and glorious.
+## Title-zhTW: |cff4DD2FF[頭像]|r 暴雪頭像 (美化調整)
+## Notes-zhTW: Easy Frames |n|n喜歡遊戲內建的頭像推薦使用這個插件，讓內建頭像變得比較漂亮，還額外提供了許多自訂化的選項。|n|n使用方法: |r從Esc>介面>插件>頭像-美化，進行設定。
+## X-Category-zhTW: 介面
+## Version: 1.0.1-wrath
+## Author: Usoltsev
+## SavedVariables: EasyFramesDB
+## OptionalDeps: Ace3, LibSharedMedia-3.0
+
+Localization\enUS.lua
+Localization\zhTW.lua
+Localization\zhCN.lua
+
+
+EasyFrames.lua
+
+Config.lua
+
+Modules\Core.lua
+Modules\General.lua
+Modules\Player.lua
+Modules\Target.lua
+Modules\Focus.lua
+Modules\Pet.lua
+Modules\Party.lua
