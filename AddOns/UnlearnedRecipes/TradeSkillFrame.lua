@@ -61,7 +61,7 @@ TradeSkillFrame:SetScript("OnEvent", function(self, event, ...)
 		TradeSkillCreateButton:Disable();
 		TradeSkillCreateAllButton:Disable();
 		
-        if detectChanges() then
+        if (selectionIndex <= GetNumTradeSkills()) or detectChanges() then
             wipe(dbCache)
             if ( GetTradeSkillSelectionIndex() > 1 and GetTradeSkillSelectionIndex() <= GetNumTradeSkills() ) then
                 TradeSkillFrame_SetSelection(GetTradeSkillSelectionIndex());
@@ -72,6 +72,8 @@ TradeSkillFrame:SetScript("OnEvent", function(self, event, ...)
     			end
     			TradeSkillListScrollFrameScrollBar:SetValue(0);
     		end
+        else
+            TradeSkillFrame_Update()
         end
 		TradeSkillFrame_Update();
 	elseif ( event == "UNIT_PORTRAIT_UPDATE" ) then

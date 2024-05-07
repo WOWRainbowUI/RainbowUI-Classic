@@ -1,6 +1,6 @@
 ## Interface: 11502
 ## Title: Unlearned Recipes
-## Version: r014
+## Version: r015
 ## Notes: Displays profession recipes you have not yet learned
 ## Author: Teelo
 ## X-Curse-Project-ID: 985591
