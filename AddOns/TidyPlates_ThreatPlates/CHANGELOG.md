@@ -1,3 +1,3 @@
-# 11.2.1 (2024-05-01)
+# 11.2.6 (2024-05-04)
 
-* Fixed a Lua error that occured when a custom nameplate with Cast trigger was applied [GH-514].
+* Fixed a bug that resulted in Blizzard nameplates and Threat Plates being shown at the same time and overlapping each other [GH-516].

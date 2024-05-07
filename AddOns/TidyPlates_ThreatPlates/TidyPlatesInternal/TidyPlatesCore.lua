@@ -375,6 +375,35 @@ end
 
 Addon.SetNameplateVisibility = SetNameplateVisibility
 
+local function ThreatPlatesIsActive(unitid)
+  local unit_reaction = UnitReaction("player", unitid) or 0
+  if unit_reaction > 4 then
+    return not SettingsShowFriendlyBlizzardNameplates
+  else
+    return not SettingsShowEnemyBlizzardNameplates
+  end
+end
+
+local function GetAnchorForThreatPlateFrame(self)
+  local visual = self.visual
+  if visual.healthbar:IsShown() then
+    return visual.healthbar, self
+  elseif visual.name:IsShown() then
+    return visual.name, self
+  else -- this could happen for personal nameplate which is not handled by TP
+    return self, self
+  end
+end
+
+local function GetAnchorForThreatPlateExternal(self)
+  local unit_frame = self.Parent.UnitFrame
+  if ThreatPlatesIsActive(unit_frame.unit) then
+    return GetAnchorForThreatPlateFrame(self)
+  else
+    return unit_frame, unit_frame
+  end
+end
+
 do
   -- OnUpdate; This function is run frequently, on every clock cycle
 	function OnUpdate(self, e)
@@ -462,6 +491,9 @@ do
     local extended = _G.CreateFrame("Frame",  "ThreatPlatesFrame" .. GetNameForNameplate(plate), WorldFrame)
     extended:Hide()
 
+    -- ! Can be used by other addons (e.g., BigDebuffs) to get the correct anchor for its content
+    extended.GetAnchor = GetAnchorForThreatPlateExternal
+      
     extended:SetFrameStrata("BACKGROUND")
     extended:EnableMouse(false)
     extended.Parent = plate
@@ -1303,9 +1335,9 @@ function CoreEvents:NAME_PLATE_CREATED(plate)
   OnNewNameplate(plate)
 
   -- NamePlateDriverFrame.AcquireUnitFrame is not used in Classic
-  -- if (Addon.IS_CLASSIC or Addon.IS_TBC_CLASSIC) and plate.UnitFrame then
-  --   NamePlateDriverFrame_AcquireUnitFrame(nil, plate)
-  -- end
+  if not Addon.IS_MAINLINE and plate.UnitFrame then
+    NamePlateDriverFrame_AcquireUnitFrame(nil, plate)
+  end
 
   plate:HookScript('OnHide', FrameOnHide)
   plate:HookScript('OnUpdate', FrameOnUpdate)

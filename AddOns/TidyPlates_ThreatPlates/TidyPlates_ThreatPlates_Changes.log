@@ -1,4 +1,32 @@
 ﻿------------------------------------------------------
+11.2.6 (2024-05-04)
+------------------------------------------------------
+* Fixed a bug that resulted in Blizzard nameplates and Threat Plates being shown at the same time and overlapping each other [GH-516].
+
+------------------------------------------------------
+11.2.5 (2024-05-04)
+------------------------------------------------------
+* Fixed a bug with Focus widget that caused the highlight color to not be applied [Comment #7280].
+* Improved layering of target and focus highlight to that target highlight covers focus highlight when shown on the same unit.
+
+------------------------------------------------------
+11.2.4 (2024-05-04)
+------------------------------------------------------
+* Fixed an incompatibility with BigDebuffs where BigDebuffs' icons where not shown (because of a side-effect with other addons). You also need to update BigDebuffs for the bugfix to take effect. [Comment #7274].
+
+------------------------------------------------------
+11.2.3 (2024-05-02)
+------------------------------------------------------
+* Fixed a Lua error in Combo Points widget on Deathknights as the Rune API from Classic was used on Mainline [Comment #7270].
+* Fixed a bug in Target Art widget where the highlight texture was shown behind the healthbar when Stripes style was selected [Comment #7269].
+
+------------------------------------------------------
+11.2.2 (2024-05-01)
+------------------------------------------------------
+* Adjusted default settings for soft target icon so that it is shown above the nameplate.
+* Fixed a bug where the vertical alignment for the cast target text was not migrated properly [Comment #7266].
+
+------------------------------------------------------
 11.2.1 (2024-05-01)
 ------------------------------------------------------
 * Fixed a Lua error that occured when a custom nameplate with Cast trigger was applied [GH-514].
@@ -654,7 +682,7 @@
 ------------------------------------------------------
 10.0.4
 ------------------------------------------------------
-* Fixed a bug Combo Points widget where Death Knight runes where not shown in the correct color when style Blizzard was used [Comment #4894, #4954, PM, Issue #440].
+* Fixed a bug in Combo Points widget where Death Knight runes where not shown in the correct color when style Blizzard was used [Comment #4894, #4954, PM, Issue #440].
 * Fixed a bug with threat percentage text where the alignment was incorrect when a nameplate was initially shown [Comment #4983].
 * Fixed a bug with Social widget where Battle.net Friends were not correctly recognized in Classic WoW.
 * Upgrade integrated libraries (LibCustomGlow v1.0.3-1-g6261295-alpha) [Comment #4873].
