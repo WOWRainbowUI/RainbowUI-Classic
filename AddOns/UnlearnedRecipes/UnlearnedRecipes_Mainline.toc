@@ -1,0 +1,9 @@
+## Interface: 100205
+## Title: Unlearned Recipes
+## Version: r014
+## Notes: Incompatible with Mainline WoW
+## Author: Teelo
+## X-Curse-Project-ID: 985591
+## IconTexture: Interface\Icons\inv_scroll_03
+
+incompatible.lua
