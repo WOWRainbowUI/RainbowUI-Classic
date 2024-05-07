@@ -1,6 +1,6 @@
 ## Interface: 100205
 ## Title: Unlearned Recipes
-## Version: r014
+## Version: r015
 ## Notes: Incompatible with Mainline WoW
 ## Author: Teelo
 ## X-Curse-Project-ID: 985591
