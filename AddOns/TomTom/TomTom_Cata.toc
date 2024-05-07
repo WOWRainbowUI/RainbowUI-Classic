@@ -1,4 +1,4 @@
-## Interface: 20504
+## Interface: 40400
 ## Title: TomTom
 ## Author: Cladhaire, Ludovicus
 ## Version: v3.6.1-release
