@@ -677,7 +677,11 @@ do  -- Threat Bar --------------------------------------------------------------
 					this.dir = dir * -1
 				end
 				this.alp = alp
-				this:SetAlpha(this.basealpha + alp)
+				-- 暫時修正
+				alp = this.basealpha + alp
+				if alp > 1 then alp = 1 end
+				if alp < 0 then alp = 0 end
+				this:SetAlpha(alp)
 			end
 			UpdateThreatOnUnit = UpdateThreatOnUnit or function(unit, uf, _, _, a5, config)
 				uf = uf or su[unit]
