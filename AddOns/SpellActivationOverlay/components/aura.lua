@@ -1,4 +1,5 @@
 local AddonName, SAO = ...
+local Module = "aura"
 
 --[[
     Lists of auras that must be tracked
@@ -12,6 +13,16 @@ local AddonName, SAO = ...
 ]]
 SAO.RegisteredAurasByName = {}
 SAO.RegisteredAurasBySpellID = {}
+
+--[[
+    List of markers for each aura activated excplicitly by an aura event, usually from CLEU.
+    Key = spellID, Value = number of stacks, or nil if marker is reset
+
+    This list looks redundant with SAO.ActiveOverlays, but there are significant differences:
+    - ActiveOverlays tracks absolutely every overlay, while AuraMarkers is focused on "aura from CLEU"
+    - ActiveOverlays is limited to effects that have an overlay, while AuraMarkers tracks effects with or without overlays
+]]
+SAO.AuraMarkers = {}
 
 -- Register a new aura
 -- If texture is nil, no Spell Activation Overlay (SAO) is triggered; subsequent params are ignored until glowIDs
@@ -28,6 +39,7 @@ function SAO.RegisterAura(self, name, stacks, spellID, texture, positions, scale
     local registeredSpellID = spellID;
     if self.IsEra() and not self:IsFakeSpell(spellID) then
         registeredSpellID = GetSpellInfo(spellID);
+        SAO:Debug(Module, "Skipping aura registration of "..tostring(name).." because os unknown spell "..tostring(spellID));
         if not registeredSpellID then return end
     end
 
@@ -54,7 +66,26 @@ function SAO.RegisterAura(self, name, stacks, spellID, texture, positions, scale
     -- Apply aura immediately, if found
     local exists, _, count = self:FindPlayerAuraByID(spellID);
     if (exists and (stacks == 0 or stacks == count)) then
+        self:MarkAura(spellID, count);
         self:ActivateOverlay(count, select(3,unpack(aura)));
         self:AddGlow(spellID, select(11,unpack(aura)));
     end
+end
+
+function SAO:MarkAura(spellID, count)
+    if type(count) ~= 'number' then
+        self:Debug(Module, "Marking aura of "..tostring(spellID).." with invalid count "..tostring(count));
+    end
+    if type(self.AuraMarkers[spellID]) == 'number' then
+        self:Debug(Module, "Marking aura of "..tostring(spellID).." with count "..tostring(count).." but it already has a count of "..self.AuraMarkers[spellID]);
+    end
+    self.AuraMarkers[spellID] = count;
+end
+
+function SAO:UnmarkAura(spellID)
+    self.AuraMarkers[spellID] = nil;
+end
+
+function SAO:GetAuraMarker(spellID)
+    return self.AuraMarkers[spellID];
 end
