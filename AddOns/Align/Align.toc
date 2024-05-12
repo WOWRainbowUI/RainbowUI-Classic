@@ -1,4 +1,4 @@
-## Interface: 40400
+## Interface: 11502, 40400
 ## Title: Align (1.10)
 ## Author: Akeru (swyatt@gmail.com)
 ## Notes: Grid to Align UI elements.
