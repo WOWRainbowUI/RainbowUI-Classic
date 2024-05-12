@@ -1,4 +1,4 @@
-## Interface: 100207
+## Interface: 11502, 40400, 100207
 ## Title: TomTom
 ## Author: Cladhaire, Ludovicus
 ## Version: v3.6.2-release
@@ -19,7 +19,7 @@
 ## X-Wago-ID: Rn6VaONd
 
 ## Title-zhTW: |cff4DFF4D[地圖]|r TomTom 導航箭頭
-## Notes-zhTW: TomTom |n|n一個簡單的導航助手。自行在世界地圖上設定好目的地導航點，或是輸入座標後，會在畫面中間出現指示方向的導航箭頭，跟著跑就對了!|n|n|cffffd200使用方法: |r按住 Ctrl+右鍵點擊世界地圖上的位置，新增導航目的地。|n|n輸入 /way x y 來設定目的地的座標，x和y為座標數值。|n|n從Esc>介面>插件>導航箭頭，進行設定。
+## Notes-zhTW: TomTom |n|n一個簡單的導航助手。自行在世界地圖上設定好目的地導航點，或是輸入座標後，會在畫面中間出現指示方向的導航箭頭，跟著跑就對了!|n|n|cffffd200使用方法: |r按住 Ctrl+右鍵點擊世界地圖上的位置，新增導航目的地。|n|n輸入 /way x y 來設定目的地的座標，x和y為座標數值。|n|n從Esc>選項>插件>導航箭頭，進行設定。
 ## X-Category-zhTW: 地圖
 
 libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
