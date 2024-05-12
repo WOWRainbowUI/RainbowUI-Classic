@@ -182,3 +182,22 @@ Change Log:
 
 1.25
 * Added support for self quest monitoring
+
+1.25.1
+* Updated TOC for 10.0
+
+1.25.2
+* Updated TOC for 10.0.2
+
+1.25.3
+* Updated TOC for 10.1.7
+
+1.25.4
+* Updated TOC for 10.2
+* Updated TOC for Classic 1.4
+* Updated TOC for Wrath 3.4.3
+
+1.26
+* Fixed issue with color picker not working
+* Updated TOC for 10.2.7
+* Updated TOC for Cataclysm 4.4.0
