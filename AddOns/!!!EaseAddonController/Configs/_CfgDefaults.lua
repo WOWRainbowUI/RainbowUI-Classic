@@ -1316,7 +1316,7 @@ D["HidingBar"] = {
 };
 D["Immersion"] = {
     defaultEnable = 0,
-	title = "任務對話 (說話的頭)",
+	title = "任務對話 (對話頭像)",
 	desc = "與NPC對話、接受/交回任務時，會使用遊戲內建 '說話的頭' 風格的對話方式，取代傳統的任務說明。``讓你更能享受並融入任務內容的對話劇情。`",
 	author = "MunkDev",
 	modifier = "彩虹ui",
