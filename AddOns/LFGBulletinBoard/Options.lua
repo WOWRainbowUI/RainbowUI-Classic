@@ -252,7 +252,7 @@ function GBB.OptionsInit ()
 		WotlkChkBox_FilterDungeon={}
 			
 		for index=GBB.WOTLKDUNGEONSTART,GBB.WOTLKDUNGEONBREAK do
-			WotlkChkBox_FilterDungeon[index]=CheckBoxFilter(GBB.dungeonSort[index],false)
+			WotlkChkBox_FilterDungeon[index]=CheckBoxFilter(GBB.dungeonSort[index],false) -- 過濾巫妖王地城
 		end
 	
 		GBB.Options.SetRightSide()
@@ -281,7 +281,7 @@ function GBB.OptionsInit ()
 		GBB.Options.EndInLine()
 		GBB.Options.Indent(-10)
 		for index=GBB.ENDINGDUNGEONSTART,GBB.ENDINGDUNGEONEND do
-			WotlkChkBox_FilterDungeon[index]=CheckBoxFilter(GBB.dungeonSort[index],true)
+			WotlkChkBox_FilterDungeon[index]=CheckBoxFilter(GBB.dungeonSort[index],false)
 			SetChatOption()
 		end
 
@@ -323,19 +323,19 @@ function GBB.OptionsInit ()
 
 	ChkBox_FilterDungeon={}
 	for index=1,GBB.DUNGEONBREAK do
-		ChkBox_FilterDungeon[index]=CheckBoxFilter(GBB.dungeonSort[index],true)
+		ChkBox_FilterDungeon[index]=CheckBoxFilter(GBB.dungeonSort[index],	(WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)) -- 過濾經典時期王地城
 	end	
 
 	GBB.Options.SetRightSide()
 	--GBB.Options.AddCategory("")
 	GBB.Options.Indent(10)	
 	for index=GBB.DUNGEONBREAK+1,GBB.MAXDUNGEON do
-		ChkBox_FilterDungeon[index]=CheckBoxFilter(GBB.dungeonSort[index],true)
+		ChkBox_FilterDungeon[index]=CheckBoxFilter(GBB.dungeonSort[index], (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC))
 	end
 
 	if string.sub(version, 1, 2) == "1." then
 		for index=GBB.ENDINGDUNGEONSTART,GBB.ENDINGDUNGEONEND do
-			ChkBox_FilterDungeon[index]=CheckBoxFilter(GBB.dungeonSort[index],true)
+			ChkBox_FilterDungeon[index]=CheckBoxFilter(GBB.dungeonSort[index], (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC))
 		end
 	end
 	--GBB.Options.AddSpace()
