@@ -1,4 +1,4 @@
-## Interface: 40400
+## Interface: 11502, 40400, 100207
 ## Title: YouGotMail
 ## Notes: Simple addon for Classic WoW to play the familiar "You got mail" when you receive mail.
 ## Title-zhTW: |cffB973CC[物品]|r 新郵件通知音效 
