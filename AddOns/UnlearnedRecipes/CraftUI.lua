@@ -277,6 +277,9 @@ function CraftFrame_SetSelection(id)
     	CraftName:SetText(craftName);
     	
         local icon = C_Item.GetItemIconByID(data.itemID)
+        if data.itemID == 0 then
+            icon = GetSpellTexture(data.spellID)
+        end
         if icon then
             if (icon == 134400) and data.sourceItemID then
                 icon = C_Item.GetItemIconByID(data.sourceItemID)
@@ -498,7 +501,7 @@ function CraftFrame_SetSelection(id)
     end
 end
 
-CraftIcon:SetScript("OnEnter", function()
+local craftIconOnEnterHandler = function()
     local id = CraftFrame.selectedSkill
     if ( id ~= 0 ) then
         local numTradeSkills = GetNumCrafts();
@@ -510,30 +513,11 @@ CraftIcon:SetScript("OnEnter", function()
             if not data.itemID then return end
             
             GameTooltip:SetOwner(CraftIcon, "ANCHOR_RIGHT");
-		    GameTooltip:SetItemByID(data.itemID)
-		    CursorUpdate(CraftIcon);
-            
-            return
-        end
-		GameTooltip:SetOwner(CraftIcon, "ANCHOR_RIGHT");
-		GameTooltip:SetCraftSpell(GetCraftSelectionIndex())
-		CursorUpdate(CraftIcon);
-    end
-end)
-
-CraftIcon.UpdateTooltip = function ()
-    local id = CraftFrame.selectedSkill
-    if ( id ~= 0 ) then
-        local numTradeSkills = GetNumCrafts();
-        if id > numTradeSkills then
-            local db = dbCache[GetCraftName()]
-            if not db then return end
-            
-            local data = db[id - numTradeSkills]
-            if not data.itemID then return end
-            
-            GameTooltip:SetOwner(CraftIcon, "ANCHOR_RIGHT");
-		    GameTooltip:SetItemByID(data.itemID)
+            if data.itemID == 0 then
+                GameTooltip:SetSpellByID(data.spellID)
+            else
+                GameTooltip:SetItemByID(data.itemID)
+            end
 		    CursorUpdate(CraftIcon);
             
             return
@@ -543,6 +527,9 @@ CraftIcon.UpdateTooltip = function ()
 		CursorUpdate(CraftIcon);
     end
 end
+
+CraftIcon:SetScript("OnEnter", craftIconOnEnterHandler)
+CraftIcon.UpdateTooltip = craftIconOnEnterHandler
 
 CraftFrame:SetScript("OnEvent", function(self, event, ...)
 	if ( not self:IsVisible() ) then
