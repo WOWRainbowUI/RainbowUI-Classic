@@ -1,5 +1,5 @@
 ## Title: Quartz
-## Interface: 100206
+## Interface: 40400, 100207
 ## Notes: Modular casting bar.
 ## Author: Nevcairiel, Nymbia
 ## Version: 3.7.9
@@ -20,6 +20,7 @@
 ## Title-zhTW: |cff0099FF[介面]|r 施法條增強
 ## Notes-zhTW: Quartz |n|n功能增強、模組化、可自訂外觀的施法條。包括：玩家、目標、專注目標、寵物、GCD、增益效果和敵方施法條。|n|n|cffffd200使用方法: |r從Esc>介面>插件>施法條，移動位置和進行設定。
 ## X-Category-zhTW: 介面
+## DefaultState: disabled
 
 locale\locale.xml
 
