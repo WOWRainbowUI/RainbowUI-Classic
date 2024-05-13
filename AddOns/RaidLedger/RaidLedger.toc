@@ -1,4 +1,4 @@
-## Interface: 40400
+## Interface: 11502, 40400
 ## X-Curse-Project-ID: 349048
 ## X-Wago-ID: aN0YLA6j
 ## Title: Raid Ledger
