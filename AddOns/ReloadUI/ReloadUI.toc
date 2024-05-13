@@ -1,5 +1,6 @@
-## Interface: 100206
+## Interface: 11502, 40400, 100207
 ## Title: ReloadUiReborn
+## Notes: Adds a Reload UI Button to the Game menu and Interface options frame
 ## Author: Sharpedge_Gaming
 ## Version: v.2.2
 ## Notes: Reload button for the game Menu
