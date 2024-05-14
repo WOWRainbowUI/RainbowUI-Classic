@@ -257,6 +257,11 @@ function bagFrame:Create(kind)
   end
   b.searchBox = searchBox
 
+  if kind == const.BAG_KIND.BACKPACK then
+    local currencyFrame = currency:Create(b.frame)
+    currencyFrame:Hide()
+    b.currencyFrame = currencyFrame
+  end
   -- Enable dragging of the bag frame.
   b.frame:SetMovable(true)
   b.frame:EnableMouse(true)

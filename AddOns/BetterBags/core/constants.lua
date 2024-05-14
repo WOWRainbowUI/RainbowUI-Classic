@@ -9,19 +9,18 @@ local L = addon:GetModule('Localization')
 ---@class Constants: AceModule
 local const = addon:NewModule('Constants')
 
-local WOW_PROJECT_WRATH_CLASSIC = 11
-
 -- Constants for detecting WoW version.
 addon.isRetail = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
 addon.isClassic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 addon.isBCC = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
-addon.isWrath = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
+addon.isCata = WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC
 
 ---@enum BagKind
 const.BAG_KIND = {
   UNDEFINED = -1,
   BACKPACK = 0,
   BANK = 1,
+  REAGENT_BANK = 2,
 }
 
 -- BANK_BAGS contains all the bags that are part of the bank, including

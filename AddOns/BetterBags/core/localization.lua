@@ -243,14 +243,19 @@ if GetLocale() == "zhTW" then
 	L.data["Teleporters"] = "傳送"
 	
 	-- BetterBags-Appearances
+	L.data["Appearances"] = "外觀"
+	L.data["Subdivide by category"] = "依物品類型再分類"
+	L.data["This will also split items into categories based on their type."] = "依據物品類型，分別放置到不同的子分類中。"
 	L.data["Mog - Learnable"] = "外觀 (可學習)"
 	L.data["Mog - Tradable"] = "外觀 (可交易)"
+	L.data["Mog - Tradable - "] = "外觀 (可交易): "
 	L.data["Mog - Sellable"] = "外觀 (可賣出)"
 	
 		--Old
 		L.data["Known - BoE"] = "裝備綁定 (已收集外觀) "
 		L.data["Known - BoP"] = "靈魂綁定 (已收集外觀) "
-		L.data["Unknown - "] = "外觀 (未收集) "
+		L.data[" Usable"] = "無法使用"
+		L.data["Unknown - "] = "外觀 (未收集): "
 		L.data["Unknown - Other Classes"] = "外觀 (未收集) "
 		L.data["Other Classes"] = "其他職業"
 	
@@ -293,7 +298,11 @@ if GetLocale() == "zhTW" then
 	-- BetterBags_WorldEvents
 	L.data["Noblegarden"] = "貴族花園"
 	L.data["Darkmoon Faire"] = "暗月馬戲團"
+	L.data["Lunar Festival"] = "新年慶典"
 	
+	-- BetterBags_GearFirst
+	L.data["Gear > Alphabetically"] = "裝備 > 名稱"
+	L.data["Hearthstone > Gear > Alphabetically"] = "爐石 > 裝備 > 名稱"
 	
 end
 

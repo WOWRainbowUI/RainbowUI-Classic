@@ -204,6 +204,7 @@ end
 
 ---@param title string
 function views.viewProto:AddDirtySection(title)
+  if not title then return end
   self.dirtySections[title] = true
 end
 
@@ -248,7 +249,7 @@ end
 ---@return string?
 function views.viewProto:RemoveButton(item)
   local stack = self.stacks[item.itemHash]
-  if not stack then
+  if not stack or not stack:IsInStack(item.slotkey) then
     return nil
   end
   local updateKey = stack:RemoveItem(item.slotkey)
@@ -295,17 +296,25 @@ end
 -- ChangeButton updates the item in the stack if it exists.
 -- Returns the slotkey of the item base item if the item was updated in a stack, or the slotkey
 -- of the item if it was not in a stack.
+-- The second return is the slotkey of the item that should be removed from the view,
+-- if the item was merged into a stack.
+-- The third return is the slotkey of the item that should be added to the view.
 ---@param item ItemData
----@return string
+---@return string, string?, string?
 function views.viewProto:ChangeButton(item)
+  local stack = self.stacks[item.itemHash]
   local opts = database:GetStackingOptions(self.kind)
   -- If we're not merging stacks, return nil.
   if (opts.dontMergePartial and item.itemInfo.currentItemCount < item.itemInfo.itemStackCount) then
     return item.slotkey
   end
 
-  local stack = self.stacks[item.itemHash]
   if stack then
+    if not stack:IsInStack(item.slotkey) then
+      stack:AddItem(item.slotkey)
+      stack:UpdateCount()
+      return stack.item, item.slotkey
+    end
     stack:UpdateCount()
     return stack.item
   end
@@ -376,7 +385,7 @@ function stackProto:RemoveItem(slotkey)
     return nil
   end
 
-  assert(self.subItems[slotkey], "Slotkey not found in stack")
+  assert(self.subItems[slotkey], "Slotkey not found in stack" .. slotkey)
 
   self.subItems[slotkey] = nil
   self:UpdateCount()
@@ -386,11 +395,21 @@ end
 function stackProto:UpdateCount()
   if not self.item then return end
   local itemData = items:GetItemDataFromSlotKey(self.item)
+  if itemData.isItemEmpty then return end
   itemData.stackedCount = itemData.itemInfo.currentItemCount
   for subItemSlotKey in pairs(self.subItems) do
     local subItemData = items:GetItemDataFromSlotKey(subItemSlotKey)
-    itemData.stackedCount = itemData.stackedCount + subItemData.itemInfo.currentItemCount
+    if not subItemData.isItemEmpty then
+      itemData.stackedCount = itemData.stackedCount + subItemData.itemInfo.currentItemCount
+    end
   end
+end
+
+---@return number
+function stackProto:GetStackCount()
+  if not self.item then return 0 end
+  local itemData = items:GetItemDataFromSlotKey(self.item)
+  return itemData.stackedCount
 end
 
 function stackProto:HasSubItem(slotkey)
