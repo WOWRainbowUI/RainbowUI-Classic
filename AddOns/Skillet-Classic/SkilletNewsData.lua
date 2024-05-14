@@ -26,6 +26,55 @@ local isCata = WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC
 
 Skillet.NewsName = L["Skillet-Classic News"]
 Skillet.NewsData = {
+	{	version = "1.90",
+		data = {
+			{	name = "Changes",
+				data = {
+					{ header = "Skill Levels", body = "Add conditional data\nFix issue #171" },
+					{ header = "Automation", body = "Add right click 'Queue' selected recipes\nAdd keybinding for 'Process' button" },
+				},
+			},
+		},
+	},
+	{	version = "1.89",
+		data = {
+			{	name = "Changes",
+				data = {
+					{ header = "Enchanting", body = "Fix for issue #168" },
+				},
+			},
+		},
+	},
+	{	version = "1.88",
+		data = {
+			{	name = "Changes",
+				data = {
+					{ header = "Skill Levels", body = "Blend Wago Tools data with Wowhead data" },
+				},
+			},
+		},
+	},
+	{	version = "1.87",
+		data = {
+			{	name = "Changes",
+				data = {
+					{ header = "News", body = "Update News" },
+					{ header = "Skill Levels", body = "Fix error when CraftInfoAnywhere is not loaded" },
+				},
+			},
+		},
+	},
+	{	version = "1.86",
+		data = {
+			{	name = "Changes",
+				data = {
+					{ header = "TradeSkill", body = "Fix scan trade bug" },
+					{ header = "TOC", body = "Add CraftInfoAnywhere optional dependency" },
+					{ header = "Skill Levels", body = "Use data from Wago Tools and CraftInfoAnywhere\nto create separate tables for Classic Era and Classic Cataclysm\n" },
+				},
+			},
+		},
+	},
 	{	version = "1.85",
 		data = {
 			{	name = "Changes",
@@ -49,14 +98,8 @@ Skillet.NewsData = {
 			{	name = "Changes",
 				data = {
 					{ header = "Skill Levels", body = "Update for WotLK recipes" },
-				},
-				data = {
 					{ header = "Slot Filter", body = "Change itemEquipLoc from INVTYPE_ROBE to INVTYPE_CHEST" },
-				},
-				data = {
 					{ header = "TOC", body = "Update TOC" },
-				},
-				data = {
 					{ header = "TradeSkill", body = "Better handling of scan trade errors" },
 				},
 			},
