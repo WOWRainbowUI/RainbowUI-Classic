@@ -445,10 +445,9 @@ function Stuf:LoadDefaults(db, restore, perchar, justboss)
 			},
 			vehicleicon={ hide=true, x=-40, y=14, w=32, h=32, framelevel=4, },
 			holybar={ x=90, y=-8, },
-			shardbar={ x=90, y=50, },
-			chibar={ x=90, y=40, },
+			shardbar={ x=100, y=30, },
 			arcanebar={ x=90, y=40, },
-			essencesbar={ x=90, y=0, },
+			eclipsebar={ x=90, y=50, },
 			priestbar={ x=0, y=0, },
 		},
 		target={
@@ -1868,8 +1867,8 @@ local shardbar={
 		x=x2, y=y2, scale=scale, alpha=alpha, framelevel=framelevel, nomouse=nomouse, strata=bstrata,
 	},
 }
-local chibar={
-	name=L["Chi Bar"], type="group", hidden=function() return Stuf.CLS ~= "MONK" end, order=30,
+local eclipsebar={
+	name=L["Eclipse Bar"], type="group", hidden=function() return Stuf.CLS ~= "DRUID" end, order=30,
 	args={
 		hide=hide, blank=blank,
 		x=x2, y=y2, scale=scale, alpha=alpha, framelevel=framelevel, nomouse=nomouse, strata=bstrata,
@@ -1877,13 +1876,6 @@ local chibar={
 }
 local arcanebar={
 	name=L["Arcane Charges"], type="group", hidden=function() return Stuf.CLS ~= "MAGE" end, order=30,
-	args={
-		hide=hide, blank=blank,
-		x=x2, y=y2, scale=scale, alpha=alpha, framelevel=framelevel, nomouse=nomouse, strata=bstrata,
-	},
-}
-local essencesbar={
-	name=L["Essences Bar"], type="group", hidden=function() return Stuf.CLS ~= "EVOKER" end, order=30,
 	args={
 		hide=hide, blank=blank,
 		x=x2, y=y2, scale=scale, alpha=alpha, framelevel=framelevel, nomouse=nomouse, strata=bstrata,
@@ -2132,7 +2124,7 @@ options={
 				lfgicon=lfgicon,
 				totembar=totembar,
 				runebar=runebar, druidbar=druidbar, holybar=holybar, shardbar=shardbar,
-				chibar=chibar, priestbar=priestbar, arcanebar=arcanebar, essencesbar=essencesbar,
+				eclipsebar=eclipsebar, priestbar=priestbar, arcanebar=arcanebar,
 				castbar=castbar,
 			},
 		},

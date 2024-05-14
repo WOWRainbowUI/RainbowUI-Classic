@@ -165,9 +165,8 @@ function events.ADDON_LOADED(a1)
 			end
 			db.player.holybar = db.player.holybar or { x=0, y=0, }
 			db.player.shardbar = db.player.shardbar or { x=0, y=0, }
-			db.player.chibar = db.player.chibar or { x=0, y=0, }
+			db.player.eclipsebar = db.player.eclipsebar or { x=0, y=0, }
 			db.player.arcanebar = db.player.arcanebar or { x=0, y=0, }
-			db.player.essencesbar = db.player.essencesbar or { x=0, y=0, }
 			db.player.priestbar = db.player.priestbar or { x=0, y=0, }
 
 			dbg.initWrath = 1

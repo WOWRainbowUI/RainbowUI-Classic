@@ -1065,7 +1065,7 @@ end
 if CLS == "WARLOCK" then  -- Warlock Power Frame -----------------------------------------------------------------------------------------------
 	Stuf:AddBuilder("shardbar", function(unit, uf, name, db, a5, config) 
 		if unit ~= "player" then return end
-		local f = WarlockPowerFrame
+		local f = ShardBarFrame
 		if not f or db.hide then
 			if f then f:Hide() end
 			return
@@ -1086,33 +1086,6 @@ if CLS == "WARLOCK" then  -- Warlock Power Frame -------------------------------
 		if _G.BurningEmbersBarFrame then _G.BurningEmbersBarFrame:EnableMouse(not db.nomouse) end
 	end)
 
-end
-if CLS == "MONK" then  -- Monk Power Frame -----------------------------------------------------------------------------------------------
-	Stuf:AddBuilder("chibar", function(unit, uf, name, db, a5, config) 
-		if unit ~= "player" then return end
-		local f = MonkHarmonyBarFrame
-		if not f or db.hide then
-			if f then f:Hide() end
-			return
-		end
-
-		f:SetParent(uf)
-		f:SetPoint("TOP", uf, "BOTTOM", db.x or 0, db.y or 0)
-		f:SetScale(db.scale or 1)
-		f:SetAlpha(db.alpha or 1)
-		if db.framelevel then
-			f:SetFrameLevel(db.framelevel)
-		end
-		if db.strata then
-			f:SetFrameStrata(db.strata)
-		end
-		if _G.MonkHarmonyBar then _G.MonkHarmonyBar:EnableMouse(not db.nomouse) end
-		for i = 1, 4, 1 do
-			if _G.MonkHarmonyBar and _G.MonkHarmonyBar["lightEnergy"..i] then
-				_G.MonkHarmonyBar["lightEnergy"..i]:EnableMouse(not db.nomouse)
-			end
-		end
-	end)
 end
 if CLS == "MAGE" then  -- Mage Arcane Charges Frame -----------------------------------------------------------------------------------------------
 	Stuf:AddBuilder("arcanebar", function(unit, uf, name, db, a5, config) 
@@ -1136,10 +1109,10 @@ if CLS == "MAGE" then  -- Mage Arcane Charges Frame ----------------------------
 		if _G.MageArcaneChargesFrame then _G.MageArcaneChargesFrame:EnableMouse(not db.nomouse) end
 	end)
 end
-if CLS == "EVOKER" then  -- Evoker Essences Frame -----------------------------------------------------------------------------------------------
-	Stuf:AddBuilder("essencesbar", function(unit, uf, name, db, a5, config) 
+if CLS == "DRUID" then  -- Druid Eclipse frame -----------------------------------------------------------------------------------------------
+	Stuf:AddBuilder("eclipsebar", function(unit, uf, name, db, a5, config) 
 		if unit ~= "player" then return end
-		local f = EssencePlayerFrame
+		local f = EclipseBarFrame
 		if not f or db.hide then
 			if f then f:Hide() end
 			return
@@ -1155,6 +1128,7 @@ if CLS == "EVOKER" then  -- Evoker Essences Frame ------------------------------
 		if db.strata then
 			f:SetFrameStrata(db.strata)
 		end
-		if _G.EssencePlayerFrame then _G.EssencePlayerFrame:EnableMouse(not db.nomouse) end
+		if _G.EclipseBarFrame then _G.EclipseBarFrame:EnableMouse(not db.nomouse) end
 	end)
 end
+

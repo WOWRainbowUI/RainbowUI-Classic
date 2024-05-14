@@ -288,6 +288,7 @@ StufOptionsLocalization = {
 ["Tar"] = "目標",
 [" of Tar"] = "的目標",
 ["Disable"] = "關閉",
+["Eclipse Bar"] = "日月能條",
 
 pettarget = _G.PET.." ".._G.TARGET,
 party1 = _G.PARTY.." 1",
