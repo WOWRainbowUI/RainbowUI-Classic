@@ -1,16 +1,16 @@
-lightweight tag 5fcbc230a78631d9fce247e5a799d93b537f50fb v1.14.6
+lightweight tag 92b09c8b57f04e684af36308282cdd565166df47 v1.14.7
 Author:	Mike D <mcd8604@users.noreply.github.com>
-Date:	Wed Apr 17 03:12:18 2024 -0400
+Date:	Thu May 9 17:06:28 2024 -0400
 
-commit 5fcbc230a78631d9fce247e5a799d93b537f50fb
+commit 92b09c8b57f04e684af36308282cdd565166df47
 Author: Mike D <mcd8604@users.noreply.github.com>
-Date:   Wed Apr 17 03:12:18 2024 -0400
+Date:   Thu May 9 17:06:28 2024 -0400
 
-    hide CD when using ShowOnMouseOver
+    Update Engraver.lua
 
-commit 8e6f00b627af25e7aed0c714de75ce74049030cf
+commit b5edad6f6961c369896d0a6cdc5bae25009aaf5b
 Author: Mike D <mcd8604@users.noreply.github.com>
-Date:   Wed Apr 17 00:52:27 2024 -0400
+Date:   Thu May 9 16:47:05 2024 -0400
 
-    fix ENGRAVER_SHOW_HIDE binding for shared options
+    closes #15
 
