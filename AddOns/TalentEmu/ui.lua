@@ -900,7 +900,7 @@ MT.BuildEnv('UI');
 
 				if CT.TOCVERSION >= 40000 then
 					if TalentSet.Total >= DT.PointsNeeded4SecondaryTree then
-						if numPoints < 0 then
+						if numPoints < 0 and TalentSet.Total + numPoints < DT.PointsNeeded4SecondaryTree then
 							local TreeFrames = Frame.TreeFrames;
 							for TreeIndex = 1, 3 do
 								local TFrame = TreeFrames[TreeIndex];
