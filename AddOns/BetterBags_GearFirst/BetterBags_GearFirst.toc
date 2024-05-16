@@ -25,7 +25,6 @@
 ## Notes-zhTW: BetterBags - Gear First |n|n新增將裝備排列在前面的選項。
 ## X-Category-zhTW: 物品
 ## IconTexture: Interface\Icons\inv_cloth_kaelthas_c_01_buckle
-## DefaultState: disabled
 
 i18n.lua
 main.lua
