@@ -393,7 +393,7 @@ D["BigDebuffs"] = {
 	},
 };
 D["BlockMessageTeamGuard"] = {
-    defaultEnable = 1,
+    defaultEnable = 0,
 	tags = { "SOCIAL" },
 	title = "廣告守衛",
 	desc = "過濾掉聊天訊息中的廣告、自動拒絕陌生人的組隊邀請，讓你有個乾淨舒服的遊戲環境。``可以自訂關鍵字，還有更多功能。",
