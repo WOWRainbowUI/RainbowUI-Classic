@@ -1,3 +1,17 @@
+== v2.18 - 16th May 2024
+* Fix for missing text for all Mage books. Broke with the changes in v2.14
+
+== v2.17 - 12th May 2024
+* Colourised the AddOn menu title
+* Anticipating Phase 4 slots to be used: Shoulders, Neck
+* Two rune styled icons added
+* Renamed Mjolnir icon to Adrenaline. Reason: To match the naming in my CGM companion AddOn
+* Added/testing coding for more runes for Phase 4 (then commented some out so as to avoid confusion)
+
+== v2.16 - 6th May 2024
+* New numbered texture set added: White. Should I call it Vanilla?
+* Adrenaline rune option finally translated
+
 == v2.15 - 2nd May 2024
 * Wild Gods / Wild Offering revamp based upon the latest information
 

@@ -381,9 +381,6 @@ end
 
 if ns.locale == "deDE" then
 	ns.L["AddOn Description"] = "Alle SoD-Runen. (Und mehr!)"
-	ns.L["Arcane"] = "Arkane"
-	ns.L["Demonic"] = "Dämonische"
-	ns.L["Duty"] = "Pflicht"
 	ns.L["Hide if learnt"] = "Verstecke dich, wenn die Rune gelernt wurde"
 	ns.L["Map Pin"] = "Kartenpin"
 	ns.L["No Map Pin"] = "Kein Kartenpin"
@@ -656,10 +653,7 @@ if ns.locale == "deDE" then
 
 elseif ns.locale == "esES" or ns.locale == "esMX" then
 	ns.L["AddOn Description"] = "Todas las runas SoD. (¡Y más!)"
-	ns.L["Arcane"] = "Arcana"
 	ns.L["Cyan"] = "Cian"
-	ns.L["Demonic"] = "Demoníaca"
-	ns.L["Duty"] = "Deber"
 	ns.L["Hide if learnt"] = "Ocultar si se aprendió la runa"
 	ns.L["Map Pin"] = "Marcador de mapa"
 	ns.L["No Map Pin"] = "Sin pin de mapa"
@@ -934,9 +928,6 @@ elseif ns.locale == "esES" or ns.locale == "esMX" then
 
 elseif ns.locale == "frFR" then
 	ns.L["AddOn Description"] = "Toutes les runes SoD. (Et plus!)"
-	ns.L["Arcane"] = "Arcanes"
-	ns.L["Demonic"] = "Démoniaque"
-	ns.L["Duty"] = "Devoir"
 	ns.L["Hide if learnt"] = "Cacher si la rune a été apprise"
 	ns.L["Map Pin"] = "Épingle de carte"
 	ns.L["No Map Pin"] = "Aucune épingle de carte"
@@ -1203,15 +1194,11 @@ elseif ns.locale == "frFR" then
 
 elseif ns.locale == "koKR" then
 	ns.L["AddOn Description"] = "모든 SoD 룬. (그리고 더!)."
-	ns.L["Arcane"] = "비전"
 	ns.L["Cyan"] = "청록색"
-	ns.L["Demonic"] = "악마의"
-	ns.L["Duty"] = "의무"
 	ns.L["Hide if learnt"] = "룬을 배웠다면 숨기기"
 	ns.L["Magenta"] = "마젠타"
 	ns.L["Map Pin"] = "지도 핀"
 	ns.L["No Map Pin"] = "지도 핀 없음"
-	ns.L["Mjolnir"] = "묠니르"
 	ns.L["Phase"] = "단계"
 	ns.L["Rune"] = "룬"
 	ns.L["Runes"] = "룬"
@@ -1483,10 +1470,7 @@ elseif ns.locale == "koKR" then
 
 elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
 	ns.L["AddOn Description"] = "Todas as runas SoD. (E mais!)"
-	ns.L["Arcane"] = "Arcana"
 	ns.L["Cyan"] = "Ciano"
-	ns.L["Demonic"] = "Demoníaca"
-	ns.L["Duty"] = "Dever"
 	ns.L["Hide if learnt"] = "Esconda-se se a runa foi aprendida"
 	ns.L["Map Pin"] = "Alfinete do mapa"
 	ns.L["No Map Pin"] = "Sem alfinete de mapa"
@@ -1760,14 +1744,10 @@ elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
 
 elseif ns.locale == "ruRU" then
 	ns.L["AddOn Description"] = "Все руны SoD. (И более!)"
-	ns.L["Arcane"] = "Чародейская"
 	ns.L["Cyan"] = "Голубой"
-	ns.L["Demonic"] = "Демоническая"
-	ns.L["Duty"] = "долга"
 	ns.L["Hide if learnt"] = "Скрыть, если руна была изучена"
 	ns.L["Magenta"] = "Пурпурный"
 	ns.L["Map Pin"] = "Карта Пин"
-	ns.L["Mjolnir"] = "Мьольнира"
 	ns.L["No Map Pin"] = "Нет отметки на карте"
 	ns.L["Phase"] = "Фаза"
 	ns.L["Rune"] = "Руна"
@@ -2039,14 +2019,10 @@ elseif ns.locale == "ruRU" then
 
 elseif ns.locale == "zhCN" then
 	ns.L["AddOn Description"] = "所有 SoD 符文。 （和更多！）。"
-	ns.L["Arcane"] = "奥术"
 	ns.L["Cyan"] = "青色"
-	ns.L["Demonic"] = "恶魔"
-	ns.L["Duty"] = "义务"
 	ns.L["Hide if learnt"] = "如果学习了符文则隐藏"
 	ns.L["Magenta"] = "品红"
 	ns.L["Map Pin"] = "地图图钉"
-	ns.L["Mjolnir"] = "雷神"
 	ns.L["No Map Pin"] = "无地图图钉"
 	ns.L["Phase"] = "阶段"
 	ns.L["Rune"] = "符文"
@@ -2318,14 +2294,10 @@ elseif ns.locale == "zhCN" then
 
 elseif ns.locale == "zhTW" then
 	ns.L["AddOn Description"] = "所有 SoD 符文。 （和更多！）。"
-	ns.L["Arcane"] = "奧術"
 	ns.L["Cyan"] = "青色"
-	ns.L["Demonic"] = "惡魔"
-	ns.L["Duty"] = "義務"
 	ns.L["Hide if learnt"] = "如果學習了符文則隱藏"
 	ns.L["Magenta"] = "品紅"
 	ns.L["Map Pin"] = "地圖圖釘"
-	ns.L["Mjolnir"] = "雷神"
 	ns.L["No Map Pin"] = "無地圖圖釘"
 	ns.L["Phase"] = "階段"
 	ns.L["Rune"] = "符文"
@@ -2887,6 +2859,66 @@ if ns.class == "MAGE" then
 	--	ns.L["Friend of the Library"] = ""
 	--	ns.L["Greater Friend of the Library"] = ""
 	end
+end
+
+-- Textures
+
+if ns.locale == "deDE" then
+	ns.L["Adrenaline"] = "Adrenalin"
+	ns.L["Arcane"] = "Arkane"
+	ns.L["Demonic"] = "Dämonische"
+	ns.L["Duty"] = "Pflicht"
+	ns.L["Frozen"] = "Gefroren"
+	ns.L["Metamorphosis"] = "Metamorphose"
+elseif ns.locale == "esES" or ns.locale == "esMX" then
+	ns.L["Adrenaline"] = "Adrenalina"
+	ns.L["Arcane"] = "Arcana"
+	ns.L["Demonic"] = "Demoníaca"
+	ns.L["Duty"] = "Deber"
+	ns.L["Frozen"] = "Congelado"
+	ns.L["Metamorphosis"] = "Metamorfosis"
+elseif ns.locale == "frFR" then
+	ns.L["Adrenaline"] = "Adrénaline"
+	ns.L["Arcane"] = "Arcanes"
+	ns.L["Demonic"] = "Démoniaque"
+	ns.L["Duty"] = "Devoir"
+	ns.L["Frozen"] = "Gelé"
+	ns.L["Metamorphosis"] = "Métamorphe"
+elseif ns.locale == "koKR" then
+	ns.L["Adrenaline"] = "아드레날린"
+	ns.L["Arcane"] = "비전"
+	ns.L["Demonic"] = "악마의"
+	ns.L["Duty"] = "의무"
+	ns.L["Frozen"] = "언"
+	ns.L["Metamorphosis"] = "탈태"
+elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
+	ns.L["Adrenaline"] = "Adrenalina"
+	ns.L["Arcane"] = "Arcana"
+	ns.L["Demonic"] = "Demoníaca"
+	ns.L["Duty"] = "Dever"
+	ns.L["Frozen"] = "Congelado"
+	ns.L["Metamorphosis"] = "Metamorfose"
+elseif ns.locale == "ruRU" then
+	ns.L["Adrenaline"] = "Адреналин"
+	ns.L["Arcane"] = "Чародейская"
+	ns.L["Demonic"] = "Демоническая"
+	ns.L["Duty"] = "долга"
+	ns.L["Frozen"] = "Замороженный"
+	ns.L["Metamorphosis"] = "Метаморфоза"
+elseif ns.locale == "zhCN" then
+	ns.L["Adrenaline"] = "肾上腺素"
+	ns.L["Arcane"] = "奥术"
+	ns.L["Demonic"] = "恶魔"
+	ns.L["Duty"] = "义务"
+	ns.L["Frozen"] = "冷冻"
+	ns.L["Metamorphosis"] = "恶魔变形"
+elseif ns.locale == "zhTW" then
+	ns.L["Adrenaline"] = "腎上腺素"
+	ns.L["Arcane"] = "奧術"
+	ns.L["Demonic"] = "惡魔"
+	ns.L["Duty"] = "義務"
+	ns.L["Frozen"] = "冷凍"
+	ns.L["Metamorphosis"] = "惡魔變形"
 end
 
 --[[st.dalaranRelic = "Curious Dalaran Relic ("
