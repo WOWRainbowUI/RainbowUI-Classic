@@ -484,6 +484,58 @@ else
 	ns.L["Void Touched"] = "Void-Touched"
 end
 
+-- Textures
+
+if ns.locale == "deDE" then
+	ns.L["Adrenaline"] = "Adrenalin"
+	ns.L["Arcane"] = "Arkane"
+	ns.L["Demonic"] = "Dämonische"
+	ns.L["Duty"] = "Pflicht"
+	ns.L["Frozen"] = "Gefroren"
+elseif ns.locale == "esES" or ns.locale == "esMX" then
+	ns.L["Adrenaline"] = "Adrenalina"
+	ns.L["Arcane"] = "Arcana"
+	ns.L["Demonic"] = "Demoníaca"
+	ns.L["Duty"] = "Deber"
+	ns.L["Frozen"] = "Congelado"
+elseif ns.locale == "frFR" then
+	ns.L["Adrenaline"] = "Adrénaline"
+	ns.L["Arcane"] = "Arcanes"
+	ns.L["Demonic"] = "Démoniaque"
+	ns.L["Duty"] = "Devoir"
+	ns.L["Frozen"] = "Gelé"
+elseif ns.locale == "koKR" then
+	ns.L["Adrenaline"] = "아드레날린"
+	ns.L["Arcane"] = "비전"
+	ns.L["Demonic"] = "악마의"
+	ns.L["Duty"] = "의무"
+	ns.L["Frozen"] = "언"
+elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
+	ns.L["Adrenaline"] = "Adrenalina"
+	ns.L["Arcane"] = "Arcana"
+	ns.L["Demonic"] = "Demoníaca"
+	ns.L["Duty"] = "Dever"
+	ns.L["Frozen"] = "Congelado"
+elseif ns.locale == "ruRU" then
+	ns.L["Adrenaline"] = "Адреналин"
+	ns.L["Arcane"] = "Чародейская"
+	ns.L["Demonic"] = "Демоническая"
+	ns.L["Duty"] = "долга"
+	ns.L["Frozen"] = "Замороженный"
+elseif ns.locale == "zhCN" then
+	ns.L["Adrenaline"] = "肾上腺素"
+	ns.L["Arcane"] = "奥术"
+	ns.L["Demonic"] = "恶魔"
+	ns.L["Duty"] = "义务"
+	ns.L["Frozen"] = "冷冻"
+elseif ns.locale == "zhTW" then
+	ns.L["Adrenaline"] = "腎上腺素"
+	ns.L["Arcane"] = "奧術"
+	ns.L["Demonic"] = "惡魔"
+	ns.L["Duty"] = "義務"
+	ns.L["Frozen"] = "冷凍"
+end
+
 -- v1.09+ Quest Names
 
 if ns.locale == "deDE" then

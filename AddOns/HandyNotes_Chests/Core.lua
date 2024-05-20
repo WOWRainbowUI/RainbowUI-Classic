@@ -3,7 +3,7 @@
 
                                         Chests, Gear and More
 
-                                       v1.09 - 29th April 2024
+                                        v1.11 - 10th May 2024
                                 Copyright (C) Taraezor / Chris Birch
                                          All Rights Reserved
 
@@ -214,7 +214,8 @@ ns.choices = "0 = No Map Pin\n1 = " ..ns.L["White"] .."\n2 = " ..ns.L["Purple"] 
 				..ns.L["Yellow"] .."\n5 = " ..ns.L["Green"] .."\n6 = " ..ns.L["Grey"] .."\n7 = " ..ns.L["Mana Orb"]
 				.."\n8 = " ..ns.L["Phasing"] .."\n9 = " ..ns.L["Raptor egg"] .."\n10 = " ..ns.L["Stars"]
 				.."\n11 = " ..ns.L["Cogwheel"] .."\n12 = " ..ns.L["Frost"] .."\n13 = " ..ns.L["Diamond"]
-				.."\n14 = " ..ns.L["Screw"]
+				.."\n14 = " ..ns.L["Screw"] .."\n15 = " ..ns.L["Adrenaline"] .."\n16 = " ..ns.L["Arcane"] .."\n17 = "
+				..ns.L["Demonic"] .."\n18 = " ..ns.L["Duty"] .."\n19 = " ..ns.L["Frozen"]
 							
 -- Interface -> Addons -> Handy Notes -> Plugins -> Chests options
 ns.options = {
@@ -268,7 +269,7 @@ ns.options = {
 					type = "range",
 					name = ns.L["Battered Chest"].." 1",
 					desc = ns.choices,
-					min = 0, max = 14, step = 1,
+					min = 0, max = 19, step = 1,
 					arg = "chest1",
 					order = 4,
 				},
@@ -276,7 +277,7 @@ ns.options = {
 					type = "range",
 					name = ns.L["Battered Chest"].." 2",
 					desc = ns.choices,
-					min = 0, max = 14, step = 1,
+					min = 0, max = 19, step = 1,
 					arg = "chest2",
 					order = 5,
 				},
@@ -284,7 +285,7 @@ ns.options = {
 					type = "range",
 					name = ns.L["Battered Chest"].." 3",
 					desc = ns.choices,
-					min = 0, max = 14, step = 1,
+					min = 0, max = 19, step = 1,
 					arg = "chest3",
 					order = 6,
 				},
@@ -292,7 +293,7 @@ ns.options = {
 					type = "range",
 					name = ns.L["Void Touched"],
 					desc = ns.choices,
-					min = 0, max = 14, step = 1,
+					min = 0, max = 19, step = 1,
 					arg = "voidTouched",
 					order = 7,
 				},
@@ -300,7 +301,7 @@ ns.options = {
 					type = "range",
 					name = ns.L["Gnomeregan"],
 					desc = ns.choices,
-					min = 0, max = 14, step = 1,
+					min = 0, max = 19, step = 1,
 					arg = "gnomeregan",
 					order = 8,
 				},
@@ -308,7 +309,7 @@ ns.options = {
 					type = "range",
 					name = ns.L["Nightmare"],
 					desc = ns.choices,
-					min = 0, max = 14, step = 1,
+					min = 0, max = 19, step = 1,
 					arg = "nightmare",
 					order = 9,
 				},
@@ -316,7 +317,7 @@ ns.options = {
 					type = "range",
 					name = ns.L["Nightmare Bloom / Seed"],
 					desc = ns.choices,
-					min = 0, max = 14, step = 1,
+					min = 0, max = 19, step = 1,
 					arg = "nightmareSeed",
 					order = 10,
 				},
@@ -324,7 +325,7 @@ ns.options = {
 					type = "range",
 					name = ns.L["Best Hunter Pets"],
 					desc = ns.choices,
-					min = 0, max = 14, step = 1,
+					min = 0, max = 19, step = 1,
 					arg = "bestPets",
 					order = 11,
 				},
@@ -332,7 +333,7 @@ ns.options = {
 					type = "range",
 					name = ns.L["Cozy Sleeping Bag"],
 					desc = ns.choices,
-					min = 0, max = 14, step = 1,
+					min = 0, max = 19, step = 1,
 					arg = "cozySleeping",
 					order = 12,
 				},
@@ -340,7 +341,7 @@ ns.options = {
 					type = "range",
 					name = ns.L["Fel Portal"],
 					desc = ns.choices,
-					min = 0, max = 14, step = 1,
+					min = 0, max = 19, step = 1,
 					arg = "felPortal",
 					order = 13,
 				},
@@ -348,7 +349,7 @@ ns.options = {
 					type = "range",
 					name = ns.L["Priest"],
 					desc = ns.choices,
-					min = 0, max = 14, step = 1,
+					min = 0, max = 19, step = 1,
 					arg = "priest",
 					order = 14,
 				},

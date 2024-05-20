@@ -87,6 +87,7 @@ ns.voidTouched = "(1) Reach level 25 and 100 in one of\nBlacksmithing, Leatherwo
 --			8		Priest L17/18 Dual Meditation
 --			9		Gnomeregan Gear
 --			10		Nightmare Gear
+--			11		Nightmare Bloom / Seed
 
 
 --=======================================================================================================
@@ -368,12 +369,18 @@ points[ 1433 ] = { -- Redridge Mountains
 	[14506170] = { title="Battered Chest", icon=3, tip=ns.chest3 },
 
 	[29803040] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[71408360] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[79103360] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[30802180] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[42801680] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[71408350] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[71605830] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[79003350] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[79603280] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[79007300] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[81806080] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[83204480] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[86305250] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals, continent=true },
+	[81606060] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[83104450] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[83204560] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[86305250] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[86605300] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals, continent=true },
 }
 
 points[ 1421 ] = { -- Silverpine Forest
@@ -409,12 +416,15 @@ points[ 1421 ] = { -- Silverpine Forest
 
 	[38801840] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals, continent=true },
 	[38802340] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[44202520] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[44602550] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[45503180] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[49801340] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[50205680] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[50206520] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[54403580] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[55602460] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[60800700] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 }
 
 points[ 1453 ] = { -- Stormwind City
@@ -457,25 +467,25 @@ points[ 1434 ] = { -- Stranglethorn Vale
 }
 
 points[ 1435 ] = { -- Swamp of Sorrows
-	[10506040] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[12502960] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[10506030] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[12302960] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[16606330] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[22806430] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals, continent=true },
 	[27004930] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[34302830] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[34402840] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[36405030] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[49403850] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[56606530] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[60502770] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[49603840] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[56606540] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[60402770] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[60904370] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[69507840] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[72401030] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[69607840] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[72501070] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[77308960] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[81303430] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[83506650] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[87402640] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[83406650] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[87202630] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[90906540] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[91505650] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[91405670] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
 
 	[13607150] = { npc=5353, name="Itharius", title=ns.nightmareTitle, icon=10,
 					guide=ns.nightmare, continent=true,
@@ -575,27 +585,31 @@ points[ 1436 ] = { -- Westfall
 						tip="Alliance: Step One\nHorde: Step Two", continent=true },
 						
 	[28604400] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[29004780] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[28904750] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[29005850] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[29606940] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[29703430] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[29803440] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[31403940] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[31406530] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[31803940] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[31506540] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[31603920] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[32207600] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[32208020] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[32402920] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals, continent=true },
 	[34008220] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[37608540] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[34806140] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[35803260] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[37508530] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[41501530] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[46801230] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[44804640] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[46801240] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[46903950] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[47502190] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[47506740] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[47502170] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[47506750] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[47507930] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[47801380] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[50903240] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[51607140] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[51003240] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[51607150] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[53008020] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[57001050] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[62502630] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 }
@@ -645,15 +659,15 @@ points[ 1440 ] = { -- Ashenvale
 	[24406340] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals, continent=true },
 	[27606260] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[30203020] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[33502850] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[33502840] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[44506420] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[51204720] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[51204700] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[52506280] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[55504030] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[55504020] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[67004600] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[67205100] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[77407300] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[80507070] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[80507080] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[84807020] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
 
 	[31602300] = { title=ns.twoMeditateTitle, name="Forsaken mobs (Various)", icon=8, class="PRIEST", level=18,
@@ -777,9 +791,14 @@ points[ 1439 ] = { -- Darkshore
 
 	[40604080] = { npc=2175, name="Shadowclaw", title="Best Hunter Pets", icon=5, class="HUNTER", guide=ns.bestPet, continent=true },
 
+	[35808280] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[37606380] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals, continent=true },
+	[40608980] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[43202700] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[46202700] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[44208200] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[45002620] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[45205800] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[46204680] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[47402880] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[49803680] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[56402480] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
@@ -797,18 +816,19 @@ points[ 1457 ] = { -- Darnassus
 points[ 1443 ] = { -- Desolace
 	[47402220] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals, continent=true },
 	[48808220] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[49507470] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[49507460] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[52008550] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[52107250] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[52207250] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[52808100] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[54401920] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[56007460] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[54602880] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[56107460] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[71501860] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[72502200] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[72502190] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[73502460] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[74501040] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[74501030] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[76501920] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[80401700] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[80501710] = { name="Fel Tear", title="Fel Portals", icon=7, tip=ns.felPortals },
 
 	[32017272] = { title=ns.gnomereganTitle, object=424075, name="Quadrangulation Beacon 002", icon=9, guide=ns.gnomeregan,
 					quest={ 79626, 79705, 79981, 79984, 79982 }, continent=true,
@@ -1104,18 +1124,25 @@ points[ 1413 ] = { -- The Barrens
 						"This Must Be The Place" },
 						tip="Alliance: Step Two\nHorde: Step One", continent=true },
 
-	[42808200] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals, continent=true },
+	[42808180] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals, continent=true },
 	[43208020] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[43808380] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[46208560] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[46108550] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[47808360] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[48408120] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[48408300] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[48608300] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[50208060] = { name="Fel Crack", title="Fel Portals", icon=7, tip=ns.felPortals },
+
+	[38601540] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[39501380] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals, continent=true },
 	[40001840] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[40801440] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[42001420] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[43404420] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[44405000] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[44405460] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[45004580] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[45805120] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[46405260] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[47604940] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
@@ -1127,7 +1154,8 @@ points[ 1413 ] = { -- The Barrens
 	[55805100] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[56002480] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[57602350] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
-	[58802580] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[58204980] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
+	[58802560] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[59002920] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[59003200] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
 	[59203650] = { name="Fel Sliver", title="Fel Portals", icon=7, tip=ns.felPortals },
@@ -1166,6 +1194,11 @@ ns.textures[11] = "Interface\\HelpFrame\\HelpIcon-CharacterStuck"
 ns.textures[12] = "Interface\\PlayerFrame\\UI-PlayerFrame-DeathKnight-Frost"
 ns.textures[13] = "Interface\\TargetingFrame\\PetBadge-Magical"
 ns.textures[14] = "Interface\\Vehicles\\UI-Vehicles-Raid-Icon"
+ns.textures[15] = "Interface\\AddOns\\HandyNotes_Chests\\Textures\\Adrenaline"
+ns.textures[16] = "Interface\\AddOns\\HandyNotes_Chests\\Textures\\Arcane"
+ns.textures[17] = "Interface\\AddOns\\HandyNotes_Chests\\Textures\\Demonic"
+ns.textures[18] = "Interface\\AddOns\\HandyNotes_Chests\\Textures\\Duty"
+ns.textures[19] = "Interface\\AddOns\\HandyNotes_Chests\\Textures\\Frozen"
 
 ns.scaling[1] = 0.41
 ns.scaling[2] = 0.41
@@ -1181,3 +1214,8 @@ ns.scaling[11] = 0.43
 ns.scaling[12] = 0.37
 ns.scaling[13] = 0.36
 ns.scaling[14] = 0.32
+ns.scaling[15] = 0.40
+ns.scaling[16] = 0.40
+ns.scaling[17] = 0.40
+ns.scaling[18] = 0.40
+ns.scaling[19] = 0.40
