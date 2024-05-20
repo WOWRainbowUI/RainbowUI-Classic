@@ -1,0 +1,22 @@
+## Interface: 40400
+## Title: Minimal Archaeology
+## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
+## Email: gyussz@live.com
+## Version: 10.2.11
+## Notes: Archaeology UI replacement, Archaeology History and more... - Cataclysm Version
+## Title-zhTW: |cffFFFF99[專業]|r 考古小幫手
+## Notes-zhTW: Minimal Archaeology|n|n可顯示距離，自動導航挖掘場，各種挖掘紀錄，更方便快速的考古挖掘等功能。
+## DefaultState: Enabled
+## LoadOnDemand: 0
+## SavedVariablesPerCharacter: MinArchOptions
+## SavedVariables: MinArchDB, MinArchDigsitesGlobalDB
+## AddonCompartmentFunc: MinArch_OnAddonCompartmentClick
+## AddonCompartmentFuncOnEnter: MinArch_OnAddonCompartmentEnter
+## AddonCompartmentFuncOnLeave: MinArch_OnAddonCompartmentLeave
+## X-Curse-Project-ID: 28160
+## X-Wago-ID: nGvpwe6x
+## IconTexture: Interface\Icons\Trade_Archaeology_Dinosaurskeleton
+# Special thanks to joevt for the contribution
+
+embeds.xml
+addon\addon-cata.xml
