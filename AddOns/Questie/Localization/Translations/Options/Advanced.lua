@@ -422,6 +422,30 @@ local advancedOptionsLocales = {
         ["esES"] = "Si está marcado, la identificación de los PNJs se mostrará en los tooltips.",
         ["frFR"] = "Si cette option est cochée, l'ID des PNJ sera affiché dans les infobulles.",
     },
+    ["Hide Startup Warnings"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = "隱藏啟動時的警告",
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ["Disables the 'Welcome to Cataclysm Classic' message on startup."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = "停用啟動時的 '歡迎來到浩劫與重生' 訊息。",
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(advancedOptionsLocales) do
