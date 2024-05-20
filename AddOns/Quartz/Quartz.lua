@@ -30,7 +30,7 @@ local type, pairs, tonumber = type, pairs, tonumber
 
 local defaults = {
 	profile = {
-		modules = { ["*"] = true, ["EnemyCasts"] = false, ["GCD"] = false, ["Mirror"] = false, ["Buff"] = false, ["Target"] = true, ["Pet"] = false },
+		modules = { ["*"] = true, ["EnemyCasts"] = false, ["GCD"] = false, ["Mirror"] = false, ["Buff"] = false, ["Target"] = true, ["Pet"] = false, ["Tradeskill"] = false },
 		hidesamwise = true,
 		sparkcolor = {1, 1, 1, 0.5},
 		spelltextcolor = {1, 1, 1},
