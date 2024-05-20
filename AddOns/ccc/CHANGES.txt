@@ -1,10 +1,10 @@
-lightweight tag ebca847e8d299be60a081b98ca9dbd2fc727c07b v3.0.0
+lightweight tag bce0d3eb591e8fd0fc4c93368db88b3811e42885 v1.2.7
 Author:	Simon Hirsig <simon.hirsig@gmail.com>
-Date:	Sat Sep 3 12:50:35 2022 +0200
+Date:	Sat May 18 08:35:08 2024 +0200
 
-commit ebca847e8d299be60a081b98ca9dbd2fc727c07b
+commit bce0d3eb591e8fd0fc4c93368db88b3811e42885
 Author: Simon Hirsig <simon.hirsig@gmail.com>
-Date:   Sat Sep 3 12:50:35 2022 +0200
+Date:   Sat May 18 08:35:08 2024 +0200
 
-    wotlk update
+    client version bump
 
