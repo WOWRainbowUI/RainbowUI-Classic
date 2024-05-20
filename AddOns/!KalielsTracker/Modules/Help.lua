@@ -253,13 +253,13 @@ local function SetupTutorials()
 			imageY = WOW_PROJECT_ID > WOW_PROJECT_CLASSIC and 9 or 16,
 			imageAbsolute = true,
 			text = "            |T"..helpPath.."help_whats-new_title:32:181:0:0:256:32:0:181:0:32|t\n\n"..
-					cTitle.."Version 4.0.2|r\n"..
-					"- FIXED (questlog) - wrong or no quest is activated when clicked\n"..
+					cTitle.."4.0.2 版本|r\n"..
+					"- 修正 (任務日誌) - 點擊任務時不會追蹤或追蹤錯誤的任務\n"..
 					"\n"..
-					cTitle.."Version 4.0.1|r\n"..
+					cTitle.."4.0.1 版本|r\n"..
 					"- 修正 (任務) - 經典時期 - 點擊已完成的任務時發生的錯誤\n"..
 					"\n"..
-					cTitle.."Version 4.0.0|r\n"..
+					cTitle.."4.0.0 版本|r\n"..
 					"- 新增 - 支援 WoW 4.4.0\n"..
 					"- 更新 (說明) - 更新資訊頁面\n"..
 					"- 更新 - 支援插件 - ElvUI 13.62\n"..
