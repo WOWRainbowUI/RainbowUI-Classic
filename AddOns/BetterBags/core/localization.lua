@@ -295,20 +295,14 @@ if GetLocale() == "zhTW" then
 	L.data["|cff67CF9EDreamsurge|r"] = "|cff67CF9E夢境湧現|r"
 	L.data["|cff67CF9ESuperbloom|r"] = "|cff67CF9E繁盛綻放|r"
 	L.data["|cffa335eeAwakened|r"] = "|cff67CF9E覺醒|r"
-	L.data["|cfff49813Bronze|r"] = "|cff67CF9E青銅|r"
-	
-	
-	-- BetterBags_WorldEvents
-	L.data["Noblegarden"] = "貴族花園"
-	L.data["Darkmoon Faire"] = "暗月馬戲團"
-	L.data["Lunar Festival"] = "新年慶典"
+	L.data["|cfff49813Bronze|r"] = "|cff67CF9E青銅|r"	
 	
 	-- BetterBags_GearFirst
 	L.data["Gear > Alphabetically"] = "裝備 > 名稱"
 	L.data["Hearthstone > Gear > Alphabetically"] = "爐石 > 裝備 > 名稱"
 	
 	-- Betterbags-openable
-	L.data["Openable"] = "可打開"
+	L.data["Openable"] = "打開"
 	
 end
 
