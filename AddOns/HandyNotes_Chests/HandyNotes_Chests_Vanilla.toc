@@ -1,5 +1,5 @@
 ## Interface: 11502
-## Version: 1.09
+## Version: 1.11
 ## Author: Taraezor
 ## IconTexture: Interface\Icons\inv_crate_05
 ## Title: Chests
