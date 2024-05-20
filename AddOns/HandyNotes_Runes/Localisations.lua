@@ -794,6 +794,24 @@ if ns.class == "MAGE" then
 	end
 end
 
+-- Textures
+
+if ns.locale == "zhCN" then
+	ns.L["Adrenaline"] = "肾上腺素"
+	ns.L["Arcane"] = "奥术"
+	ns.L["Demonic"] = "恶魔"
+	ns.L["Duty"] = "义务"
+	ns.L["Frozen"] = "冷冻"
+	ns.L["Metamorphosis"] = "恶魔变形"
+elseif ns.locale == "zhTW" then
+	ns.L["Adrenaline"] = "腎上腺素"
+	ns.L["Arcane"] = "奧術"
+	ns.L["Demonic"] = "惡魔"
+	ns.L["Duty"] = "義務"
+	ns.L["Frozen"] = "冷凍"
+	ns.L["Metamorphosis"] = "惡魔變形"
+end
+
 --[[st.dalaranRelic = "Curious Dalaran Relic ("
 st.dalaranSpeakTo = "Speak to the Dalaran Agent @ Ariden's Camp in Deadwind Pass"
 st.dalaranQuest = { 80098, 80147, 80148, 80149, 80150, 80151, 80152, 80120 }

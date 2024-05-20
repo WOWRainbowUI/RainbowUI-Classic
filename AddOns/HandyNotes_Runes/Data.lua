@@ -6081,16 +6081,19 @@ ns.pointsBase[ 1414 ] = { -- Kalimdor
 	[69005000] = { phase=1 },
 	[72005000] = { phase=2 },
 	[75005000] = { phase=3 },
+	[78005000] = { phase=4 },
 }
 ns.pointsBase[ 1415 ] = { -- Eastern Kingdoms
 	[69005000] = { phase=1 },
 	[72005000] = { phase=2 },
 	[75005000] = { phase=3 },
+	[78005000] = { phase=4 },
 }
 ns.pointsBase[ 947 ] = { -- Azeroth
 	[58003500] = { phase=1 },
 	[61003500] = { phase=2 },
 	[64003500] = { phase=3 },
+	[67003500] = { phase=4 },
 }
 	
 -- Choice of texture
@@ -6114,6 +6117,8 @@ ns.textures[15] = "Interface\\AddOns\\HandyNotes_Runes\\Textures\\Adrenaline"
 ns.textures[16] = "Interface\\AddOns\\HandyNotes_Runes\\Textures\\Arcane"
 ns.textures[17] = "Interface\\AddOns\\HandyNotes_Runes\\Textures\\Demonic"
 ns.textures[18] = "Interface\\AddOns\\HandyNotes_Runes\\Textures\\Duty"
+ns.textures[19] = "Interface\\AddOns\\HandyNotes_Chests\\Textures\\Frozen"
+ns.textures[20] = "Interface\\AddOns\\HandyNotes_Chests\\Textures\\Metamorphosis"
 
 ns.scaling[1] = 0.41
 ns.scaling[2] = 0.41
@@ -6133,3 +6138,5 @@ ns.scaling[15] = 0.33
 ns.scaling[16] = 0.33
 ns.scaling[17] = 0.33
 ns.scaling[18] = 0.33
+ns.scaling[19] = 0.33
+ns.scaling[20] = 0.33

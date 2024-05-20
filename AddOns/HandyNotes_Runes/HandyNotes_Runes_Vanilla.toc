@@ -1,5 +1,5 @@
 ## Interface: 11502
-## Version: 2.15
+## Version: 2.18
 ## Author: Taraezor
 ## IconTexture: Interface\Icons\INV_Misc_Rune_06
 ## Title: Runes
@@ -13,17 +13,17 @@
 ## Title-ruRU: Руны
 ## Title-zhCN: 符文
 ## Title-zhTW: 符文
-## Notes: All the SoD |cFFFF007FRunes.|r (And more!)
-## Notes-deDE: Alle SoD-|cFFFF007FRunen.|r (Und mehr!)
-## Notes-esES: Todas las |cFFFF007Frunas|r SoD. (¡Y más!)
-## Notes-esMX: Todas las |cFFFF007Frunas|r SoD. (¡Y más!)
-## Notes-frFR: Toutes les |cFFFF007Frunes|r SoD. (Et plus!)
-## Notes-koKR: 모든 SoD |cFFFF007F룬.|r (그리고 더!)
-## Notes-ptBR: Todas as |cFFFF007Frunas|r SoD. (E mais!)
-## Notes-ptPT: Todas as |cFFFF007Frunas|r SoD. (E mais!)
-## Notes-ruRU: Все |cFFFF007Fруны|r SoD. (И более!)
-## Notes-zhCN: 所有 SoD |cFFFF007F符文。|r （和更多！）
-## Notes-zhTW: 所有 SoD |cFFFF007F符文。|r （和更多！）。
+## Notes: |cFFFF69B4All the SoD |cFFFF007FRunes.|cFFFF69B4 (And more!)
+## Notes-deDE: |cFFFF69B4Alle SoD-|cFFFF007FRunen.|cFFFF69B4 (Und mehr!)
+## Notes-esES: |cFFFF69B4Todas las |cFFFF007Frunas|cFFFF69B4 SoD. (¡Y más!)
+## Notes-esMX: |cFFFF69B4Todas las |cFFFF007Frunas|cFFFF69B4 SoD. (¡Y más!)
+## Notes-frFR: |cFFFF69B4Toutes les |cFFFF007Frunes|cFFFF69B4 SoD. (Et plus!)
+## Notes-koKR: |cFFFF69B4모든 SoD |cFFFF007F룬.|cFFFF69B4 (그리고 더!)
+## Notes-ptBR: |cFFFF69B4Todas as |cFFFF007Frunas|cFFFF69B4 SoD. (E mais!)
+## Notes-ptPT: |cFFFF69B4Todas as |cFFFF007Frunas|cFFFF69B4 SoD. (E mais!)
+## Notes-ruRU: |cFFFF69B4Все |cFFFF007Fруны|cFFFF69B4 SoD. (И более!)
+## Notes-zhCN: |cFFFF69B4所有 SoD |cFFFF007F符文。|cFFFF69B4 （和更多！）
+## Notes-zhTW: |cFFFF69B4所有 SoD |cFFFF007F符文。|cFFFF69B4 （和更多！）。
 ## RequiredDeps: HandyNotes
 ## SavedVariablesPerCharacter: HandyNotes_RunesDB
 
