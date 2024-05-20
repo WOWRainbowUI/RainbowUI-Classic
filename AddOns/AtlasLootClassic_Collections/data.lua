@@ -60,7 +60,6 @@ local SET_CONTENT = data:AddContentType(AL["Sets"], ATLASLOOT_PVP_COLOR)
 local COLLECTIONS_CONTENT = data:AddContentType(AL["Collections"], ATLASLOOT_COLLECTIONS_COLOR)
 local WORLD_EVENT_CONTENT = data:AddContentType(AL["World Events"], ATLASLOOT_SEASONALEVENTS_COLOR)
 
-
 -- colors
 local BLUE = "|cff6666ff%s|r"
 --local GREY = "|cff999999%s|r"
@@ -902,15 +901,6 @@ data["Mounts"] = {
 				{ 4, GetForVersion(18247,29466) }, -- Black War Kodo
 				{ 5, GetForVersion(18246,29472) }, -- Whistle of the Black War Raptor
 				{ 6, GetForVersion(18248,29470) }, -- Red Skeletal Warhorse
-			},
-		},
-		{ -- Ashenvale Season of Discovery
-			name = AL["Ashenvale"],
-			[ALLIANCE_DIFF] = {
-				{ 1, 211498 }, --Trainee's Sentinel Nightsaber
-			},
-			[HORDE_DIFF] = {
-				{ 1, 211499 }, --Trainee's Outrider Wolf
 			},
 		},
 		{ -- Drops

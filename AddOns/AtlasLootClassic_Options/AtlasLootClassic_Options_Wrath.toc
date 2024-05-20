@@ -1,0 +1,28 @@
+## Interface: 30403
+## Author: Lag
+## Version: v4.0.0-alpha0
+## Dependencies: AtlasLootClassic
+## LoadOnDemand: 1
+
+
+## X-Category: Map
+## X-License: GPL v2
+
+
+
+Locales\constants.cn.lua
+Locales\constants.de.lua
+Locales\constants.es.lua
+Locales\constants.fr.lua
+Locales\constants.it.lua
+Locales\constants.kr.lua
+Locales\constants.mx.lua
+Locales\constants.pt.lua
+Locales\constants.ru.lua
+Locales\constants.tw.lua
+
+Core.lua
+Main.lua
+Windows.lua
+MiniMapButton.lua
+Addons.lua

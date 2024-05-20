@@ -1,12 +1,1440 @@
-# AtlasLootClassic
+# AtlasLootClassic [Core]
 
-This mod is distributed under Version 2 of the GPL.  A copy of the GPL is included in this zip file with links to non-english translations.
+## [v4.0.0-alpha0](https://github.com/snowflame0/AtlasLootClassic_Cata/tree/v4.0.0-alpha0) (2024-05-15)
+[Full Changelog](https://github.com/snowflame0/AtlasLootClassic_Cata/commits/v4.0.0-alpha0) [Previous Releases](https://github.com/snowflame0/AtlasLootClassic_Cata/releases)
 
-[Changelog history](https://github.com/Hoizame/AtlasLootClassic/blob/master/AtlasLootClassic/Documentation/Release_Notes.md)
-
-## v3.0.2 (Sep, 12, 2022)
-
-- add Wrath Scourge Invasion into collections
-- add Scourge Bosses pr #231
-- add missing S4 backs and trinkets #232
-- fix lua error with russian clients
+- Added inscription and all glyphs  
+- Added jewelcrafting  
+- reorganize profs to be alphabetical by category  
+- Merge pull request #4 from MikiDylewski/main  
+    Added tailoring & engineering, changed ordering of blacksmithing  
+- Added engineering items  
+- Fixed ordering of tailoring recipies  
+- Added tailoring recipies  
+- Fixed blacksmithing ordering  
+- cleanup  
+- add shirts (thanks @iZcream)  
+- Merge pull request #3 from MikiDylewski/main  
+    Added Leatherworking to avaible crafting proffesions  
+- luacheck ignore  
+- Added Leatherworking  
+- remove skywall ref, not decided about using it.  
+- more cleanup  
+- more small tweaks  
+- attempt to fix SetJustifyV error  
+- Fixed missing dungeons, removed revamped from old modules temporarily  
+- figuring out why certain dungeons won't show  
+- More whitespace fixes  
+- Fix whitespace errors from merge  
+- Fix some tags  
+- more dungeon/raid fixes, started to add collections data  
+- reindent  
+- Merge branch 'main' of https://github.com/snowflame0/AtlasLootClassic\_Cata  
+- commit to update with origin  
+- Merge branch 'Hoizame:master' into main  
+- Merge pull request #426 from 100mll/master  
+    Fix mistake in data lines  
+- Merge pull request #2 from AvoelDev/main  
+    added cata blacksmith / updated & added itemtooltip to files  
+- Merge branch 'main' of https://github.com/snowflame0/AtlasLootClassic\_Cata  
+- Fixing some dungeons  
+- updated tooltip / added - item info for cata bs  
+    updated tooltip / added - item info for cata bs  
+- cata bs  
+    added cataclysm blacksmithing  
+- Update build.yml  
+- Update build.yml  
+- Update build.yml  
+- Added Arch + other secondary profs  
+- Update build.yml  
+- still working  
+- Merge branch 'main' of https://github.com/snowflame0/AtlasLootClassic\_Cata  
+- attempt to fix localizations with Curse  
+- attempt to fix localizations with Curse  
+- whitespace errors  
+- Added a few professions, more fixes needed.  
+- Fix names of dung/raids and add first version of profession spells  
+- Debugging...  
+- attempt to add some of the new dungeon data  
+- Update .pkgmeta  
+- Update README.md  
+- Update build.yml  
+- Delete CHANGELOG.md  
+- fix TOC version  
+- Update build.yml  
+- temp project on CF  
+- Update cf\_translations.sh  
+- Update cf\_translations.sh  
+- New CF URL  
+- Update cf\_translations.sh  
+- Update cf\_translations.sh  
+- Update cf\_translations.sh  
+- Update cf\_translations.sh  
+- try again  
+- attempt to fix  
+- try to fix translations updater  
+- more fixes  
+- attempt to fix lua again  
+- fixed lua warnings  
+- Update build.yml  
+- Update build.yml  
+- Update build.yml  
+- Update build.yml  
+- Update build.yml  
+- Delete .github/workflows/build\_test.yml  
+- Create build\_test.yml  
+- Update build.yml  
+- Update README.md  
+- remove old token refs  
+- Merge branch 'main' of https://github.com/snowflame0/AtlasLootClassic\_Cata  
+- Libs update  
+- Updated Libs  
+- Update build.yml  
+- Delete .github/workflows/build-locales.yml  
+- Update build.yml  
+- Update build-locales.yml  
+- Works but needs tons of updates, basic factions for cata added  
+- Cata TOCs added, small changes  
+- fix lines  
+- fix sources lua error  
+- more whitespaces  
+- update sources  
+- remove whitespaces  
+- fix companion  
+- Merge pull request #398 from Anyalah/master  
+    Wrath Classic Phase 4 Update & Fixes  
+- Merge branch 'development' into pr/Anyalah/398  
+- fix lua error with companions  
+- update changelog + toc versions  
+- Merge pull request #413 from bjthompson805/master  
+    Fix epic blue gem id, add Ashen Verdict engineering.  
+- Merge pull request #416 from Barov2/development  
+    Hallow's End update  
+- Update source.lua  
+- Update data.lua  
+- Update data.lua  
+    Update Hallow's End  
+- Update data-wrath.lua  
+    Update Hallow's End  
+- Update source.lua  
+    Update Hallow's End  
+- Fix epic blue gem id, add Ashen Verdict engineering.  
+- Delete .vs directory  
+- Combined Update/Fixes for Wrath Phase 4  
+    - Add Defiler Scourgestone Vendor  
+    - Update Dalaran Vendor  
+    - #397, #388 Update to use new Mount API  
+    - #396 Added "Maiden of Grief" Missing items in Titan Rune Beta - Halls of Stone  
+    - #395 Fixed "King Dred" Wrong loot in Titan Rune Beta - Drak'Tharon Keep  
+    - #394 Fixed "The Prophet Tharon'ja" Wrong loot in Titan Rune Beta - Drak'Tharon Keep  
+    - #393 Added Missing Leatherworking Fur Linings  
+    - #391 Added Enchanting Cloak Resistances (Arcane, Fire, Frost, Nature, Shadow), Removed Duplicates  
+    - #381 Added "Six Shared Loot Bosses" Missing items in Titan Rune Beta - Violet Hold  
+- fixed so it will only mark as true if mount is collected.  
+- Updated the interface version  
+- Updated to use the new mount api  
+- changelog  
+- Merge pull request #376 from Qelifern/development  
+    updated Ulduar 10 loot, added clickable tier token box on beta dungeons, added prices to Ulduar 10 HM gear  
+- updated Ulduar 10 loot  
+    added clickable tier token box on beta dungeons, removed text  
+    added prices to Ulduar 10 HM gear  
+- fix Loader  
+- update luacheckrc  
+- sources  
+- update .toc version  
+- locales  
+- merge changes from #370  
+- Merge pull request #369 from AndreWaehlisch/development  
+    Update Vendor Data for wrath p3 (3.4.2 patch)  
+- Merge pull request #357 from dkcas11/master  
+    Fix GetAddOnMetadata on  wotlk PTR  
+- add sidereal essence vendor data  
+- add emblem of triumph data for commendation badges  
+- Fix GetAddOnMetadata in Loader.lua  
+- Fix GetAddOnMetadata in Init.lua  
+- release notes  
+- update sources  
+- remove whitespaces  
+- Merge pull request #353 from MyTechnoHunter/master  
+    Merge of all open PR with fixes for Wrath  
+- Merge of all open PR with fixes for Wrath  
+- luacheck fixes  
+- changelog and sources update  
+- Merge pull request #304 from ThomDavis/updated-layout-titan-rune-loot  
+    Update layout for titan rune items  
+- Merge branch 'development' into updated-layout-titan-rune-loot  
+- Merge pull request #312 from Feirlane/master  
+    Fixes error when trying to retrieve favourite list name from a global list  
+- Merge pull request #308 from Barov2/development  
+    (Updated for v3.1.0) Add Day of the Dead and Pilgrim's Bounty, Coren Wrath, and various fixes  
+- Merge pull request #305 from AndreWaehlisch/development  
+    Add a few missing items  
+- Merge pull request #306 from krullgor/titanrunelootrebase  
+    add more titan rune loot  
+- Merge pull request #310 from RainmakerUA/master  
+    Fix missing selection highlight for Select Button  
+- Merge pull request #324 from MickeyPickey/patch-1  
+    Fixes: Favorite list Import/Export issue, Empty item notes removing  
+- Merge pull request #325 from MickeyPickey/favorites-extra-spec-icons  
+    Feature: Add an extra icons for favorites profiles  
+- Add an extra favorites profile icons  
+    Icons for each wotlk class and spec  
+- Fix issue when empty notes were not removing  
+- Fix Import/Export  
+- Fixes error when trying to retrieve favourite list name from a global list  
+- Fix missing selection highlight for Select Button  
+- Update data-tbc.lua  
+- Update data.lua  
+- Update data-wrath.lua  
+- Update data-wrath.lua  
+- Update data-tbc.lua  
+- Update data.lua  
+- add lesser flask of resistance  
+- add icebane chestguard  
+- add arcanum of the frosty soul  
+- update .luacheckrc  
+- Delete workspace.xml  
+    remove .idea  
+- Duplicate removed  
+- Update data-wrath.lua  
+- Update layout for titan rune items  
+- update titan rune loot  
+- add more titan rune loot source: https://docs.google.com/spreadsheets/d/1Nb2MaGSq1RCy7Ha5E69J0OUSWNFer4wn1-SSTq56fx4/edit#gid=0  
+- Merge pull request #295 from krullgor/3.4.1  
+    update for wow 3.4.1  
+- add new loot sources for t7 10 man content, source: https://docs.google.com/spreadsheets/d/1Nb2MaGSq1RCy7Ha5E69J0OUSWNFer4wn1-SSTq56fx4/edit#gid=0  
+- add known titan rune loot for heroic bosses, source: https://docs.google.com/spreadsheets/d/1Nb2MaGSq1RCy7Ha5E69J0OUSWNFer4wn1-SSTq56fx4/edit#gid=0  
+- add titan rune loot for telestra  
+    confirmed by https://us.forums.blizzard.com/en/wow/t/feedback-titan-rune-dungeons/1411003/19  
+- adjust t8 set itemlvl averages  
+- update to 3.4.1  
+- Merge pull request #283 from ForsakenNGS/issue-269  
+    #269 Set Favorite lists as "Always active" by default  
+- Merge pull request #282 from ForsakenNGS/bis-enhancement  
+     Enhanced Favourite-/BiS-Lists  
+- add AceComm-3.0 into pkgmeta  
+- update luacheckrc  
+- Merge branch 'development' into pr/ForsakenNGS/282-2  
+- changelog  
+- Merge pull request #286 from SDPhantom/patch-1  
+    Avoid Lua error when calling GetMerchantItemID() on a currency item  
+- Update VendorPrice.lua  
+    Skip scan when item is currency (ItemID is nil)  
+    Fixes #285  
+- Removed debug output  
+- #269 Set Favorite lists as "Always active" by default  
+- Auto-Detect "Main Items" during import  
+- Fixed issue with Outfitter installation if not installed  
+- Implemented sharing favorite lists via Chat-Links  
+- Fixed issue with item count for global lists  
+- README update for new Import/Export format  
+- Simplified Import/Export format  
+    (May reduce backwards compatibility)  
+- Properly display owned/obsolete items in favorites  
+- Wider Favourite enhancements  
+- Added notes for favourite items (Help-Text updated)  
+- Added notes for favourite items (Usability changes + readme update)  
+- Added notes for favourite items (Cleanup for removed items)  
+- Added notes for favourite items (Minor bugfix for cache refresh)  
+- Added notes for favourite items (Minor bugfix for import)  
+- Added notes for favourite items (Import/Export)  
+- Added notes for favourite items (Input + Tooltip)  
+- v3.0.7  
+- Merge pull request #265 from adispen/development  
+    Add missing green, red, meta, and Perfect gems  
+- Merge pull request #268 from adispen/266-missing-spellthreads  
+    Add missing spellthreads  
+- fix Naxx now shows wrath version not classic  
+- Merge branch 'master' into development  
+- Add missing spellthreads  
+- Add missing red gems, meta gem, and perfect cuts  
+- Add missing green gems  
+- add missing mounts #262  
+- add mounts into raid AC tables  
+- Merge pull request #261 from Hoizame/development  
+    Development  
+- v3.0.6  
+- AutoSelect now use last loaded instanceID  
+- changelog  
+- Merge pull request #259 from adispen/development  
+    Add missing orange gems  
+- fix classic Naxxramas opens when in Wotlk #260  
+- Merge branch 'Hoizame:development' into development  
+- v3.0.5  
+- add Burning Skull Pendant into Gundrak norm trash  
+- add Deadman's Hand for Arcanist Doan  
+- add missing orange gems  
+- move contentPhaseButton  
+- fix Gundrak level range 71, 76, 78 #252  
+- add Pattern: Nerubian Reinforced Quiver #254  
+- add missing Pattern: Dragonscale Ammo Pouch #255  
+- add missing Pattern: Dragonscale Ammo Pouch #255  
+- Merge pull request #256 from zku/patch-1  
+    Include InstanceIDs in Wrath DungeonsAndRaids  
+- Merge pull request #257 from adispen/development  
+    add missing prismatic gems  
+- add missing prismatic gems  
+- Include InstanceIDs in Wrath DungeonsAndRaids  
+    Adds InstanceIDs from https://wowpedia.fandom.com/wiki/InstanceID to the Wrath DungeonsAndRaids data. These missing InstanceIDs are stopping the auto-selection feature from working (opening AtlasLoot inside a dungeon for that specific dungeon automatically).  
+- v3.0.4  
+- add missing red AP gems #249  
+- add Damaged Necklace into JC Misc #248  
+- add Revered Helm Enchants from Factions #247  
+- v3.0.3 changelog  
+- add missing Armor/Weapon Velums #243  
+- Merge pull request #244 from adispen/development  
+    Add missing feasts and special achievement foods  
+- add Wintergrasp items  
+- add content phase button under loottables  
+- Fix ordering  
+- Add missing feasts and special food  
+- add missing spell power food into cooking #242  
+- wrath content phase data  
+- switch S5 Non Set Cloth deadly <> hateful  
+- replace Money(OBSOLETE) with Currency  
+- update Profession ranks #236  
+- Merge pull request #238 from Barov2/development  
+    Update Gnomeregan, Children's Week, Ahune, Headless Horseman and Apothecary Hummel for Wrath  
+- changelog and small fixes  
+- Merge branch 'development' into pr/Barov2/238  
+- switch honored/reverd knights #240  
+- Kael'thas recipe  
+- More drops from Hummel  
+- More drops from Hummel  
+- Update data.lua  
+- More drops from Hummel  
+- Not Stratholme  
+- Update data.lua  
+- Update level  
+- New version of Ahune  
+- Added Hummel  
+- Update data-wrath.lua  
+- Wrath update  
+- Add location  
+- Update data.lua  
+- Wrath update  
+- Wrath update  
+- Gnomeregan and LiitA  
+- Wrath version of Children's Week and LiitA  
+- BC Children's Week  
+- Some preparations  
+- Some preparations  
+- 2 pets added to Gnomeregan + Apothecary Hummel  
+- Release notes  
+- scourge invasion set sorting  
+- add Wrath Scourge Invasion into collections  
+- add missing S4 backs and trinkets #232  
+- update sources  
+- Merge pull request #231 from Barov2/master  
+    Scourge Bosses  
+- set Prince Tenris Mirkblood wrath only  
+- Merge branch 'Hoizame:master' into master  
+- Release notes  
+- changelog v3.0.1  
+- Same order as in Collections data.  
+- Karazhan Scourge Boss  
+- Classic Scourge Bosses  
+- remove collected display < wrath  
+- add companions into collections #215  
+- add Glyph of Starfire #230  
+- fix classic collections  
+- fix legendarys link  
+- collections resorting  
+- tooltip info rework  
+- add learned indicator for pets  
+- rework mount and pet display  
+- remove level range from wrath raids  
+- add some emblem prices  
+- #211 update prof length with new text scaling  
+- fix item name and description fields are to short  
+- #229 fix missing classic dungeon levels  
+- Release notes  
+- v3.0.0  
+- shorten prof names if to long #211  
+- add missing Enhancements #225  
+- add The Immortal and The Undying #226  
+- Replace wrong mounts in ToC 25 #224  
+- sources  
+- add Emblem and Dalaran Vendors  
+- add Heirlooms into Collections  
+- add Fishing profession  
+- Trial of the Grand Crusader reward box. #216  
+- add support for item background  
+- add support for item list headers  
+- add raw gems into jewelcrafting #222  
+- #220 ICC dungeon levels  
+- #221 set ToC Dungeon level  
+- Merge pull request #219 from mpfleming36/Issue-218-Fix  
+    Added Engineering Armor Enhancements - Issue #218  
+- Update data-wrath.lua  
+    Moved helm enchant down a line  
+- Update data-wrath.lua  
+    Fixing duplicate ID  
+- Update data-wrath.lua  
+    Added Engineering Armor Enhancements  
+- Add DK Season 4 sets  
+- add pvp marks  
+- update sources after vendor scan  
+- remove vendor list  
+- Vendor scan now scans every vendor  
+- update sources  
+- add option to show ItemID and ItemLevel in tooltip  
+- add WOW\_PROJECT\_WRATH\_CLASSIC detection  
+- add Atlas\_WrathoftheLichKing support  
+- changelog beta4  
+- S5 gladiator mounts  
+- add PvP Arena Season 5  
+- Add missing glyphs  
+- add Inscription  
+- update all existing professions  
+- fix filter button for crafting items  
+- Alchemy Blacksmithing Enchanting  
+- save bossname when switch gameVersion  
+- fix GetCorrespondingField  
+- changelog  
+- Darkmoon cards  
+- Update tabards, legs, World epics  
+- add "Enable colored loot table names" option  
+- implement CorrespondingFields  
+- factions  
+- add wago addons link  
+- missing wrath cf translation upload  
+- toc and build updates  
+- T10 sets  
+- fix class filter rogue and axe  
+- better coin handling  
+- sources fix with ToC Alliance  
+- update prof and recipe db  
+- T9 sets alli & horde  
+- Sources multidiff support  
+- ToC & ICC  
+- #208 missing Libram of Divine Purpose  
+- RubySanctum  
+- Naxxramas AC  
+- grey out ac button collection when not completed  
+- T8 sets and setData update  
+- Ulduar loot  
+- fix expansion detection  
+- Achievement support for sec buttons  
+- T7 Set Token  
+- better source support for tokens  
+- Add T7 set  
+- fix overlapping windows  
+- WrathOnyxiasLair  
+- fix overlay resizing  
+- AchievementID support for names  
+- add Achievement support  
+- wrath Requirements  
+- naxx boss name coloring  
+- Toravon the Ice Watcher  
+- Koralon the Flame Watcher  
+- MagistersTerrace item order  
+- hide dummy loot list when switch boss  
+- Emalon the Storm Watcher  
+- add source support for dummy tokens  
+- Archavon the Stone Watcher  
+- Add token support for dummy items  
+- update locales  
+- add missing profession data  
+- fix boss scaling  
+- add scaling for difficulty selection  
+- Sartharion  
+- add naxx  
+- fix lua error with missing bosses  
+- single build things  
+- remove remaining versions tags  
+- update class filter with DK  
+- add deathknight  
+- fix game version button  
+- add raid size support for sources  
+- fix wowhead links  
+- update .toc versions  
+- rebuild game version selection  
+- update libs  
+- wrath dungeons  
+- add source base and more dungeons  
+- fix class filter lua error with emblem  
+- profession multiversion  
+- more multiversion things  
+- some loot data  
+- multiversion prep  
+- some wrath version data  
+- add wrath building  
+- add Interface-Wrath  
+- update item sets  
+- better GameVersion handling  
+- changelog  
+- release notes  
+- update actions filename  
+- changelog v2.4.4  
+- add vendor prices into sources tt  
+- release notes  
+- changelog  
+- sunmote vendor cleanup  
+- add sunmote vendor and tokens  
+- remove vendor items from sunwell loot tables  
+- toc updates  
+- #205 Remove Gladiators Maul from S3  
+- Merge pull request #204 from david-driscoll/master  
+    Added sunwell sunmote prices to boss drops  
+- release notes  
+- Added sunwell sunmote prices to boss drops  
+- add vendor scanner  
+- Update .toc version  
+- typo  
+- fix trailing whitespaces  
+- changelog  
+- #203 add fist weapons for hunter  
+- Merge pull request #200 from NNCSavage/master  
+    Phase 4+5, PVP updates and ZA Timed Chest fix  
+- add ZulAman AtlasData  
+- fix BoJ titles  
+- Merge branch 'development' into master  
+- add wy to overwrite script prices  
+- fix bcc version marker  
+- save upload  
+- Update for Battlemaster's and Vindicators  
+- Battlemaster's + Vindicator's fix  
+    Fixed Battlemaster Trinkets (Badge versus honor) and updated missing cost for Vindicator's Neck  
+- Added P4 Neck category and Brooch of Deftness  
+- swapped ZA Timed chest 2 and 3  
+- updated P4, P5 badge loot including epic gems  
+- Added P4, P5 badge gear including epic gems and PVP price updates  
+- Add files via upload  
+- Add files via upload  
+- Delete VendorPrice.lua  
+- Delete data-tbc.lua  
+- Delete data.lua  
+- Add files via upload  
+- Add files via upload  
+- Update vendor prices  
+- changelog  
+- #190 remove Heavy Netherweave Net  
+- update bcc toc version 20503  
+- update vendor prices  
+- changelog  
+- update .toc version  
+- version-bcc fix  
+- Vendor price update  
+- vendor price update  
+- dev version fixes for classic  
+- update classic .toc version  
+- release notes  
+- restore removed  VendorPrice.lua functions  
+    broken with pr #180 ..  
+- update data  
+- Merge pull request #180 from Tenies/patch-5  
+    Added Talisman of the Horde/Alliance, Brutal Gladiator mount, Coren Direbrew, Brewfest and restored classic Midsummer Festival  
+- finish pr  
+- More Talbuks (Alliance)  
+- changelog  
+- Added Reins of the Dark Riding Talbuk price  
+- Added Reins of the Dark Riding Talbuk  
+- changelog  
+- Added Reins of the Dark War Talbuk price  
+- Added Reins of the Dark War Talbuk  
+- changelog  
+- More spaces  
+- added missing box icons for darkmoon and removed spaces  
+- Removed spaces  
+- Added missing items to Coren Direbrew and Headless Horseman  
+- Added Ahune and Headless Horseman under their events, added two missing items and made seperate Hallow's End   
+    -Added Ahune to TBC Midsummer Festival  
+    -Made seperate TBC event for Hallow's End and added Headless Horseman to it  
+    -Added two missing items to Headless Horseman and Core Direbrew  
+- add blue&yellow Brewfest Stein as token  
+- add missing box icons for darkmoon  
+- changelog season sets  
+- add missing S4 sets  
+- add brewfest vendor prices  
+- Added Brewfest Ram mounts and the quest for them as they're ingame now  
+- Removed Filled Steins  
+- Added more Brewfest items  
+- Ooooops!  
+- Oops!  
+- Oops  
+- Added more items at Brewfest event  
+- Added Theldren and Coren Direbrew levels  
+- changelog  
+- Added Brewfest event and some collection changes  
+    Added Brewfest event for tbc, restored classic midsummer event and seperated from bcc version cause they have some changes and added version titles to the darkmoon faire cards. Also sorted the events a bit,  
+- changelog  
+- Added Coren Direbrew to BRD  
+- Brutal Gladiator Mount  
+- Added Talisman of the Horde/Alliance and Brutal Gladiator mount  
+- remove NYI mark from Brutal Nether Drake  
+- #179 add missing Season 2 & 3 sets.  
+    Sets for S4 are still not ingame  
+- release notes  
+- update sources  
+- missing pvp prices  
+- add/update vendor prices  
+- Merge pull request #177 from Tenies/patch-4  
+    Fixed Marshal's Silk Belt, minor typo and updated changelog  
+- Merge pull request #176 from Blackwidow-sudo/development  
+    Update changelog & added missing faction-mounts  
+- add Brewfest Kodo to Collections  
+- fix code-comment  
+- add bcc faction-mount models  
+- update changelog  
+    Also includes the changes from my previous commits.  
+- Fixed Marshal's Silk Belt & minor typo  
+- add missing factionMounts & update changelog  
+- Merge pull request #173 from Tenies/patch-3  
+    Added Purple Epic Gems  
+- Merge branch 'development' into patch-3  
+- update changelog  
+- Merge pull request #174 from Tenies/patch-1  
+    Added S2 missing pvp shields  
+- Merge branch 'development' of https://github.com/Hoizame/AtlasLootClassic into development  
+- update .toc version  
+- Merge pull request #172 from Tenies/patch-2  
+    Minor typo fix  
+- Update CHANGELOG.md  
+- Added S2 missing pvp shields  
+- Merge pull request #168 from Blackwidow-sudo/development  
+    Loottable Updates, ColorPicker-Bugfix and other minor fixes/additions  
+- changelog  
+- Added Epic Purple Gems  
+- Minor typo fix  
+- Add Umissing boss & questitems in uldaman  
+- Fixed ColorPicker on BgColor  
+- update readme with atlas maps modules  
+- remove whitespace  
+- Update .gitignore  
+- update changelog  
+- Move Engineering trinkets to correct category  
+- Add Azeroth-Recipes (#125)  
+- release notes  
+- remove whitespaces  
+- changelog  
+- #166 fix bug with Cloak filter  
+- update changelog  
+- #164 fix some more min ranks for profs  
+- update sources  
+- Merge pull request #163 from cloudbells/headless-horseman  
+    Added Headless Horseman to SM GY  
+- add Headless Horseman into Extra List  
+- mark Headless Horseman bcc only  
+- Merge pull request #161 from Tenies/development  
+    Added PVP Cloaks, more Midsummer Festival items and removed certain enchants that never added to the game.  
+- Merge branch 'development' of https://github.com/Hoizame/AtlasLootClassic into development  
+- Merge pull request #158 from Blackwidow-sudo/itemlist-updates  
+- update changelog  
+- #164 update much profession ranks  
+- Added Hallowed Helm to Headless Horseman loot  
+- Added Headless Horseman to SM GY  
+- Update CHANGELOG.md  
+- Update CHANGELOG.md  
+    Add Ahune  
+- Merge pull request #1 from Blackwidow-sudo/add-ahune  
+    Add Boss Ahune to Slave Pens  
+- Add missing commas & beautified itemlist  
+- Add Eventboss Ahune to SlavePens  
+- Merge branch 'development' into itemlist-updates  
+- Added more Midsumme Festival items  
+- Added PVP Cloaks  
+- Update data-tbc.lua  
+- Add missing BoJ-Items, moved Flamewrought-Key and fixed/added some Crafting-Items  
+- add Arathi and Warsong item prices  
+- add missing vendor prices  
+- #150 #157 fix mage shoulders for T5 token  
+- #156 increase max scale to 2.0  
+- changelog  
+- #141 Move the adjusted enchants from C to BCC  
+- add Hellfire Ramparts Ominous Letter  
+- release notes  
+- changelog  
+- class filter fix and options on top  
+- add missing mounts into collections  
+- #137 add missing world epics  
+- add missing legendarys  
+- add missing honor prices for horde  
+- changelog  
+- some fixes and price updates  
+- move reputation keys from honored to revered  
+- more item prices  
+- update pvp mount itemIDs  
+- fix price gets added multiple times  
+- remove BoJ price from items tables  
+- add support for global prices  
+- gameVersionButton highlite texture  
+- add small box arround gameVersion selection  
+- #126 update classic dungeons level ranges  
+- #120 add line break option  
+- remove Master Thief's Gloves from Epoch Hunter  
+- Atlas map data for bcc  
+- fix map not shown sometimes  
+- #127 fix Zereketh the Unbound name  
+- add map integration support for AtlasClassic  
+- #129 fix lua error with gem sockets  
+- add pvp gems  
+- add missing honor sets  
+- #120 fix tooltip line offset  
+- add itemSet bonus support  
+- add Tabard of the Protector  
+- add much missing pvp things  
+- set BadgeofJustice bcc only  
+- update requirements  
+- fix currency support  
+- add BadgeofJustice for P1  
+- set base tov version to bcc  
+- fix ignore build for bcc  
+- update "bc" to "bcc" for packager  
+- class filter fix for updating items  
+- changelog  
+- show new version info in GUI  
+- stats support for class filter  
+- wagoio support  
+- release notes  
+- fix crafting data and chat links  
+- fix wrong NYI marker for Arena weapons  
+- release notes  
+- changelog  
+- missing mounts  
+- add arena seasion data  
+- mapID support for bosses  
+- set some collections classic only  
+- add darmoon cards  
+- add empty bc pvp module  
+- update classic .toc  
+- Jewelcrafting  
+- Leatherworking  
+- tmp fix for cloth  
+- Tailoring  
+- Engineering  
+- Cooking  
+- Enchanting  
+- add CorrespondingFields support  
+- mining  
+- add Blacksmithing  
+- some blacksmithing stuff  
+- display min skill 1  
+- better contentPhase support for BC  
+- fix profession chat link  
+- remove item count from crafting prof icon  
+- add crafting spell for prof extra  
+- remove PvP rank requirements for classic PvP items  
+- items with price now also show item description  
+- start with bc professions  
+- fix ExtraItemFrame itemList nil error  
+- remove Badge of Justice from Kara  
+- add T4 for gruul  
+- add BC world bosses  
+- prettify  
+- add missing learned at skill levels  
+- add profession and recipe data  
+- prettify  
+- fix error when setName not found  
+- sort itemlists from sets  
+- Add T2.5  
+- add Dungeon & T Sets  
+- add T-Sets for raids  
+- fix error with wron Set call  
+- replace LibClassicItemSets  
+- add some quest items as source  
+- ZG token class identifier  
+- add token icons for sources  
+- add missing bc token  
+- add source tt support for tokens  
+- AQ20 token class identifier  
+- AQ40 token class identifier  
+- Hyjal Patterns -> Trash  
+- prevent tbc sources from loading in classic  
+- update sources with heroic support  
+- add tbc source into tooltips  
+- #115 set Lady Falther'ess as extra npc  
+- add basic class filter  
+- changelog  
+- add factions  
+- update local libs  
+- update readme and wowi addonID  
+- fix toc typo  
+- define workflow tags  
+- replace GITHUB\_TOKEN  
+- update workflows and ignoreKeys  
+- Merge branch 'bc' into development  
+- add missing checkout  
+- changelog  
+- add class for T3 tokens  
+- finish raids  
+- some raids  
+- add Hellfire Citadel dungeons  
+- gruul  
+- finish dungeon data  
+- add nameFormat support  
+- fix text flyes outside the dropdown  
+- update constants  
+- more data  
+- content phase support for bc  
+- fix sub category sort order  
+- add ssc  
+- workflow updates  
+- .toc updates for package  
+- Add Black Temple  
+- add class requirement list for BC  
+- fix multiple content types not shown  
+- add Addon icons for dummy buttons  
+- add tbc for wowhead links  
+- add some dungeons  
+- add game versio support  
+- update translation files  
+- fix backdrop errors  
+- update local libs  
+- release notes  
+- changelog  
+- Release notes  
+- Merge branch 'development'  
+- changelog  
+- #110 move Defias Gunpowder into extra list  
+- #109 fix minLvl for Scholomance  
+- #113 #111 replace Rivendare with Mograine  
+- update .toc version  
+- changelog  
+- move build  
+- Merge branch 'development'  
+- changelog  
+- update content phase  
+- #101 add GetRecipeForCreatedItem  
+- remove travis add actions  
+- #101 add Profession.GetCraftSpellForCreatedItem  
+- release notes  
+- Merge branch 'development'  
+- update data  
+- changelog  
+- Add Scarabs and enchants into AQ20 extra  
+- colorize Stratholme UD/Living  
+- #100 set High Priest Shared loot droprate to 9.5  
+- #100 rename Shared loot -> High Priest Shared loot  
+- #100 remove Voodoo Doll*s from ZG trash  
+- remove old data  
+- release notes  
+- Merge branch 'development'  
+- changelog v1.5.5  
+- update data  
+- #98 Update Changelog  
+- #98 Missing General Rajaxx encounter loot  
+- #98 add Warblade of the Hakkari OffHand Hakkar  
+- #97 replace The Darksoul with Shard of the Gods  
+- #96 add gnomeregan frost wand  
+- release notes  
+- Merge branch 'development'  
+- changelog  
+- update loot sources for Phase 5  
+- release notes  
+- Merge branch 'development'  
+- Update content phase  
+- add holzbein as friend  
+- Merge branch 'development'  
+- update data  
+- update .toc version  
+- Merge branch 'development'  
+- update data  
+- Changelog  
+- Merge pull request #92 from Hoizame/Hoizame/issue88  
+    Hoizame/issue88  
+- fix bug with vanishing names  
+- update some content phases  
+- move Goldthorn Tea into special  
+- add missing Darkmoon items  
+- change AtlasLoot\_ItemAmountFont size  
+- add Talisman of Binding Shard  
+- add Bug Trio kill order  
+- set horde/alliance items in AQ20  
+- move AQ-Opening into Collections  
+- set Primal Hakkari Idols droprate  
+- set hakkar faction specific items  
+- fix alliance/horde items  
+- remove Blood Scythe from ZG trash  
+- add Circle of Cenarius P5 dailies rewards  
+- fix faction type with req rep  
+- add Eternal Quintessence  
+- Merge pull request #89 from nanjuekaien1/patch-1  
+    Update data.lua  
+- Update data.lua  
+- Changelog  
+- Release notes  
+- Changelog  
+- Merge branch 'development'  
+- #86 more ZG content phase updates  
+- #85 update readme  
+- #86 Tome of Polymorph: Turtle - P4  
+- release notes  
+- Merge branch 'development'  
+- content phase updates  
+- #81 revert some lvl range changes  
+- Release notes  
+- Merge branch 'development'  
+- changelog date..  
+- changelog  
+- Merge pull request #74 from AndreWaehlisch/master  
+    fix warsong gulch honored rewards for horde  
+- update lvl ranges  
+- Merge branch 'development'  
+- update data  
+- #77 add Sandarr Dunereaver  
+- update toc 11304  
+- #78 removed duplicate boss  
+- fix warsong gulch honored rewards for horde  
+- release notes  
+- Merge branch 'development'  
+- changelog  
+- update content phase and droprates #71  
+- fix #72  
+- Release notes  
+- Merge branch 'development'  
+- BWL  
+- Merge pull request #65 from chkmyid/patch-1  
+    fixed wrong data.  
+- Invalid data modified.  
+- release notes  
+- Merge branch 'development'  
+- oob  
+- update droprates  
+- changelog  
+- Release notes  
+- Merge branch 'development'  
+- update data  
+- #49 update some dungeon lvl data  
+- use local table.sort  
+- #62 add alphabetically sort for favourites lists  
+- Release notes  
+- Merge branch 'development'  
+- Update much crafting min skill  
+- changelog  
+- update content phases  
+- #61 set alliance druid set for alliance not horde  
+- fix lua error in combat  
+- #61 fix druid alliance pvp rare set  
+- Release notes  
+- Merge branch 'development'  
+- .toc 11303  
+- changelog  
+- Update data  
+- Add PvP Ranks for every pvp table  
+- Add GetPvPRankName Fix GetPvPRankInfo  
+- Dummy type now work with icon ids  
+- set contentPhase 2.5  
+- ElementalInvasions content phase  
+- Add auctionator prices into tt  
+- #60 fix missing random enchants  
+- remove Major Recombobulator DM tribute  
+- add Thimblejack  
+- Release notes  
+- Merge branch 'development'  
+- changelog v1.4.1  
+- update droprates  
+- add missing requirements data  
+- Nightmare Engulfed Object token  
+- add a new token for Sack of Gems (bosses)  
+- Sack of Gems content  
+- Fix selected boss reset after reopen  
+- merge master  
+- add support for sec items with pvp rank  
+- add pvp icon for sec buttons  
+- add HasPvPRequirements  
+- add pvp rank icon functions  
+- #59 fix  
+- Head of Nefarian droprate ov  
+- BroodOfNozdormu Honored rings  
+- Release notes  
+- v1.4.0 changelog  
+- Merge branch 'development'  
+- v1.4.0 changelog  
+- Merge pull request #58 from Hoizame/Requirements  
+    Requirements  
+- changelog  
+- fix class bits  
+- add requirements for items display  
+- fix Icon path for class icons  
+- base stuff  
+- move class icon path table  
+- add Requirements.lua  
+- #57 add PvP non set armor  
+- #57 fix bug with empty boss lines  
+- #57 set Avatar of Hakkar level  
+- #57 set BRDPanzor as rare  
+- Release notes  
+- Merge branch 'development'  
+- tooltip  
+- content phase update darkmoon cards  
+- data update  
+- update data  
+- fix bug with item display on first load  
+- add P2.5  
+- #55 move out Phalanx (BRD) into own boss  
+- Release notes  
+- Merge branch 'development'  
+- changelog  
+- update data  
+- fix and update content phase  
+- disable auto select for DM  
+- Fix bug with auto selection  
+- release notes  
+- Merge branch 'development'  
+- changelog v1.3.3  
+- update droprates  
+- fix cf\_translations  
+- update gitignore  
+- fix #51  
+- Release Notes  
+- Merge branch 'development'  
+- changelog  
+- Merge pull request #50 from wallrik/development  
+    Correct rare boss markers for LBRS  
+- Correct rare boss markers for LBRS  
+    And fix possible typo in AtlasMapBossID for Burning Felguard  
+- update data  
+- content phase update  
+- Merge branch 'development'  
+- esMX handle-unlocalized="comment"  
+- add some locale keys  
+- set esES handle-unlocalized="comment"  
+- add DireMaul boss lvls  
+- DireMaulWest subarea ID  
+- some translation fixes  
+- fix some translations  
+- remove Thunderstrike  
+- Release notes  
+- Merge branch 'development'  
+- v1.3.1  
+- ZF / Dustwraith is aviable in P1  
+- Add PvP Insignia  
+- add Collections Legendarys  
+- add Elementium Bar token  
+- update release notes  
+- Merge branch 'development'  
+- update changelog v1.3.0  
+- data update  
+- Strath Stonespine is rare  
+- move World bosses into DaR  
+- update toc files  
+- add data module  
+- Merge branch 'development'  
+- changelog for v1.3.0-beta  
+- Merge pull request #45 from Hoizame/data-module  
+    Data module  
+- typo  
+- Merge pull request #44 from AntiTcb/patch-1  
+    Fix typos in options menu.  
+- options update  
+- Add show droprate option  
+- droprate\_override update  
+- merge development  
+- M-click on MMB now ignores auto selection  
+- Fix typos in options menu.  
+- Add sources recipe source support  
+- sources support for prof ranks and droprates  
+- ObjectID for DireMaul Tribute run  
+- fix Engineering string  
+- Update content phase for DireMaul  
+- add sources options  
+- Sources code and data  
+- load Sources addon first  
+- GetNameData\_UNSAFE add check  
+- add source ignore  
+- add sources addon  
+- add data module  
+- fix #42 Smoke Sagefish content phase  
+- Release notes  
+- Merge branch 'development'  
+- changelog for v1.2.3  
+- rework DM books  
+- set useGameTooltip as default  
+- split out class color table  
+- DireMaul sub area ids  
+- update changelog  
+- remove GetPhaseTextureForItemID for recipes  
+- fix #38 content phase for Core Felcloth Bag  
+- fix bug with autoselection not refresh lootpage  
+- fix #39 mark Zerillis in ZF as rare  
+- Merge branch 'development'  
+- mark Ragglesnout as rare #35  
+- changelog update  
+- more droprate data  
+- Medallion of Faith token  
+- droprate fix and update  
+- change color of droprate  
+- update brd and lbrs loottables  
+- fix #34 Rosewine Circle droplocation  
+- update release notes  
+- Merge branch 'development'  
+- changelog update  
+- fix button count position  
+- ZG boss lvl fix  
+- update changelog  
+- fix Soul Pouch content phase #32  
+- Merge pull request #33 from Hoizame/boss-lvl  
+    Add boss levels  
+- enableBossLevel default to false  
+- add show boss level option  
+- add boss level display support  
+- add level data  
+- update release notes  
+- update Changelog  
+- Merge branch 'development'  
+- some loottable fixes  
+- droprate fixes  
+- Majordomo Executus chest object id  
+- enchantings are linkable now  
+- fix bug with tt not showing extra information  
+- update libs  
+- Merge branch 'development'  
+- update changelog  
+- update droprate and autoselect data  
+- Merge pull request #29 from Hoizame/auto-select  
+    Auto select #25  
+- fix bug with auto selection in no subZone areas  
+- use SetHyperlink to solve some tt problems  
+- Dire Maul sub area data  
+- add option for auto select boss  
+- UBRS sub area data  
+- LBRS sub area data  
+- Deadmines sub area data  
+- Wailing Caverns sub area data  
+- Stratholme sub areas data  
+- add some subZone data  
+- add boss auto select support  
+- auto select sub zone support  
+- move autoselect into own file  
+- add autoselect function into GUI  
+- add InstanceID saver for autoSelect  
+- add loader for autoselect module DaR  
+- add auto selection option  
+- add InstanceID's  
+- update content phases  
+- flag Earthcaller Halmgar as rare #26  
+- Force of Will droploc fix  
+- merge with master  
+- Merge pull request #27 from Hoizame/droprate  
+    Droprate #22   
+- changelog  
+- add droprate display  
+- Add addNpc functions  
+- npcId -> npcID  
+- add droprate data  
+- add droprate functions  
+- add droprate\_override  
+- add droprate file base  
+- Merge pull request #21 from Hoizame/add-license-1  
+    Create LICENSE  
+    #20   
+- update pkgmeta license creation  
+- Create LICENSE  
+- merge master and release notes  
+- changelog  
+- Merge branch 'development'  
+- update BRD loottable  
+- fix #16  
+- Fix #15 Uldaman map data  
+- Merge branch 'development'  
+- brd Gerstahn Spritecaster Cape  
+- lbrs loot update  
+- fix koKR translation  
+- release notes  
+- changelog  
+- Merge branch 'development'  
+- fix copy box disappears too fast  
+- First Aid ranks  
+- Cooking ranks  
+- Tailoring ranks  
+- Engineering ranks  
+- Add info button for main gui  
+- BRD loot sorting  
+- diff selection now has 2 entrys  
+- add /al fav  
+- LBRS Zigris' Footlocker  
+- mark LBRS rares  
+- content phase updates  
+- remove reagents addon  
+- fix #14  
+- tag jed in ubrs as rare  
+- Force of Will  
+- Leatherworking ranks  
+- Mining ranks  
+- fix useGameTooltip option  
+- add Black Stallion Bridle thx Grizzly UK  
+- Enchanting ranks  
+- Blacksmithing ranks  
+- BRD drop updates  
+- travis remove submodules ignore  
+- add missing alchemy ranks  
+- entrance map data  
+- small fix for itemframe not shown sometimes  
+- entrance map support  
+- update readme  
+- ZF quest mobs marker  
+- ISSUE\_TEMPLATE  
+- changelog  
+- world boss atlas maps  
+- #9  
+- release log  
+- changelog v1.1.9-beta  
+- Merge branch 'development'  
+- map button now works  
+- finish map data  
+- first part of atlasMapModule integration  
+- support for AtlasLootClassic\_Maps  
+- Merge branch 'development'  
+- secButton fix with Key registering  
+- changelog  
+- wow head integration options  
+- add working wow head links  
+- add rare indicator for some bosses  
+- split ScarletMonastery  
+- content phase cooking  
+- Merge branch 'master' into development  
+- fix #3  
+- start with wowhead link integration  
+- Merge branch 'development'  
+- changelog  
+- update babelfish  
+- some content phase fixes  
+- add WoWI into readme  
+- update readme images and changelog  
+- add WoWInterface ID for packager  
+- changelog for v1.1.6-beta  
+- fix pkgmeta  
+- Merge branch 'development'  
+- toc remove of reagents  
+- cleanup P3 mc  
+- cleanup dungeons content phases  
+- move ony/mc items from p2 into p1  
+- add libs for git packager still gets from source  
+- add Reagents addon basefile  
+- Merge branch 'development'  
+- fix bug with tooltip not updating after fav update  
+- change position of favourite icon  
+- add faction mounts  
+- move enchanting oils into P5  
+- crafting fixes  
+- addon version string  
+- version number for gui  
+- tweak autoequip of dressing room  
+- remove bounding from icon and text in tt  
+- rename Love is in the Air  
+- split changelog and changelog history  
+- update changelog  
+- Merge branch 'development'  
+- convert changelog to md  
+- info button for favourites gui  
+- update readme  
+- Benediction & Shadowstrike token and cp things  
+- Merge branch 'development'  
+- update readme and changelog  
+- single itemIDs can now added  
+- add indicator for owned items  
+- select main item works now  
+- fix scroll frame  
+- fix skip of first item  
+- add itemlist with scrollframe  
+- change minimap button tt  
+- fix clear list remove settings  
+- add isUserCall for dropdown  
+- fix bug with favourite active lists  
+- add working DressUp frame  
+- options link for favourites gui  
+- start with favourites gui  
+- update readme and fix options toc  
+- add back cf localization for toc files  
+- add UBRS key tokens  
+- add icons for favourite options  
+- add favourite list display into item tt  
+- add unsafe way to get table names  
+- add target scan base  
+- move tooltip hook into tooltip core  
+- remove UBRS recipe item  
+- update gitignore and version save  
+- remove unused locales files  
+- update release notes  
+- fix some bugs with mount preview  
+- some cleanup  
+- some more sets  
+- add tabards  
+- use new set format for pvp sets  
+- split pvp weapons and mounts  
+- always show mount preview on mouse over  
+- some AQ stuff  
+- content phases for some collections  
+- header for content phase settings  
+- collections color fix  
+- add a clear favourite list option  
+- content phase updates  
+- fix bug with how many items get crafted  
+- add shared media back into luacheckrc  
+- update gitignore / remove non existing  
+- add rogue poisons into crafting  
+- add faction standings into ingame locales  
+- fix minimap button tooltip text  
+- Remove WIP flags  
+- update toc files  
+- content phase item  
+- add world epics  
+- new enchanting border  
+- add white border for items  
+- fix locales file  
+- release notes  
+- test for cf import  
+- add misc sets  
+- add colors for player classes on sets  
+- add content phase support for sets  
+- toc deps update  
+- add support for item set colors  
+- fix display of version  
+- update release notes  
+- Gurubashi Mojo Madness is ZG/P4  
+- release note update  
+- remove xml tooltip  
+- atiesh token  
+- update toc files  
+- fix loading bug with factions and horde  
+- remove useless SetTexture  
+- add versionnumber into button tooltip  
+- fix bug with caching tooltips  
+- update readme  
+- content phase on lt is mostly done  
+- enable dressup for crafted items  
+- add readme  
+- fix bug with favourite icon in tooltip updating  
+- add ZG token dolls  
+- fix babelfish with < and > i hope  
+- allow alpha builds  
+- fix babelfish  
+- fix babelfish  
+- fix changelog path  
+- redo  
+- fix  
+- remove tabs from pkgmeta why there are tabs??  
+- cleanup and namespace fix for locales  
+- add luacheckrc ignores  
+- update release notes  
+- resort collections, fix CP TT, add tokens  
+- add Reagent for tokenType  
+- colorstring now gets ignored from search  
+- add world bosses  
+- fix quick dress up  
+- crafted items now get phase from recipe/mats  
+- add some items into content phases  
+- did someone say Thunderfury.. nope its Phase 3  
+- add content phases (WIP)  
+- use itemID for dressUp  
+- tooltips now only get hooked if option is enabled  
+- favourite icons should now update correctly  
+- change lvl range format  
+- add level ranges for dungeons  
+- add Arena Master token  
+- add import/export for favourites  
+- add Black Qiraji Resonating Crystal mount preview  
+- add show ids option  
+- favourite icon can now be shown in item tooltips  
+- add icons and icon selection for favourites  
+- push all changes would be good ..  
+- favourites icons now work with textures  
+- fix lua error on start  
+- remove unused saved variables tables  
+- add new list creation for favourites  
+- fix bug with item border color and professions  
+- headers for blacksmithing weapons  
+- favourites enhance part 2  
+- favourites enhance part 1  
+- some favourites option fixes  
+- start addon options and rename favourites  
+- change position of tooltipframes  
+- allow use of global db  
+- add basic favourites system (ALT+L.Click)  
+- Add addons base  
+- fix ClickHandler  
+- Change some bossnames  
+- update toc files  
+- fix/add profile handling  
+- use Ace lib for options now  
+- update clickHandler and db with AceDB  
+- Add LibDialog-1.0 for options  
+- add mount inspect function  
+- search no updates live  
+- add recipe learn rank into min skill rank  
+- add AtlasLootClassic\_Factions into pkgmeta  
+- Add Wintersaber Trainers  
+- Add Bloodsail and Brood of Nozdormu  
+- Add Zandalar Tribe  
+- Add Darkmoon  
+- Add Cenarion Circle  
+- sort pvp factions  
+- Add Thorium Brotherhood  
+- Add timbermaw  
+- Add ArgentDawn  
+- add a search box for loottables  
+- Remove npc cache  
+- add empty factions module  
+- fix beast set and add Quest objective token type  
+- MC tokens and item sorting  
+- split L-Click strings and sort some bossitems  
+- mark set items and make them clickable  
+- add LibClassicItemSets-1.0 as submodule  
+- remove item set lib from folder  
+- some small loottable fixes  
+- add ZG, AQ20,AQ40 sets  
+- fix set within PvP  
+- remove SetID identifier for set entrys  
+- rename LibClassicItemSets  
+- remove LibDialog  
+- add ClassicItemSetsLib-1.0 into pkgmeta  
+- release notes update and babel fix (xml)  
+- move item sets into a own lib  
+- update release notes and pkgmeta with options  
+- add Leatherworking  
+- add Tailoring  
+- some Alchemy sorting  
+- add Engineering  
+- crafted items are now linkable  
+- locales  
+- Add options and fix loading bugs+cleanup  
+- Add travis  
+- Use base namespace again for localization  
+- Fix curseforge api import support  
+- update Localization namespaces  
+- comment support for babelfish.lua  
+- update .luacheckrc  
+- add babelfish for locales scan  
+- sort cooking  
+- add unsorted cooking  
+- add first aid  
+- add a way to hide a difficulty text in header  
+- add mining and herbalism  
+- add Enchanting  
+- fix pattern for versions with beta%d, add npcCache  
+- update .toc files and .gitignore + .luacheckrc  
+- profSpells without item should now show recipes  
+- add LoadAllModules function  
+- add better versionscheck  
+- add Blacksmithing  
+- Item query bug fixed  
+- add Alchemy  
+- add itemQuery into professions and add itemCount  
+- add profession db and combine with recipe db  
+- save commit for first recipe system add  
+- update locales info  
+- add much tokens and loottable cleanup  
+- add new line creation for ExtraItemFrame  
+- Merge branch 'master' of https://github.com/Hoizame/AtlasLootClassic  
+- make ExtraItemFrame more dynamic  
+- Update issue templates  
+- fix pkgmeta  
+- add release notes  
+- add T0 & T0.5  
+- add World Events  
+- add much tokens  
+- add token support for items  
+- move ExtraItemFrame for global usage  
+- fix ItemInfo disply  
+- fix itemInfo filter  
+- replace Junk with _G["MISCELLANEOUS"]  
+- update sets with better icons  
+- cleanup and small fixes  
+- start with collections and add crafting dummy  
+- remove "old" classes  
+- Add support for detail item sets  
+- Sets & PvP  
+- Add PvP Module  
+- First  

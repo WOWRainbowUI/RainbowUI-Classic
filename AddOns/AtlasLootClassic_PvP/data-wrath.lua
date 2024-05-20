@@ -1334,7 +1334,7 @@ data["Wintergrasp"] = {
 	TableType = NORMAL_ITTYPE,
 	items = {
 		{
-			name = ALIL["Back"],
+			name = ALIL["Cloak"],
 			[NORMAL_DIFF] = {
 				{ 1, 51570 }, -- Titan-Forged Cloak of Ascendancy
 				{ 2, 51571 }, -- Titan-Forged Cloak of Victory

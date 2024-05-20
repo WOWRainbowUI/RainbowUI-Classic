@@ -7941,7 +7941,7 @@ data["VaultofArchavon"] = {
                 { 102, "SLOT_LEATHER",      nil, ALIL["Leather"],       nil,  "VoA_K_LEATHER_10" },
                 { 103, "SLOT_MAIL",         nil, ALIL["Mail"],          nil,  "VoA_K_MAIL_10" },
                 { 104, "SLOT_PLATE",        nil, ALIL["Plate"],         nil,  "VoA_K_PLATE_10" },
-                { 106, "SLOT_BACK",         nil, ALIL["Back"],          nil,  "VoA_K_BACK_10" },
+                { 106, "SLOT_BACK",         nil, ALIL["Cloak"],          nil,  "VoA_K_BACK_10" },
                 { 107, "SLOT_NECK",         nil, ALIL["Neck"],          nil,  "VoA_K_NECK_10" },
                 { 108, "SLOT_FINGER",       nil, ALIL["Finger"],        nil,  "VoA_K_FINGER_10" },
                 { 116, AtlasLoot:GetRetByFaction(44083, 43959 ) }, -- Reins of the Grand Black War Mammoth
@@ -7970,7 +7970,7 @@ data["VaultofArchavon"] = {
                 { 102, "SLOT_LEATHER",      nil, ALIL["Leather"],       nil,  "VoA_K_LEATHER_25" },
                 { 103, "SLOT_MAIL",         nil, ALIL["Mail"],          nil,  "VoA_K_MAIL_25" },
                 { 104, "SLOT_PLATE",        nil, ALIL["Plate"],         nil,  "VoA_K_PLATE_25" },
-                { 106, "SLOT_BACK",         nil, ALIL["Back"],          nil,  "VoA_K_BACK_25" },
+                { 106, "SLOT_BACK",         nil, ALIL["Cloak"],          nil,  "VoA_K_BACK_25" },
                 { 107, "SLOT_NECK",         nil, ALIL["Neck"],          nil,  "VoA_K_NECK_25" },
                 { 108, "SLOT_FINGER",       nil, ALIL["Finger"],        nil,  "VoA_K_FINGER_25" },
                 { 116, AtlasLoot:GetRetByFaction(44083, 43959 ) }, -- Reins of the Grand Black War Mammoth
@@ -8006,7 +8006,7 @@ data["VaultofArchavon"] = {
                 { 102, "SLOT_LEATHER",      nil, ALIL["Leather"],       nil,  "VoA_T_LEATHER_10" },
                 { 103, "SLOT_MAIL",         nil, ALIL["Mail"],          nil,  "VoA_T_MAIL_10" },
                 { 104, "SLOT_PLATE",        nil, ALIL["Plate"],         nil,  "VoA_T_PLATE_10" },
-                { 106, "SLOT_BACK",         nil, ALIL["Back"],          nil,  "VoA_T_BACK_10" },
+                { 106, "SLOT_BACK",         nil, ALIL["Cloak"],          nil,  "VoA_T_BACK_10" },
                 { 107, "SLOT_NECK",         nil, ALIL["Neck"],          nil,  "VoA_T_NECK_10" },
                 { 108, "SLOT_FINGER",       nil, ALIL["Finger"],        nil,  "VoA_T_FINGER_10" },
                 { 116, AtlasLoot:GetRetByFaction(44083, 43959 ) }, -- Reins of the Grand Black War Mammoth
@@ -8035,7 +8035,7 @@ data["VaultofArchavon"] = {
                 { 102, "SLOT_LEATHER",      nil, ALIL["Leather"],       nil,  "VoA_T_LEATHER_25" },
                 { 103, "SLOT_MAIL4",        nil, ALIL["Mail"],          nil,  "VoA_T_MAIL_25" },
                 { 104, "SLOT_PLATE",        nil, ALIL["Plate"],         nil,  "VoA_T_PLATE_25" },
-                { 106, "SLOT_BACK",         nil, ALIL["Back"],          nil,  "VoA_T_BACK_25" },
+                { 106, "SLOT_BACK",         nil, ALIL["Cloak"],          nil,  "VoA_T_BACK_25" },
                 { 107, "SLOT_NECK",         nil, ALIL["Neck"],          nil,  "VoA_T_NECK_25" },
                 { 108, "SLOT_FINGER",       nil, ALIL["Finger"],        nil,  "VoA_T_FINGER_25" },
                 { 116, AtlasLoot:GetRetByFaction(44083, 43959 ) }, -- Reins of the Grand Black War Mammoth

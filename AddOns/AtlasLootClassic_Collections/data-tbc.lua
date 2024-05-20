@@ -288,7 +288,7 @@ data["BadgeofJustice4"] = {
 			},
 		},
 		{
-			name = ALIL["Back"],
+			name = ALIL["Cloak"],
 			[NORMAL_DIFF] = {
 				{ 1, 33593 },
 				{ 2, 35321 },

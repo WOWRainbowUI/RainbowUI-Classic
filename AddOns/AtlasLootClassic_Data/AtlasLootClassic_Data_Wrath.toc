@@ -1,0 +1,17 @@
+## Interface: 30403
+## Author: Lag
+## Version: v4.0.0-alpha0
+## Dependencies: AtlasLootClassic
+## LoadOnDemand: 1
+
+
+## X-Category: Map
+## X-License: GPL v2
+
+core.lua
+
+locales.lua
+items.lua
+source.lua
+source-tbc.lua
+source-wrath.lua

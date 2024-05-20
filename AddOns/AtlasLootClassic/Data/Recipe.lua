@@ -952,10 +952,14 @@ RECIPE_DATA.CLASSIC = {
 	[23684] = {1,225,30020}, -- Crystal Infused Bandage
 	[23689] = {1,300,30021}, -- Manual: Crystal Infused Bandage
 	[23690] = {6,300,30047}, -- Recipe: Crystal Flake Throat Lozenge
+	-- Season of Discovery
 	[210709] = {4,90,426607}, -- Recipe: Elixir of Coalesced Regret
+	[210779] = {2,150,427063}, -- Pattern: Mantle of the Second War
+	[211247] = {8,125,428425}, -- Pattern: Phoenix Bindings
 	[211846] = {2,100,430397}, -- Plans: Blackfathom Sharpening Stone
 	[210779] = {2,150,427063}, -- Plans: Mantle of the Second War
 	[211849] = {10,100,430409}, -- Formula: Blackfathom Mana Oil
+	[210709] = {10,90,426607}, -- Recipe: Elixir of Coalesced Regret
 	[210178] = {9,135,424641}, -- Schematic: Shredder Autosalvage Unit
 	[211247] = {8,125,428424}, -- Pattern: Phoenix Bindings
 	[215369] = {8,125,435841}, -- Pattern: Invoker's Cord

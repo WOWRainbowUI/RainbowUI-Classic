@@ -124,9 +124,4 @@ AL["25RAID"] = "25 人"
 AL["25RAIDH"] = "25 人英雄"
 
 AL["Gems"] = "寶石"
-
-AL["SoD Exclusives"] = "探索賽季專屬"
-AL["Waylaid Supplies"] = "遭攔截的物資"
-AL["Level 25: Phase 1"] = "等級 25: 第 1 階段"
-AL["Level 40: Phase 2"] = "等級 40: 第 2 階段"
 							

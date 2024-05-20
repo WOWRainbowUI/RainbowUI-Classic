@@ -229,7 +229,7 @@ data["HonorSetBCC"] = {
 			},
 		},
 		{
-			name = ALIL["Back"],
+			name = ALIL["Cloak"],
 			[ALLIANCE_DIFF] = {
 				{ 1, 28377 }, -- Sergeant's Heavy Cloak
 				{ 2, 28378 }, -- Sergeant's Heavy Cape
@@ -1116,7 +1116,7 @@ data["ArenaS4PvP"] = {
 			},
 		},
 		AtlasLoot:GameVersion_GE(AtlasLoot.WRATH_VERSION_NUM, {
-			name = ALIL["Back"],
+			name = ALIL["Cloak"],
 			[NORMAL_DIFF] = {
 				{ 1, 44431 }, -- Cloak of Certain Reprieve
 				{ 2, 41591 }, --  Sergeant's Reinforced Cape

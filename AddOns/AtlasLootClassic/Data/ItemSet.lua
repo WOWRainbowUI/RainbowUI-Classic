@@ -1604,7 +1604,7 @@ end
 
 function ItemSet.GetSetDescriptionString(setID)
     local AL = AtlasLoot.Locales
-	if not ITEM_SET_DATA[setID] then return end
+    if not ITEM_SET_DATA[setID] then return end
     local itemType
     if ITEM_SET_DATA[setID][5] and CLASS_BIT_TO_CLASS[ITEM_SET_DATA[setID][5]] then
         itemType = CLASS_NAMES_WITH_COLORS[CLASS_BIT_TO_CLASS[ITEM_SET_DATA[setID][5]]]
