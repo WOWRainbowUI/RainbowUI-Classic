@@ -1579,6 +1579,29 @@ D["MikScrollingBattleText"] = {
         text = "|cffFF2D2D注意：載入這個插件時會無法在戰鬥中打開背包。|r",       
 	},
 };
+D["MinimalArchaeology"] = {
+    defaultEnable = 0,
+	title = "考古小幫手",
+	desc = "可顯示距離，自動導航挖掘場，各種挖掘紀錄，更方便快速的考古挖掘等功能。`",
+	{
+        text = "顯示主視窗",
+        callback = function(cfg, v, loading) SlashCmdList["MINARCH"]("toggle") end,
+    },
+	{
+        text = "設定選項",
+		callback = function(cfg, v, loading) 
+			Settings.OpenToCategory("專業-考古")
+		end,
+    },
+	{
+		type = "text",
+        text = "|cffFF2D2D啟用插件後需要重新載入介面。|r",
+	},
+	{
+		type = "text",
+        text = "點 '考古小幫手' 的小地圖按鈕也可以打開主視窗、歷史記錄和挖掘地點。",
+	},
+};
 D["Molinari"] = {
     defaultEnable = 0,
 	title = "一鍵分解物品",
