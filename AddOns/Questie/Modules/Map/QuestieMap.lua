@@ -507,6 +507,8 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     icon.UiMapID = uiMapId
     icon.miniMapIcon = false;
     icon.texture:SetTexture(texture)
+    icon.texture:SetSnapToPixelGrid(false)
+    icon.texture:SetTexelSnappingBias(0)
     icon:SetWidth(16 * (data:GetIconScale() or 0.7))
     icon:SetHeight(16 * (data:GetIconScale() or 0.7))
 
@@ -528,6 +530,8 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     iconMinimap.AreaID = areaID -- used by QuestieFramePool
     iconMinimap.UiMapID = uiMapId
     iconMinimap.texture:SetTexture(texture)
+    iconMinimap.texture:SetSnapToPixelGrid(false)
+    iconMinimap.texture:SetTexelSnappingBias(0)
     iconMinimap.texture:SetVertexColor(colorsMinimap[1], colorsMinimap[2], colorsMinimap[3], 1);
     iconMinimap.miniMapIcon = true;
 
@@ -562,14 +566,8 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     if type(data) ~= "table" then
         error("Questie" .. ": AddWorldMapIconMap: must have some data")
     end
-    --if type(areaID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
-    --    error("Questie"..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..areaID.." "..x.." "..y.." "..tostring(showFlag))
-    --end
-    --if type(data.Id) ~= "number" or type(data.Id) ~= "number"then
-    --    error("Questie".."Data.Id must be set to the quests ID!")
-    --end
 
-    if phase and (not Phasing.IsSpawnVisible(phase)) then
+    if (not Phasing.IsSpawnVisible(phase)) then
         Questie:Debug(Questie.DEBUG_SPAM, "Skipping invisible phase", phase)
         return nil, nil
     end
@@ -597,8 +595,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
         showFlag = HBD_PINS_WORLDMAP_SHOW_WORLD
     end
 
-    --print("UIMAPID: " .. tostring(uiMapId))
-    if not uiMapId then
+    if (not uiMapId) then
         --ZoneDB:GetUiMapIdByAreaId
         error("No UiMapID or fitting uiMapId for areaId : " .. areaID .. " - " .. tostring(data.Name))
         return nil, nil
@@ -615,6 +612,8 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     iconMap.UiMapID = uiMapId
     iconMap.miniMapIcon = false;
     iconMap:UpdateTexture(Questie.usedIcons[data.Icon]);
+    iconMap.texture:SetSnapToPixelGrid(false)
+    iconMap.texture:SetTexelSnappingBias(0)
 
     ---@type IconFrame
     local iconMinimap = QuestieFramePool:GetFrame()
@@ -627,6 +626,8 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     --Are we a minimap note?
     iconMinimap.miniMapIcon = true;
     iconMinimap:UpdateTexture(Questie.usedIcons[data.Icon]);
+    iconMinimap.texture:SetSnapToPixelGrid(false)
+    iconMinimap.texture:SetTexelSnappingBias(0)
 
     if (not iconMinimap.FadeLogic) then
         function iconMinimap:SetFade(value)
@@ -645,7 +646,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
             if self.miniMapIcon and self.x and self.y and self.texture and self.UiMapID and self.texture.SetVertexColor and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
                 if (QuestieMap.playerX and QuestieMap.playerY) then
                     local x, y
-                    if not self.worldX then
+                    if (not self.worldX) then
                         x, y = HBD:GetWorldCoordinatesFromZone(self.x / 100, self.y / 100, self.UiMapID)
                         self.worldX = x
                         self.worldY = y
@@ -662,7 +663,6 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
                             self:SetFade(fade)
                         elseif (distance < profile.fadeOverPlayerDistance) and profile.fadeOverPlayer then
                             local fadeAmount = profile.fadeOverPlayerLevel + distance * (1 - profile.fadeOverPlayerLevel) / profile.fadeOverPlayerDistance
-                            -- local fadeAmount = math.max(fadeAmount, 0.5);
                             if self.faded and fadeAmount > profile.iconFadeLevel then
                                 fadeAmount = profile.iconFadeLevel
                             end
@@ -694,12 +694,10 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     local r, g, b = iconMinimap.texture:GetVertexColor()
     QuestieDBMIntegration:RegisterHudQuestIcon(tostring(iconMap), data.Icon, uiMapId, x, y, r, g, b)
 
-    if not QuestieMap.questIdFrames[data.Id] then
+    if (not QuestieMap.questIdFrames[data.Id]) then
         QuestieMap.questIdFrames[data.Id] = {}
     end
 
-    -- tinsert(QuestieMap.questIdFrames[data.Id], iconMap:GetName())
-    -- tinsert(QuestieMap.questIdFrames[data.Id], iconMinimap:GetName())
     QuestieMap.questIdFrames[data.Id][iconMap:GetName()] = iconMap:GetName()
     QuestieMap.questIdFrames[data.Id][iconMinimap:GetName()] = iconMinimap:GetName()
 
