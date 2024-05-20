@@ -63,7 +63,10 @@ local function SetHooks()
 	end
 
 	function QuestLogTitleButton_OnClick(self, button)  -- R
-		local questIndex = self:GetID() + FauxScrollFrame_GetOffset(QuestLogListScrollFrame);
+		local questIndex = self:GetID();
+		if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+			questIndex = self:GetID() + FauxScrollFrame_GetOffset(QuestLogListScrollFrame);
+		end
 		if ( IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow() ) then
 			-- If header then return
 			if ( self.isHeader ) then

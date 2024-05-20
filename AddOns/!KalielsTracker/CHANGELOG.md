@@ -1,4 +1,6 @@
 # Kaliel's Tracker Classic changelog
+### 4.0.2
+- FIXED (questlog) - wrong or no quest is activated when clicked
 ### 4.0.1
 - FIXED (quests) - Classic Era - error when clicking on a completed quest
 ### 4.0.0
