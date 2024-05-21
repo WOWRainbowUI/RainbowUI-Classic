@@ -259,11 +259,6 @@ do
 	function grabError(errorMessage, isSimple)
 		-- 不顯示暴雪專業和觀察視窗未翻譯錯誤
 		if tostring(errorMessage):find("UI/Localization.lua", nil, true) then return end
-		-- 不顯示PTR的錯誤
-		if tostring(errorMessage):find("Cata/UIParent.lua:738", nil, true) then return end
-		if tostring(errorMessage):find("Cata/UIParent.lua:954", nil, true) then return end
-		if tostring(errorMessage):find("Blizzard_FrameXML_Cata.toc:73", nil, true) then return end
-		if tostring(errorMessage):find("Blizzard_UnitFrame/Wrath/CompactUnitFrame.lua:787", nil, true) then return end
 
 		-- Flood protection --
 		msgsAllowed = msgsAllowed + (GetTime()-msgsAllowedLastTime)*BUGGRABBER_ERRORS_PER_SEC_BEFORE_THROTTLE
