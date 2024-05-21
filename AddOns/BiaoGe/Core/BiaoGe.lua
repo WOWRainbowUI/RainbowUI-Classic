@@ -149,15 +149,15 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         -- FB1 是UI当前选择的副本
         -- FB2 是玩家当前所处的副本
         if BiaoGe.FB then
-            local yes
+            local right
             for k, FB in pairs(BG.FBtable) do
                 if BiaoGe.FB == FB then
                     BG.FB1 = BiaoGe.FB
-                    yes = true
+                    right = true
                     break
                 end
             end
-            if not yes then
+            if not right then
                 BiaoGe.FB = BG.FB1
             end
         else
@@ -1254,10 +1254,10 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             _G[bt:GetName() .. "Text"]:SetTextColor(RGB(BG.g1))
             PanelTemplates_TabResize(bt, nil, width or 120)
             if num == 1 then
-                if BG.IsVanilla() then
-                    bt:SetPoint("TOPLEFT", BG.MainFrame, "BOTTOM", -290, 0)
-                else
+                if BG.IsWLK() then
                     bt:SetPoint("TOPLEFT", BG.MainFrame, "BOTTOM", -330, 0)
+                else
+                    bt:SetPoint("TOPLEFT", BG.MainFrame, "BOTTOM", -290, 0)
                 end
             else
                 bt:SetPoint("LEFT", BG.tabButtons[num - 1].button, "RIGHT", -15, 0)
@@ -1375,7 +1375,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             end
         end)
 
-        if not BG.IsVanilla() then
+        if BG.IsWLK() then
             local bt = Create_TabButton(BG.BossMainFrameTabNum, L["团本攻略"], BG.BossMainFrame)
             bt:SetScript("OnEnter", function(self)
                 GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
@@ -1385,7 +1385,6 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
                 GameTooltip:Show()
             end)
         end
-
 
 
         --[[     if not BiaoGe.options.SearchHistory.tutorial231013 then
@@ -1442,13 +1441,12 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         -- 获取当前副本
         local lastzoneId
         C_Timer.NewTicker(5, function()               -- 每5秒执行一次
+            BG.FB2 = nil
             local fbId = select(8, GetInstanceInfo()) -- 获取副本ID
             for id, value in pairs(BG.FBIDtable) do   -- 把副本ID转换为副本英文简写
                 if fbId == id then
                     BG.FB2 = value
                     break
-                else
-                    BG.FB2 = nil
                 end
             end
             if lastzoneId ~= fbId then
@@ -3480,10 +3478,7 @@ do
                 end
             end
 
-            -- function AtlasLoot.Button:AddChatLink(link)
-            -- end
-
-            for i = 1, 30 do
+            for i = 1, 40 do
                 if _G["AtlasLoot_Button_" .. i] then
                     local script = _G["AtlasLoot_Button_" .. i]:GetScript("OnClick")
                     _G["AtlasLoot_Button_" .. i]:SetScript("OnClick", function(self, button)
@@ -3520,11 +3515,39 @@ do
                 end
             end
         end
+
+        if IsAddOnLoaded("Blizzard_EncounterJournal") then
+            BG.After(0, function()
+                pt(EJ_GetNumLoot())
+                ChatEdit_ActivateChat(ChatEdit_ChooseBoxForSend())
+                ChatFrame1EditBox:SetText("")
+                for i = 1, EJ_GetNumLoot() do
+                    local itemInfo = C_EncounterJournal.GetLootInfoByIndex(i)
+                    ChatEdit_InsertLink(itemInfo.itemID .. ",")
+                end
+                ChatFrame1EditBox:HighlightText()
+                BG.PlaySound(1)
+            end)
+        end
     end
     SLASH_BIAOGETEST1 = "/bgdebug"
 
     SlashCmdList["BIAOGETEST2"] = function()
     end
     SLASH_BIAOGETEST21 = "/bgdebug2"
+
+
+    BG.RegisterEvent("ADDON_LOADED", function(self, even, addonName, ...)
+        if addonName == "Blizzard_EncounterJournal" then
+            hooksecurefunc("EncounterJournal_Loot_OnClick", function(self)
+                if not BG.DeBug then return end
+                ChatEdit_ActivateChat(ChatEdit_ChooseBoxForSend())
+                ChatFrame1EditBox:ClearHighlightText()
+                ChatEdit_InsertLink(self.itemID .. ",")
+                ChatFrame1EditBox:HighlightText()
+                BG.PlaySound(1)
+            end)
+        end
+    end)
 end
 -- /run GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR", 0, 0) GameTooltip:ClearLines() GameTooltip:SetBagItem(0,1)

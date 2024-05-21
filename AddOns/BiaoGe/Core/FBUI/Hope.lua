@@ -51,7 +51,7 @@ function BG.HopeUI(FB)
             version:SetWidth(titlewidth)
             version:SetWordWrap(false)
             version:SetJustifyH("RIGHT")
-            if not BG.IsVanilla() then
+            if BG.IsWLKFB(FB) then
                 if n == 1 then
                     version:SetText(L["< |cffFFFFFF10人|r|cff00BFFF普通|r >"])
                 elseif n == 2 then
@@ -60,6 +60,12 @@ function BG.HopeUI(FB)
                     version:SetText(L["< |cffFFFFFF10人|r|cffFF0000英雄|r >"])
                 elseif n == 4 then
                     version:SetText(L["< |cffFFFFFF25人|r|cffFF0000英雄|r >"])
+                end
+            else
+                if n == 1 then
+                    version:SetText(L["< |cff00BFFF普通|r >"])
+                elseif n == 2 then
+                    version:SetText(L["< |cffFF0000英雄|r >"])
                 end
             end
             preWidget = version
@@ -854,8 +860,6 @@ end)
 
 ----------导出导入心愿心愿----------
 function BG.HopeDaoChuUI()
-    -- BG.HopeFrame.List, BG.HopeFrame.child = BG.CreateScrollFrame(BG.HopeMainFrame, 270, 380)
-
     local width_jiange = -7
     local hideFrameTbl = {}
     local function HideOtherFrame(myframe)

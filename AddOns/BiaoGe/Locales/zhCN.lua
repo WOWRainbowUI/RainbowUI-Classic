@@ -1,6 +1,11 @@
 local AddonName, ADDONSELF = ...
 
-ADDONSELF.ver = "v1.8.6"
+local ver = select(4, GetBuildInfo())
+-- if ver > 20000 then
+--     ADDONSELF.ver = "v1.8.6"
+-- else
+ADDONSELF.ver = "v1.9.0"
+-- end
 
 if (GetLocale() == "zhTW") then return end
 
@@ -27,6 +32,24 @@ do --简体说明书
     -- update = update .. [[]] .. "\n"
     -- update = update .. [[]] .. "\n\n"
 
+    update = update .. "|cff00FF00" .. "5月20日更新v1.9.0" .. "|r\n"
+    update = update .. [[-角色配置文件：增加删除某角色全部配置文件的按钮]] .. "\n"
+    update = update .. [[-<CTM>更新CTM P1表格、装备库、角色总览等]] .. "\n"
+    update = update .. [[-<WLK>装备库：套装和牌子装备现在显示更全面]] .. "\n\n"
+
+    update = update .. "|cff00FF00" .. "5月5日更新v1.8.7" .. "|r\n"
+    update = update .. [[-设置：增加角色配置文件管理（帮你解决在角色改名或转服时，该角色的某些数据（例如心愿清单）丢失的问题）]] .. "\n"
+    update = update .. [[-现在不会再提示"BOSS战开始，当前装备自动记录位置：XXX"等类似的消息]] .. "\n"
+    update = update .. [[-<CTM前夕>修复了由于CTM的Boss战ID变动导致的表格自动记录失效的问题]] .. "\n\n"
+
+    text = text .. update
+    text = text .. "|cff00FF00按住ALT显示更多更新记录|r"
+
+    ADDONSELF.instructionsText = text
+end
+do --简体更新内容
+    local update = "|cff00BFFF< 主要更新记录 >|r\n\n" .. update
+
     update = update .. "|cff00FF00" .. "5月2日更新v1.8.6" .. "|r\n"
     update = update .. [[-<CTM前夕>角色总览：增加正义点数，删除寒冰纹章、凯旋纹章等]] .. "\n"
     update = update .. [[-<CTM前夕>装备过滤：增加精通词缀，删除护甲穿透词缀]] .. "\n\n"
@@ -44,51 +67,6 @@ do --简体说明书
     update = update .. [[-增加显示公会成员插件版本]] .. "\n"
     update = update .. [[-重做通报用时]] .. "\n\n"
 
-    update = update .. "|cff00FF00" .. "4月15日更新v1.8.2h" .. "|r\n"
-    update = update .. [[-新增功能：支出项按百分比自动计算（比如支出项目填写：TN10%，则该支出金额会自动更新为：总收入*10%）]] .. "\n"
-    update = update .. [[-查看在线人数：功能得到优化，现在应该不会再掉线了。如果打开表格时出现掉线的情况，去设置-表格里关闭该功能，并把情况反馈给我]] .. "\n"
-    update = update .. [[-在交易记账预览框增加选项"本次交易自动记账"，以解决帮团长代拿装备时出现的记账困难的问题]] .. "\n"
-    update = update .. [[-<赛季服>P3表格优化与调整]] .. "\n"
-    update = update .. [[-<赛季服>表格现在也会记录[梦魇之种]和[一瓶阿塔莱魔精] ]] .. "\n"
-    update = update .. [[-<WLK>修复一个与NDUI皮肤美化的兼用性问题 ]] .. "\n\n"
-
-    text = text .. update
-    text = text .. "|cff00FF00按住ALT显示更多更新记录|r"
-
-    ADDONSELF.instructionsText = text
-end
-do --简体更新内容
-    local update = "|cff00BFFF< 主要更新记录 >|r\n\n" .. update
-
-    update = update .. "|cff00FF00" .. "4月12日更新v1.8.2g" .. "|r\n"
-    update = update .. [[-新增功能：拍卖自动倒数（该功能只有团长/物品分配者可用。使用方法：右键聊天框装备）]] .. "\n"
-    update = update .. [[-快速记账：该功能现在只有普通团员可用（非团长/物品分配者）]] .. "\n"
-    update = update .. [[-拍卖聊天记录框：现在悬停在某个装备时也会高亮表格和背包的对应装备]] .. "\n"
-    update = update .. [[-修复错误]] .. "\n\n"
-
-    update = update .. "|cff00FF00" .. "4月11日更新v1.8.2f" .. "|r\n"
-    update = update .. [[-正在快速记账时，点击聊天框团队频道的玩家名字可以把该它设为买家]] .. "\n"
-    update = update .. [[-<赛季服>装备库：更新P3团本每个BOSS的掉落]] .. "\n"
-    update = update .. [[-<赛季服>角色总览：增加日常[梦魇日常]、增加货币[荒野祭品][白银戮币] ]] .. "\n\n"
-
-    update = update .. "|cff00FF00" .. "4月7日更新v1.8.2e" .. "|r\n"
-    update = update .. [[-<赛季服>P3表格调整，且[阿塔莱仪式牌][阿塔莱血雕像]现在总是会记录到杂项里]] .. "\n"
-    update = update .. [[-<赛季服>不再把神庙任务奖励的装备记录到表格里]] .. "\n"
-    update = update .. [[-<赛季服>更新P3遭劫货物的金钱和声望奖励]] .. "\n"
-    update = update .. [[-<赛季服>装备库：添加暗月马戏团装备]] .. "\n"
-    update = update .. [[-<赛季服>装备库：更新P3血月装备所需货币数量]] .. "\n"
-    update = update .. [[-<赛季服>装备库：更新P3费伍德影牙使者的兑换装备]] .. "\n"
-    update = update .. [[-<赛季服>装备库：更新P3翡翠卫士声望漏掉的奖励装备]] .. "\n"
-    update = update .. [[-<赛季服>装备库：更新P3五人本漏掉的新掉落]] .. "\n\n"
-
-    update = update .. "|cff00FF00" .. "4月5日更新v1.8.2d" .. "|r\n"
-    update = update .. [[-删除举报记录模块和一键举报（暴雪已禁用相关API）。某位自以为是、滥用API的"WA大神"牛X]] .. "\n"
-    update = update .. [[-语音提醒（已清空表格、心愿达成这些语音）改为樱雪语音包，设置里也可以自行更改回AI语音（AI语音也已重新录音）]] .. "\n"
-    update = update .. [[-<赛季服>角色总览：灰谷周常改为灰谷日常（需要把每个角色登录一次更新数据）]] .. "\n"
-    update = update .. [[-<赛季服>角色总览：现在会区分7天/3天CD的团本重置时间]] .. "\n"
-    update = update .. [[-<赛季服>装备库：更新P3装备]] .. "\n"
-    update = update .. [[-<赛季服>添加P3遭劫货物数据（具体奖励多少金钱和声望暂时未知）]] .. "\n\n"
-
     ADDONSELF.updateText = update
 end
 
@@ -102,6 +80,32 @@ ADDONSELF.L = L
 
 local L = {}
 do
+    L["选择一个目标角色"] = true
+    L["删除角色"] = true
+    L["确定删除%s的全部配置文件？"] = true
+    L["删除%s的全部配置文件。"] = true
+    L["< |cff00BFFF普通|r >"] = true
+    L["< |cffFF0000英雄|r >"] = true
+    L["角色5人本完成总览"] = true
+    L["在队伍查找器旁边显示角色5人本完成总览。"] = true
+    L["显示角色5人本完成总览"] = true
+    L["< 角色5人本完成总览 >"] = true
+
+
+    L["BiaoGe的配置文件中，大部分都是账号互通的，比如当前表格、历史表格、YY评价、设置。但也有一些是按角色来保存的，比如心愿清单、装备过滤方案、集结号的搜索记录和密语模板。\n\n当一个角色改名或者转服时，该角色的心愿清单等数据就会丢失。所以该功能就是为了帮你找回原来的角色数据。"] = true
+    L["角色配置文件"] = true
+    L["选择一个原来的角色"] = true
+    L["要复制的内容"] = true
+    L["操作"] = true
+    L["装备过滤方案"] = true
+    L["集结号历史搜索记录"] = true
+    L["集结号密语模板"] = true
+    L["确定复制"] = true
+    L["提醒"] = true
+    L["你当前角色%s的%s将会被%s的|cffff0000替换|r。"] = true
+    L["确定复制？\n%s"] = true
+
+
     L["团本攻略字号"] = true
 
 
@@ -1341,6 +1345,83 @@ do
     L["罚\n\n款"] = true
     L["支\n\n出"] = true
     L["总\n览"] = true
+
+    -- CTM
+    do
+        L["哈\n尔\n弗\n斯\n·\n碎\n龙\n者"] = true
+        L["瓦\n里\n昂\n娜\n和\n瑟\n纳\n利\n昂"] = true
+        L["升\n腾\n者\n议\n会"] = true
+        L["古\n加\n尔"] = true
+        L["希\n奈\n丝\n特\n拉"] = true
+        L["全\n能\n金\n刚\n防\n御\n系\n统"] = true
+        L["熔\n喉"] = true
+        L["艾\n卓\n曼\n德\n斯"] = true
+        L["奇\n美\n隆"] = true
+        L["马\n洛\n拉\n克"] = true
+        L["奈\n法\n利\n安\n的\n末\n日"] = true
+        L["风\n之\n议\n会"] = true
+        L["奥\n拉\n基\n尔"] = true
+
+        L["贝\n丝\n缇\n拉\n克"] = true
+        L["雷\n奥\n利\n斯\n领\n主"] = true
+        L["奥\n利\n瑟\n拉\n佐\n尔"] = true
+        L["沙\n恩\n诺\n克\n斯"] = true
+        L["护\n门\n人\n贝\n尔\n洛\n克"] = true
+        L["管\n理\n者\n鹿\n盔"] = true
+        L["拉\n格\n纳\n罗\n斯"] = true
+
+        L["莫\n卓\n克"] = true
+        L["督\n军\n佐\n诺\n兹"] = true
+        L["不\n眠\n的\n约\n萨\n希"] = true
+        L["缚\n风\n者\n哈\n格\n拉"] = true
+        L["奥\n卓\n克\n希\n昂"] = true
+        L["战\n争\n大\n师\n黑\n角"] = true
+        L["死\n亡\n之\n翼\n的\n背\n脊"] = true
+        L["疯\n狂\n的\n死\n亡\n之\n翼"] = true
+
+        L["克伯鲁斯"] = true
+        L["岩皮"] = true
+        L["欧泽鲁克"] = true
+        L["高阶女祭司艾苏尔"] = true
+        L["灰葬男爵"] = true
+        L["席瓦莱恩男爵"] = true
+        L["指挥官斯普林瓦尔"] = true
+        L["沃登勋爵"] = true
+        L["高弗雷勋爵"] = true
+        L["胡辛姆将军"] = true
+        L["锁喉"] = true
+        L["高阶预言者巴林姆"] = true
+        L["希亚玛特"] = true
+        L["大宰相埃尔坦"] = true
+        L["阿尔泰鲁斯"] = true
+        L["西风君王阿萨德"] = true
+        L["乌比斯将军"] = true
+        L["铸炉之主索朗格斯"] = true
+        L["达加·燃影者"] = true
+        L["地狱公爵埃鲁达克"] = true
+        L["格拉布托克"] = true
+        L["赫利克斯·破甲"] = true
+        L["死神5000"] = true
+        L["撕心狼将军"] = true
+        L["“船长”曲奇"] = true
+        L["梵妮莎·范克里夫"] = true
+        L["纳兹夏尔女士"] = true
+        L["指挥官乌尔索克，腐烂王子"] = true
+        L["蛊心魔古厄夏"] = true
+        L["厄祖玛特"] = true
+        L["神殿守护者安努尔"] = true
+        L["地怒者塔赫"] = true
+        L["安拉斐特"] = true
+        L["伊希斯特，魔法的造物"] = true
+        L["阿穆纳伊，生命的造物"] = true
+        L["塞特斯，毁灭的造物"] = true
+        L["拉夏，太阳的造物"] = true
+        L["摧骨者罗姆欧格"] = true
+        L["柯尔拉，暮光之兆"] = true
+        L["卡尔什·断钢"] = true
+        L["如花"] = true
+        L["升腾者领主奥西迪斯"] = true
+    end
 
     -- WLK
     do

@@ -48,7 +48,7 @@ do
         end
         return "!!!!!!!!"
     end
-    local function FilterTooltipText(itemID, EquipLoc)
+    local function GetTooltipTextLeftAll(itemID, EquipLoc)
         BG.Tooltip_SetItemByID(itemID)
         local tab = {}
         local ii = 1
@@ -148,7 +148,7 @@ do
         end
     end
     function BG.FilterAll(itemID, typeID, EquipLoc, subclassID)
-        local TooltipText = FilterTooltipText(itemID, EquipLoc)
+        local TooltipText = GetTooltipTextLeftAll(itemID, EquipLoc)
         if FilterArmor(typeID, EquipLoc, subclassID) then
             return true
         end
@@ -327,22 +327,99 @@ end
 
 ------------------函数：装备下拉列表------------------
 do
-    local nandutable = {
-        [3] = "N10",
-        [175] = "N10",
-        [4] = "N25",
-        [176] = "N25",
-        [5] = "H10",
-        [193] = "H10",
-        [6] = "H25",
-        [194] = "H25",
-    }
-    local hopenandutable = {
-        [1] = "N10",
-        [2] = "N25",
-        [3] = "H10",
-        [4] = "H25",
-    }
+    local function GetNanDu(bossnum)
+        local FB = BG.FB1
+        if BG.IsWLKFB() then
+            if FB == "TOC" and bossnum == 7 then
+                local nandutable = {
+                    TOC = {
+                        [3] = "N10",
+                        [175] = "N10",
+                        [4] = "N25",
+                        [176] = "N25",
+                        [5] = "N10",
+                        [193] = "N10",
+                        [6] = "N25",
+                        [194] = "N25",
+                    },
+                }
+                return nandutable[FB][GetRaidDifficultyID()]
+            else
+                local nandutable = {
+                    NAXX = {
+                        [3] = "N10",
+                        [175] = "N10",
+                        [4] = "N25",
+                        [176] = "N25",
+                        [5] = "N10",
+                        [193] = "N10",
+                        [6] = "N25",
+                        [194] = "N25",
+                    },
+                    ULD = {
+                        [3] = "N10",
+                        [175] = "N10",
+                        [4] = "N25",
+                        [176] = "N25",
+                        [5] = "N10",
+                        [193] = "N10",
+                        [6] = "N25",
+                        [194] = "N25",
+                    },
+                    TOC = {
+                        [3] = "N10",
+                        [175] = "N10",
+                        [4] = "N25",
+                        [176] = "N25",
+                        [5] = "H10",
+                        [193] = "H10",
+                        [6] = "H25",
+                        [194] = "H25",
+                    },
+                    ICC = {
+                        [3] = "N10",
+                        [175] = "N10",
+                        [4] = "N25",
+                        [176] = "N25",
+                        [5] = "H10",
+                        [193] = "H10",
+                        [6] = "H25",
+                        [194] = "H25",
+                    },
+                }
+                return nandutable[FB][GetRaidDifficultyID()]
+            end
+        else
+            local nandutable = {
+                [3] = "N",
+                [175] = "N",
+                [4] = "N",
+                [176] = "N",
+                [5] = "H",
+                [193] = "H",
+                [6] = "H",
+                [194] = "H",
+            }
+            return nandutable[GetRaidDifficultyID()]
+        end
+    end
+    local function GetHopeNanDu(hopenandu)
+        if BG.IsWLKFB() then
+            local hopenandutable = {
+                [1] = "N10",
+                [2] = "N25",
+                [3] = "H10",
+                [4] = "H25",
+            }
+            return hopenandutable[hopenandu]
+        else
+            local hopenandutable = {
+                [1] = "N",
+                [2] = "H",
+            }
+            return hopenandutable[hopenandu]
+        end
+    end
     local function SetButtonText(self)
         local name, link, quality, level, _, _, _, _, _, Texture, _, typeID, _, bindType = GetItemInfo(self.itemID)
         self.link = link
@@ -376,16 +453,12 @@ do
     function BG.SetListzhuangbei(self)
         local FB = self.FB
         local bossnum = self.bossnum
-        local nandu = nandutable[GetRaidDifficultyID()]
+        local nandu = GetNanDu(bossnum)
         if self.hopenandu then
-            nandu = hopenandutable[self.hopenandu]
+            nandu = GetHopeNanDu(self.hopenandu)
         end
-        local loots
-        if BG.IsVanilla() then
-            loots = BG.Loot[FB].N["boss" .. bossnum]
-        else
-            loots = BG.Loot[FB][nandu] and BG.Loot[FB][nandu]["boss" .. bossnum]
-        end
+        if not nandu then nandu = "N" end
+        local loots = BG.Loot[FB][nandu] and BG.Loot[FB][nandu]["boss" .. bossnum]
 
         if bossnum > Maxb[FB] - 1 then return end
 
@@ -1437,16 +1510,17 @@ end
 ------------------跳转装备库相同部位------------------
 local function CheckItemEquipLoc(link)
     local itemID = GetItemInfoInstant(link)
-    local FB = BG.FB1
-    if BG.Loot[FB].ExchangeItems[itemID] then
-        local firstItem = BG.Loot[FB].ExchangeItems[itemID][1]
-        if firstItem then
-            local name, link, quality, level, _, _, _, _, itemEquipLoc = GetItemInfo(firstItem)
-            if itemEquipLoc then
-                for i, _ in ipairs(BG.invtypetable) do
-                    for _, v in ipairs(BG.invtypetable[i].key) do
-                        if itemEquipLoc == v then
-                            return BG.invtypetable[i].name2
+    for _, FB in pairs(BG.phaseFBtable[BG.FB1]) do
+        if BG.Loot[FB].ExchangeItems[itemID] then
+            local firstItem = BG.Loot[FB].ExchangeItems[itemID][1]
+            if firstItem then
+                local name, link, quality, level, _, _, _, _, itemEquipLoc = GetItemInfo(firstItem)
+                if itemEquipLoc then
+                    for i, _ in ipairs(BG.invtypetable) do
+                        for _, v in ipairs(BG.invtypetable[i].key) do
+                            if itemEquipLoc == v then
+                                return BG.invtypetable[i].name2
+                            end
                         end
                     end
                 end
@@ -1519,13 +1593,13 @@ function BG.CreateScrollFrame(parent, w, h)
         edgeSize = 16,
         insets = { left = 3, right = 3, top = 3, bottom = 3 }
     })
-    f:SetBackdropColor(0, 0, 0, 0.9)
+    f:SetBackdropColor(0, 0, 0, 0.8)
     f:SetSize(w, h)
     f:EnableMouse(true)
-    f:Hide()
+    f:Show()
 
     local s = CreateFrame("ScrollFrame", nil, f, "UIPanelScrollFrameTemplate") -- 滚动
-    s:SetWidth(f:GetWidth() - 22)
+    s:SetWidth(f:GetWidth() - 31)
     s:SetHeight(f:GetHeight() - 9)
     s:SetPoint("TOPLEFT", f, "TOPLEFT", 5, -5)
     s.ScrollBar.scrollStep = BG.scrollStep

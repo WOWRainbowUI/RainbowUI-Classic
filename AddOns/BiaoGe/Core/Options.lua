@@ -74,7 +74,7 @@ local function OptionsUI()
 
     -- 子选项
     local Frames = {}
-    local biaoge, roleOverview, boss, others
+    local biaoge, roleOverview, boss, others, config
     do
         local last
 
@@ -121,10 +121,11 @@ local function OptionsUI()
 
         biaoge = CreateTab("Options_biaoge", L["表格"])
         roleOverview = CreateTab("Options_roleOverview", L["角色总览"])
-        if not BG.IsVanilla() then
+        if BG.IsWLK() then
             boss = CreateTab("Options_boss", L["团本攻略"])
         end
         others = CreateTab("Options_others", L["其他功能"])
+        config = CreateTab("Options_config", L["角色配置文件"])
 
         if BiaoGe.options.lastFrame then
             BG[BiaoGe.options.lastFrame]:Show()
@@ -1652,6 +1653,7 @@ local function OptionsUI()
                 height = height - height_jiange
                 O.CreateLine(roleOverview, height + line_height)
                 height = CreateFBCDbutton(1, #BG.FBCDall_table - 3, width, height, 100, height_jiange)
+
                 -- 专业
                 height = height - height_jiange - height_jiange
                 local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -1671,11 +1673,11 @@ local function OptionsUI()
 
                 height = CreateMONEYbutton(1, #BG.MONEYall_table, width, height, 65, height_jiange)
                 height = height - height_jiange
-            else
+            elseif BG.IsWLK() then
                 --团本CD
                 local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
                 text:SetPoint("TOPLEFT", width, height)
-                text:SetText(BG.STC_b1(L["巫妖王之怒*"]))
+                text:SetText(BG.STC_b1(EXPANSION_NAME2 .. "*"))
                 height = height - height_jiange
                 O.CreateLine(roleOverview, height + line_height)
                 height = CreateFBCDbutton(1, 18, width, height, 100, height_jiange)
@@ -1683,7 +1685,7 @@ local function OptionsUI()
                 height = height - height_jiange - height_jiange
                 local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
                 text:SetPoint("TOPLEFT", width, height)
-                text:SetText(BG.STC_r3(L["燃烧的远征*"]))
+                text:SetText(BG.STC_r3(EXPANSION_NAME1 .. "*"))
                 height = height - height_jiange
                 O.CreateLine(roleOverview, height + line_height)
                 height = CreateFBCDbutton(19, 27, width, height, 65, height_jiange)
@@ -1691,11 +1693,12 @@ local function OptionsUI()
                 height = height - height_jiange - height_jiange
                 local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
                 text:SetPoint("TOPLEFT", width, height)
-                text:SetText(BG.STC_g2(L["经典旧世*"]))
+                text:SetText(BG.STC_g2(LFG_LIST_LEGACY .. "*"))
                 height = height - height_jiange
                 O.CreateLine(roleOverview, height + line_height)
                 height = CreateFBCDbutton(28, 32, width, height, 65, height_jiange)
 
+                -- 任务
                 height = height - height_jiange - height_jiange
                 local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
                 text:SetPoint("TOPLEFT", width, height)
@@ -1714,34 +1717,80 @@ local function OptionsUI()
 
                 height = CreateMONEYbutton(1, #BG.MONEYall_table, width, height, 65, height_jiange)
                 height = height - height_jiange * 3
+            elseif BG.IsCTM() then
+                --团本CD
+                local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+                text:SetPoint("TOPLEFT", width, height)
+                text:SetText("|cffFF4500" .. EXPANSION_NAME3 .. "*")
+                height = height - height_jiange
+                O.CreateLine(roleOverview, height + line_height)
+                height = CreateFBCDbutton(1, #BG.FBCDall_table - 32, width, height, 100, height_jiange)
 
-                -- 5人本完成总览
-                do
-                    local name = "FB5M"
-                    BG.options[name .. "reset"] = 1
-                    if not BiaoGe.options[name] then
-                        BiaoGe.options[name] = BG.options[name .. "reset"]
-                    end
-                    local ontext = L["|cffffffff< 角色5人本完成总览 >|r\n\n1、在队伍查找器旁边显示角色5人本完成总览"]
-                    local f = O.CreateCheckButton(name, BG.STC_g1(L["显示角色5人本完成总览*"]), roleOverview, 15, height, ontext)
-                    BG.options["button" .. name] = f
-                    f:HookScript("OnClick", function()
-                        if BG.FBCD_5M_Frame then
-                            if f:GetChecked() then
-                                BG.FBCD_5M_Frame:Show()
-                            else
-                                BG.FBCD_5M_Frame:Hide()
-                            end
-                        end
-                    end)
+                height = height - height_jiange - height_jiange
+                local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+                text:SetPoint("TOPLEFT", width, height)
+                text:SetText(BG.STC_b1(EXPANSION_NAME2 .. "*"))
+                height = height - height_jiange
+                O.CreateLine(roleOverview, height + line_height)
+                height = CreateFBCDbutton(#BG.FBCDall_table - 31, #BG.FBCDall_table - 14, width, height, 100, height_jiange)
+
+                height = height - height_jiange - height_jiange
+                local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+                text:SetPoint("TOPLEFT", width, height)
+                text:SetText(BG.STC_r3(EXPANSION_NAME1 .. "*"))
+                height = height - height_jiange
+                O.CreateLine(roleOverview, height + line_height)
+                height = CreateFBCDbutton(#BG.FBCDall_table - 13, #BG.FBCDall_table - 5, width, height, 65, height_jiange)
+
+                height = height - height_jiange - height_jiange
+                local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+                text:SetPoint("TOPLEFT", width, height)
+                text:SetText(BG.STC_g2(LFG_LIST_LEGACY .. "*"))
+                height = height - height_jiange
+                O.CreateLine(roleOverview, height + line_height)
+                height = CreateFBCDbutton(#BG.FBCDall_table - 4, #BG.FBCDall_table, width, height, 65, height_jiange)
+
+                -- 货币
+                height = height - height_jiange - height_jiange
+                local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+                text:SetPoint("TOPLEFT", width, height)
+                text:SetText(BG.STC_y1(L["货币*"]))
+                height = height - height_jiange
+                local l = O.CreateLine(roleOverview, height + line_height)
+
+                height = CreateMONEYbutton(1, #BG.MONEYall_table, width, height, 65, height_jiange)
+                height = height - height_jiange * 3
+            end
+
+            -- 5人本完成总览
+            if BG.IsWLK() or BG.IsCTM() then
+                local name = "FB5M"
+                BG.options[name .. "reset"] = 1
+                if not BiaoGe.options[name] then
+                    BiaoGe.options[name] = BG.options[name .. "reset"]
                 end
+                local ontext = {
+                    L["角色5人本完成总览"],
+                    L["在队伍查找器旁边显示角色5人本完成总览。"],
+                }
+                local f = O.CreateCheckButton(name, BG.STC_g1(L["显示角色5人本完成总览"] .. "*"), roleOverview, 15, height, ontext)
+                BG.options["button" .. name] = f
+                f:HookScript("OnClick", function()
+                    if BG.FBCD_5M_Frame then
+                        if f:GetChecked() then
+                            BG.FBCD_5M_Frame:Show()
+                        else
+                            BG.FBCD_5M_Frame:Hide()
+                        end
+                    end
+                end)
             end
         end
     end
 
     -- 团本攻略设置
     do
-        if not BG.IsVanilla() then
+        if BG.IsWLK() then
             local height = 0
 
             -- 团本攻略字体大小
@@ -1794,7 +1843,7 @@ local function OptionsUI()
                 BG.options["button" .. name] = f
             end
             -- 一键指定灵魂烘炉
-            if not BG.IsVanilla() then
+            if BG.IsWLK() then
                 h = h + 30
                 do
                     local fbID = 632
@@ -2166,6 +2215,402 @@ local function OptionsUI()
                 h = h + h_jiange
             end)
         end
+    end
+
+    -- 角色配置文件
+    do
+        BiaoGe.options.configChooseHope = BiaoGe.options.configChooseHope or 1
+        BiaoGe.options.configChooseFilter = BiaoGe.options.configChooseFilter or 1
+        BiaoGe.options.configChooseMeetingHornHistory = BiaoGe.options.configChooseMeetingHornHistory or 1
+        BiaoGe.options.configChooseMeetingHornWhisper = BiaoGe.options.configChooseMeetingHornWhisper or 1
+
+        local width = 15
+        local height = -15
+        local width2 = 200
+        local width3 = 160
+        local height2 = 350
+
+        local text = config:CreateFontString()
+        text:SetFont(BIAOGE_TEXT_FONT, 15, "OUTLINE")
+        text:SetPoint("TOPLEFT", width, height)
+        text:SetText(L["BiaoGe的配置文件中，大部分都是账号互通的，比如当前表格、历史表格、YY评价、设置。但也有一些是按角色来保存的，比如心愿清单、装备过滤方案、集结号的搜索记录和密语模板。\n\n当一个角色改名或者转服时，该角色的心愿清单等数据就会丢失。所以该功能就是为了帮你找回原来的角色数据。"])
+        text:SetTextColor(1, 1, 1)
+        text:SetJustifyH("LEFT")
+        text:SetWidth(SettingsPanel.Container:GetWidth() - 70)
+
+        height = height - text:GetHeight()
+
+        local text = config:CreateFontString()
+        text:SetFont(BIAOGE_TEXT_FONT, 15, "OUTLINE")
+        text:SetPoint("TOPLEFT", width, height - 15)
+        text:SetText(L["选择一个目标角色"])
+        text:SetTextColor(0, 1, 0)
+        text:SetWidth(width2)
+
+        local text = config:CreateFontString()
+        text:SetFont(BIAOGE_TEXT_FONT, 15, "OUTLINE")
+        text:SetPoint("TOPLEFT", width + width2 + 15, height - 15)
+        text:SetText(L["要复制的内容"])
+        text:SetTextColor(0, 1, 0)
+        text:SetWidth(width2)
+
+        local text = config:CreateFontString()
+        text:SetFont(BIAOGE_TEXT_FONT, 15, "OUTLINE")
+        text:SetPoint("TOPLEFT", width + width2 + 15 + width2 + 15, height - 15)
+        text:SetText(L["操作"])
+        text:SetTextColor(0, 1, 0)
+        text:SetWidth(width3)
+
+        height = height - 15
+
+        local f, child = BG.CreateScrollFrame(config, width2, height2)
+        f:SetBackdropColor(0, 0, 0, 0.3)
+        f:SetPoint("TOPLEFT", width, height - 15)
+
+        local choose = { realmID = nil, player = nil }
+        local buttons = {}
+        local button2s = {}
+
+        local function UpdateCopyButton()
+            BG.options.configCopyButton:Disable()
+            BG.options.configDeleteButton:Disable()
+            if choose.realmID and choose.player then
+                local yes
+                for i, bt in ipairs(button2s) do
+                    if bt:GetChecked() then
+                        yes = true
+                        break
+                    end
+                end
+                if yes then
+                    BG.options.configCopyButton:Enable()
+                end
+                BG.options.configDeleteButton:Enable()
+            end
+        end
+
+        local function UpdateAllButtons()
+            for i, bt in ipairs(buttons) do
+                bt:Hide()
+            end
+            wipe(buttons)
+
+            for realmID, v in pairs(BiaoGe.Hope) do
+                if Size(v) ~= 0 then
+                    local bt = CreateFrame("Button", nil, child)
+                    if not buttons[1] then
+                        bt:SetPoint("TOPLEFT", child, 0, 0)
+                    else
+                        bt:SetPoint("TOPLEFT", buttons[#buttons], "BOTTOMLEFT", 0, 0)
+                    end
+                    bt:SetNormalFontObject(BG.FontWhite15)
+                    if BiaoGe.realmName[realmID] then
+                        bt:SetText(BiaoGe.realmName[realmID])
+                    else
+                        bt:SetText(realmID)
+                    end
+                    bt:SetSize(child:GetWidth(), 20)
+                    BG.SetTextHighlightTexture(bt)
+                    tinsert(buttons, bt)
+                    local t = bt:GetFontString()
+                    t:SetPoint("LEFT")
+                    t:SetTextColor(1, 0.82, 0)
+                    bt:Disable()
+
+                    for player, v in pairs(BiaoGe.Hope[realmID]) do
+                        local bt = CreateFrame("Button", nil, child)
+                        if not buttons[1] then
+                            bt:SetPoint("TOPLEFT", child, 0, 0)
+                        else
+                            bt:SetPoint("TOPLEFT", buttons[#buttons], "BOTTOMLEFT", 0, 0)
+                        end
+                        bt:SetNormalFontObject(BG.FontWhite15)
+                        bt:SetText("   " .. player)
+                        bt:SetSize(child:GetWidth(), 20)
+                        bt.realmID = realmID
+                        bt.player = player
+                        tinsert(buttons, bt)
+
+                        local tex = bt:CreateTexture()
+                        tex:SetAllPoints()
+                        tex:SetTexture("Interface\\QuestFrame\\UI-QuestLogTitleHighlight")
+                        bt:SetHighlightTexture(tex)
+
+                        bt.chooseTex = bt:CreateTexture()
+                        bt.chooseTex:SetAllPoints()
+                        bt.chooseTex:SetTexture("Interface\\QuestFrame\\UI-QuestLogTitleHighlight")
+                        bt.chooseTex:SetVertexColor(0, 1, 0)
+                        bt.chooseTex:Hide()
+
+                        local t = bt:GetFontString()
+                        t:SetPoint("LEFT")
+                        if BiaoGe.playerInfo[realmID] and BiaoGe.playerInfo[realmID][player] and BiaoGe.playerInfo[realmID][player].class then
+                            local r, g, b = GetClassColor(BiaoGe.playerInfo[realmID][player].class)
+                            t:SetTextColor(r, g, b)
+                            tex:SetVertexColor(r, g, b)
+                            bt:SetText("   " .. player .. " (" .. BiaoGe.playerInfo[realmID][player].level .. ")")
+                            -- bt:SetText("   " .. player .. " (" .. "Lv" .. BiaoGe.playerInfo[realmID][player].level .. ")")
+                            -- bt:SetText("   " .. "lv" .. BiaoGe.playerInfo[realmID][player].level .. "-" .. player)
+                        else
+                            t:SetTextColor(1, 1, 1)
+                            tex:SetVertexColor(1, 1, 1)
+                        end
+
+                        bt:SetScript("OnClick", function(self)
+                            BG.PlaySound(1)
+                            if self.isChoose then
+                                choose.realmID = nil
+                                choose.player = nil
+                                self.isChoose = false
+                                self.chooseTex:Hide()
+                            else
+                                for i, bt in ipairs(buttons) do
+                                    bt.isChoose = false
+                                    if bt.chooseTex then
+                                        bt.chooseTex:Hide()
+                                    end
+                                end
+                                choose.realmID = self.realmID
+                                choose.player = self.player
+                                self.isChoose = true
+                                self.chooseTex:Show()
+                            end
+                            UpdateCopyButton()
+                        end)
+                    end
+                end
+            end
+        end
+        UpdateAllButtons()
+
+
+        local f = CreateFrame("Frame", nil, config, "BackdropTemplate")
+        f:SetBackdrop({
+            bgFile = "Interface/ChatFrame/ChatFrameBackground",
+            edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+            edgeSize = 16,
+            insets = { left = 3, right = 3, top = 3, bottom = 3 }
+        })
+        f:SetBackdropColor(0, 0, 0, 0.3)
+        f:SetSize(width2, height2)
+        f:EnableMouse(true)
+        f:SetPoint("TOPLEFT", width + width2 + 15, height - 15)
+
+        local function CreateButton(text, configName)
+            local bt = CreateFrame("CheckButton", nil, f, "ChatConfigCheckButtonTemplate")
+            bt:SetSize(30, 30)
+            if not button2s[1] then
+                bt:SetPoint("TOPLEFT", 10, -10)
+            else
+                bt:SetPoint("TOPLEFT", button2s[#button2s], "BOTTOMLEFT", 0, 0)
+            end
+            bt.Text:SetText(text)
+            bt.Text:SetWidth(width2 - 30 - 20)
+            bt:SetHitRectInsets(0, -bt.Text:GetWidth(), 0, 0)
+            bt.text = text
+            tinsert(button2s, bt)
+            if BiaoGe.options[configName] == 1 then
+                bt:SetChecked(true)
+            end
+            bt:SetScript("OnClick", function(self)
+                BG.PlaySound(1)
+                if self:GetChecked() then
+                    BiaoGe.options[configName] = 1
+                else
+                    BiaoGe.options[configName] = 0
+                end
+                UpdateCopyButton()
+            end)
+        end
+        CreateButton(L["心愿清单"], "configChooseHope")
+        CreateButton(L["装备过滤方案"], "configChooseFilter")
+        CreateButton(L["集结号历史搜索记录"], "configChooseMeetingHornHistory")
+        CreateButton(L["集结号密语模板"], "configChooseMeetingHornWhisper")
+
+        local f = CreateFrame("Frame", nil, config, "BackdropTemplate")
+        f:SetBackdrop({
+            bgFile = "Interface/ChatFrame/ChatFrameBackground",
+            edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+            edgeSize = 16,
+            insets = { left = 3, right = 3, top = 3, bottom = 3 }
+        })
+        f:SetBackdropColor(0, 0, 0, 0.3)
+        f:SetSize(width3, height2)
+        f:EnableMouse(true)
+        f:SetPoint("TOPLEFT", width + width2 + 15 + width2 + 15, height - 15)
+
+        -- 确定复制
+        local bt = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+        do
+            bt:SetSize(100, 30)
+            bt:SetPoint("TOP", 0, -15)
+            bt:SetText(L["确定复制"])
+            bt:Disable()
+            BG.options.configCopyButton = bt
+            bt:SetScript("OnEnter", function(self)
+                local chooseText = ""
+                for i, bt in ipairs(button2s) do
+                    if bt:GetChecked() then
+                        if chooseText ~= "" then
+                            chooseText = chooseText .. "/" .. bt.text
+                        else
+                            chooseText = bt.text
+                        end
+                    end
+                end
+                local c2 = "ffFFFFFF"
+                if BiaoGe.playerInfo[choose.realmID] and BiaoGe.playerInfo[choose.realmID][choose.player]
+                    and BiaoGe.playerInfo[choose.realmID][choose.player].class then
+                    c2 = select(4, GetClassColor(BiaoGe.playerInfo[choose.realmID][choose.player].class))
+                end
+                GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
+                GameTooltip:ClearLines()
+                GameTooltip:AddLine(L["提醒"], 1, 1, 1, true)
+                GameTooltip:AddLine(format(L["你当前角色%s的%s将会被%s的|cffff0000替换|r。"],
+                        SetClassCFF(UnitName("player"), "player"), "|cff00FF00" .. chooseText .. RR, "|c" .. c2 .. choose.player .. RR),
+                    1, 0.82, 0, true)
+                GameTooltip:Show()
+            end)
+            bt:SetScript("OnLeave", GameTooltip_Hide)
+            bt:SetScript("OnClick", function(self)
+                local chooseText = ""
+                for i, bt in ipairs(button2s) do
+                    if bt:GetChecked() then
+                        if chooseText ~= "" then
+                            chooseText = chooseText .. "/" .. bt.text
+                        else
+                            chooseText = bt.text
+                        end
+                    end
+                end
+                local c2 = "ffFFFFFF"
+                if BiaoGe.playerInfo[choose.realmID] and BiaoGe.playerInfo[choose.realmID][choose.player]
+                    and BiaoGe.playerInfo[choose.realmID][choose.player].class then
+                    c2 = select(4, GetClassColor(BiaoGe.playerInfo[choose.realmID][choose.player].class))
+                end
+                StaticPopup_Show("BIAOGE_QUEDINGFUZHI",
+                    format(L["你当前角色%s的%s将会被%s的|cffff0000替换|r。"], SetClassCFF(UnitName("player"), "player"), "|cff00FF00" .. chooseText .. RR, "|c" .. c2 .. choose.player .. RR))
+            end)
+
+            StaticPopupDialogs["BIAOGE_QUEDINGFUZHI"] = {
+                text = L["确定复制？\n%s"],
+                button1 = L["是"],
+                button2 = L["否"],
+                OnAccept = function()
+                    BG.PlaySound(2)
+                    local realmID = GetRealmID()
+                    local player = UnitName("player")
+                    if BiaoGe.options.configChooseHope == 1 then
+                        if BiaoGe.Hope[choose.realmID][choose.player] then
+                            BiaoGe.Hope[realmID][player] = BiaoGe.Hope[choose.realmID][choose.player]
+                        end
+                    end
+                    if BiaoGe.options.configChooseFilter == 1 then
+                        if BiaoGe.FilterClassItemDB[choose.realmID][choose.player] then
+                            BiaoGe.FilterClassItemDB[realmID][player] = BiaoGe.FilterClassItemDB[choose.realmID][choose.player]
+                            BiaoGe.filterClassNum[realmID][player] = 0
+                        end
+                    end
+                    if BiaoGe.options.configChooseMeetingHornHistory == 1 then
+                        if BiaoGe.MeetingHorn[choose.realmID] and BiaoGe.MeetingHorn[choose.realmID][choose.player] then
+                            BiaoGe.MeetingHorn[realmID][player] = BiaoGe.MeetingHorn[choose.realmID][choose.player]
+                        end
+                    end
+                    if BiaoGe.options.configChooseMeetingHornWhisper == 1 then
+                        if BiaoGe.MeetingHornWhisper[choose.realmID] and BiaoGe.MeetingHornWhisper[choose.realmID][choose.player] then
+                            BiaoGe.MeetingHornWhisper[realmID][player] = BiaoGe.MeetingHornWhisper[choose.realmID][choose.player]
+                        end
+                    end
+                    ReloadUI()
+                end,
+                OnCancel = function()
+                end,
+                timeout = 0,
+                whileDead = true,
+                hideOnEscape = true,
+                showAlert = true,
+            }
+        end
+
+        -- 删除角色
+        local bt = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+        bt:SetSize(100, 30)
+        bt:SetPoint("TOP", BG.options.configCopyButton, "BOTTOM", 0, -15)
+        bt:SetText(L["删除角色"])
+        bt:Disable()
+        BG.options.configDeleteButton = bt
+        bt:SetScript("OnEnter", function(self)
+            local c2 = "ffFFFFFF"
+            if BiaoGe.playerInfo[choose.realmID] and BiaoGe.playerInfo[choose.realmID][choose.player]
+                and BiaoGe.playerInfo[choose.realmID][choose.player].class then
+                c2 = select(4, GetClassColor(BiaoGe.playerInfo[choose.realmID][choose.player].class))
+            end
+            GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
+            GameTooltip:ClearLines()
+            GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
+            GameTooltip:AddLine(format(L["删除%s的全部配置文件。"],
+                    "|c" .. c2 .. choose.player .. RR),
+                1, 0.82, 0, true)
+            GameTooltip:Show()
+        end)
+        bt:SetScript("OnLeave", GameTooltip_Hide)
+        bt:SetScript("OnClick", function(self)
+            local c2 = "ffFFFFFF"
+            if BiaoGe.playerInfo[choose.realmID] and BiaoGe.playerInfo[choose.realmID][choose.player]
+                and BiaoGe.playerInfo[choose.realmID][choose.player].class then
+                c2 = select(4, GetClassColor(BiaoGe.playerInfo[choose.realmID][choose.player].class))
+            end
+            StaticPopup_Show("BIAOGE_SHANCHUJUESE", "|c" .. c2 .. choose.player .. RR)
+        end)
+
+        StaticPopupDialogs["BIAOGE_SHANCHUJUESE"] = {
+            text = L["确定删除%s的全部配置文件？"],
+            button1 = L["是"],
+            button2 = L["否"],
+            OnAccept = function()
+                -- BG.PlaySound(2)
+                local realmID = GetRealmID()
+                local player = UnitName("player")
+                BiaoGe.Hope[choose.realmID][choose.player] = nil
+                BiaoGe.FilterClassItemDB[choose.realmID][choose.player] = nil
+                if BiaoGe.MeetingHorn[choose.realmID] then
+                    BiaoGe.MeetingHorn[choose.realmID][choose.player] = nil
+                end
+                if BiaoGe.MeetingHornWhisper[choose.realmID] then
+                    BiaoGe.MeetingHornWhisper[choose.realmID][choose.player] = nil
+                end
+                if BiaoGe.FBCD[choose.realmID] then
+                    BiaoGe.FBCD[choose.realmID][choose.player] = nil
+                end
+                if BiaoGe.QuestCD[choose.realmID] then
+                    BiaoGe.QuestCD[choose.realmID][choose.player] = nil
+                end
+                if BiaoGe.Money[choose.realmID] then
+                    BiaoGe.Money[choose.realmID][choose.player] = nil
+                end
+                if BiaoGe.filterClassNum[choose.realmID] then
+                    BiaoGe.filterClassNum[choose.realmID][choose.player] = nil
+                end
+                if BiaoGe.playerInfo[choose.realmID] then
+                    BiaoGe.playerInfo[choose.realmID][choose.player] = nil
+                end
+                if BiaoGe.PlayerItemsLevel[choose.realmID] then
+                    BiaoGe.PlayerItemsLevel[choose.realmID][choose.player] = nil
+                end
+
+                if realmID == choose.realmID and player == choose.player then
+                    ReloadUI()
+                else
+                    UpdateAllButtons()
+                end
+            end,
+            OnCancel = function()
+            end,
+            timeout = 0,
+            whileDead = true,
+            hideOnEscape = true,
+            showAlert = true,
+        }
     end
 end
 

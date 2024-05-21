@@ -191,8 +191,8 @@ frame:SetScript("OnEvent", function(self, event, addonName)
                 if bossId and (bossId == tonumber(_bossId)) then
                     numb = _numb
                     lasttime = GetTime()
-                    local text = BG.STC_g1(L["BOSS战开始"])
-                    PrintLootBoss(FB, even, numb, text)
+                    -- local text = BG.STC_g1(L["BOSS战开始"])
+                    -- PrintLootBoss(FB, even, numb, text)
                     break
                 end
             end
@@ -202,16 +202,16 @@ frame:SetScript("OnEvent", function(self, event, addonName)
                     numb = _numb
                     lasttime = GetTime()
                     start = nil
-                    local text = BG.STC_g1(L["BOSS击杀成功"])
-                    PrintLootBoss(FB, even, numb, text)
+                    -- local text = BG.STC_g1(L["BOSS击杀成功"])
+                    -- PrintLootBoss(FB, even, numb, text)
                     break
                 end
             end
         elseif even == "ENCOUNTER_END" and success ~= 1 then -- 团灭
             numb = Maxb[FB] - 1
             start = nil
-            local text = BG.STC_r1(L["BOSS击杀失败"])
-            PrintLootBoss(FB, even, numb, text)
+            -- local text = BG.STC_r1(L["BOSS击杀失败"])
+            -- PrintLootBoss(FB, even, numb, text)
         end
     end)
     local f = CreateFrame("Frame")
@@ -224,8 +224,8 @@ frame:SetScript("OnEvent", function(self, event, addonName)
         if numb ~= Maxb[FB] - 1 then
             if time - lasttime >= 30 then -- 击杀BOSS 30秒后进入下一次战斗，就变回杂项
                 numb = Maxb[FB] - 1
-                local text = BG.STC_r1(L["非BOSS战"])
-                PrintLootBoss(FB, even, numb, text)
+                -- local text = BG.STC_r1(L["非BOSS战"])
+                -- PrintLootBoss(FB, even, numb, text)
             end
         end
     end)

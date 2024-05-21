@@ -20,10 +20,10 @@ local Round = ADDONSELF.Round
 
 local pt = print
 
-function BG.RoleOverviewUI()
-    local player = UnitName("player")
-    local RealmId = GetRealmID()
+local player = UnitName("player")
+local realmID = GetRealmID()
 
+function BG.RoleOverviewUI()
     -- 初始化
     if not BiaoGe.FBCDchoice then
         if BG.IsVanilla() then
@@ -43,7 +43,7 @@ function BG.RoleOverviewUI()
                 ["leatherworking"] = 1,
                 ["tailor"] = 1,
             }
-        else
+        elseif BG.IsWLK() then
             BiaoGe.FBCDchoice = {
                 ["25ICC"] = 1,
                 ["10ICC"] = 1,
@@ -55,6 +55,12 @@ function BG.RoleOverviewUI()
                 ["heroe"] = 1,
                 ["week1"] = 1,
             }
+        elseif BG.IsCTM() then
+            BiaoGe.FBCDchoice = {
+                ["BOT"] = 1,
+                ["BWD"] = 1,
+                ["TOF"] = 1,
+            }
         end
     end
     if not BiaoGe.MONEYchoice then
@@ -64,33 +70,33 @@ function BG.RoleOverviewUI()
                 [221365] = 1,
                 ["money"] = 1,
             }
-        else
-            if BG.IsWLK() then
-                BiaoGe.MONEYchoice = {
-                    [341] = 1,
-                    [301] = 1,
-                    [221] = 1,
-                    [102] = 1,
-                    [101] = 1,
-                    [2711] = 1,
-                    [2589] = 1,
-                    ["money"] = 1,
-                }
-            elseif BG.IsCTM() then
-                BiaoGe.MONEYchoice = {
-                    [395] = 1,
-                    [2711] = 1,
-                    [2589] = 1,
-                    ["money"] = 1,
-                }
-            end
+        elseif BG.IsWLK() then
+            BiaoGe.MONEYchoice = {
+                [396] = 1,
+                [395] = 1,
+                [341] = 1,
+                [301] = 1,
+                [221] = 1,
+                [102] = 1,
+                [101] = 1,
+                [2711] = 1,
+                [2589] = 1,
+                ["money"] = 1,
+            }
+        elseif BG.IsCTM() then
+            BiaoGe.MONEYchoice = {
+                [396] = 1,
+                [395] = 1,
+                ["money"] = 1,
+            }
         end
     end
     -- 更新
     do
-        if BG.IsVanilla_Sod() then
+        if BG.IsVanilla() then
             BG.Once("FBCDchoice", 240328, function()
                 BiaoGe.FBCDchoice["Temple"] = 1
+                BiaoGe.FBCDchoice["alchemy"] = 1
                 BiaoGe.FBCDchoice["leatherworking"] = 1
                 BiaoGe.FBCDchoice["tailor"] = 1
             end)
@@ -101,15 +107,18 @@ function BG.RoleOverviewUI()
                 BiaoGe.MONEYchoice[221262] = 1
                 BiaoGe.MONEYchoice[221365] = 1
             end)
-        elseif BG.IsVanilla_60() then
-            BG.Once("FBCDchoice", 240329, function()
-                BiaoGe.FBCDchoice["alchemy"] = 1
-                BiaoGe.FBCDchoice["leatherworking"] = 1
-                BiaoGe.FBCDchoice["tailor"] = 1
-            end)
         elseif BG.IsCTM() then
-            BG.Once("MONEYchoice", 240502, function()
-                BiaoGe.MONEYchoice[395] = 1
+            BG.Once("FBCDchoice", 240519, function()
+                BiaoGe.FBCDchoice = {
+                    ["BOT"] = 1,
+                    ["BWD"] = 1,
+                    ["TOF"] = 1,
+                }
+                BiaoGe.MONEYchoice = {
+                    [396] = 1,
+                    [395] = 1,
+                    ["money"] = 1,
+                }
             end)
         end
     end
@@ -157,7 +166,7 @@ function BG.RoleOverviewUI()
         BG.MONEYall_table = {
             { name = L["金币"], color = "FFD700", id = "money", tex = 237618, width = 90 }, -- 金币
         }
-    else
+    elseif BG.IsWLK() then
         BG.FBCDall_table = {
             --WLK
             { name = "25ICC", color = "9370DB", fbId = 631, num = 25, type = "fb" },
@@ -200,38 +209,79 @@ function BG.RoleOverviewUI()
             { name = "heroe", name2 = L["英雄"], color = "FF8C00", questID = 78753, type = "quest" },
         }
 
-        if BG.IsWLK() then
-            BG.MONEYall_table = {
-                { name = C_CurrencyInfo.GetCurrencyInfo(341).name, color = "00BFFF", id = 341, tex = C_CurrencyInfo.GetCurrencyInfo(341).iconFileID, width = 70 }, -- 寒冰
-                { name = C_CurrencyInfo.GetCurrencyInfo(301).name, color = "7B68EE", id = 301, tex = C_CurrencyInfo.GetCurrencyInfo(301).iconFileID, width = 70 }, -- 凯旋
-                { name = C_CurrencyInfo.GetCurrencyInfo(221).name, color = "FFFF00", id = 221, tex = C_CurrencyInfo.GetCurrencyInfo(221).iconFileID, width = 70 }, -- 征服
-                { name = C_CurrencyInfo.GetCurrencyInfo(102).name, color = "BA55D3", id = 102, tex = C_CurrencyInfo.GetCurrencyInfo(102).iconFileID, width = 70 }, -- 勇气
-                { name = C_CurrencyInfo.GetCurrencyInfo(101).name, color = "E6E6FA", id = 101, tex = C_CurrencyInfo.GetCurrencyInfo(101).iconFileID, width = 70 }, -- 英雄
-                { name = C_CurrencyInfo.GetCurrencyInfo(2711).name, color = "00FF00", id = 2711, tex = C_CurrencyInfo.GetCurrencyInfo(2711).iconFileID, width = 70 }, -- 天灾石
-                { name = C_CurrencyInfo.GetCurrencyInfo(2589).name, color = "00FFFF", id = 2589, tex = C_CurrencyInfo.GetCurrencyInfo(2589).iconFileID, width = 70 }, -- 赛德精华
-                { name = C_CurrencyInfo.GetCurrencyInfo(241).name, color = "FFFFFF", id = 241, tex = C_CurrencyInfo.GetCurrencyInfo(241).iconFileID, width = 70 }, -- 冠军印章
-                { name = C_CurrencyInfo.GetCurrencyInfo(61).name, color = "FFFFFF", id = 61, tex = C_CurrencyInfo.GetCurrencyInfo(61).iconFileID, width = 70 }, -- 珠宝日常
-                { name = C_CurrencyInfo.GetCurrencyInfo(81).name, color = "FFFFFF", id = 81, tex = C_CurrencyInfo.GetCurrencyInfo(81).iconFileID, width = 70 }, -- 烹饪日常
-                { name = C_CurrencyInfo.GetCurrencyInfo(161).name, color = "FFFFFF", id = 161, tex = C_CurrencyInfo.GetCurrencyInfo(161).iconFileID, width = 70 }, -- 岩石守卫
-                { name = C_CurrencyInfo.GetCurrencyInfo(1900).name, color = "FFFFFF", id = 1900, tex = C_CurrencyInfo.GetCurrencyInfo(1900).iconFileID, width = 85 }, -- JJC
-                { name = C_CurrencyInfo.GetCurrencyInfo(1901).name, color = "FFFFFF", id = 1901, tex = C_CurrencyInfo.GetCurrencyInfo(1901).iconFileID, width = 85 }, -- 荣誉
-                { name = C_CurrencyInfo.GetCurrencyInfo(42).name, color = "D3D3D3", id = 42, tex = C_CurrencyInfo.GetCurrencyInfo(42).iconFileID, width = 70 }, -- TBC公正牌子
-                { name = L["金币"], color = "FFD700", id = "money", tex = 237618, width = 90 }, -- 金币
-            }
-        elseif BG.IsCTM() then
-            BG.MONEYall_table = {
-                { name = C_CurrencyInfo.GetCurrencyInfo(395).name, color = "00BFFF", id = 395, tex = C_CurrencyInfo.GetCurrencyInfo(395).iconFileID, width = 70 }, -- 正义点数
-                { name = C_CurrencyInfo.GetCurrencyInfo(2711).name, color = "00FF00", id = 2711, tex = C_CurrencyInfo.GetCurrencyInfo(2711).iconFileID, width = 70 }, -- 天灾石
-                { name = C_CurrencyInfo.GetCurrencyInfo(2589).name, color = "00FFFF", id = 2589, tex = C_CurrencyInfo.GetCurrencyInfo(2589).iconFileID, width = 70 }, -- 赛德精华
-                { name = C_CurrencyInfo.GetCurrencyInfo(241).name, color = "FFFFFF", id = 241, tex = C_CurrencyInfo.GetCurrencyInfo(241).iconFileID, width = 70 }, -- 冠军印章
-                { name = C_CurrencyInfo.GetCurrencyInfo(61).name, color = "FFFFFF", id = 61, tex = C_CurrencyInfo.GetCurrencyInfo(61).iconFileID, width = 70 }, -- 珠宝日常
-                { name = C_CurrencyInfo.GetCurrencyInfo(81).name, color = "FFFFFF", id = 81, tex = C_CurrencyInfo.GetCurrencyInfo(81).iconFileID, width = 70 }, -- 烹饪日常
-                { name = C_CurrencyInfo.GetCurrencyInfo(161).name, color = "FFFFFF", id = 161, tex = C_CurrencyInfo.GetCurrencyInfo(161).iconFileID, width = 70 }, -- 岩石守卫
-                { name = C_CurrencyInfo.GetCurrencyInfo(1900).name, color = "FFFFFF", id = 1900, tex = C_CurrencyInfo.GetCurrencyInfo(1900).iconFileID, width = 85 }, -- JJC
-                { name = C_CurrencyInfo.GetCurrencyInfo(1901).name, color = "FFFFFF", id = 1901, tex = C_CurrencyInfo.GetCurrencyInfo(1901).iconFileID, width = 85 }, -- 荣誉
-                { name = L["金币"], color = "FFD700", id = "money", tex = 237618, width = 90 }, -- 金币
-            }
-        end
+        BG.MONEYall_table = {
+            { name = C_CurrencyInfo.GetCurrencyInfo(341).name, color = "00BFFF", id = 341, tex = C_CurrencyInfo.GetCurrencyInfo(341).iconFileID, width = 70 }, -- 寒冰
+            { name = C_CurrencyInfo.GetCurrencyInfo(301).name, color = "7B68EE", id = 301, tex = C_CurrencyInfo.GetCurrencyInfo(301).iconFileID, width = 70 }, -- 凯旋
+            { name = C_CurrencyInfo.GetCurrencyInfo(221).name, color = "FFFF00", id = 221, tex = C_CurrencyInfo.GetCurrencyInfo(221).iconFileID, width = 70 }, -- 征服
+            { name = C_CurrencyInfo.GetCurrencyInfo(102).name, color = "BA55D3", id = 102, tex = C_CurrencyInfo.GetCurrencyInfo(102).iconFileID, width = 70 }, -- 勇气
+            { name = C_CurrencyInfo.GetCurrencyInfo(101).name, color = "E6E6FA", id = 101, tex = C_CurrencyInfo.GetCurrencyInfo(101).iconFileID, width = 70 }, -- 英雄
+            { name = C_CurrencyInfo.GetCurrencyInfo(2711).name, color = "00FF00", id = 2711, tex = C_CurrencyInfo.GetCurrencyInfo(2711).iconFileID, width = 70 }, -- 天灾石
+            { name = C_CurrencyInfo.GetCurrencyInfo(2589).name, color = "00FFFF", id = 2589, tex = C_CurrencyInfo.GetCurrencyInfo(2589).iconFileID, width = 70 }, -- 赛德精华
+            { name = C_CurrencyInfo.GetCurrencyInfo(241).name, color = "FFFFFF", id = 241, tex = C_CurrencyInfo.GetCurrencyInfo(241).iconFileID, width = 70 }, -- 冠军印章
+            { name = C_CurrencyInfo.GetCurrencyInfo(61).name, color = "FFFFFF", id = 61, tex = C_CurrencyInfo.GetCurrencyInfo(61).iconFileID, width = 70 }, -- 珠宝日常
+            { name = C_CurrencyInfo.GetCurrencyInfo(81).name, color = "FFFFFF", id = 81, tex = C_CurrencyInfo.GetCurrencyInfo(81).iconFileID, width = 70 }, -- 烹饪日常
+            { name = C_CurrencyInfo.GetCurrencyInfo(161).name, color = "FFFFFF", id = 161, tex = C_CurrencyInfo.GetCurrencyInfo(161).iconFileID, width = 70 }, -- 岩石守卫
+            { name = C_CurrencyInfo.GetCurrencyInfo(1900).name, color = "FFFFFF", id = 1900, tex = C_CurrencyInfo.GetCurrencyInfo(1900).iconFileID, width = 85 }, -- JJC
+            { name = C_CurrencyInfo.GetCurrencyInfo(1901).name, color = "FFFFFF", id = 1901, tex = C_CurrencyInfo.GetCurrencyInfo(1901).iconFileID, width = 85 }, -- 荣誉
+            { name = C_CurrencyInfo.GetCurrencyInfo(42).name, color = "D3D3D3", id = 42, tex = C_CurrencyInfo.GetCurrencyInfo(42).iconFileID, width = 70 }, -- TBC公正牌子
+            { name = L["金币"], color = "FFD700", id = "money", tex = 237618, width = 90 }, -- 金币
+        }
+    elseif BG.IsCTM() then
+        BG.FBCDall_table = {
+            -- CTM
+            { name = "BOT", color = "FFFF00", fbId = 671, type = "fb" },
+            { name = "BWD", color = "FF1493", fbId = 669, type = "fb" },
+            { name = "TOF", color = "87CEFA", fbId = 754, type = "fb" },
+            --WLK
+            { name = "25ICC", color = "9370DB", fbId = 631, num = 25, type = "fb" },
+            { name = "10ICC", color = "9370DB", fbId = 631, num = 10, type = "fb" },
+            { name = "25RS", color = "FF4500", fbId = 724, num = 25, type = "fb" },
+            { name = "10RS", color = "FF4500", fbId = 724, num = 10, type = "fb" },
+            { name = "25TOC", color = "FF69B4", fbId = 649, num = 25, type = "fb" },
+            { name = "10TOC", color = "FF69B4", fbId = 649, num = 10, type = "fb" },
+            { name = "25OL", color = "FFA500", fbId = 249, num = 25, type = "fb" },
+            { name = "10OL", color = "FFA500", fbId = 249, num = 10, type = "fb" },
+            { name = "25ULD", color = "00BFFF", fbId = 603, num = 25, type = "fb" },
+            { name = "10ULD", color = "00BFFF", fbId = 603, num = 10, type = "fb" },
+            { name = "25NAXX", color = "32CD32", fbId = 533, num = 25, type = "fb" },
+            { name = "10NAXX", color = "32CD32", fbId = 533, num = 10, type = "fb" },
+            { name = "25EOE", color = "1E90FF", fbId = 616, num = 25, type = "fb" },
+            { name = "10EOE", color = "1E90FF", fbId = 616, num = 10, type = "fb" },
+            { name = "25OS", color = "8B4513", fbId = 615, num = 25, type = "fb" },
+            { name = "10OS", color = "8B4513", fbId = 615, num = 10, type = "fb" },
+            { name = "25VOA", color = "FFFF00", fbId = 624, num = 25, type = "fb" },
+            { name = "10VOA", color = "FFFF00", fbId = 624, num = 10, type = "fb" },
+            --TBC
+            { name = "SW", color = "D3D3D3", fbId = 580, num = 25, type = "fb" },
+            { name = "BT", color = "D3D3D3", fbId = 564, num = 25, type = "fb" },
+            { name = "HS", color = "D3D3D3", fbId = 534, num = 25, type = "fb" },
+            { name = "TK", color = "D3D3D3", fbId = 550, num = 25, type = "fb" },
+            { name = "SSC", color = "D3D3D3", fbId = 548, num = 25, type = "fb" },
+            { name = "GL", color = "D3D3D3", fbId = 565, num = 25, type = "fb" },
+            { name = "ML", color = "D3D3D3", fbId = 544, num = 25, type = "fb" },
+            { name = "ZA", color = "D3D3D3", fbId = 568, num = 10, type = "fb" },
+            { name = "KZ", color = "D3D3D3", fbId = 532, num = 10, type = "fb" },
+            --CLASSIC
+            { name = "TAQ", color = "D3D3D3", fbId = 531, num = 40, type = "fb" },
+            { name = "AQL", color = "D3D3D3", fbId = 509, num = 20, type = "fb" },
+            { name = "BWL", color = "D3D3D3", fbId = 469, num = 40, type = "fb" },
+            { name = "MC", color = "D3D3D3", fbId = 409, num = 40, type = "fb" },
+            { name = "ZUG", color = "D3D3D3", fbId = 309, num = 20, type = "fb" },
+        }
+
+        BG.MONEYall_table = {
+            { name = C_CurrencyInfo.GetCurrencyInfo(396).name, color = "BA55D3", id = 396, tex = C_CurrencyInfo.GetCurrencyInfo(396).iconFileID, width = 70 }, -- 勇气点数
+            { name = C_CurrencyInfo.GetCurrencyInfo(395).name, color = "00BFFF", id = 395, tex = C_CurrencyInfo.GetCurrencyInfo(395).iconFileID, width = 70 }, -- 正义点数
+            { name = C_CurrencyInfo.GetCurrencyInfo(2711).name, color = "00FF00", id = 2711, tex = C_CurrencyInfo.GetCurrencyInfo(2711).iconFileID, width = 70 }, -- 天灾石
+            { name = C_CurrencyInfo.GetCurrencyInfo(2589).name, color = "00FFFF", id = 2589, tex = C_CurrencyInfo.GetCurrencyInfo(2589).iconFileID, width = 70 }, -- 赛德精华
+            { name = C_CurrencyInfo.GetCurrencyInfo(241).name, color = "FFFFFF", id = 241, tex = C_CurrencyInfo.GetCurrencyInfo(241).iconFileID, width = 70 }, -- 冠军印章
+            { name = C_CurrencyInfo.GetCurrencyInfo(61).name, color = "FFFFFF", id = 61, tex = C_CurrencyInfo.GetCurrencyInfo(61).iconFileID, width = 70 }, -- 珠宝日常
+            { name = C_CurrencyInfo.GetCurrencyInfo(81).name, color = "FFFFFF", id = 81, tex = C_CurrencyInfo.GetCurrencyInfo(81).iconFileID, width = 70 }, -- 烹饪日常
+            { name = C_CurrencyInfo.GetCurrencyInfo(161).name, color = "FFFFFF", id = 161, tex = C_CurrencyInfo.GetCurrencyInfo(161).iconFileID, width = 70 }, -- 岩石守卫
+            { name = C_CurrencyInfo.GetCurrencyInfo(1900).name, color = "FFFFFF", id = 1900, tex = C_CurrencyInfo.GetCurrencyInfo(1900).iconFileID, width = 85 }, -- JJC
+            { name = C_CurrencyInfo.GetCurrencyInfo(1901).name, color = "FFFFFF", id = 1901, tex = C_CurrencyInfo.GetCurrencyInfo(1901).iconFileID, width = 85 }, -- 荣誉
+            { name = L["金币"], color = "FFD700", id = "money", tex = 237618, width = 90 }, -- 金币
+        }
     end
 
     local FBCDchoice_table = {}
@@ -268,7 +318,7 @@ function BG.RoleOverviewUI()
                 end
             end
         end
-        tinsert(MONEYchoice_table, 1, { name = L["角色"], color = "FFFFFF", width = 80 })
+        tinsert(MONEYchoice_table, 1, { name = L["角色"] .. " " .. BG.STC_dis("(" .. LEVEL .. ")"), color = "FFFFFF", width = 105 })
         -- 计算货币表格的总宽度
         local Moneywidth = 30
         for key, value in pairs(MONEYchoice_table) do
@@ -312,8 +362,8 @@ function BG.RoleOverviewUI()
         -- 设置重置时间
         local text3 = ""
         local text7 = ""
-        for p, v in pairs(BiaoGe.FBCD[RealmId]) do
-            for i, cd in pairs(BiaoGe.FBCD[RealmId][p]) do
+        for p, v in pairs(BiaoGe.FBCD[realmID]) do
+            for i, cd in pairs(BiaoGe.FBCD[realmID][p]) do
                 if cd.resettime then
                     if cd.fbId == 309 or cd.fbId == 568 or cd.fbId == 509 -- ZUG ZA AQL
                         or cd.fbId == 48 or cd.fbId == 90 then            -- BD Gno
@@ -396,7 +446,7 @@ function BG.RoleOverviewUI()
         do
             local num = 1
             for i, _ in ipairs(BG.PlayerItemsLevel) do
-                for p, v in pairs(BiaoGe.FBCD[RealmId]) do
+                for p, v in pairs(BiaoGe.FBCD[realmID]) do
                     if BG.PlayerItemsLevel[i].player == p then
                         if type(v) == "table" and Size(v) ~= 0 then
                             -- 玩家名字
@@ -404,18 +454,18 @@ function BG.RoleOverviewUI()
                             t:SetFont(BIAOGE_TEXT_FONT, fontsize, "OUTLINE")
                             t:SetPoint("TOPLEFT", BG.FBCDFrame, "TOPLEFT",
                                 FBCDchoice_table[1].width, -10 - height * n)
-                            for i, cd in pairs(BiaoGe.FBCD[RealmId][p]) do
+                            for i, cd in pairs(BiaoGe.FBCD[realmID][p]) do
                                 if type(cd) == "table" then
                                     local level = ""
-                                    if BiaoGe.PlayerItemsLevel[RealmId][cd.player] and BiaoGe.PlayerItemsLevel[RealmId][cd.player] ~= 0 then
-                                        level = " |cff808080(" .. Round(BiaoGe.PlayerItemsLevel[RealmId][cd.player], 0) .. ")|r"
+                                    if BiaoGe.PlayerItemsLevel[realmID][cd.player] and BiaoGe.PlayerItemsLevel[realmID][cd.player] ~= 0 then
+                                        level = " |cff808080(" .. Round(BiaoGe.PlayerItemsLevel[realmID][cd.player], 0) .. ")|r"
                                     end
                                     t:SetText(cd.colorplayer .. level)
                                     break
                                 end
                             end
                             -- 副本CD
-                            for i, cd in pairs(BiaoGe.FBCD[RealmId][p]) do
+                            for i, cd in pairs(BiaoGe.FBCD[realmID][p]) do
                                 for ii, vv in pairs(FBCDchoice_table) do -- 创建cd勾勾
                                     if (cd.fbId and (cd.fbId == vv.fbId)) and ((cd.num and (cd.num == vv.num)) or (not vv.num)) then
                                         local tx = BG.FBCDFrame:CreateTexture(nil, "OVERLAY")
@@ -429,8 +479,8 @@ function BG.RoleOverviewUI()
                             end
 
                             -- 日常
-                            if BiaoGe.QuestCD[RealmId][p] then
-                                for questID, v in pairs(BiaoGe.QuestCD[RealmId][p]) do
+                            if BiaoGe.QuestCD[realmID][p] then
+                                for questID, v in pairs(BiaoGe.QuestCD[realmID][p]) do
                                     for ii, vv in ipairs(FBCDchoice_table) do -- 创建cd勾勾
                                         if v.questID == vv.questID then
                                             local tx = BG.FBCDFrame:CreateTexture(nil, "OVERLAY")
@@ -445,8 +495,8 @@ function BG.RoleOverviewUI()
                             end
 
                             -- 专业
-                            if BiaoGe.tradeSkillCooldown and BiaoGe.tradeSkillCooldown[RealmId][p] then
-                                for profession, v in pairs(BiaoGe.tradeSkillCooldown[RealmId][p]) do
+                            if BiaoGe.tradeSkillCooldown and BiaoGe.tradeSkillCooldown[realmID][p] then
+                                for profession, v in pairs(BiaoGe.tradeSkillCooldown[realmID][p]) do
                                     for ii, vv in ipairs(FBCDchoice_table) do -- 创建cd勾勾
                                         if profession == vv.name then
                                             local t = f:CreateFontString()
@@ -539,7 +589,7 @@ function BG.RoleOverviewUI()
             end
 
             -- 复制数据
-            for player, value in pairs(BiaoGe.Money[RealmId]) do
+            for player, value in pairs(BiaoGe.Money[realmID]) do
                 BG.m_new[player] = value
                 for i, v in pairs(MONEYchoice_table) do                   -- 给空key添加值0，主要是为了填补一些旧角色缺少某些新数据
                     if tonumber(v.id) and not BG.m_new[player][v.id] then -- 排除掉角色名字和金币
@@ -606,12 +656,16 @@ function BG.RoleOverviewUI()
             for i, _ in ipairs(BG.PlayerItemsLevel) do
                 for p, v in pairs(BG.m_new) do
                     if BG.PlayerItemsLevel[i].player == p then
+                        local levelText = ""
+                        if BiaoGe.playerInfo[realmID] and BiaoGe.playerInfo[realmID][p] and BiaoGe.playerInfo[realmID][p].level then
+                            levelText = BG.STC_dis(" (" .. BiaoGe.playerInfo[realmID][p].level .. ")")
+                        end
                         local right
                         local name = v.colorplayer -- 名字
                         local t_name = f:CreateFontString()
                         t_name:SetFont(BIAOGE_TEXT_FONT, fontsize, "OUTLINE")
                         t_name:SetPoint("TOPLEFT", BG.FBCDFrame, "TOPLEFT", 15, -10 - height * n)
-                        t_name:SetText(name)
+                        t_name:SetText(name .. levelText)
                         right = t_name
 
                         for ii, vv in ipairs(MONEYchoice_table) do
@@ -695,8 +749,8 @@ function BG.RoleOverviewUI()
         if not BiaoGe.FBCD then
             BiaoGe.FBCD = {}
         end
-        if not BiaoGe.FBCD[RealmId] then
-            BiaoGe.FBCD[RealmId] = {}
+        if not BiaoGe.FBCD[realmID] then
+            BiaoGe.FBCD[realmID] = {}
         end
         local player = UnitName("player")
         local colorplayer = SetClassCFF(player, "player")
@@ -723,9 +777,9 @@ function BG.RoleOverviewUI()
                     end
                 end
                 if #cd ~= 0 then
-                    BiaoGe.FBCD[RealmId][player] = cd
+                    BiaoGe.FBCD[realmID][player] = cd
                 else
-                    BiaoGe.FBCD[RealmId][player] = {
+                    BiaoGe.FBCD[realmID][player] = {
                         {
                             player = player,
                             colorplayer = colorplayer,
@@ -733,23 +787,23 @@ function BG.RoleOverviewUI()
                     }
                 end
             elseif UnitLevel("player") < BG.fullLevel then
-                BiaoGe.FBCD[RealmId][player] = nil
+                BiaoGe.FBCD[realmID][player] = nil
             end
 
-            for p, v in pairs(BiaoGe.FBCD[RealmId]) do -- 检查其他角色cd是否到期
+            for p, v in pairs(BiaoGe.FBCD[realmID]) do -- 检查其他角色cd是否到期
                 if p ~= player then
                     local yes
                     local player0, colorplayer0
 
-                    for i = #BiaoGe.FBCD[RealmId][p], 1, -1 do
-                        local cd = BiaoGe.FBCD[RealmId][p][i]
+                    for i = #BiaoGe.FBCD[realmID][p], 1, -1 do
+                        local cd = BiaoGe.FBCD[realmID][p][i]
                         if cd and not player0 and not colorplayer0 then
                             player0 = cd.player
                             colorplayer0 = cd.colorplayer
                         end
                         if cd and cd.endtime then
                             if time >= cd.endtime then
-                                tremove(BiaoGe.FBCD[RealmId][p], i)
+                                tremove(BiaoGe.FBCD[realmID][p], i)
                             elseif time < cd.endtime then
                                 cd.resettime = cd.endtime - time
                                 yes = true
@@ -757,7 +811,7 @@ function BG.RoleOverviewUI()
                         end
                     end
                     if not yes then
-                        BiaoGe.FBCD[RealmId][p] = {
+                        BiaoGe.FBCD[realmID][p] = {
                             {
                                 player = player0,
                                 colorplayer = colorplayer0,
@@ -795,34 +849,50 @@ function BG.RoleOverviewUI()
         end)
     end
 
+    ------------------5人本CD------------------
     if not BG.IsVanilla() then
-        ------------------5人本CD------------------
         do
-            BG.FBCDall_5M_table = {
-                { color = "1E90FF", fbId = 574 }, -- 乌下
-                { color = "1E90FF", fbId = 575 },
+            if BG.IsWLK() then
+                BG.FBCDall_5M_table = {
+                    { color = "1E90FF", fbId = 574 }, -- 乌下
+                    { color = "1E90FF", fbId = 575 },
 
-                { color = "00FFFF", fbId = 576 }, -- 魔枢
-                { color = "00FFFF", fbId = 578 },
+                    { color = "00FFFF", fbId = 576 }, -- 魔枢
+                    { color = "00FFFF", fbId = 578 },
 
-                { color = "FF4500", fbId = 601 }, -- 艾卓
-                { color = "FF4500", fbId = 619 },
+                    { color = "FF4500", fbId = 601 }, -- 艾卓
+                    { color = "FF4500", fbId = 619 },
 
-                { color = "32CD32", fbId = 600 }, -- 要塞
-                { color = "32CD32", fbId = 604 },
+                    { color = "32CD32", fbId = 600 }, -- 要塞
+                    { color = "32CD32", fbId = 604 },
 
-                { color = "8B4513", fbId = 599 }, -- 岩石
-                { color = "8B4513", fbId = 602 },
+                    { color = "8B4513", fbId = 599 }, -- 岩石
+                    { color = "8B4513", fbId = 602 },
 
-                { color = "FF69B4", fbId = 608 }, -- 紫罗兰
-                { color = "FF69B4", fbId = 595 }, -- 斯坦索姆
+                    { color = "FF69B4", fbId = 608 }, -- 紫罗兰
+                    { color = "FF69B4", fbId = 595 }, -- 斯坦索姆
 
-                { color = "FFFF00", fbId = 650 }, -- 冠军
+                    { color = "FFFF00", fbId = 650 }, -- 冠军
 
-                { color = "9370DB", fbId = 632 }, -- 灵魂
-                { color = "9370DB", fbId = 658 }, -- 萨隆
-                { color = "9370DB", fbId = 668 }, -- 映像
-            }
+                    { color = "9370DB", fbId = 632 }, -- 灵魂
+                    { color = "9370DB", fbId = 658 }, -- 萨隆
+                    { color = "9370DB", fbId = 668 }, -- 映像
+                }
+            elseif BG.IsCTM() then
+                BG.FBCDall_5M_table = {
+                    { color = "87CEFA", fbId = 755 }, -- 托维尔失落之城
+                    { color = "87CEFA", fbId = 657 }, -- 旋云之巅
+                    { color = "87CEFA", fbId = 644 }, -- 起源大厅
+
+                    { color = "FFFF00", fbId = 36 },  -- 死亡矿井
+                    { color = "FFFF00", fbId = 33 },  -- 影牙城堡
+
+                    { color = "8B4513", fbId = 725 }, -- 巨石之核
+                    { color = "9370DB", fbId = 645 }, -- 黑石岩窟
+                    { color = "FF4500", fbId = 670 }, -- 格瑞姆巴托
+                    { color = "1E90FF", fbId = 643 }, -- 潮汐王座
+                }
+            end
 
             local height = 22
             local width_fb = 100
@@ -923,7 +993,7 @@ function BG.RoleOverviewUI()
                 local last
                 local n = 0
                 for i, _ in ipairs(BG.PlayerItemsLevel) do
-                    for p, v in pairs(BiaoGe.FBCD[RealmId]) do
+                    for p, v in pairs(BiaoGe.FBCD[realmID]) do
                         if BG.PlayerItemsLevel[i].player == p then
                             if type(v) == "table" and Size(v) ~= 0 then
                                 -- 玩家名字
@@ -950,7 +1020,7 @@ function BG.RoleOverviewUI()
                                 t:SetPoint("CENTER")
                                 t:SetJustifyH("LEFT")
                                 t:SetWordWrap(true) -- 截断
-                                for i, cd in pairs(BiaoGe.FBCD[RealmId][p]) do
+                                for i, cd in pairs(BiaoGe.FBCD[realmID][p]) do
                                     if type(cd) == "table" then
                                         t:SetText(cd.colorplayer)
                                         break
@@ -966,7 +1036,7 @@ function BG.RoleOverviewUI()
                                 BG.GameTooltip_Hide(f)
 
                                 -- 副本CD
-                                for i, cd in pairs(BiaoGe.FBCD[RealmId][p]) do
+                                for i, cd in pairs(BiaoGe.FBCD[realmID][p]) do
                                     for ii, vv in ipairs(BG.FBCDall_5M_table) do -- 创建cd勾勾
                                         if cd.fbId and (cd.fbId == vv.fbId) then
                                             local tx = f:CreateTexture(nil, "OVERLAY")
@@ -1006,8 +1076,8 @@ function BG.RoleOverviewUI()
             end
         end
 
-        ------------------一键排灵魂熔炉------------------
-        do
+        ------------------一键排灵魂烘炉------------------
+        if BG.IsWLK() then
             local dungeonID = 2463 -- 伽马灵魂烘炉
             -- local dungeonID = 252 -- 英雄灵魂烘炉
             local fbID = 632
@@ -1096,11 +1166,11 @@ function BG.RoleOverviewUI()
         if not BiaoGe.QuestCD then
             BiaoGe.QuestCD = {}
         end
-        if not BiaoGe.QuestCD[RealmId] then
-            BiaoGe.QuestCD[RealmId] = {}
+        if not BiaoGe.QuestCD[realmID] then
+            BiaoGe.QuestCD[realmID] = {}
         end
-        if not BiaoGe.QuestCD[RealmId][player] then
-            BiaoGe.QuestCD[RealmId][player] = {}
+        if not BiaoGe.QuestCD[realmID][player] then
+            BiaoGe.QuestCD[realmID][player] = {}
         end
 
         -- 日常
@@ -1156,7 +1226,7 @@ function BG.RoleOverviewUI()
                         resettime = secondsUntilNext7am,
                         endtime = timestamp
                     }
-                    BiaoGe.QuestCD[RealmId][player][questID] = a
+                    BiaoGe.QuestCD[realmID][player][questID] = a
                     return
                 end
             end
@@ -1216,7 +1286,7 @@ function BG.RoleOverviewUI()
                             resettime = secondsToNextThursday,
                             endtime = timestamp
                         }
-                        BiaoGe.QuestCD[RealmId][player][k] = a
+                        BiaoGe.QuestCD[realmID][player][k] = a
                         return
                     end
                 end
@@ -1239,7 +1309,7 @@ function BG.RoleOverviewUI()
                 if BG.IsVanilla_Sod() then
                     local p, r = UnitFullName("player")
                     BG.Once("QuestCD", "240403" .. p .. "-" .. r, function()
-                        BiaoGe.QuestCD[RealmId][player]["huiguweek"] = nil
+                        BiaoGe.QuestCD[realmID][player]["huiguweek"] = nil
                         for questID in pairs(GetQuestsCompleted()) do
                             UpdateDayQuest(questID)
                         end
@@ -1264,17 +1334,17 @@ function BG.RoleOverviewUI()
             end
 
             local time = GetServerTime()
-            for p, _ in pairs(BiaoGe.QuestCD[RealmId]) do
-                for questID, v in pairs(BiaoGe.QuestCD[RealmId][p]) do
+            for p, _ in pairs(BiaoGe.QuestCD[realmID]) do
+                for questID, v in pairs(BiaoGe.QuestCD[realmID][p]) do
                     local yes
                     if time >= v.endtime then
-                        BiaoGe.QuestCD[RealmId][p][questID] = nil
+                        BiaoGe.QuestCD[realmID][p][questID] = nil
                     elseif time < v.endtime then
                         v.resettime = v.endtime - time
                         yes = true
                     end
                     if not yes then
-                        BiaoGe.QuestCD[RealmId][p][questID] = nil
+                        BiaoGe.QuestCD[realmID][p][questID] = nil
                     end
                 end
             end
@@ -1285,12 +1355,12 @@ function BG.RoleOverviewUI()
         if not BiaoGe.Money then
             BiaoGe.Money = {}
         end
-        if not BiaoGe.Money[RealmId] then
-            BiaoGe.Money[RealmId] = {}
+        if not BiaoGe.Money[realmID] then
+            BiaoGe.Money[realmID] = {}
         end
         local player = UnitName("player")
-        if not BiaoGe.Money[RealmId][player] then
-            BiaoGe.Money[RealmId][player] = {}
+        if not BiaoGe.Money[realmID][player] then
+            BiaoGe.Money[realmID][player] = {}
         end
 
         function BG.MONEYupdate()
@@ -1319,7 +1389,7 @@ function BG.RoleOverviewUI()
                     end
                 end
             end
-            BiaoGe.Money[RealmId][player] = g
+            BiaoGe.Money[realmID][player] = g
         end
     end
 
@@ -1338,7 +1408,7 @@ function BG.RoleOverviewUI()
             end
 
             BG.MONEYupdate()
-            local g = BiaoGe.Money[RealmId][player]
+            local g = BiaoGe.Money[realmID][player]
             local t = {}
             local a = g.colorplayer .. "  "
             tinsert(t, a) -- 玩家
@@ -1409,11 +1479,11 @@ function BG.RoleOverviewUI()
         if not BiaoGe.PlayerItemsLevel then
             BiaoGe.PlayerItemsLevel = {}
         end
-        if not BiaoGe.PlayerItemsLevel[RealmId] then
-            BiaoGe.PlayerItemsLevel[RealmId] = {}
+        if not BiaoGe.PlayerItemsLevel[realmID] then
+            BiaoGe.PlayerItemsLevel[realmID] = {}
         end
-        if not BiaoGe.PlayerItemsLevel[RealmId][player] then
-            BiaoGe.PlayerItemsLevel[RealmId][player] = 0
+        if not BiaoGe.PlayerItemsLevel[realmID][player] then
+            BiaoGe.PlayerItemsLevel[realmID][player] = 0
         end
 
         local _, class = UnitClass("player")
@@ -1427,7 +1497,7 @@ function BG.RoleOverviewUI()
 
             local shuangshou = GetInventoryItemID("player", 16)
             if shuangshou then
-                local name, link, quality, level, _, _, _, _, EquipLoc, Texture, _, typeID, subclassID = GetItemInfo(shuangshou)
+                local itemID, itemType, itemSubType, EquipLoc, icon, classID, subClassID = GetItemInfoInstant(shuangshou)
                 if EquipLoc ~= "INVTYPE_2HWEAPON" then
                     tinsert(table, 17)
                 end
@@ -1453,7 +1523,7 @@ function BG.RoleOverviewUI()
             end
             local avgLevel = sum / count
             local avgLevel0 = Round(sum / count, 0)
-            BiaoGe.PlayerItemsLevel[RealmId][player] = avgLevel
+            BiaoGe.PlayerItemsLevel[realmID][player] = avgLevel
 
             -- 更新集结号密语装等
             if BG.MeetingHorn and BG.MeetingHorn.iLevelCheckButton then
@@ -1461,7 +1531,7 @@ function BG.RoleOverviewUI()
             end
 
             BG.PlayerItemsLevel = {}
-            for player, ilevel in pairs(BiaoGe.PlayerItemsLevel[RealmId]) do
+            for player, ilevel in pairs(BiaoGe.PlayerItemsLevel[realmID]) do
                 local a = { player = player, ilevel = tonumber(ilevel) }
                 tinsert(BG.PlayerItemsLevel, a)
             end
@@ -1502,11 +1572,11 @@ function BG.RoleOverviewUI()
             if not BiaoGe.tradeSkillCooldown then
                 BiaoGe.tradeSkillCooldown = {}
             end
-            if not BiaoGe.tradeSkillCooldown[RealmId] then
-                BiaoGe.tradeSkillCooldown[RealmId] = {}
+            if not BiaoGe.tradeSkillCooldown[realmID] then
+                BiaoGe.tradeSkillCooldown[realmID] = {}
             end
-            if not BiaoGe.tradeSkillCooldown[RealmId][player] then
-                BiaoGe.tradeSkillCooldown[RealmId][player] = {}
+            if not BiaoGe.tradeSkillCooldown[realmID][player] then
+                BiaoGe.tradeSkillCooldown[realmID][player] = {}
             end
 
             local tbl = {
@@ -1535,7 +1605,7 @@ function BG.RoleOverviewUI()
                     startTime = startTime > GetTime() and (startTime - 2 ^ 32 / 1000) or startTime
                     local cooldown = startTime + duration - GetTime()
                     if cooldown > 0 then
-                        BiaoGe.tradeSkillCooldown[RealmId][player][profession] = {
+                        BiaoGe.tradeSkillCooldown[realmID][player][profession] = {
                             class = select(2, UnitClass("player")),
                             resettime = cooldown,
                             endtime = cooldown + time,
@@ -1546,9 +1616,9 @@ function BG.RoleOverviewUI()
             end
             local function UpdateProfessionCD()
                 local time = GetServerTime()
-                for p, _ in pairs(BiaoGe.tradeSkillCooldown[RealmId]) do -- 检查其他角色cd是否到期
+                for p, _ in pairs(BiaoGe.tradeSkillCooldown[realmID]) do -- 检查其他角色cd是否到期
                     local i = 3
-                    for profession, v in pairs(BiaoGe.tradeSkillCooldown[RealmId][p]) do
+                    for profession, v in pairs(BiaoGe.tradeSkillCooldown[realmID][p]) do
                         if v.endtime then
                             if time >= v.endtime then
                                 v.resettime = nil
@@ -1605,7 +1675,7 @@ function BG.RoleOverviewUI()
                         end
                     end
                     if not isLearned then
-                        BiaoGe.tradeSkillCooldown[RealmId][player][profession] = nil
+                        BiaoGe.tradeSkillCooldown[realmID][player][profession] = nil
                     end
                 end
             end)
