@@ -1,3 +1,5 @@
+if BG.IsVanilla() then return end
+
 local _, ADDONSELF = ...
 
 local LibBG = ADDONSELF.LibBG

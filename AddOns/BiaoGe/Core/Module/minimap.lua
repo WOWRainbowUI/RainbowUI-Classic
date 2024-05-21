@@ -24,7 +24,7 @@ function plugin:OnClick(button) --function plugin.OnClick(self, button)
         if SettingsPanel:IsVisible() then
             HideUIPanel(SettingsPanel)
         else
-            InterfaceOptionsFrame_OpenToCategory("|cff00BFFFBiaoGe|r")
+            InterfaceOptionsFrame_OpenToCategory(L["BiaoGe"] or "|cff00BFFFBiaoGe|r")
             BG.MainFrame:Hide()
         end
         PlaySound(BG.sound1, "Master")

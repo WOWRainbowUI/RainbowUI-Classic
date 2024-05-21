@@ -252,6 +252,9 @@ do
     L["没有金额"] = "No amount"
     L["———通报流拍装备———"] = "———通報流拍裝備———"
     L["欠"] = true
+	
+	-- 自行加入
+	L["BiaoGe"] = "|cff00BFFFBiaoGe|r"
 end
 
 

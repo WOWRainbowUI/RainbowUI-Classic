@@ -744,7 +744,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             BG.ButtonSheZhi = bt
 
             bt:SetScript("OnClick", function(self)
-                InterfaceOptionsFrame_OpenToCategory("|cff00BFFFBiaoGe|r")
+                InterfaceOptionsFrame_OpenToCategory(L["BiaoGe"] or "|cff00BFFFBiaoGe|r")
                 BG.MainFrame:Hide()
                 PlaySound(BG.sound1, "Master")
             end)
@@ -1439,22 +1439,22 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
     ----------定时获取当前副本----------
     do
         -- 获取当前副本
-        local lastZoneID
+        local lastzoneId
         C_Timer.NewTicker(5, function()               -- 每5秒执行一次
             BG.FB2 = nil
-            local FBID = select(8, GetInstanceInfo()) -- 获取副本ID
-            for _FBID, FB in pairs(BG.FBIDtable) do   -- 把副本ID转换为副本英文简写
-                if FBID == _FBID then
-                    BG.FB2 = FB
+            local fbId = select(8, GetInstanceInfo()) -- 获取副本ID
+            for id, value in pairs(BG.FBIDtable) do   -- 把副本ID转换为副本英文简写
+                if fbId == id then
+                    BG.FB2 = value
                     break
                 end
             end
-            if lastZoneID ~= FBID then
+            if lastzoneId ~= fbId then
                 if BG.FB2 then
                     BG.ClickFBbutton(BG.FB2)
                 end
             end
-            lastZoneID = FBID
+            lastzoneId = fbId
         end)
     end
     ----------高亮团长发出的装备----------
@@ -3454,7 +3454,7 @@ do
 
     -- 设置
     SlashCmdList["BIAOGEOPTIONS"] = function()
-        InterfaceOptionsFrame_OpenToCategory("|cff00BFFFBiaoGe|r")
+        InterfaceOptionsFrame_OpenToCategory(L["BiaoGe"] or "|cff00BFFFBiaoGe|r")
         BG.MainFrame:Hide()
     end
     SLASH_BIAOGEOPTIONS1 = "/bgo"

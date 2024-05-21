@@ -4,7 +4,7 @@ local ver = select(4, GetBuildInfo())
 -- if ver > 20000 then
 --     ADDONSELF.ver = "v1.8.6"
 -- else
-ADDONSELF.ver = "v1.9.0b"
+ADDONSELF.ver = "v1.9.0"
 -- end
 
 if (GetLocale() == "zhTW") then return end
@@ -31,9 +31,6 @@ do --简体说明书
     -- update = update .. "|cff00FF00" .. "" .. "|r\n"
     -- update = update .. [[]] .. "\n"
     -- update = update .. [[]] .. "\n\n"
-
-    update = update .. "|cff00FF00" .. "5月21日更新v1.9.0b" .. "|r\n"
-    update = update .. [[-<60/plus>修复了装备自动记录失效的问题]] .. "\n\n"
 
     update = update .. "|cff00FF00" .. "5月20日更新v1.9.0" .. "|r\n"
     update = update .. [[-角色配置文件：增加删除某角色全部配置文件的按钮]] .. "\n"

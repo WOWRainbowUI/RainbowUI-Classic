@@ -26,7 +26,7 @@ local O = {}
 local function OptionsUI()
     local main = CreateFrame("Frame", nil, UIParent)
     main:Hide()
-    main.name = "|cff00BFFFBiaoGe|r"
+    main.name = L["BiaoGe"]
     InterfaceOptions_AddCategory(main)
     local t = main:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
     t:SetText("|cff" .. "00BFFF" .. L["< BiaoGe > 金 团 表 格"] .. "|r")

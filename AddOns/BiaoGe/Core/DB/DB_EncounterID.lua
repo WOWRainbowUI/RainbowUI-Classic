@@ -6,6 +6,7 @@ local L = ADDONSELF.L
 local pt = print
 
 BG.Loot.encounterID = {}
+
 -- Sod
 if BG.IsVanilla_Sod() then
     BG.Loot.encounterID.BD = {

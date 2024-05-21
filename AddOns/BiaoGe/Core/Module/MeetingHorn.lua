@@ -936,7 +936,7 @@ BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, even, isLogin, isReload
 
             local edit = ChatEdit_ChooseBoxForSend()
             local dropDown = LibBG:Create_UIDropDownMenu(nil, edit)
-            edit:HookScript("OnMouseUp", function(self, button)
+            edit:HookScript(edit, "OnMouseUp", function(self, button) -- 暫時修正
                 if BiaoGe.options["MeetingHorn_whisper"] ~= 1 then return end
                 if button == "RightButton" then
                     local text1 = SendWhisper()
