@@ -431,7 +431,7 @@ L["No trade logs found."] = "No se encontraron registros de comercio.";
 L["Today"] = "Hoy";
 L["Yesterday"] = "Ayer";
 
-L["Level Log"] = "Registro";
+L["Level Log"] = "Registro de nivel";
 L["Mouseover log entry for more info"] = "Pasar el ratón para obtener más información";
 L["Current Level"] = "Nivel actual";
 L["Leveling history for"] = "Historial de nivelación para";
@@ -536,3 +536,18 @@ L["Sep"] = "Sep";
 L["Oct"] = "Oct";
 L["Nov"] = "Nov";
 L["Dec"] = "Dic";
+
+L["Blacksmithing"] = "Herrería";
+L["Leatherworking"] = "Peletería";
+L["Alchemy"] = "Alquimia";
+L["Herbalism"] = "Herboristería";
+L["Cooking"] = "Cocina";
+L["Mining"] = "Minería";
+L["Tailoring"] = "Sastrería";
+L["Engineering"] = "Ingeniería";
+L["Enchanting"] = "Encantamiento";
+L["Fishing"] = "Pesca";
+L["Skinning"] = "Desuello";
+L["Jewelcrafting"] = "Joyería";
+L["Inscription"] = "Inscripción";
+L["First Aid"] = "Primeros auxilios";
