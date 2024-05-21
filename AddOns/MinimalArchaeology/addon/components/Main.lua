@@ -24,9 +24,9 @@ end
 local function ShowRelevancyButtonTooltip()
 	local button = MinArchMainRelevancyButton;
 	if (MinArch.db.profile.relevancy.relevantOnly) then
-		MinArch:ShowWindowButtonTooltip(button, "顯示所有種族。\n\n|cFF00FF00右鍵點擊打開設定並自定義相關性選項。|r");
+		MinArch:ShowWindowButtonTooltip(button, "顯示所有種族。\n\n|cFF00FF00右鍵點擊打開設定並自訂相關性選項。|r");
 	else
-		MinArch:ShowWindowButtonTooltip(button, "僅顯示相關種族。\n\n|cFF00FF00右鍵點擊打開設定並自定義相關性選項。|r");
+		MinArch:ShowWindowButtonTooltip(button, "僅顯示相關種族。\n\n|cFF00FF00右鍵點擊打開設定並自訂相關性選項。|r");
 	end
 end
 

@@ -90,7 +90,7 @@ local function InitDistanceTracker()
             HelpPlateTooltip:SetPoint("BOTTOM", MinArchCompanion, "TOP", 0, 20);
             HelpPlateTooltip.Text:SetText("這是 Minimal Archaeology 小幫手視窗，帶有距離追蹤器等功能。"
                                             .. "|n|n"
-                                            .. "|cFFFFD100[右鍵點擊]|r 以關閉此教學提示，並顯示自定義設定。");
+                                            .. "|cFFFFD100[右鍵點擊]|r 以關閉此教學提示，並顯示自訂設定。");
             HelpPlateTooltip:Show();
         end
     end)
