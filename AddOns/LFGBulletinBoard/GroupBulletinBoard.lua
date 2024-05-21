@@ -211,8 +211,7 @@ end
 function GBB.ResetWindow()
 	GroupBulletinBoardFrame:ClearAllPoints()
 	GroupBulletinBoardFrame:SetPoint("Center", UIParent, "Center", 0, 0)
-	GroupBulletinBoardFrame:SetWidth(300)
-	GroupBulletinBoardFrame:SetHeight(170)
+	GroupBulletinBoardFrame:SetSize(GroupBulletinBoardFrame:GetResizeBounds())
 	GBB.SaveAnchors()
 	GBB.ResizeFrameList()
 end
@@ -427,7 +426,7 @@ end
 
 function GBB.Init()
 	GroupBulletinBoardFrame:SetResizeBounds(400,170)	
-	
+	GroupBulletinBoardFrame:SetClampedToScreen(true)
 	GBB.UserLevel=UnitLevel("player")
 	GBB.UserName=(UnitFullName("player"))
 	GBB.ServerName=GetRealmName()
@@ -632,12 +631,18 @@ function GBB.Init()
 	local version, build, date, tocversion = GetBuildInfo()
 
 	GBB.InitGroupList()
-	if string.sub(version, 1, 2) == "1." then
+	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 		GBB.Tool.AddTab(GroupBulletinBoardFrame,GBB.L.TabRequest,GroupBulletinBoardFrame_ScrollFrame)
+		GroupBulletinBoardFrame_LfgFrame:Hide()
+		GroupBulletinBoardFrame_GroupFrame:Hide()
 	else
 		GBB.Tool.AddTab(GroupBulletinBoardFrame,GBB.L.TabRequest,GroupBulletinBoardFrame_ScrollFrame)
-		GBB.Tool.AddTab(GroupBulletinBoardFrame,GBB.L.TabLfg,GroupBulletinBoardFrame_LfgFrame)
-		GBB.Tool.AddTab(GroupBulletinBoardFrame,GBB.L.TabGroup,GroupBulletinBoardFrame_GroupFrame)
+		GBB.Tool.AddTab(GroupBulletinBoardFrame,GBB.L.TabLfg,GroupBulletinBoardFrame_LfgFrame);
+		(GroupBulletinBoardFrame.Tabs[2]--[[@as button]]):SetText(
+			WrapTextInColorCode(GroupBulletinBoardFrame.Tabs[2]:GetText(), "FF6D6D6D")
+		);
+		(GroupBulletinBoardFrame.Tabs[2]--[[@as button]]):EnableMouse(false);
+		-- GBB.Tool.AddTab(GroupBulletinBoardFrame,GBB.L.TabGroup,GroupBulletinBoardFrame_GroupFrame)
 	end
 	GBB.Tool.SelectTab(GroupBulletinBoardFrame,1)
 	if GBB.DB.EnableGroup then
@@ -812,7 +817,7 @@ function GBB.OnUpdate(elapsed)
 		end;
 
 		if GBB.ElapsedSinceLfgUpdate > 18 and GBB.Tool.GetSelectedTab(GroupBulletinBoardFrame)==2 and GroupBulletinBoardFrame:IsVisible() then
-			LFGBrowseFrameRefreshButton:Click()
+			-- LFGListFrame.SearchPanel.RefreshButton:Click() -- hwevent protected
 			GBB.UpdateLfgTool()
 			GBB.ElapsedSinceLfgUpdate = 0
 		else
