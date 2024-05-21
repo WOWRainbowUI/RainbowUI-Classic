@@ -523,11 +523,9 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         f:SetHeight(info:GetStringHeight() + (SpellDoneText and t:GetStringHeight() or 0) + 3)
 
         -- 更新NPC框架高度
-		if f:GetBottom() then  -- 暫時修正
-			local h = frame:GetTop() - f:GetBottom() + 10
-			frame:SetHeight(h)
-			frame.height = h
-		end
+        local h = frame:GetTop() - f:GetBottom() + 10
+        frame:SetHeight(h)
+        frame.height = h
     end
 
     -- 创建技能预警图标
@@ -680,10 +678,8 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             tex:SetTexture([[Interface\TargetingFrame\UI-RaidTargetingIcons]])
             tex:SetTexCoord(0, 0.25, 0, 0.25)
 
-            if t:GetBottom() then  -- 暫時修正
-				local h = f:GetTop() - t:GetBottom() + 10
-				f:SetHeight(h)
-			end
+            local h = f:GetTop() - t:GetBottom() + 10
+            f:SetHeight(h)
         end
     end
 end)
