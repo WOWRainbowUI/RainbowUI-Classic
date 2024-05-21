@@ -2,7 +2,7 @@
 ## Title: Minimal Archaeology
 ## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
 ## Email: gyussz@live.com
-## Version: 10.2.11
+## Version: 10.2.11.1
 ## Notes: Archaeology UI replacement, Archaeology History and more... - Mainline version
 ## Title-zhTW: |cffFFFF99[專業]|r 考古小幫手
 ## Notes-zhTW: Minimal Archaeology|n|n可顯示距離，自動導航挖掘場，各種挖掘紀錄，更方便快速的考古挖掘等功能。
