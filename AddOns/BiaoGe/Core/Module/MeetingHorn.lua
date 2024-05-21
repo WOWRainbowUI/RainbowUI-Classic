@@ -18,20 +18,17 @@ local AddTexture = ADDONSELF.AddTexture
 local GetItemID = ADDONSELF.GetItemID
 
 local pt = print
+local RealmId = GetRealmID()
+local player = UnitName("player")
 
 BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, even, isLogin, isReload)
     if not (isLogin or isReload) then return end
 
     BG.MeetingHorn = {}
-    local addonName = "MeetingHorn"
-    if not IsAddOnLoaded(addonName) then return end
-    local MeetingHorn = LibStub("AceAddon-3.0"):GetAddon(addonName)
 
     if not BiaoGe.MeetingHorn then
         BiaoGe.MeetingHorn = {}
     end
-    local RealmId = GetRealmID()
-    local player = UnitName("player")
     if not BiaoGe.MeetingHorn[RealmId] then
         BiaoGe.MeetingHorn[RealmId] = {}
     end
@@ -44,6 +41,20 @@ BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, even, isLogin, isReload
         end
         BiaoGe.MeetingHorn[player] = nil
     end
+
+    if not BiaoGe.MeetingHornWhisper then
+        BiaoGe.MeetingHornWhisper = {}
+    end
+    if not BiaoGe.MeetingHornWhisper[RealmId] then
+        BiaoGe.MeetingHornWhisper[RealmId] = {}
+    end
+    if not BiaoGe.MeetingHornWhisper[RealmId][player] then
+        BiaoGe.MeetingHornWhisper[RealmId][player] = {}
+    end
+
+    local addonName = "MeetingHorn"
+    if not IsAddOnLoaded(addonName) then return end
+    local MeetingHorn = LibStub("AceAddon-3.0"):GetAddon(addonName)
 
     -- 历史搜索记录
     do
@@ -276,18 +287,6 @@ BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, even, isLogin, isReload
 
     -- 密语增强
     do
-        if not BiaoGe.MeetingHornWhisper then
-            BiaoGe.MeetingHornWhisper = {}
-        end
-        local RealmId = GetRealmID()
-        local player = UnitName("player")
-        if not BiaoGe.MeetingHornWhisper[RealmId] then
-            BiaoGe.MeetingHornWhisper[RealmId] = {}
-        end
-        if not BiaoGe.MeetingHornWhisper[RealmId][player] then
-            BiaoGe.MeetingHornWhisper[RealmId][player] = {}
-        end
-
         local lastfocus
 
         local M = {}

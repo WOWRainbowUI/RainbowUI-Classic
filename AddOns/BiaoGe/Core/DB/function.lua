@@ -90,6 +90,13 @@ function BG.Is11501()
     if ver == 11501 then return true end
 end
 
+function BG.IsWLKFB(FB)
+    local FB = FB or BG.FB1
+    if (FB == "NAXX" and not BG.IsVanilla()) or FB == "ULD" or FB == "TOC" or FB == "ICC" then
+        return true
+    end
+end
+
 -- 阵营
 local function IsAlliance()
     return UnitFactionGroup("player") == "Alliance"

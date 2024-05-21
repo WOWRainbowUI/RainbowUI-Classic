@@ -14,6 +14,7 @@ local HopeMaxi = ADDONSELF.HopeMaxi
 local Width = ADDONSELF.Width
 local Height = ADDONSELF.Height
 local RGB = ADDONSELF.RGB
+local BossNumtbl = ADDONSELF.BossNumtbl
 
 local pt = print
 local RealmId = GetRealmID()
@@ -55,6 +56,19 @@ local function RGB_16(name, r, g, b)
     end
 end
 ADDONSELF.RGB_16 = RGB_16
+
+-- 第几个BOSS
+local function BossNum(FB, b, t)
+    local tbl = BossNumtbl[FB]
+    local bb
+    if tbl[t + 1] then
+        bb = tbl[t + 1] - tbl[t]
+    else
+        bb = Maxb[FB] + 2 - tbl[t]
+    end
+    return b + tbl[t], bb
+end
+ADDONSELF.BossNum = BossNum
 
 ------------------在文本里插入材质图标------------------
 local function AddTexture(Texture, y, coord)
@@ -462,7 +476,7 @@ function BG.DropDownListIsVisible(self)
     end
 end
 
-----------右键菜单切换开/关----------
+----------高亮按钮----------
 function BG.SetTextHighlightTexture(bt)
     local tex = bt:CreateTexture()
     -- tex:SetPoint("CENTER")

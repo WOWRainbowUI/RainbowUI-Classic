@@ -121,6 +121,7 @@ do
             edgeFile = "Interface/ChatFrame/ChatFrameBackground",
             edgeSize = 2,
         })
+        BG.lastModel = model
     end
 end
 
@@ -204,7 +205,7 @@ function BG.CreateBossModel()
         model:SetPitch(0.15)
         model:SetRoll(0)
         -- CreateAllTestButton(model)
-    else
+    elseif BG.IsWLK() then
         local model = CreateBossModel("ICC", 12, 0, -70, 31301, 0.5)
         model:SetPosition(0, 0, 0) -- Z,X,Y
         model:SetFacing(0)         -- 左右
@@ -231,6 +232,25 @@ function BG.CreateBossModel()
         model:SetFacing(-0)
         model:SetPitch(0.3)
         model:SetRoll(0)
+        -- CreateAllTestButton(model)
+    elseif BG.IsCTM() then
+        local model = CreateBossModel("BOT", 5, 50, 90, 45213, 0.8)
+        model:SetPosition(-2, 0, 0) -- Z,X,Y
+        model:SetFacing(-0.1)       -- 左右
+        model:SetPitch(0)           -- 上下
+        model:SetRoll(0)            -- 倾斜
+        -- CreateAllTestButton(model)
+        local model = CreateBossModel("BWD", 6, 70, -30, 41376, 0.8)
+        model:SetPosition(-8, 0, 0) -- Z,X,Y
+        model:SetFacing(-0.4)       -- 左右
+        model:SetPitch(0)           -- 上下
+        model:SetRoll(0)            -- 倾斜
+        -- CreateAllTestButton(model)
+        local model = CreateBossModel("TOF", 2, 0, -10, 46753, 0.75)
+        model:SetPosition(-20, 0, 0) -- Z,X,Y
+        model:SetFacing(0)           -- 左右
+        model:SetPitch(0)            -- 上下
+        model:SetRoll(0)             -- 倾斜
         -- CreateAllTestButton(model)
     end
 end
