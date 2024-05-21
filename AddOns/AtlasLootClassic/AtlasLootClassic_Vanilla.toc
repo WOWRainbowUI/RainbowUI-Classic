@@ -1,4 +1,4 @@
-## Interface: 11404
+## Interface: 11502
 ## Author: Lag
 ## Version: v4.0.0-alpha0
 ## SavedVariables: AtlasLootClassicDB
