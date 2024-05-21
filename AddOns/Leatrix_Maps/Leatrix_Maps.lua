@@ -1,6 +1,6 @@
 ﻿
 	----------------------------------------------------------------------
-	-- 	Leatrix Maps 4.0.03 (27th April 2024)
+	-- 	Leatrix Maps 4.0.06 (15th May 2024)
 	----------------------------------------------------------------------
 
 	-- 10:Func, 20:Comm, 30:Evnt, 40:Panl
@@ -12,7 +12,7 @@
 	local LeaMapsLC, LeaMapsCB, LeaDropList, LeaConfigList, LeaLockList = {}, {}, {}, {}, {}
 
 	-- Version
-	LeaMapsLC["AddonVer"] = "4.0.03"
+	LeaMapsLC["AddonVer"] = "4.0.06"
 
 	-- Get locale table
 	local void, Leatrix_Maps = ...
@@ -34,9 +34,9 @@
 	end
 
 	-- Check for addons
-	if IsAddOnLoaded("ElvUI") then LeaMapsLC.ElvUI = unpack(ElvUI) end
-	if IsAddOnLoaded("Carbonite") then LeaMapsLC.Carbonite = true end
-	if IsAddOnLoaded("Demodal") then LeaMapsLC.Demodal = true end
+	if C_AddOns.IsAddOnLoaded("ElvUI") then LeaMapsLC.ElvUI = unpack(ElvUI) end
+	if C_AddOns.IsAddOnLoaded("Carbonite") then LeaMapsLC.Carbonite = true end
+	if C_AddOns.IsAddOnLoaded("Demodal") then LeaMapsLC.Demodal = true end
 
 	-- Set bindings translations
 	_G.BINDING_NAME_LEATRIX_MAPS_GLOBAL_TOGGLE = L["Toggle panel"]
@@ -108,7 +108,7 @@
 		end
 
 		-- Load Battlefield addon
-		if not IsAddOnLoaded("Blizzard_BattlefieldMap") then
+		if not C_AddOns.IsAddOnLoaded("Blizzard_BattlefieldMap") then
 			RunScript('UIParentLoadAddOn("Blizzard_BattlefieldMap")')
 		end
 
@@ -2636,10 +2636,24 @@
 			subTitle:ClearAllPoints()
 			subTitle:SetPoint("BOTTOM", 0, 72)
 
-			local slashTitle = LeaMapsLC:MakeTx(interPanel, "/ltm", 0, 0)
+			local slashButton = CreateFrame("Button", nil, interPanel)
+			slashButton:SetPoint("BOTTOM", subTitle, "TOP", 0, 40)
+			slashButton:SetScript("OnClick", function() SlashCmdList["Leatrix_Maps"]("") end)
+
+			local slashTitle = LeaMapsLC:MakeTx(slashButton, "/ltm", 0, 0)
 			slashTitle:SetFont(slashTitle:GetFont(), 72)
 			slashTitle:ClearAllPoints()
-			slashTitle:SetPoint("BOTTOM", subTitle, "TOP", 0, 40)
+			slashTitle:SetAllPoints()
+
+			slashButton:SetSize(slashTitle:GetSize())
+			slashButton:SetScript("OnEnter", function()
+				slashTitle.r,  slashTitle.g, slashTitle.b = slashTitle:GetTextColor()
+				slashTitle:SetTextColor(1, 1, 0)
+			end)
+
+			slashButton:SetScript("OnLeave", function()
+				slashTitle:SetTextColor(slashTitle.r, slashTitle.g, slashTitle.b)
+			end)
 
 			local pTex = interPanel:CreateTexture(nil, "BACKGROUND")
 			pTex:SetAllPoints()
@@ -3405,8 +3419,8 @@
 				return
 			elseif str == "dbf" then
 				-- Show battlefield map for debugging
-				if not IsAddOnLoaded("Blizzard_BattlefieldMap") then
-					LoadAddOn("Blizzard_BattlefieldMap")
+				if not C_AddOns.IsAddOnLoaded("Blizzard_BattlefieldMap") then
+					C_AddOns.LoadAddOn("Blizzard_BattlefieldMap")
 				end
 				BattlefieldMapFrame:Show()
 				return
@@ -3697,7 +3711,7 @@
 						if E.private.general.worldMap then
 							Lock("SetMapOpacity", reason, "Maps") -- Set map opacity
 						end
-						EnableAddOn("Leatrix_Maps")
+						C_AddOns.EnableAddOn("Leatrix_Maps")
 					end
 				end
 			end
