@@ -14,6 +14,7 @@ L["SpyDescription1"] = [[
 Spy 是一個可以警告你附近有敵方玩家出沒的插件。這裡列出一些主要功能。
 
 ]]
+
 L["SpyDescription2"] = [[
 |cffffd000附近清單|cffffffff
 附近清單會顯示已經被偵測到在附近的任何敵方玩家。點一下清單中的名字可以將玩家選取為目標，但是只能在非戰鬥中使用。一段時間後沒有偵測到的玩家會從清單中自動移除。
@@ -25,7 +26,8 @@ L["SpyDescription2"] = [[
 Spy 不會顯示被加入到忽略清單中的玩家。透過滑鼠右鍵選單，或是按住 CTRL 鍵點擊名字將玩家加入清單和移除。
 
 |cffffd000即殺清單|cffffffff
-偵測到在即殺清單清單中的玩家時會發出警告。透過滑鼠右鍵選單，或是按住 SHIFT 鍵點擊名字將玩家加入清單和移除。滑鼠右鍵選單也可以設定將某人加入到即殺清單的原因。如果你想要輸入不在清單中的原因，請在其他清單中使用 "自行輸入原因..."。
+偵測到在即殺清單清單中的玩家時會發出警告。透過滑鼠右鍵選單，或是按住 SHIFT 鍵點擊名字將玩家加入清單和移除。
+滑鼠右鍵選單也可以設定將某人加入到即殺清單的原因。如果你想要輸入不在清單中的原因，請在其他清單中使用 "自行輸入原因..."。
 
 ]]
 
@@ -82,7 +84,7 @@ L["The Roasted Ram"] = "炙烤公羊旅店"
 -- Display
 L["DisplayOptions"] = "顯示"
 L["DisplayOptionsDescription"] = [[
-Spy 視窗的選項和浮動提示資訊。
+Spy 視窗的選項和滑鼠提示。
 ]]
 L["ShowOnDetection"] = "偵測到敵方玩家時顯示"
 L["ShowOnDetectionDescription"] = "偵測到敵方玩家時會自動將隱藏的 Spy 視窗和附近清單顯示出來。"
@@ -108,21 +110,21 @@ L["ResizeSpy"] = "自動調整視窗大小"
 L["ResizeSpyDescription"] = "新增和移除敵方玩家時自動調整 Spy 視窗的大小。"
 L["ResizeSpyLimit"] = "清單長度限制"
 L["ResizeSpyLimitDescription"] = "限制 Spy 視窗中顯示的敵方玩家數量。"
-L["DisplayTooltipNearSpyWindow"] = "在 Spy 視窗附近顯示浮動提示資訊"
-L["DisplayTooltipNearSpyWindowDescription"] = "勾選時，浮動提示資訊會顯示在 Spy 視窗旁。"
-L["SelectTooltipAnchor"] = "浮動提示資訊位置"
-L["SelectTooltipAnchorDescription"] = "已勾選上面的選項時，可以選擇浮動提示資訊的對齊位置。"
+L["DisplayTooltipNearSpyWindow"] = "在 Spy 視窗附近顯示滑鼠提示"
+L["DisplayTooltipNearSpyWindowDescription"] = "勾選時，滑鼠提示會顯示在 Spy 視窗旁。"
+L["SelectTooltipAnchor"] = "滑鼠提示位置"
+L["SelectTooltipAnchorDescription"] = "已勾選上面的選項時，可以選擇滑鼠提示的對齊位置。"
 L["ANCHOR_CURSOR"] = "跟隨游標"
 L["ANCHOR_TOP"] = "上"
 L["ANCHOR_BOTTOM"] = "下"
 L["ANCHOR_LEFT"] = "左"			
 L["ANCHOR_RIGHT"] = "右"
-L["TooltipDisplayWinLoss"] = "浮動提示資訊中顯示勝/敗統計"
-L["TooltipDisplayWinLossDescription"] = "在玩家的浮動提示資訊中顯示該玩家的勝/敗統計資訊。"
-L["TooltipDisplayKOSReason"] = "浮動提示資訊中顯示即殺原因"
-L["TooltipDisplayKOSReasonDescription"] = "在玩家的浮動提示資訊中顯示該玩家被加入到即殺清單中的原因。"
-L["TooltipDisplayLastSeen"] = "浮動提示資訊中顯示上次遇到的詳情"
-L["TooltipDisplayLastSeenDescription"] = "在玩家的浮動提示資訊中顯示最近一次遇到該玩家的時間和地點。"
+L["TooltipDisplayWinLoss"] = "滑鼠提示中顯示勝/敗統計"
+L["TooltipDisplayWinLossDescription"] = "在玩家的滑鼠提示中顯示該玩家的勝/敗統計資訊。"
+L["TooltipDisplayKOSReason"] = "滑鼠提示中顯示即殺原因"
+L["TooltipDisplayKOSReasonDescription"] = "在玩家的滑鼠提示中顯示該玩家被加入到即殺清單中的原因。"
+L["TooltipDisplayLastSeen"] = "滑鼠提示中顯示上次遇到的詳情"
+L["TooltipDisplayLastSeenDescription"] = "在玩家的滑鼠提示中顯示最近一次遇到該玩家的時間和地點。"
 L["DisplayListData"] = "選擇要顯示的敵方資料"
 L["Name"] = "名字"
 L["Class"] = "職業"
@@ -209,13 +211,13 @@ L["PrioritiseKoSDescription"] = "在附近清單中總是將即殺的敵方玩�
 -- Map
 L["MapOptions"] = "地圖"
 L["MapOptionsDescription"] = [[
-世界地圖和小地圖的選項，包括圖示和浮動提示資訊。
+世界地圖和小地圖的選項，包括圖示和滑鼠提示。
 ]]
 L["MinimapDetection"] = "啟用小地圖偵測"
 L["MinimapDetectionDescription"] = "將滑鼠游標移動到小地圖上偵測到的敵方玩家上面時，會將他們加入 '附近' 清單。"
 L["MinimapNote"] = "          注意：僅適用於可以追踪人形生物的玩家。"
-L["MinimapDetails"] = "浮動提示資訊中顯示等級/職業細節"
-L["MinimapDetailsDescription"] = "更新小地圖的浮動提示資訊，隨著敵人名字一併顯示等級/職業的詳細資訊。"
+L["MinimapDetails"] = "滑鼠提示中顯示等級/職業細節"
+L["MinimapDetailsDescription"] = "更新小地圖的滑鼠提示，隨著敵人名字一併顯示等級/職業的詳細資訊。"
 L["DisplayOnMap"] = "在地圖上顯示圖示"
 L["DisplayOnMapDescription"] = "當你的隊友、團隊或公會成員偵測到敵人時，在地圖上顯示他們的位置。"
 L["SwitchToZone"] = "偵測到敵人時切換到目前區域的地圖"
@@ -231,6 +233,7 @@ L["LimitSameContinentDescription"] = "只顯示同一塊大陸中偵測到的敵
 -- Data Management
 L["DataOptions"] = "資料維護"
 L["DataOptionsDescription"] = [[
+
 關於 Spy 如何維護和收集數據的選項。
 ]]
 L["PurgeData"] = "清除多久後未偵測到的敵方玩家:"
@@ -301,10 +304,10 @@ L["HonorKills"] = "榮譽擊殺"
 L["PvPDeaths"] = "PvP 死亡"
 
 -- Output messages
-L["VersionCheck"] = "|cffc41e3a警告! 安裝了錯誤版本的 Spy，此版本是給浩劫與重生經典版用的。"
+L["VersionCheck"] = "|cffc41e3a警告! 安裝了錯誤版本的 Spy，此版本是給經典版 (經典時期) 用的。"
 L["SpyEnabled"] = "|cff9933ff偵測敵方玩家插件已啟用。"
 L["SpyDisabled"] = "|cff9933ff偵測敵方玩家插件已停用，輸入 |cffffffff/spy show|cff9933ff 來啟用。"
-L["UpgradeAvailable"] = "|cff9933ff偵測敵方玩家插件已有新版本，可以到這裡下載：\n|cffffffffhttps://www.curseforge.com/wow/addons/spy-cataclysm"
+L["UpgradeAvailable"] = "|cff9933ff偵測敵方玩家插件已有新版本，可以到這裡下載：\n|cffffffffhttps://www.curseforge.com/wow/addons/spy-classic"
 L["AlertStealthTitle"] = "偵測到隱形玩家!"
 L["AlertKOSTitle"] = "偵測到即殺玩家!"
 L["AlertKOSGuildTitle"] = "偵測到公會即殺玩家!"
@@ -475,6 +478,9 @@ L["WARRIOR"] = "戰士"
 L["DEATHKNIGHT"] = "死亡騎士"
 L["MONK"] = "武僧"
 L["DEMONHUNTER"] = "惡魔獵人"
+L["EVOKER"] = "唤魔师"
+
+-- Race descriptions
 L["EVOKER"] = "喚能師"
 
 -- Race descriptions
@@ -525,13 +531,7 @@ L["MinimapClassTextDEMONHUNTER"] = "|cffa330c9"
 L["MinimapClassTextEVOKER"] = "|cff33937f"
 
 Spy_IgnoreList = {
-	["邮箱"]=true, ["Shred Master Mk1"]=true, ["Scrap-O-Matic 1000"]=true,
-	["前往暴风城的船"]=true, ["前往伯拉勒斯港（提拉加德海峡）的船"]=true,
-	["Treasure Chest"]=true, ["Small Treasure Chest"]=true,
-	["阿昆达之噬"]=true, ["锚草"]=true, ["流波花苞"]=true,    
-	["海潮茎杆"]=true, ["海妖花粉"]=true, ["星光苔"]=true,   
-	["凛冬之吻"]=true, ["战争指挥部（PvP）"]=true,
-	["联盟刺客"]=true, ["部落刺客"]=true,
-	["秘法师鸟羽帽"]=true, ["表弟慢热手"]=true,	
-	["联盟的艾泽里特"]=true, ["部落的艾泽里特"]=true,	
+	["邮箱"]=true, 
+	["Treasure Chest"]=true,
+	["Small Treasure Chest"]=true,
 };

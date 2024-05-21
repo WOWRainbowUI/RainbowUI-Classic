@@ -27,6 +27,7 @@ GUI.ListFrameFields = {
 local SORT = {
     ["SpyStatsPlayersNameSort"] = "name",
     ["SpyStatsPlayersLevelSort"] = "level",
+    ["SpyStatsPlayersRankSort"] = "rank",
     ["SpyStatsPlayersClassSort"] = "class",
     ["SpyStatsPlayersGuildSort"] = "guild",
     ["SpyStatsPlayersWinsSort"] = "wins",
@@ -90,9 +91,9 @@ function SpyStats:Show()
     SpyStatsWinsLosesCheckbox:SetChecked(false)
     SpyStatsReasonCheckbox:SetChecked(false)
 	local HonorKills, _, HighestRank = GetPVPLifetimeStats("player")
---	SpyStatsHonorKillsText:SetText(L["HonorKills"]..":  "..HonorKills) -- Classic
-	SpyStatsHonorKillsText:SetText(L["HonorKills"]..":  "..GetStatistic(588))
-	SpyStatsPvPDeathsText:SetText(L["PvPDeaths"]..":  "..GetStatistic(1501))
+	SpyStatsHonorKillsText:SetText(L["HonorKills"]..":  "..HonorKills)
+--	SpyStatsHonorKillsText:SetText(L["HonorKills"]..":  "..GetStatistic(588))
+--	SpyStatsPvPDeathsText:SetText(L["PvPDeaths"]..":  "..GetStatistic(1501))
     SpyStatsFrame:Show()
     self:Recalulate()
     self:ScheduleRepeatingTimer("Refresh", 1)
@@ -125,7 +126,7 @@ function SpyStats:UpdateView()
         SpyStatsWinsLosesCheckbox:ClearAllPoints()	
         SpyStatsWinsLosesCheckbox:SetPoint("LEFT", SpyStatsKosCheckboxText, "RIGHT", 12, -1)
 
-        if (self.sortBy == "name") or (self.sortBy == "level") or (self.sortBy == "class") then
+        if (self.sortBy == "name") or (self.sortBy == "level") or (self.sortBy == "rank") or (self.sortBy == "class") then
             self.sortBy = "time"
         end 
     end 
@@ -249,6 +250,10 @@ function SpyStats:Refresh()
                 local level = GUI.ListFrameFields[view][row]["Level"]
                 level:SetText(unit.level)
                 level:SetTextColor(r, g, b)
+
+                local rank = GUI.ListFrameFields[view][row]["Rank"]
+                rank:SetText(unit.rank)
+                rank:SetTextColor(r, g, b)
 
                 local class = GUI.ListFrameFields[view][row]["Class"]
 				local classtext = unit.class

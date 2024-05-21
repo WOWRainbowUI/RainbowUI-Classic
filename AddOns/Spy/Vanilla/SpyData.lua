@@ -38,6 +38,7 @@ local cache = {
     players = {
         name = {data = {}},
         level = {data = {}},
+        rank = {data = {}},
         class = {data = {}},
         guild = {data = {}},
         wins = {data = {}},
@@ -214,6 +215,7 @@ do -- SpyData:GetPlayers() - Iterators
     local sorters = {
         ["name"] = function (a, b) return (a.name and a.name or "") < (b.name and b.name or "") end,
         ["level"] = function (a, b) return (a.level and (a.level > 0 and a.level or 255) or 0) > (b.level and (b.level > 0 and b.level or 255) or 0) end,
+        ["rank"] = function (a, b) return (a.rank and a.rank or 0) > (b.rank and b.rank or 0) end,
         ["class"] = function (a, b) return (a.class and a.class or "zzzzzz") < (b.class and b.class or "zzzzzz") end,
         ["guild"] = function (a, b) return (a.guild and a.guild or "zzzzzz") < (b.guild and b.guild or "zzzzzz") end,
         ["wins"] = function (a, b) return (a.wins and a.wins or 0) > (b.wins and b.wins or 0) end,

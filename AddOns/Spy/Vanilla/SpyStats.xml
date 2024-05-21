@@ -19,9 +19,17 @@
         </Anchors>
         <Size x="33" y="15" />
     </FontString>
-    <FontString name="SpyStatsClassTemplate" inherits="SpyStatsStringTemplate" virtual="true">
+    <FontString name="SpyStatsRankTemplate" inherits="SpyStatsStringTemplate" virtual="true">
         <Anchors>
             <Anchor point="LEFT" relativeTo="$parentLevel" relativePoint="RIGHT">
+                <Offset x="8" y="0" />
+            </Anchor>
+        </Anchors>
+        <Size x="33" y="15" />
+    </FontString>	
+    <FontString name="SpyStatsClassTemplate" inherits="SpyStatsStringTemplate" virtual="true">
+        <Anchors>
+            <Anchor point="LEFT" relativeTo="$parentRank" relativePoint="RIGHT">
                 <Offset x="8" y="0" />
             </Anchor>
         </Anchors>
@@ -91,6 +99,7 @@
                     <Layer level="OVERLAY">
                         <FontString name="$parentName" inherits="SpyStatsNameTemplate"></FontString>
                         <FontString name="$parentLevel" inherits="SpyStatsLevelTemplate"></FontString>
+                        <FontString name="$parentRank" inherits="SpyStatsRankTemplate"></FontString>						
                         <FontString name="$parentClass" inherits="SpyStatsClassTemplate"></FontString>
                         <FontString name="$parentGuild" inherits="SpyStatsGuildTemplate"></FontString>
                         <FontString name="$parentWins" inherits="SpyStatsWinsTemplate"></FontString>
@@ -148,9 +157,17 @@
         </Anchors>
         <Size x="33" y="15"></Size>
     </Button>
-    <Button name="SpyStatsPlayersClassSortTemplate" inherits="SpyStatsSortButtonTemplate" text="CLASS" virtual="true">
+    <Button name="SpyStatsPlayersRankSortTemplate" inherits="SpyStatsSortButtonTemplate" text="RANK" virtual="true">
         <Anchors>
             <Anchor point="LEFT" relativeTo="SpyStatsPlayersLevelSort" relativePoint="RIGHT">
+                <Offset x="6" y="0" />
+            </Anchor>
+        </Anchors>
+        <Size x="33" y="15"></Size>
+    </Button>	
+    <Button name="SpyStatsPlayersClassSortTemplate" inherits="SpyStatsSortButtonTemplate" text="CLASS" virtual="true">
+        <Anchors>
+            <Anchor point="LEFT" relativeTo="SpyStatsPlayersRankSort" relativePoint="RIGHT">
                 <Offset x="8" y="0" />
             </Anchor>
         </Anchors>
@@ -430,6 +447,7 @@
                                         <Frames>
                                             <Button name="SpyStatsPlayersNameSort" inherits="SpyStatsPlayersNameSortTemplate"/>
                                             <Button name="SpyStatsPlayersLevelSort" inherits="SpyStatsPlayersLevelSortTemplate"/>
+                                            <Button name="SpyStatsPlayersRankSort" inherits="SpyStatsPlayersRankSortTemplate"/>
                                             <Button name="SpyStatsPlayersClassSort" inherits="SpyStatsPlayersClassSortTemplate"/>
                                             <Button name="SpyStatsPlayersGuildSort" inherits="SpyStatsPlayersGuildSortTemplate"/>
                                             <Button name="SpyStatsPlayersWinsSort" inherits="SpyStatsPlayersWinsSortTemplate"/>

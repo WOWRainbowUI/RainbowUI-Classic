@@ -303,10 +303,10 @@ L["HonorKills"] = "Honor Kills"
 L["PvPDeaths"] = "PvP Deaths"
 
 -- Output Messages
-L["VersionCheck"] = "|cffc41e3aWarning! The wrong version of Spy is installed. This version is for World of Warcraft - Cataclysm Classic."
+L["VersionCheck"] = "|cffc41e3aWarning! The wrong version of Spy is installed. This version is for World of Warcraft Classic."
 L["SpyEnabled"] = "|cff9933ffSpy addon enabled."
 L["SpyDisabled"] = "|cff9933ffSpy addon disabled. Type |cffffffff/spy show|cff9933ff to enable."
-L["UpgradeAvailable"] = "|cff9933ffA new version of Spy is available. It can be downloaded from:\n|cffffffffhttps://www.curseforge.com/wow/addons/spy-cataclysm"
+L["UpgradeAvailable"] = "|cff9933ffA new version of Spy is available. It can be downloaded from:\n|cffffffffhttps://www.curseforge.com/wow/addons/spy-classic"
 L["AlertStealthTitle"] = "Stealth player detected!"
 L["AlertKOSTitle"] = "Kill On Sight player detected!"
 L["AlertKOSGuildTitle"] = "Kill On Sight player guild detected!"
@@ -368,7 +368,6 @@ L["LocalDefenseChannelName"] = "LocalDefense"
 
 -- 自行加入
 L["Your pet/guardian killed "] = "Your pet/guardian killed "
-
 Spy_KOSReasonListLength = 6
 Spy_KOSReasonList = {
 	[1] = {
@@ -527,13 +526,7 @@ L["MinimapClassTextDEMONHUNTER"] = "|cffa330c9"
 L["MinimapClassTextEVOKER"] = "|cff33937f"
 
 Spy_IgnoreList = {
-	["Mailbox"]=true, ["Shred Master Mk1"]=true, ["Scrap-O-Matic 1000"]=true,
-	["Boat to Stormwind City"]=true, ["Boat to Boralus Harbor, Tiragarde Sound"]=true,
-	["Treasure Chest"]=true, ["Small Treasure Chest"]=true,	
-	["Akunda's Bite"]=true, ["Anchor Weed"]=true, ["Riverbud"]=true,    
-	["Sea Stalk"]=true, ["Siren's Pollen"]=true, ["Star Moss"]=true,   
-	["Winter's Kiss"]=true, ["War Headquarters (PvP)"]=true,
-	["Alliance Assassin"]=true, ["Horde Assassin"]=true,	
-	["Mystic Birdhat"]=true, ["Cousin Slowhands"]=true,	
-	["Azerite for the Alliance"]=true, ["Azerite for the Horde"]=true,
+	["Mailbox"]=true, 
+	["Treasure Chest"]=true, 
+	["Small Treasure Chest"]=true,	
 };

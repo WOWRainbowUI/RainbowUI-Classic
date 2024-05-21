@@ -303,10 +303,10 @@ L["HonorKills"] = "荣誉击杀"
 L["PvPDeaths"] = "PvP 死亡"
  
 -- Output Messages
-L["VersionCheck"] = "|cffc41e3a警告！ 安装了错误的Spy版本。 此版本适用于 World of Warcraft - Cataclysm Classic。"
+L["VersionCheck"] = "|cffc41e3a警告！ 安装了错误的Spy版本。 此版本适用于 World of Warcraft Classic。"
 L["SpyEnabled"] = "|cff9933ffSpy 侦测敌方玩家插件已启动。"
 L["SpyDisabled"] = "|cff9933ffSpy 侦测敌方玩家插件已关闭。 输入 |cffffffff/spy show|cff9933ff 启动插件。"
-L["UpgradeAvailable"] = "|cff9933ff新版Spy 侦测敌方玩家 已有新的版本。 可以从这里下载新版本：\n|cffffffffhttps://www.curseforge.com/wow/addons/spy-cataclysm"
+L["UpgradeAvailable"] = "|cff9933ff新版Spy 侦测敌方玩家 已有新的版本。 可以从这里下载新版本：\n|cffffffffhttps://www.curseforge.com/wow/addons/spy-classic"
 L["AlertStealthTitle"] = "侦测到潜行敌人！"
 L["AlertKOSTitle"] = "侦测到KOS敌对玩家！"
 L["AlertKOSGuildTitle"] = "侦测到KOS敌对公会！"
@@ -524,13 +524,7 @@ L["MinimapClassTextDEMONHUNTER"] = "|cffa330c9"
 L["MinimapClassTextEVOKER"] = "|cff33937f"
 
 Spy_IgnoreList = {
-	["邮箱"]=true, ["Shred Master Mk1"]=true, ["Scrap-O-Matic 1000"]=true,
-	["前往暴风城的船"]=true, ["前往伯拉勒斯港（提拉加德海峡）的船"]=true,
-	["Treasure Chest"]=true, ["Small Treasure Chest"]=true,
-	["阿昆达之噬"]=true, ["锚草"]=true, ["流波花苞"]=true,    
-	["海潮茎杆"]=true, ["海妖花粉"]=true, ["星光苔"]=true,   
-	["凛冬之吻"]=true, ["战争指挥部（PvP）"]=true,
-	["联盟刺客"]=true, ["部落刺客"]=true,
-	["秘法师鸟羽帽"]=true, ["表弟慢热手"]=true,	
-	["联盟的艾泽里特"]=true, ["部落的艾泽里特"]=true,	
+	["邮箱"]=true, 
+	["Treasure Chest"]=true,
+	["Small Treasure Chest"]=true,
 };
