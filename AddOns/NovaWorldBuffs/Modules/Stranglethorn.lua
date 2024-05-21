@@ -18,7 +18,7 @@ end
 
 --These times are adjusted if DST is active in the getTimeLeft() func.
 local isUS;
-local region = GetCurrentRegion();
+local region = NWB:GetCurrentRegion();
 if (region == 1 and string.match(NWB.realm, "(AU)")) then
 	--OCE.
 	calcStart = 1707264000; --Date and time (GMT): Wednesday, February 7, 2024 12:00:00 AM
@@ -40,6 +40,8 @@ elseif (region == 5) then
 	calcStart = 1707260400; --CN same as OCE/US.
 end
 calcStart = calcStart - 3600; --Stv runs 1 hour before ashenvale.
+--Trying to fix some issues with the timer not being exact, why is GetServerTime() not accurate?
+calcStart = calcStart + 30;
 
 local function getTimeLeft()
 	local timeLeft, type;
@@ -694,6 +696,104 @@ if (NWB.isSOD) then
 			parseGUID("mouseover");
 		elseif (event == "NAME_PLATE_UNIT_ADDED") then
 			parseGUID("nameplate1");
+		end
+	end)
+end
+
+if (NWB.isSOD) then
+	--Capping support, I realize there's frames already above but I want to keep features seperate.
+	--AREA_POIS_UPDATED is triggered right after a widget update when the event starts or ends, so it overrides the widget update.
+	--This doesn't matter to much when ending becaus there's another widget update 1 minute later that starts the bar.
+	--But we can just add a small cooldown to ignore the second event in this way since they come in the wrong order.
+	local f = CreateFrame("Frame");
+	--local isRunning;
+	local startsBarRunning, endsBarRunning;
+	local lastWidgetUpdate = 0;
+	f:RegisterEvent("PLAYER_ENTERING_WORLD");
+	f:RegisterEvent("AREA_POIS_UPDATED");
+	f:RegisterEvent("UPDATE_UI_WIDGET");
+	f:SetScript("OnEvent", function(self, event, ...)
+		if (event == "PLAYER_ENTERING_WORLD" or event == "AREA_POIS_UPDATED") then
+			local _, _, zone = NWB.dragonLib:GetPlayerZonePosition();
+			if (zone == 1434) then
+				--[[if (event == "PLAYER_ENTERING_WORLD") then
+					--Set running state if we logon in the zone, no widget update event will be fired they're loaded before the addon.
+					local isLogon, isReload = ...;
+					if (isLogon or isReload) then
+						local widgetData = C_UIWidgetManager.GetIconAndTextWidgetVisualizationInfo(5366);
+						if (widgetData and widgetData.state == 1) then
+							isRunning = nil;
+							--NWB:debug("Stranglethorn not running.");
+						end
+						local widgetData = C_UIWidgetManager.GetIconAndTextWidgetVisualizationInfo(5367);
+						if (widgetData and widgetData.state == 1) then
+							isRunning = true;
+							--NWB:debug("Stranglethorn running.");
+						end
+						local widgetData = C_UIWidgetManager.GetIconAndTextWidgetVisualizationInfo(5368);
+						if (widgetData and widgetData.state == 1) then
+							isRunning = true;
+							--NWB:debug("Stranglethorn running.");
+						end
+					end
+				end]]
+				if (GetTime() - lastWidgetUpdate > 1) then
+					local timeLeft, type, timestamp, realTimeLeft = getTimeLeft();
+					if (type == "running") then
+						if (not endsBarRunning) then
+							startsBarRunning = false;
+							NWB:stopCapping("[NWB] " .. L["STV Starts"]);
+							endsBarRunning = NWB:startCapping(timeLeft, "[NWB] " .. L["STV Ends"], 236456, 1800);
+						end
+					else
+						if (not startsBarRunning) then
+							endsBarRunning = false;
+							NWB:stopCapping("[NWB] " .. L["STV Ends"]);
+							startsBarRunning = NWB:startCapping(realTimeLeft, "[NWB] " .. L["STV Starts"], 236456, 10800);
+						end
+					end
+				end
+			elseif (startsBarRunning or endsBarRunning) then
+				startsBarRunning = false;
+				endsBarRunning = false;
+				NWB:stopCapping("[NWB] " .. L["STV Starts"]);
+				NWB:stopCapping("[NWB] " .. L["STV Ends"]);
+			end
+		elseif (event == "UPDATE_UI_WIDGET") then
+			local data = ...;
+			if (data.widgetID == 5608 or data.widgetID == 5609) then
+				--5609 is shown when event is running, 5608 is shown when even isn't running.
+				local widgetData = C_UIWidgetManager.GetIconAndTextWidgetVisualizationInfo(5609);
+				if (widgetData and widgetData.state == 1) then
+					local timeLeft, type, timestamp, realTimeLeft = getTimeLeft();
+					--Ignore the type and instead get it from widget shown so timer bars don't clash in the few seconds it may be out of sync with our timer.
+					if (not startsBarRunning) then
+						endsBarRunning = false;
+						NWB:stopCapping("[NWB] " .. L["STV Ends"]);
+						startsBarRunning = NWB:startCapping(realTimeLeft, "[NWB] " .. L["STV Starts"], 236456, 10800);
+					end
+					--isRunning = nil;
+					--NWB:debug("Stranglethorn not running.");
+				end
+				local widgetData = C_UIWidgetManager.GetIconAndTextWidgetVisualizationInfo(5608);
+				if (widgetData and widgetData.state == 1) then
+					local timeLeft, type, timestamp, realTimeLeft = getTimeLeft();
+					--Ignore the type and instead get it from widget shown so timer bars don't clash in the few seconds it may be out of sync with our timer.
+					if (not endsBarRunning) then
+						if (type ~= "running" and realTimeLeft < 180) then
+							--If the spawn is a few seconds early before our time says it's running then we need to adjust the time.
+							--We also check it's less than 2 mins left to spawn, we don't want this to trigger at the end of an event if sync if off, only the start.
+							timeLeft = 1800;
+						end
+						startsBarRunning = false;
+						NWB:stopCapping("[NWB] " .. L["STV Starts"]);
+						endsBarRunning = NWB:startCapping(timeLeft, "[NWB] " .. L["STV Ends"], 236456, 1800);
+					end
+					--isRunning = true;
+					--NWB:debug("Stranglethorn running.");
+				end
+				lastWidgetUpdate = GetTime();
+			end
 		end
 	end)
 end
