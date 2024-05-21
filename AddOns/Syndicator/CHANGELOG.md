@@ -1,6 +1,7 @@
 # Syndicator
 
-## [23](https://github.com/Baganator/Syndicator/tree/23) (2024-04-09)
-[Full Changelog](https://github.com/Baganator/Syndicator/compare/22...23) 
+## [38](https://github.com/Baganator/Syndicator/tree/38) (2024-05-19)
+[Full Changelog](https://github.com/Baganator/Syndicator/compare/37...38) 
 
-- Retail: Fix /syns search for items with crafted quality showing weird results  
+- Remove unused variable  
+- Remove uncached search terms to speed up searches (removes "uncollected")  
