@@ -32,6 +32,9 @@ VUHDO_SPELLS = {
 	[VUHDO_SPELL_ID.SPIRIT_SHELL] = { ["isHot"] = true },
 	[VUHDO_SPELL_ID.DIVINE_AEGIS] = { ["isHot"] = true },
 	[VUHDO_SPELL_ID.LUMINOUS_BARRIER] = { ["isHot"] = true },
+	[VUHDO_SPELL_ID.HOLY_WORD_CHASTISE] = { ["nohelp"] = true },
+	[VUHDO_SPELL_ID.HOLY_WORD_SANCTUARY] = { ["nohelp"] = true },
+	[VUHDO_SPELL_ID.HOLY_WORD_SERENITY] = { ["nohelp"] = true },
 
 	-- Shaman
 	[VUHDO_SPELL_ID.RIPTIDE] = { ["isHot"] = true	},
