@@ -187,7 +187,7 @@ local function GenerateExpansionPanel(expansionID)
 	GBB.Options.AddCategory(DUNGEONS)
 	GBB.Options.Indent(10)
 	for _, key in pairs(dungeons) do
-		tinsert(filters, CheckBoxFilter(key, false))
+		tinsert(filters, CheckBoxFilter(key, true))
 	end
 
 	-- different layout for classic era clients
@@ -200,7 +200,7 @@ local function GenerateExpansionPanel(expansionID)
 	GBB.Options.AddCategory(RAIDS)
 	GBB.Options.Indent(10)
 	for _, key in pairs(raids) do
-		tinsert(filters, CheckBoxFilter(key, false))
+		tinsert(filters, CheckBoxFilter(key, true))
 	end
 
 	-- Battlegrounds (bg are all consider part of latest expansion atm)
@@ -213,7 +213,7 @@ local function GenerateExpansionPanel(expansionID)
 		GBB.Options.AddCategory(BATTLEGROUNDS)
 		GBB.Options.Indent(10)
 		for _, key in pairs(bgs) do
-			tinsert(filters, CheckBoxFilter(key, false))
+			tinsert(filters, CheckBoxFilter(key, true))
 		end
 	end
 
@@ -226,7 +226,7 @@ local function GenerateExpansionPanel(expansionID)
 		GBB.Options.AddCategory(OTHER)
 		GBB.Options.Indent(10)		
 		for _, key in pairs(GBB.Misc) do
-			tinsert(filters, CheckBoxFilter(key, false))
+			tinsert(filters, CheckBoxFilter(key, true))
 		end
 		
 	else

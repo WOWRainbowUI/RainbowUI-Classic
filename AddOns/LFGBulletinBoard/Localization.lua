@@ -170,7 +170,7 @@ GBB.locales = {
 		-- option panel
 		
 		["HeaderSettings"]="設定",
-		["PanelFilter"]="經典時期過濾",
+		["PanelFilter"]="過濾設定",
 		["TBCPanelFilter"]="燃燒遠征過濾",
 		["WotlkPanelFilter"]="巫妖王過濾",
 		["HeaderTags"]="搜尋關鍵字",	
