@@ -184,7 +184,7 @@ end
 	
 function Options.SetRightSide(w)
 	Options.NextRelativ=Options.Prefix.."OptionFrame".. #Options.Panel .."_Title"
-	Options.NextRelativX=310 / Options.scale
+	Options.NextRelativX= (w or 310) / Options.scale
 	Options.NextRelativY=0
 end
 	
@@ -656,7 +656,6 @@ function Options.Open(panel)
 	-- InterfaceOptionsFrame_OpenToCategory(Options.Panel[#Options.Panel])
 	-- InterfaceOptionsFrame_OpenToCategory(Options.Panel[#Options.Panel])
 	-- InterfaceOptionsFrame_OpenToCategory(Options.Panel[panel])
-	-- Settings.OpenToCategory("副本-佈告欄")
-	Settings.OpenToCategory(Addon.L["CfgTitle"])
+	Settings.OpenToCategory("副本-佈告欄")
 end
 
