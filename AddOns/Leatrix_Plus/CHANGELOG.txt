@@ -1,4 +1,19 @@
-﻿4.0.01 - 27th April 2004
+﻿4.0.06 - 15th May 2024
+- Added a new option called 'Enhance flight map' ('Interface').  If enabled, you can customise the flight map (such as map scale, map position and icon size).  You can adjust the settings in the configuration panel.  Hold down ALT and drag the flight map to move it.
+- Updated NPC skip list for 'Automate gossip' ('Automation').
+
+4.0.05 - 8th May 2024
+- Added custom class color support for 'Enhance tooltip' ('Interface') and 'Class colored frames' ('Frames').
+- For 'Mute game sounds', 'Trains' now applies to Goblin and Worgen races too.
+- Updated NPC skip list for 'Automate gossip' ('Automation').
+- Update to bag item and bank item search box code.
+- Added ability to toggle the main panel by clicking the slash command logo in the interface options panel.
+
+4.0.02 - 29th April 2024
+- For 'Enhance dressup' ('Interface'), added ranged button layout.
+- For 'Automate gossip' ('Automation'), added Stormwind and Orgrimmar auctioneers to skip gossip automatically.
+
+4.0.01 - 27th April 2004
 - The 'Show cooldowns' option ('Interface') now supports dual spec.  Cooldown icons are saved to your class and specialisation (mirroring retail).
 - The 'Show Wowhead links' option ('Interface') now shows Cataclysm links.
 - The 'Mute game sounds' > 'Login' option now mutes the Cataclysm login screen music.
