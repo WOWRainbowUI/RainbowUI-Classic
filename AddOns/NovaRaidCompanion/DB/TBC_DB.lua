@@ -5299,3 +5299,7 @@ NRC.pal = {
 		order = 6,
 	},
 };
+
+NRC.worldBuffs = {
+
+};

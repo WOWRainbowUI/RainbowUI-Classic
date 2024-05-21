@@ -541,7 +541,7 @@ local function combatLogEventUnfiltered(...)
 			--If misdirection was still up and has now faded then do the calc.
 			--This will only fire here if md times out or we're using an aoeSpell like sapper and not checking the 3 hit count.
 			if (spellID == 34477) then
-				if (NRC.isWrath) then
+				if (NRC.expansionNum > 2) then
 					--If it fades without being used run the calc but leave enough time incase it faded from proper use.
 					C_Timer.After(6, function()
 						if (hits[sourceName]) then
@@ -675,6 +675,10 @@ end
 
 local lastAmmoWarning = 0;
 function NRC:checkAmmo()
+	if (NRC.expansionNum > 3) then
+		--Ammo removed in cata.
+		return;
+	end
 	if (NRC.config.lowAmmoCheck and UnitLevel("player") > 30) then
 		local ammoCount, ammoID = NRC:getAmmoCount();
 		if (ammoCount and ammoCount < NRC.config.lowAmmoCheckThreshold) then
@@ -693,13 +697,15 @@ function NRC:checkAmmo()
 	end
 end
 
-local f = CreateFrame("Frame");
-f:RegisterEvent("BAG_UPDATE");
-f:RegisterEvent("PLAYER_ENTERING_WORLD");
-f:SetScript('OnEvent', function(self, event, ...)
-	if (event == "BAG_UPDATE" or event == "PLAYER_ENTERING_WORLD") then
-		if (NRC.config.lowAmmoCheck) then
-			NRC:throddleEventByFunc(event, 15, "checkAmmo", ...);
+if (NRC.expansionNum < 4) then
+	local f = CreateFrame("Frame");
+	f:RegisterEvent("BAG_UPDATE");
+	f:RegisterEvent("PLAYER_ENTERING_WORLD");
+	f:SetScript('OnEvent', function(self, event, ...)
+		if (event == "BAG_UPDATE" or event == "PLAYER_ENTERING_WORLD") then
+			if (NRC.config.lowAmmoCheck) then
+				NRC:throddleEventByFunc(event, 15, "checkAmmo", ...);
+			end
 		end
-	end
-end)
+	end)
+end

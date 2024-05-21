@@ -935,6 +935,7 @@ function NRC:getMetaGem()
 	--Some non-english clients don't always have the meta gem in first slot.
 	--TW client has it in first or second slot on different items it can be either, really strange.
 	--So we need to try find which is the meta.
+	local hasGem, foundGemText;
 	if (headItem) then
 		for slot = 1, 3 do
 			local gemName, gemLink = GetItemGem(headItem, slot);
@@ -942,6 +943,7 @@ function NRC:getMetaGem()
 				--Get the item subClass.
 				local itemID, itemType, itemSubType, itemEquipLoc, texture, classID, subclassID = GetItemInfoInstant(gemLink);
 				if (itemSubType == META_GEM) then
+					hasGem = true;
 					local tooltipScanner = NRC:getTooltipScanner();
 					tooltipScanner:SetHyperlink(gemLink);
 					local gemEffect;
@@ -957,13 +959,14 @@ function NRC:getMetaGem()
 					local hasItem, hasCD, repair = tooltipScanner:SetInventoryItem("player", headSlot);
 					local text;
 					if (hasItem and gemEffect) then
-						for line = 2, 12 do
+						for line = 2, 20 do
 							text = _G[tooltipScanner:GetName() .. "TextLeft".. line] and _G[tooltipScanner:GetName() .. "TextLeft".. line]:GetText();
 							if (not text) then
 								--Very rare no text but it does happen, just act like it was active.
 								return "", "", 0, true
-							end
-							if (strfind(text, gemEffect, 1, true)) then
+							end --ITEM_REQ_SKILL = Requires %s (hopefully works in all languages?).
+							if (strfind(text, gemEffect, 1, true) and strfind(text, string.gsub(ITEM_REQ_SKILL, "%%s", "(.+)"))) then
+								foundGemText = true;
 								metaGemActive = not strmatch(text, "cff808080") or false;
 								break;
 							end
@@ -982,6 +985,13 @@ function NRC:getMetaGem()
 	if (RatingBusterWOTLK_DB) then
 		--Seems to be an issue with the curse version of this addon by another author and it breaking the meta gem line.
 		metaGemActive = true;
+	end
+	if (not foundGemText) then
+		--If we can't find the gem text then don't warn user.
+		metaGemActive = true;
+		if (hasGem) then
+			NRC:debug("Meta gem text not found in head slot tooltip.");
+		end
 	end
 	return metaGemName, metaGemLink, metaGemTexture, metaGemActive;
 end

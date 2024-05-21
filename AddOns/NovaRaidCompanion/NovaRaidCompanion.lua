@@ -15,7 +15,7 @@ if (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) then
 	NRC.isClassic = true;
 elseif (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC) then
 	NRC.isTBC = true;
-	NRC.expansionNum = 3;
+	NRC.expansionNum = 2;
 elseif (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC) then
 	NRC.isWrath = true;
 	NRC.expansionNum = 3;
@@ -86,6 +86,9 @@ NRC.talents2 = {};
 NRC.glyphs = {};
 --NRC.glyphs2 = {};
 NRC_Installed = true;
+if (ReadyCheckFrame) then
+	ReadyCheckFrame:SetFrameStrata("HIGH");
+end
 
 local function init()
     NRC:loadDatabase();

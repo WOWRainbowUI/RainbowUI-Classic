@@ -88,7 +88,7 @@ local function unitSpellcastChanellStart(...)
 	local unit, castGUID, spellID = ...;
 	if (unit == "player") then
 		if (healthstoneSpellIDs[spellID]) then
-			if (NRC.config.healthstoneMsg and (NRC.isTBC or NRC.isWrath)) then
+			if (NRC.config.healthstoneMsg and NRC.expansionNum > 1) then
 				if (IsInInstance()) then
 					if (NRC.expansionNum > 3) then
 						SendChatMessage(L["Healthstones"] .. ".", "SAY");

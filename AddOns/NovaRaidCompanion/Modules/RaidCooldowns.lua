@@ -33,7 +33,7 @@ local GetPlayerInfoByGUID = GetPlayerInfoByGUID;
 local GetTalentInfo = GetTalentInfo;
 local soulstoneDuration = 1800;
 local showDead;
-if (NRC.isWrath) then
+if (NRC.expansionNum > 2) then
 	soulstoneDuration = 900;
 end
 local isSOD = NRC.isSOD;
@@ -647,7 +647,7 @@ function NRC:loadRaidCooldownCharFromCast(name, spellName, spellID, guid)
 	if (not data) then
 		return;
 	end
-	NRC:debug("loading char from cast", name, spellName);
+	--NRC:debug("loading char from cast", name, spellName);
 	--Find the database table entry name (can be different than spell name).
 	local cooldownName, spellData;
 	for k, v in pairs(NRC.castDetectCooldowns) do
@@ -783,8 +783,9 @@ function NRC:removeRaidCooldownChar(guid)
 end
 
 --In wrath some cooldowns are reset after boss kill or wipe, if in combat and encounter lasted 30 seconds?
+--Not sure if this extends to cata yet.
 function NRC:removeRaidCooldownsEncounterEnd(success)
-	if (NRC.isWrath or NRC.isTBC) then
+	if (NRC.isClassic or NRC.isTBC) then
 		return;
 	end
 	local ignoreList = { --https://us.forums.blizzard.com/en/wow/t/raid-system-adjustments-in-wrath-of-the-lich-king-classic/1307037/235
@@ -1920,10 +1921,11 @@ local function combatLogEventUnfiltered(...)
 					if (NRC.isWrath) then
 						--Talents are not in index order in wrath.
 						name, texture, _, _, chosen, max = GetTalentInfo(3, 7);
-					else
+					elseif (NRC.isClassic or NRC.isTBC) then
 						name, texture, _, _, chosen, max = GetTalentInfo(3, 3);
 					end
 					--Attach a different cooldown if talents are trained.
+					--No cooldown talent in cata.
 					if (NRC.isWrath) then
 						if (chosen == 1) then
 							cooldownTime = 1380;
@@ -1932,7 +1934,7 @@ local function combatLogEventUnfiltered(...)
 						else
 							cooldownTime = 1800;
 						end
-					else
+					elseif (NRC.isClassic or NRC.isTBC) then
 						if (chosen == 1) then
 							cooldownTime = 3000;
 						elseif (chosen == 2) then
@@ -2157,7 +2159,13 @@ local function raidCooldownsUnitHealth(...)
 	if (isDead[guid] and not isGhost[guid] and not hasResPending[guid]
 			and not NRC.data.hasSoulstone[guid]) then
 		local usedReincarnation;
-		if (NRC.isWrath) then
+		if (NRC.isCata) then
+			--No talents in cata.
+			if (hp == percent20) then
+				--Reincarnation used, no talent points in Improved Reincarnation, 30min cd.
+				usedReincarnation = 1800;
+			end
+		elseif (NRC.isWrath) then
 			if (hp == percent20) then
 				--Reincarnation used, no talent points in Improved Reincarnation, 30min cd.
 				usedReincarnation = 1800;
@@ -2168,7 +2176,7 @@ local function raidCooldownsUnitHealth(...)
 				--Reincarnation used, 2 talent points in Improved Reincarnation, 15min cd.
 				usedReincarnation = 900;
 			end
-		else
+		elseif (NRC.isClassic or NRC.isTBC) then
 			if (hp == percent20) then
 				--Reincarnation used, no talent points in Improved Reincarnation, 60min cd.
 				usedReincarnation = 3600;
@@ -2189,7 +2197,12 @@ local function raidCooldownsUnitHealth(...)
 		--And we check if last known hp was 0.
 		if (not usedReincarnation and hpCache[guid] and hpCache[guid] == 0) then
 			--This should be changed later to check talents before checking percent now we're scanning group.
-			if (NRC.isWrath) then
+			if (NRC.isCata) then
+				if (hpPercent > 18 and hpPercent < 22) then
+					--Reincarnation used, no talent points in Improved Reincarnation, 60min cd.
+					usedReincarnation = 1800;
+				end
+			elseif (NRC.isWrath) then
 				if (hpPercent > 18 and hpPercent < 22) then
 					--Reincarnation used, no talent points in Improved Reincarnation, 60min cd.
 					usedReincarnation = 1800;
@@ -2200,7 +2213,7 @@ local function raidCooldownsUnitHealth(...)
 					--Reincarnation used, 2 talent points in Improved Reincarnation, 40min cd.
 					usedReincarnation = 900;
 				end
-			else
+			elseif (NRC.isClassic or NRC.isTBC) then
 				if (hpPercent > 18 and hpPercent < 22) then
 					--Reincarnation used, no talent points in Improved Reincarnation, 60min cd.
 					usedReincarnation = 3600;

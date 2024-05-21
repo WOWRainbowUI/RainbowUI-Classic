@@ -4831,3 +4831,7 @@ NRC.pal = {
 		order = 1,
 	},
 };
+
+NRC.worldBuffs = {
+
+};

@@ -6,7 +6,7 @@
 ---Better to use slightly more ram with table storage than losing fps.
 
 local addonName, NRC = ...;
-if (NRC.isCataPrepatch or not NRC.isCata) then
+if (not NRC.isCata) then
 	return;
 end
 local L = LibStub("AceLocale-3.0"):GetLocale("NovaRaidCompanion");
@@ -730,6 +730,7 @@ NRC.ignoredCreatures = {
 	[15368] = "Tonk Mine",
 	[11859] = "Doomguard",
 	[14337] = "Field Repair Bot 74A",
+	[7863] = "Dream Vision",
 	--Wrath.
 	[29561] = "Scrapbot",
 	[33404] = "Wind-Up Train Wrecker",
@@ -3357,7 +3358,7 @@ NRC.foods = {
 	[87552] = {
 		name = "Well Fed",
 		icon = 136000,
-		desc = "+90 Hit, +90 Stamina",
+		desc = "+90 Haste, +90 Stamina",
 		maxRank = true,
 	},
 	[87551] = {
@@ -3457,6 +3458,21 @@ NRC.foods = {
 		name = "Well Fed",
 		icon = 136000,
 		desc = "+60 Agility, +60 Stamina",
+	},
+	[87546] = {
+		name = "Well Fed",
+		icon = 136000,
+		desc = "+90 Agility, +90 Stamina",
+	},
+	[87547] = {
+		name = "Well Fed",
+		icon = 136000,
+		desc = "+90 Int, +90 Stamina",
+	},
+	[87550] = {
+		name = "Well Fed",
+		icon = 136000,
+		desc = "+90 Hit, +90 Stamina",
 	},
 };
 
@@ -10103,11 +10119,31 @@ NRC.healingSpecs = {
 ---These buff tables below are wiped after being loaded locally in RaidStatus.
 ---They are just loaded here first for expansion seperation reasons.
 
+---In cata the abilities are not the same as the buff ids like they were in previous expansions.
 NRC.int = {
+	--3 spell names with Arcane Brilliance.
+	--79058 Seems to be the buff players are getting at lvl 80.
+	--79057 is possibly the buff lower levels get? Same stats though.
+	--Looks like maybe one spell ID is level 1 and othe other is 85 and the ID you get is based on level even though the resistances portsion of the buff scales, bit confusing.
+	--1459 is just the spell ability not the aura but we'll leave it here anyway incase something changes, past expansions used the same ID for ability and buff.
 	[1459] = {
-		name = "Arcane Intellect",
+		name = "Arcane Brilliance",
 		icon = 135932,
-		desc = "+6% Spell Power",
+		desc = "+6% Spell Power, +Mana",
+		rank = 1,
+		maxRank = true,
+	},
+	[79057] = {
+		name = "Arcane Brilliance",
+		icon = 135932,
+		desc = "+6% Spell Power, +Mana",
+		rank = 1,
+		maxRank = true,
+	},
+	[79058] = {
+		name = "Arcane Brilliance",
+		icon = 135932,
+		desc = "+6% Spell Power, +Mana",
 		rank = 1,
 		maxRank = true,
 	},
@@ -10123,7 +10159,21 @@ NRC.int = {
 NRC.fort = {
 	[21562] = {
 		name = "Power Word: Fortitude",
-		icon = 135941,
+		icon = 135987,
+		desc = "+10% Stam",
+		rank = 1,
+		maxRank = true,
+	},
+	[79104] = {
+		name = "Power Word: Fortitude",
+		icon = 135987,
+		desc = "+10% Stam",
+		rank = 1,
+		maxRank = true,
+	},
+	[79105] = {
+		name = "Power Word: Fortitude",
+		icon = 135987,
 		desc = "+10% Stam",
 		rank = 1,
 		maxRank = true,
@@ -10131,13 +10181,13 @@ NRC.fort = {
 	--Runescroll.
 	[69377] = { --These are meant to be % but wowhead shows flat numbers?
 		name = "Runescroll of Fortitude",
-		icon = 135987,
+		icon = 237449,
 		desc = "+132 Stam",
 		maxRank = true,
 	},
 	[86507] = {
 		name = "Runescroll of Fortitude II",
-		icon = 135987,
+		icon = 237449,
 		desc = "+468 Stam",
 		maxRank = true,
 	},
@@ -10151,7 +10201,21 @@ NRC.shadow = {
 	[27683] = {
 		name = "Shadow Protection",
 		icon = 135945,
-		desc = "+85 Shadow Resistance",
+		desc = "+195 Shadow Resistance",
+		rank = 1,
+		maxRank = true,
+	},
+	[79107] = {
+		name = "Shadow Protection",
+		icon = 135945,
+		desc = "+195 Shadow Resistance",
+		rank = 1,
+		maxRank = true,
+	},
+	[79106] = {
+		name = "Shadow Protection",
+		icon = 135945,
+		desc = "+195 Shadow Resistance",
 		rank = 1,
 		maxRank = true,
 	},
@@ -10161,10 +10225,31 @@ NRC.motw = {
 	[1126] = { --Same as pally buff in cata? Maybe change Motw/Pally colums to just kings/might colums.
 		name = "Mark of the Wild",
 		icon = 136078,
-		desc = "+5% stats, +42 Resistances",
+		desc = "+5% stats, +97 Resistances",
 		rank = 1,
 		maxRank = true,
 	},
+	[79060] = {
+		name = "Mark of the Wild",
+		icon = 136078,
+		desc = "+5% stats, +97 Resistances",
+		rank = 1,
+		maxRank = true,
+	},
+	[79061] = {
+		name = "Mark of the Wild",
+		icon = 136078,
+		desc = "+5% stats, +97 Resistances",
+		rank = 1,
+		maxRank = true,
+	},
+	--[[[102046] = { --What is this high spellID that doesn't give resistances?
+		name = "Mark of the Wild",
+		icon = 136078,
+		desc = "+5% stats, +97 Resistances",
+		rank = 1,
+		maxRank = true,
+	},]]
 	--Drums.
 	--[[[72588] = { --No more in cata? Replaced by Drums of Forgotten Kings?
 		name = "Drums of the Wild",
@@ -10172,11 +10257,47 @@ NRC.motw = {
 		desc = "Gives the Gift of the Wild to all party and raid members",
 		maxRank = true,
 	},]]
+	--Kings.
+	[20217] = { --Move kings the motw colum now they're shared.
+		name = "Blessing of Kings",
+		icon = 135993,
+		desc = "+5% Stats, +42 Resistances",
+		maxRank = true,
+		order = 2,
+	},
+	[79062] = {
+		name = "Blessing of Kings",
+		icon = 135993,
+		desc = "+5% Stats, +42 Resistances",
+		maxRank = true,
+		order = 2,
+	},
+	[79063] = {
+		name = "Blessing of Kings",
+		icon = 135993,
+		desc = "+5% Stats, +42 Resistances",
+		maxRank = true,
+		order = 2,
+	},
 };
 
 NRC.pal = {
 	--Kings.
-	[20217] = {
+	--[[[20217] = {
+		name = "Blessing of Kings",
+		icon = 135995,
+		desc = "+5% Stats, +42 Resistances",
+		maxRank = true,
+		order = 2,
+	},
+	[79062] = {
+		name = "Blessing of Kings",
+		icon = 135995,
+		desc = "+5% Stats, +42 Resistances",
+		maxRank = true,
+		order = 2,
+	},
+	[79063] = {
 		name = "Blessing of Kings",
 		icon = 135995,
 		desc = "+5% Stats, +42 Resistances",
@@ -10185,15 +10306,31 @@ NRC.pal = {
 	},
 	[72586] = { --Drums.
 		name = "Drums of Forgotten Kings",
-		icon = 135995,
+		icon = 133843,
 		desc = "+4% Stats, +52 Resistances",
 		order = 2,
 		maxRank = true,
-	},
+	},]]
 	--Might.
 	[19740] = {
 		name = "Blessing of Might",
-		icon = 135906,
+		icon = 135908,
+		desc = "+20% AP (10% Ranged AP), +MP5",
+		rank = 1,
+		order = 3,
+		maxRank = true,
+	},
+	[79101] = {
+		name = "Blessing of Might",
+		icon = 135908,
+		desc = "+20% AP (10% Ranged AP), +MP5",
+		rank = 1,
+		order = 3,
+		maxRank = true,
+	},
+	[79102] = {
+		name = "Blessing of Might",
+		icon = 135908,
 		desc = "+20% AP (10% Ranged AP), +MP5",
 		rank = 1,
 		order = 3,
@@ -10201,10 +10338,14 @@ NRC.pal = {
 	},
 	[93744] = {
 		name = "Runescroll of Might",
-		icon = 135906,
+		icon = 237448,
 		desc = "+16% AP (8% Ranged AP), +MP5",
 		rank = 1,
 		order = 3,
 		maxRank = true,
 	},
+};
+
+NRC.worldBuffs = {
+
 };
