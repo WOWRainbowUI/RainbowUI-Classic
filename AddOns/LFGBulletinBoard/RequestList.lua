@@ -1,8 +1,8 @@
 local TOCNAME, GBB = ...
 
 --ScrollList / Request
--------------------------------------------------------------------------------------
-local LastDungeon
+------------------------------------------------------------------------------------- 
+local lastHeaderCategory = "" -- last category/dungeon header seen when building the scroll list
 local lastIsFolded
 local requestNil={dungeon="NIL",start=0,last=0,name=""}
 
@@ -54,6 +54,28 @@ local function requestSort_nTOP_nTOTAL (a,b)
 	end
 	return false
 end
+local subDungeonParentLookup = (function() 
+	local lookup = {}
+	for parentDungeon, secondaryKeys in pairs(GBB.dungeonSecondTags) do
+		for _, secondaryKey in ipairs(secondaryKeys) do
+			lookup[secondaryKey] = parentDungeon
+		end
+	end
+	-- set any unseen keys to false to reduce cache misses on repeated lookups
+	-- (table will always & repeatedlybe  accessed by the same set of keys so may as well)
+	setmetatable(lookup, {
+		__index = function(_, dungeonKey)
+			rawset(lookup, dungeonKey, false)
+			return false
+		end
+	})
+	return lookup
+end)()
+
+-- track catergories/dungeon keys that have had a header created
+-- this table is wiped on every `GBB.UpdateList` when the board is re-drawn
+local existingHeaders= {}
+
 ---@param yy integer The current bottom pos from the top of the scroll frame
 ---@param dungeon string The dungeons "key" ie DM|MC|BWL|etc
 ---@return integer yy The updated bottom pos of the scroll frame after adding the header
@@ -90,11 +112,11 @@ local function CreateHeader(yy, dungeon)
 
 	-- Initialize this value now so we can (un)fold only existing entries later
 	-- while still allowing new headers to follow the HeadersStartFolded setting
-	if GBB.FoldedDungeons[dungeon]==nil then
+	if GBB.FoldedDungeons[dungeon] == nil then
 		GBB.FoldedDungeons[dungeon]=GBB.DB.HeadersStartFolded
 	end
 
-	if LastDungeon~="" and not (lastIsFolded and GBB.FoldedDungeons[dungeon]) then
+	if lastHeaderCategory~="" and not (lastIsFolded and GBB.FoldedDungeons[dungeon]) then
 		yy=yy+10
 	end
 
@@ -111,7 +133,8 @@ local function CreateHeader(yy, dungeon)
 	GBB.FramesEntries[dungeon]:Show()
 
 	yy=yy+_G[ItemFrameName]:GetHeight()
-	LastDungeon = dungeon
+	lastHeaderCategory = dungeon
+	existingHeaders[dungeon] = true
 	return yy
 end
 
@@ -201,15 +224,18 @@ local function CreateItem(yy,i,doCompact,req,forceHight)
 			end
 		end
 
-		local typePrefix
-		if req.IsHeroic == true then
-			local colorHex = GBB.Tool.RGBPercToHex(GBB.DB.HeroicDungeonColor.r,GBB.DB.HeroicDungeonColor.g,GBB.DB.HeroicDungeonColor.b)
-			typePrefix = "|c00".. colorHex .. "[" .. GBB.L["heroicAbr"] .. "]     "
-		elseif req.IsRaid == true then
-			typePrefix = "|c00ffff00" .. "[" .. GBB.L["raidAbr"] .. "]     "
-		else
-			local colorHex = GBB.Tool.RGBPercToHex(GBB.DB.NormalDungeonColor.r,GBB.DB.NormalDungeonColor.g,GBB.DB.NormalDungeonColor.b)
-			typePrefix = "|c00".. colorHex .. "[" .. GBB.L["normalAbr"] .. "]    "
+		local typePrefix = ""
+		if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then
+			-- "heroic" is not a concept in classic era/sod
+			if req.IsHeroic == true then
+				local colorHex = GBB.Tool.RGBPercToHex(GBB.DB.HeroicDungeonColor.r,GBB.DB.HeroicDungeonColor.g,GBB.DB.HeroicDungeonColor.b)
+				typePrefix = "|c00".. colorHex .. "[" .. GBB.L["heroicAbr"] .. "]     "
+			elseif req.IsRaid == true then
+				typePrefix = "|c00ffff00" .. "[" .. GBB.L["raidAbr"] .. "]     "
+			else
+				local colorHex = GBB.Tool.RGBPercToHex(GBB.DB.NormalDungeonColor.r,GBB.DB.NormalDungeonColor.g,GBB.DB.NormalDungeonColor.b)
+				typePrefix = "|c00".. colorHex .. "[" .. GBB.L["normalAbr"] .. "]    "
+			end
 		end
 
 		if GBB.DB.ChatStyle then
@@ -367,6 +393,7 @@ local function doesRequestMatchResultsFilter(message)
 end
 
 local ownRequestDungeons={}
+--- generates 100 elements(items) for display in the scroll list. These are stored in `GBB.FramesEntries` and are shown/hidden as needed depending on the data in `GBB.RequestList`.
 function GBB.UpdateList()
 
 	GBB.Clear()
@@ -391,109 +418,87 @@ function GBB.UpdateList()
 		end
 	end
 
-	for i, f in pairs(GBB.FramesEntries) do
+	-- Hide all exisiting scroll frame elements
+	for _, f in pairs(GBB.FramesEntries) do
 		f:Hide()
 	end
 
 	local AnchorTop="GroupBulletinBoardFrame_ScrollChildFrame"
 	local AnchorRight="GroupBulletinBoardFrame_ScrollChildFrame"
-    local yy=0
-	LastDungeon=""
-	local count=0
-	local doCompact=1
-	local cEntrys=0
+    local scrollHeight = 0
+	local count = 0
+	local itemScale = 1
+	local itemsInCategory = 0
+	local MAX_NUM_ITEMS = 100
+	local allItemsInitialized = not (#GBB.FramesEntries < MAX_NUM_ITEMS)
+	lastHeaderCategory= "" -- still used for managing padding between folded categorties in `CreateHeader`
+	local lastCategory
 
-	local w=GroupBulletinBoardFrame:GetWidth() -20-10-10
+	local itemWidth = GroupBulletinBoardFrame:GetWidth() -20-10-10
 	if GBB.DB.CompactStyle and not GBB.DB.ChatStyle then
-		doCompact=0.85
+		itemScale=0.85
 	end
 
 	lastIsFolded=false
-
 	wipe(ownRequestDungeons)
+	-- reset the list of existing headers to draw new ones
+	existingHeaders = {} 
+
 	if GBB.DBChar.DontFilterOwn then
-
-		local playername=(UnitFullName("player"))
-
 		for i,req in pairs(GBB.RequestList) do
-			if type(req) == "table" and req.name==playername and req.last + GBB.DB.TimeOut*2 > time()then
+			if type(req) == "table" and req.guid == UnitGUID("player") and req.last + GBB.DB.TimeOut*2 > time()then
 				ownRequestDungeons[req.dungeon]=true
 			end
 		end
 	end
 
-	local itemHight=CreateItem(yy,0,doCompact,nil)
+	local baseItemHeight = CreateItem(scrollHeight, 0, itemScale, nil)
+	
+	-- set scroll height slightly bigger than 1 element to account for category headers being taller
+	GroupBulletinBoardFrame_ScrollFrame.ScrollBar.scrollStep = baseItemHeight * 1.25 
 
-	GroupBulletinBoardFrame_ScrollFrame.ScrollBar.scrollStep=itemHight*2
-
-	if #GBB.FramesEntries<100 then
-		for i=1,100 do
-			CreateItem(yy,i,doCompact,nil)
+	if not allItemsInitialized then
+		for i = 1, MAX_NUM_ITEMS do
+			CreateItem(scrollHeight,i,itemScale,nil)
 		end
 	end
-
-	for i,req in pairs(GBB.RequestList) do
+	-- iterate request and generate headers and items for display
+	for requestIdx, req in pairs(GBB.RequestList) do
 		if type(req) == "table" then
 
-			if (ownRequestDungeons[req.dungeon]==true or GBB.FilterDungeon(req.dungeon, req.IsHeroic, req.IsRaid)) and req.last + GBB.DB.TimeOut > time() then
+			if (req.last + GBB.DB.TimeOut > time()) -- not timed out
+				and (ownRequestDungeons[req.dungeon] == true  -- own request
+					-- dungeons set to show in options 
+					or GBB.FilterDungeon(req.dungeon, req.IsHeroic, req.IsRaid))
+			then
+				count = count + 1
+				local requestDungeon = req.dungeon
 
-				count= count + 1
-
-				--header
-				if LastDungeon ~= req.dungeon then
-					local hi
-					if GBB.DB.EnableShowOnly then
-						hi=GBB.dungeonSort[LastDungeon] or 0
-				    else
-						hi=GBB.dungeonSort[req.dungeon]-1
-					end
-					while hi<GBB.dungeonSort[req.dungeon] do
-						if LastDungeon~="" and GBB.FoldedDungeons[GBB.dungeonSort[hi]]~=true and GBB.DB.EnableShowOnly then
-							yy=yy+ itemHight*(GBB.DB.ShowOnlyNb-cEntrys)
-						end
-						hi=hi+1
-
-						if (ownRequestDungeons[GBB.dungeonSort[hi]]==true or GBB.FilterDungeon(GBB.dungeonSort[hi], req.IsHeroic, req.IsRaid)) then
-							yy=CreateHeader(yy,GBB.dungeonSort[hi])
-							cEntrys=0
-						else
-							cEntrys=GBB.DB.ShowOnlyNb
-						end
-					end
+				-- Since RequestList is already sorted in order of dungeons
+				-- and dungeons have already been filtered/combined at this point
+				-- create header (if needed)
+				if not existingHeaders[requestDungeon] then
+					scrollHeight = CreateHeader(scrollHeight, requestDungeon)
+					itemsInCategory = 0; -- reset count on new category
 				end
-
-				--entry
-				if GBB.FoldedDungeons[req.dungeon] ~= true 
-					and (not GBB.DB.EnableShowOnly or cEntrys<GBB.DB.ShowOnlyNb) 
-					and doesRequestMatchResultsFilter(req.message)
+				
+				-- add entry
+				if GBB.FoldedDungeons[requestDungeon] ~= true -- not folded
+					and (not GBB.DB.EnableShowOnly -- no limit
+						or itemsInCategory < GBB.DB.ShowOnlyNb) -- or limit not reached
+					and doesRequestMatchResultsFilter(req.message) -- matches global results filter
 				then
-					yy=yy+ CreateItem(yy,i,doCompact,req,itemHight)+3
-					cEntrys=cEntrys+1
+					scrollHeight= scrollHeight + CreateItem(scrollHeight,requestIdx,itemScale,req,baseItemHeight) + 3 -- why add 3? 
+					itemsInCategory = itemsInCategory + 1
 				end
 			end
 		end
 	end
 
-	if GBB.DB.EnableShowOnly then
-		local hi=GBB.dungeonSort[LastDungeon] or 0
-		while hi<GBB.WOTLKMAXDUNGEON do
-			if LastDungeon~="" and GBB.FoldedDungeons[LastDungeon]~=true and GBB.DB.EnableShowOnly then
-				yy=yy+ itemHight*(GBB.DB.ShowOnlyNb-cEntrys)
-			end
-			hi=hi+1
-			if (ownRequestDungeons[GBB.dungeonSort[hi]]==true or GBB.FilterDungeon(GBB.dungeonSort[hi], false, false)) then
-				yy=CreateHeader(yy,GBB.dungeonSort[hi])
-				cEntrys=0
-			else
-				cEntrys=GBB.DB.ShowOnlyNb
-			end
-		end
+	-- adds a window's woth of padding to the bottom of the scroll frame
+	scrollHeight=scrollHeight+GroupBulletinBoardFrame_ScrollFrame:GetHeight()-20
 
-	end
-
-	yy=yy+GroupBulletinBoardFrame_ScrollFrame:GetHeight()-20
-
-	GroupBulletinBoardFrame_ScrollChildFrame:SetHeight(yy)
+	GroupBulletinBoardFrame_ScrollChildFrame:SetHeight(scrollHeight)
 	GroupBulletinBoardFrameStatusText:SetText(string.format(GBB.L["msgNbRequest"], count))
 end
 
@@ -684,8 +689,9 @@ function GBB.GetDungeons(msg,name)
 	return dungeons, isGood, isBad, wordcount, isHeroic
 end
 
-function GBB.ParseMessage(msg,name,guid,channel)
-	if GBB.Initalized==false or name==nil or name=="" or msg==nil or msg=="" or string.len(msg)<4 then
+local fullNameByGUID = {} ---@type table<string, string> 
+function GBB.ParseMessage(msg,sender,guid,channel)
+	if GBB.Initalized==false or sender==nil or sender=="" or msg==nil or msg=="" or string.len(msg)<4 then
 		return
 	end
 
@@ -696,9 +702,17 @@ function GBB.ParseMessage(msg,name,guid,channel)
 
 	local locClass,engClass,locRace,engRace,Gender,gName,gRealm = GetPlayerInfoByGUID(guid)
 
-	-- Add server name to player name by commenting out the split
-	if GBB.DB.RemoveRealm then
-		name=GBB.Tool.Split(name, "-")[1] -- remove GBB.ServerName
+	-- track server name by player guid (sometimes no server is seen on initial messages)
+	local name, server = strsplit("-", sender)
+	if server then
+		fullNameByGUID[guid] = sender
+	end
+	if not GBB.DB.RemoveRealm then
+		sender = fullNameByGUID[guid] or sender
+		-- "mail" shows all realms
+		-- "none" shows realm only when different realm
+		-- "guild" like "none", but doesnt show guild realms names.
+		name = Ambiguate(sender, "none")
 	end
 
 	if GBB.DB.RemoveRaidSymbols then
@@ -709,7 +723,7 @@ function GBB.ParseMessage(msg,name,guid,channel)
 
 	local updated=false
 	for ir,req in pairs(GBB.RequestList) do
-		if type(req) == "table" and req.name == name and req.last+GBB.COMBINEMSGTIMER>=requestTime then
+		if type(req) == "table" and req.guid == guid and req.last+GBB.COMBINEMSGTIMER>=requestTime then
 			if req.dungeon=="TRADE" then
 				updated=true
 				if msg~=req.message then
@@ -749,7 +763,7 @@ function GBB.ParseMessage(msg,name,guid,channel)
 
 				if dungeon~="TRADE" then
 					for ir,req in pairs(GBB.RequestList) do
-						if type(req) == "table" and req.name == name and req.dungeon == dungeon then
+						if type(req) == "table" and req.guid == guid and req.dungeon == dungeon then
 							index=ir
 							break
 						end
@@ -761,7 +775,7 @@ function GBB.ParseMessage(msg,name,guid,channel)
 				if index==0 then
 					index=#GBB.RequestList +1
 					GBB.RequestList[index]={}
-					GBB.RequestList[index].name=name
+					GBB.RequestList[index].guid=guid
 					GBB.RequestList[index].class=engClass
 					GBB.RequestList[index].start=requestTime
 					GBB.RequestList[index].dungeon=dungeon
@@ -778,6 +792,7 @@ function GBB.ParseMessage(msg,name,guid,channel)
 					end
 				end
 
+				GBB.RequestList[index].name=name --update name incase realm found
 				GBB.RequestList[index].message=msg
 				GBB.RequestList[index].IsHeroic = isHeroic
 				GBB.RequestList[index].IsRaid = isRaid
@@ -809,7 +824,7 @@ function GBB.ParseMessage(msg,name,guid,channel)
 	if doUpdate then
 		for i,req in pairs(GBB.RequestList) do
 			if type(req) == "table" then
-				if req.name == name and req.last ~= requestTime then
+				if req.guid == guid and req.last ~= requestTime then
 					GBB.RequestList[i]=nil
 					GBB.ClearNeeded=true
 				end
@@ -821,6 +836,7 @@ function GBB.ParseMessage(msg,name,guid,channel)
 		local index=#GBB.RequestList +1
 		GBB.RequestList[index]={}
 		GBB.RequestList[index].name=name
+		GBB.RequestList[index].guid=guid
 		GBB.RequestList[index].class=engClass
 		GBB.RequestList[index].start=requestTime
 		if isBad then
