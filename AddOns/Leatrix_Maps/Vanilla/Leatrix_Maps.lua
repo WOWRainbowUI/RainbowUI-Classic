@@ -1,6 +1,6 @@
 ﻿
 	----------------------------------------------------------------------
-	-- 	Leatrix Maps 1.15.29 (1st May 2024)
+	-- 	Leatrix Maps 1.15.31 (15th May 2024)
 	----------------------------------------------------------------------
 
 	-- 10:Func, 20:Comm, 30:Evnt, 40:Panl
@@ -12,7 +12,7 @@
 	local LeaMapsLC, LeaMapsCB, LeaDropList, LeaConfigList, LeaLockList = {}, {}, {}, {}, {}
 
 	-- Version
-	LeaMapsLC["AddonVer"] = "1.15.29"
+	LeaMapsLC["AddonVer"] = "1.15.31"
 
 	-- Get locale table
 	local void, Leatrix_Maps = ...
@@ -2454,7 +2454,7 @@
 		----------------------------------------------------------------------
 		-- Create panel in game options panel
 		----------------------------------------------------------------------
-
+--[[
 		do
 
 			local interPanel = CreateFrame("FRAME")
@@ -2475,10 +2475,24 @@
 			subTitle:ClearAllPoints()
 			subTitle:SetPoint("BOTTOM", 0, 72)
 
-			local slashTitle = LeaMapsLC:MakeTx(interPanel, "/ltm", 0, 0)
+			local slashButton = CreateFrame("Button", nil, interPanel)
+			slashButton:SetPoint("BOTTOM", subTitle, "TOP", 0, 40)
+			slashButton:SetScript("OnClick", function() SlashCmdList["Leatrix_Maps"]("") end)
+
+			local slashTitle = LeaMapsLC:MakeTx(slashButton, "/ltm", 0, 0)
 			slashTitle:SetFont(slashTitle:GetFont(), 72)
 			slashTitle:ClearAllPoints()
-			slashTitle:SetPoint("BOTTOM", subTitle, "TOP", 0, 40)
+			slashTitle:SetAllPoints()
+
+			slashButton:SetSize(slashTitle:GetSize())
+			slashButton:SetScript("OnEnter", function()
+				slashTitle.r,  slashTitle.g, slashTitle.b = slashTitle:GetTextColor()
+				slashTitle:SetTextColor(1, 1, 0)
+			end)
+
+			slashButton:SetScript("OnLeave", function()
+				slashTitle:SetTextColor(slashTitle.r, slashTitle.g, slashTitle.b)
+			end)
 
 			local pTex = interPanel:CreateTexture(nil, "BACKGROUND")
 			pTex:SetAllPoints()
@@ -2489,7 +2503,7 @@
 			InterfaceOptions_AddCategory(interPanel)
 
 		end
-
+--]]
 		----------------------------------------------------------------------
 		-- Add zone map dropdown to main panel
 		----------------------------------------------------------------------
@@ -3454,7 +3468,7 @@
 			LeaMapsLC:LoadVarNum("BattleMapY", 83, -5000, 5000)			-- Battlefield map Y axis
 
 			LeaMapsLC:LoadVarNum("ZoneMapMenu", 1, 1, 3)				-- Zone map dropdown menu
-			LeaMapsLC:LoadVarChk("ShowMinimapIcon", "On")				-- Show minimap button
+			LeaMapsLC:LoadVarChk("ShowMinimapIcon", "Off")				-- Show minimap button
 
 			-- Panel
 			LeaMapsLC:LoadVarAnc("MainPanelA", "CENTER")				-- Panel anchor
