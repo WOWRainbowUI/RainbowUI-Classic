@@ -1,5 +1,5 @@
 <Bindings>
-	<Binding name="Process Queue" category="Skillet">
+	<Binding name="開始專業排程" header="Skillet" category="ADDONS">
 		Skillet:ProcessQueue(false)
 	</Binding>
 </Bindings>
