@@ -1,6 +1,6 @@
-## Interface: 100207
-## Title: SilverDragon: Map Overlays
-## Notes: Mobs on the maps
+## Interface: 40400
+## Title: SilverDragon: Range Extender
+## Notes: Show map vignettes when they'd normally be out of your range
 ## Version: v2024.4
 ## Author: Kemayo
 ## eMail: kemayo at gmail dot com
@@ -11,8 +11,8 @@
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
 
-## Title-zhTW: |cff4DFF4D[地圖]|r 稀有怪通知-地圖圖示
-## Notes-zhTW: SilverDragon - Map Overlays |n|n在地圖上面顯示稀有怪。
+## Title-zhTW: |cff4DFF4D[地圖]|r 稀有怪通知-偵測範圍加大
+## Notes-zhTW: SilverDragon - Range Extender |n|n加大地圖的偵測範圍，能夠早一點看到地圖上的稀有怪。
 ## X-Category-zhTW: 地圖
 ## DefaultState: disabled
 
