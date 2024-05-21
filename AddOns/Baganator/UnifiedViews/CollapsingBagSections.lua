@@ -39,7 +39,7 @@ function Baganator.UnifiedViews.GetCollapsingBagDetails(character, section, inde
 
   for index = 1, slotsCount do
     if containerInfo[index] and containerInfo[index].itemID ~= nil then
-      local classID, subClassID = select(6, GetItemInfoInstant(containerInfo[index].itemID))
+      local classID, subClassID = select(6, C_Item.GetItemInfoInstant(containerInfo[index].itemID))
       local icon = ContainerTypeToIcon[subClassID]
       local bagIndex = index + 1
       if classID == Enum.ItemClass.Quiver then
@@ -58,7 +58,9 @@ function Baganator.UnifiedViews.GetCollapsingBagDetails(character, section, inde
     if not seenIndexes[bagIndex] then
       seenIndexes[bagIndex] = true
       if Baganator.Constants.IsRetail and bagID == Enum.BagIndex.ReagentBag then
-        inSlots["reagentBag"] = {bagIndex}
+        if #characterInfo.bags[bagIndex] > 0 then
+          inSlots["reagentBag"] = {bagIndex}
+        end
       elseif Baganator.Constants.IsRetail and bagID == Enum.BagIndex.Reagentbank then
         if #characterInfo.bank[bagIndex] > 0 then
           inSlots["reagentBag"] = {bagIndex}
@@ -165,10 +167,9 @@ function Baganator.UnifiedViews.ArrangeCollapsibles(activeCollapsibles, originBa
     local key = originCollapsibles[index].key
     local hidden = Baganator.Config.Get(Baganator.Config.Options.HIDE_SPECIAL_CONTAINER)[key]
     local divider = originCollapsibles[index].divider
-    if hidden then
-      divider:Hide()
-      layout:Hide()
-    else
+    divider:SetShown(not hidden)
+    layout:SetShown(not hidden)
+    if not hidden then
       divider:SetPoint("BOTTOM", layout, "TOP", 0, topSpacing / 2 + dividerOffset)
       divider:SetPoint("LEFT", layout)
       divider:SetPoint("RIGHT", layout)

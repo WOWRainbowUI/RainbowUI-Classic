@@ -400,6 +400,10 @@ function BaganatorCustomiseDialogMixin:OnLoad()
   self:RegisterForDrag("LeftButton")
   self:SetMovable(true)
   self:SetClampedToScreen(true)
+
+  if TSM_API then
+    self:SetFrameStrata("HIGH")
+  end
 end
 
 function BaganatorCustomiseDialogMixin:OnDragStart()
@@ -647,6 +651,9 @@ function BaganatorCustomiseDialogMixin:SetupTooltipsLink()
       self:SetIndex(lastIndex)
     end)
     Settings.OpenToCategory(SYNDICATOR_L_SYNDICATOR)
+    C_Timer.After(0, function()
+      Settings.OpenToCategory(SYNDICATOR_L_SYNDICATOR)
+    end)
   end)
 end
 

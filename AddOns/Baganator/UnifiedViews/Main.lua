@@ -250,6 +250,35 @@ local function HideDefaultBank()
   BankFrame:SetScript("OnEvent", nil)
 end
 
+local function SetupCharacterSelect()
+  local characterSelect = CreateFrame("Frame", "Baganator_CharacterSelectFrame", UIParent, "BaganatorCharacterSelectTemplate")
+
+  table.insert(UISpecialFrames, characterSelect:GetName())
+
+  local function SetPositions()
+    characterSelect:ClearAllPoints()
+    characterSelect:SetPoint(unpack(Baganator.Config.Get(Baganator.Config.Options.CHARACTER_SELECT_POSITION)))
+  end
+
+  local function ResetPositions()
+    Baganator.Config.ResetOne(Baganator.Config.Options.CHARACTER_SELECT_POSITION)
+    SetPositions()
+  end
+
+  local success = pcall(SetPositions) -- work around broken values
+  if not success then
+    ResetPositions()
+  end
+
+  Baganator.CallbackRegistry:RegisterCallback("ResetFramePositions", function()
+    ResetPositions()
+  end)
+
+  Baganator.CallbackRegistry:RegisterCallback("CharacterSelectToggle", function(_, guildName)
+    characterSelect:SetShown(not characterSelect:IsShown())
+  end)
+end
+
 function Baganator.UnifiedViews.Initialize()
   -- Use xpcall to so that if Blizzard reworks a component the rest of the
   -- other component initialisations won't fail
@@ -258,8 +287,18 @@ function Baganator.UnifiedViews.Initialize()
     if Baganator.Config.Get(Baganator.Config.Options.ENABLE_BACKPACK_VIEW) then
       SetupBackpackView()
       HideDefaultBackpack()
-      Baganator.InitializeOpenClose()
     end
+  end, CallErrorHandler)
+
+  xpcall(function()
+    -- So that the character select sets its position correctly if the bag view
+    -- is disabled
+    if Baganator_BackpackViewFrame == nil then
+      local frame = CreateFrame("Frame", "Baganator_BackpackViewFrame", UIParent)
+      frame:SetPoint("TOPLEFT", UIParent, "TOPRIGHT")
+      frame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT")
+    end
+    SetupCharacterSelect()
   end, CallErrorHandler)
 
   xpcall(function()
@@ -282,6 +321,4 @@ function Baganator.UnifiedViews.Initialize()
       SetupGuildView()
     end
   end, CallErrorHandler)
-
-  Baganator.ItemButtonUtil.UpdateSettings()
 end

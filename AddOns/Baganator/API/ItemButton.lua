@@ -3,7 +3,7 @@ local iconSettings = {}
 local IsEquipment = Syndicator and Syndicator.Utilities.IsEquipment
 
 local function HasItemLevel(details)
-  local classID = select(6, GetItemInfoInstant(details.itemLink))
+  local classID = select(6, C_Item.GetItemInfoInstant(details.itemLink))
   return
     -- Regular equipment
     classID == Enum.ItemClass.Armor or classID == Enum.ItemClass.Weapon
@@ -59,7 +59,7 @@ end
 Baganator.API.RegisterCornerWidget(BAGANATOR_L_ITEM_LEVEL, "item_level", function(ItemLevel, details)
   if HasItemLevel(details) and not (IsCosmeticItem and IsCosmeticItem(details.itemLink)) then
     if not details.itemLevel then
-      details.itemLevel = GetDetailedItemLevelInfo(details.itemLink)
+      details.itemLevel = C_Item.GetDetailedItemLevelInfo(details.itemLink)
     end
     ItemLevel:SetText(details.itemLevel)
     if iconSettings.useQualityColors then
@@ -73,7 +73,7 @@ Baganator.API.RegisterCornerWidget(BAGANATOR_L_ITEM_LEVEL, "item_level", functio
 end, textInit)
 
 Baganator.API.RegisterCornerWidget(BAGANATOR_L_BOE, "boe", function(BindingText, details)
-  local classID = select(6, GetItemInfoInstant(details.itemLink))
+  local classID = select(6, C_Item.GetItemInfoInstant(details.itemLink))
   if (IsEquipment(details.itemLink) or classID == Enum.ItemClass.Container) and not details.isBound and (iconSettings.boe_on_common or details.quality > 1) then
       BindingText:SetText(BAGANATOR_L_BOE)
       if iconSettings.useQualityColors then
@@ -255,6 +255,10 @@ Baganator.Utilities.OnAddonLoaded("Pawn", function()
 end)
 
 Baganator.Utilities.OnAddonLoaded("CanIMogIt", function()
+  local function IsPet(itemID)
+    local classID, subClassID = select(6, GetItemInfoInstant(itemID))
+    return classID == Enum.ItemClass.Battlepet or classID == Enum.ItemClass.Miscellaneous and subClassID == Enum.ItemMiscellaneousSubclass.CompanionPet
+  end
   Baganator.API.RegisterCornerWidget(BAGANATOR_L_CAN_I_MOG_IT, "can_i_mog_it", function(CIMIOverlay, details)
     local function CIMI_Update(self)
       if not self or not self:GetParent() then return end
@@ -267,7 +271,7 @@ Baganator.Utilities.OnAddonLoaded("CanIMogIt", function()
       CIMI_SetIcon(self, CIMI_Update, CanIMogIt:GetTooltipText(details.itemLink))
     end
     CIMI_SetIcon(CIMIOverlay, CIMI_Update, CanIMogIt:GetTooltipText(details.itemLink))
-    return IsEquipment(details.itemLink)
+    return (C_Transmog and C_Transmog.CanTransmogItem(details.itemLink)) or (C_ToyBox and C_ToyBox.GetToyInfo(details.itemID)) or IsPet(details.itemID) or (C_MountJournal and C_MountJournal.GetMountFromItem(details.itemID))
   end,
   function(itemButton)
     CIMI_AddToFrame(itemButton, function() end)
@@ -341,4 +345,23 @@ if C_Engraving and C_Engraving.IsEngravingEnabled() then
     texture.padding = 0
     return texture
   end, {corner = "top_right", priority = 1})
+end
+
+if Baganator.Constants.IsRetail then
+  Baganator.API.RegisterCornerWidget(BAGANATOR_L_KEYSTONE_LEVEL, "keystone_level", function(KeystoneText, details)
+    local level = details.itemLink:match("keystone:[^:]*:[^:]*:(%d+)")
+    if not level then
+      return false
+    end
+    local color = C_ChallengeMode.GetKeystoneLevelRarityColor(tonumber(level))
+
+    KeystoneText:SetText(level)
+    if iconSettings.useQualityColors then
+      local color = qualityColors[details.quality]
+      KeystoneText:SetTextColor(color.r, color.g, color.b)
+    else
+      KeystoneText:SetTextColor(1,1,1)
+    end
+    return true
+  end, textInit, {corner = "top_left", priority = 3})
 end

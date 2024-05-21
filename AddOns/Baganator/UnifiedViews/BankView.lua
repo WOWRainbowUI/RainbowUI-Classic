@@ -41,11 +41,10 @@ function BaganatorBankViewMixin:OnLoad()
 
   Syndicator.CallbackRegistry:RegisterCallback("BagCacheUpdate",  function(_, character, updatedBags)
     self:SetLiveCharacter(character)
-    if self:IsVisible() then
-      self:UpdateForCharacter(character, true, updatedBags)
-    else
-      self:NotifyBagUpdate(updatedBags)
+    if character == self.lastCharacter and self:IsVisible() then
+        self:UpdateForCharacter(character, self.liveBankActive, updatedBags)
     end
+    self:NotifyBagUpdate(updatedBags)
   end)
 
   Baganator.CallbackRegistry:RegisterCallback("ContentRefreshRequired",  function()
@@ -91,15 +90,6 @@ function BaganatorBankViewMixin:OnLoad()
 
   Baganator.CallbackRegistry:RegisterCallback("SpecialBagToggled", function(_, character)
     if self:IsVisible() and self.lastCharacter ~= nil then
-      self:UpdateForCharacter(self.lastCharacter, self.isLive)
-    end
-  end)
-
-  Syndicator.CallbackRegistry:RegisterCallback("CharacterDeleted", function(_, character)
-    self.tabsSetup = false
-    if self.lastCharacter == character then
-      self:UpdateForCharacter(self.liveCharacter, true)
-    else
       self:UpdateForCharacter(self.lastCharacter, self.isLive)
     end
   end)
@@ -307,7 +297,11 @@ function BaganatorBankViewMixin:OnShow()
 end
 
 function BaganatorBankViewMixin:OnHide(eventName)
-  CloseBankFrame()
+  if C_Bank then
+    C_Bank.CloseBankFrame()
+  else
+    CloseBankFrame()
+  end
 
   self:UnregisterEvent("MODIFIER_STATE_CHANGED")
   Baganator.CallbackRegistry:TriggerEvent("SearchTextChanged", "")
@@ -336,7 +330,11 @@ function BaganatorBankViewMixin:UpdateForCharacter(character, isLive, updatedBag
   updatedBags = updatedBags or {bags = {}, bank = {}}
   Baganator.Utilities.ApplyVisuals(self)
 
+  local oldLast = self.lastCharacter
   self.lastCharacter = character
+  if oldLast ~= self.lastCharacter then
+    Baganator.CallbackRegistry:TriggerEvent("CharacterSelect", character)
+  end
   self.isLive = isLive
 
   self:AllocateBankBags(character)
@@ -344,11 +342,6 @@ function BaganatorBankViewMixin:UpdateForCharacter(character, isLive, updatedBag
 
   self.BankLive:SetShown(self.isLive)
   self.BankCached:SetShown(not self.isLive)
-
-  for _, layouts in ipairs(self.CollapsingBankBags) do
-    layouts.live:SetShown(self.isLive)
-    layouts.cached:SetShown(not self.isLive)
-  end
 
   self.SortButton:SetShown(self.isLive and Baganator.Utilities.ShouldShowSortButton())
   self:UpdateTransferButton()
@@ -407,8 +400,13 @@ function BaganatorBankViewMixin:UpdateForCharacter(character, isLive, updatedBag
 
   local bankHeight = activeBank:GetHeight() + topSpacing / 2
 
-  -- Copied from UnifiedViews/BagView.lua
+  -- Copied from UnifiedViews/BackpackView.lua
   bankHeight = bankHeight + Baganator.UnifiedViews.ArrangeCollapsibles(activeBankBagCollapsibles, activeBank, self.CollapsingBankBags)
+
+  for _, layouts in ipairs(self.CollapsingBankBags) do
+    layouts.live:SetShown(layouts.live:IsShown() and isLive)
+    layouts.cached:SetShown(layouts.cached:IsShown() and not isLive)
+  end
 
   self.AllButtons = {}
   tAppendAll(self.AllButtons, self.AllFixedButtons)
@@ -526,7 +524,7 @@ function BaganatorBankViewMixin:DoSort(isReverse)
   local bagChecks = Baganator.Sorting.GetBagUsageChecks(Syndicator.Constants.AllBankIndexes)
 
   local function DoSortInternal()
-    local status = Baganator.Sorting.ApplyOrdering(
+    local status = Baganator.Sorting.ApplyBagOrdering(
       Syndicator.API.GetCharacter(self.liveCharacter).bank,
       Syndicator.Constants.AllBankIndexes,
       indexesToUse,
