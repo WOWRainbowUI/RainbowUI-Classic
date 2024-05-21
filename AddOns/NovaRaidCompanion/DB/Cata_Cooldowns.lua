@@ -3,7 +3,7 @@
 ----------------------------------
 
 local addonName, NRC = ...;
-if (NRC.isCataPrepatch or not NRC.isCata) then
+if (not NRC.isCata) then
 	return;
 end
 local L = LibStub("AceLocale-3.0"):GetLocale("NovaRaidCompanion");
@@ -723,6 +723,15 @@ NRC.cooldowns = {
 		minLevel = 85,
 		spellIDs = {
 			[77606] = "Dark Simulacrum", --Rank 1.
+		},
+	},
+	["Raise Ally"] = {
+		class = "DEATHKNIGHT",
+		icon = "Interface\\Icons\\spell_shadow_deadofnight",
+		cooldown = 600,
+		minLevel = 72,
+		spellIDs = {
+			[61999] = "Raise Ally", --Rank 1.
 		},
 	},
 };

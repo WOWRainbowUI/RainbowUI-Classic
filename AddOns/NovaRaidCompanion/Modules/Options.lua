@@ -3633,6 +3633,16 @@ local function setAllCooldownsUnmerged()
 end
 
 function NRC:loadExtraOptions()
+	if (NRC.isClassic) then
+		NRC.options.args.raidStatus.args["raidStatusWorldBuffs"] = {
+			type = "toggle",
+			name = L["raidStatusWorldBuffsTitle"],
+			desc = L["raidStatusWorldBuffsDesc"],
+			order = 32,
+			get = "getRaidStatusWorldBuffs",
+			set = "setRaidStatusWorldBuffs",
+		};
+	end
 	--[[if (NRC.faction == "Alliance") then
 		NRC.options.args.raidCooldowns.args["raidCooldownHeroism"] = {
 			type = "toggle",
@@ -4896,6 +4906,7 @@ NRC.optionDefaults = {
 		tradeExportStart = 1,
 		tradeExportEnd = 400,
 		tradeExportAttendees = true,
+		consumesExportItemsType = "wowhead",
 		
 		dispelsMyCastGroup = false,
 		dispelsMyCastPrint = false,
@@ -5199,6 +5210,7 @@ NRC.optionDefaults = {
 
 if (NRC.isClassic) then
 	NRC.optionDefaults.profile.lowAmmoCheckThreshold = 600;
+	NRC.optionDefaults.profile.raidStatusWorldBuffs = true;
 end
 
 --Raid cooldown options have be changed to a func that creates them from db.
@@ -5308,6 +5320,7 @@ local function loadAllCooldownOptions()
 	NRC.optionDefaults.profile["raidCooldownDivineIntervention"] = true;
 	NRC.optionDefaults.profile["raidCooldownReincarnation"] = true;
 	NRC.optionDefaults.profile["raidCooldownSoulstone"] = true;
+	NRC.optionDefaults.profile["raidCooldownRaiseAlly"] = true;
 end
 loadAllCooldownOptions();
 
@@ -5403,7 +5416,7 @@ end
 
 local linesVersion;
 local function loadNewVersionFrame()
-	local frame = NRC:createSimpleScrollFrame("NRCNewVersionFrame", 600, 570, 0, 0, true);
+	local frame = NRC:createSimpleScrollFrame("NRCNewVersionFrame", 600, 470, 0, 0, true);
 	frame:SetFrameStrata("HIGH");
 	frame:SetClampedToScreen(true);
 	frame.scrollChild.fs:SetFont(NRC.regionFont, 14);
@@ -5424,16 +5437,13 @@ local function loadNewVersionFrame()
 	frame.scrollChild.fs:SetText("|cFFFFFF00Nova Raid Companion");
 	frame.scrollChild.fs2:SetText("|cFFFFFF00New in version|r |cFFFF6900" .. string.format("%.2f", NRC.version));
 	frame:Hide();
-	linesVersion = 1.34;
+	linesVersion = 1.37;
 	local lines = {
 		"|cFF00FF00[General Changes]|r",
-		"Went through all classic era/SoD cooldowns and fixed a bunch or wrong durations and talents that reduce cooldown that were pasted over from wrath.",
-		"Fixed a bunch of small bugs for wrath and classic era.",
-		"|cFF00FF00[SoD Changes]|r",
-		"-Added many new rune spells as cooldown options to display in SoD (some runes that are optional won't display until it's detected someone has cast them so don't worrie if it doesn't show right away, the cooldown frame will show when the spell has been cast once by the player).",
-		"-Added max rank definitions for each phase to everything in the raid buffs window so they don't show as red being not max rank.",
-		"-Added hunter aspect of the lion to the pally kings column in buffs window.",
-		"-Fixed the addon not recording new SoD raids, they should now show up in the log when you right click the minimap button.",
+		"Added a world buffs column to the raid status window in era/sod (left click minimap button), it also shows stored chronoboon buffs for the entire raid.",
+		"Left click minimap button raid status now shows your own char even if not in a group.",
+		"Lots of cata updates and bug fixes.",
+		"The addon is now also using cata databases (cooldowns/talents/consumes) so current wrath consumes with show as \"not max rank\" for the next few weeks until cata launches and we're using the new consumes.",
 	};
 	local text = "";
 	--Seperator lines couldn't be used because the wow client won't render 1 pixel frames if they are in certain posotions.
@@ -6654,6 +6664,16 @@ end
 
 function NRC:getRaidStatusDura(info)
 	return self.config.raidStatusDura;
+end
+
+--Raid status world buffs.
+function NRC:setRaidStatusWorldBuffs(info, value)
+	self.config.raidStatusWorldBuffs = value;
+	NRC:reloadRaidStatusFrames();
+end
+
+function NRC:getRaidStatusWorldBuffs(info)
+	return self.config.raidStatusWorldBuffs;
 end
 
 --Raid status shadow.

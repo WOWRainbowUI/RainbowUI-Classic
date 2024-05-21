@@ -891,7 +891,6 @@ function NRC:createGridFrame(name, width, height, x, y, borderSpacing)
 	end
 	frame.lastUpdate = 0;
 	frame:SetScript("OnUpdate", function(self)
-		--Update throddle.
 		if (GetTime() - frame.lastUpdate > 1) then
 			frame.lastUpdate = GetTime();
 			if (frame.onUpdateFunction) then
@@ -907,6 +906,8 @@ function NRC:createGridFrame(name, width, height, x, y, borderSpacing)
 	frame.updateGridData = function(data, updateLayout)
 		--Only update the frame layout if the data size has changed (players join/leave group etc).
 		if (updateLayout) then
+			local spacingV = data.spacingV;
+			local spacingH = data.spacingH;
 			local width, height = 0, 0;
 			local lastColumn, lastRow;
 			if (data.columns and next(data.columns)) then
@@ -926,10 +927,14 @@ function NRC:createGridFrame(name, width, height, x, y, borderSpacing)
 						t:SetColorTexture(1, 1, 1, 0.5);
 						t:SetWidth(1);
 						t:ClearAllPoints();
-						t:SetPoint('TOP', frame, 'TOPLEFT', data.firstV + (data.spacingV * (k - 1)), 0);
-						t:SetPoint('BOTTOM', frame, 'BOTTOMLEFT', data.firstV + (data.spacingV * (k - 1)), 0);
+						t:SetPoint('TOP', frame, 'TOPLEFT', data.firstV + (spacingV * (k - 1)), 0);
+						t:SetPoint('BOTTOM', frame, 'BOTTOMLEFT', data.firstV + (spacingV * (k - 1)), 0);
 						t:Show();
-						width = width + data.spacingV;
+						if (v.customWidth) then
+							width = width + v.customWidth;
+						else
+							width = width + spacingV;
+						end
 					end
 				end
 			end
@@ -950,10 +955,10 @@ function NRC:createGridFrame(name, width, height, x, y, borderSpacing)
 						t:SetColorTexture(1, 1, 1, 0.5);
 						t:SetHeight(1);
 						t:ClearAllPoints();
-						t:SetPoint('LEFT', frame, 'TOPLEFT', 0, -(data.firstH + (data.spacingH * (k - 1))));
-						t:SetPoint('RIGHT', frame, 'TOPRIGHT', 0, -(data.firstH + (data.spacingH * (k - 1))));
+						t:SetPoint('LEFT', frame, 'TOPLEFT', 0, -(data.firstH + (spacingH * (k - 1))));
+						t:SetPoint('RIGHT', frame, 'TOPRIGHT', 0, -(data.firstH + (spacingH * (k - 1))));
 						t:Show();
-						height = height + data.spacingH;
+						height = height + spacingH;
 					end
 				end
 			elseif (_G[frame:GetName() .. "GridH2"]) then
@@ -1002,87 +1007,104 @@ function NRC:createGridFrame(name, width, height, x, y, borderSpacing)
 					columnCount = columnCount + 1;
 				end
 				local gridName = string.char(96 + rowCount) .. columnCount;
+				if (data.columns[columnCount].customWidth) then
+					spacingV = data.columns[columnCount].customWidth;
+				else
+					spacingV = data.spacingV;
+				end
+				local subFrame = frame.subFrames[gridName];
 				--Assign a grid name, a1 a2 a3 etc.
-				if (not frame.subFrames[gridName]) then
+				if (not subFrame) then
 					--The idea was to have frames cliakble to target to buff, but it taints the main frame so it can't be hidden/shown in combat.
 					--frame.subFrames[gridName] = CreateFrame("Button", frame:GetName() .. "_" .. gridName, nil, "BackdropTemplate,SecureActionButtonTemplate");
-					frame.subFrames[gridName] = CreateFrame("Button", frame:GetName() .. "_" .. gridName, frame, "BackdropTemplate,InsecureActionButtonTemplate");
-					frame.subFrames[gridName]:SetAttribute("type", "macro");
-					frame.subFrames[gridName]:SetFrameLevel(11);
-					frame.subFrames[gridName]:SetBackdrop({
+					local f = CreateFrame("Button", frame:GetName() .. "_" .. gridName, frame, "BackdropTemplate,InsecureActionButtonTemplate");
+					f:SetAttribute("type", "macro");
+					f:SetFrameLevel(11);
+					f:SetBackdrop({
 						bgFile = "Interface\\Buttons\\WHITE8x8",
 						insets = {top = 0, left = 0, bottom = 0, right = 0},
 						edgeFile = [[Interface/Buttons/WHITE8X8]], 
 						edgeSize = 1.1,
 					});
-					frame.subFrames[gridName]:SetBackdropColor(0, 0, 0, 0);
-					frame.subFrames[gridName]:SetBackdropBorderColor(1, 1, 1, 0);
-					frame.subFrames[gridName].fs = frame.subFrames[gridName]:CreateFontString(frame:GetName().. "FS", "ARTWORK");
-					frame.subFrames[gridName].fs:SetPoint("CENTER", 0, 0);
-					frame.subFrames[gridName].fs:SetFont(NRC.LSM:Fetch("font", frame.subFrameFont), frame.subFrameFontSize, frame.subFrameFontOutline);
-					frame.subFrames[gridName].fs:SetJustifyH("LEFT");
-					frame.subFrames[gridName].texture = frame.subFrames[gridName]:CreateTexture(frame:GetName() .. "Texture_" .. gridName, "ARTWORK");
-					frame.subFrames[gridName].texture:SetPoint("CENTER", 0, 0);
-					frame.subFrames[gridName].texture2 = frame.subFrames[gridName]:CreateTexture(frame:GetName() .. "Texture2_" .. gridName, "ARTWORK");
-					frame.subFrames[gridName].texture2:SetPoint("CENTER", 0, 0);
-					frame.subFrames[gridName].texture3 = frame.subFrames[gridName]:CreateTexture(frame:GetName() .. "Texture3_" .. gridName, "ARTWORK");
-					frame.subFrames[gridName].texture3:SetPoint("CENTER", 0, 0);
-					frame.subFrames[gridName].texture4 = frame.subFrames[gridName]:CreateTexture(frame:GetName() .. "Texture4_" .. gridName, "ARTWORK");
-					frame.subFrames[gridName].texture4:SetPoint("CENTER", 0, 0);
-					if (columnCount == 1) then
-						frame.subFrames[gridName].readyCheckTexture = frame.subFrames[gridName]:CreateTexture(frame:GetName() .. "ReadyCheckTexture_" .. gridName, "ARTWORK");
-						frame.subFrames[gridName].readyCheckTexture:SetPoint("LEFT", frame.subFrames[gridName], "LEFT", 2, 0);
-						frame.subFrames[gridName].readyCheckTexture:SetSize(16, 16);
+					f:SetBackdropColor(0, 0, 0, 0);
+					f:SetBackdropBorderColor(1, 1, 1, 0);
+					f.fs = f:CreateFontString(frame:GetName().. "FS", "ARTWORK");
+					f.fs:SetPoint("CENTER", 0, 0);
+					f.fs:SetFont(NRC.LSM:Fetch("font", frame.subFrameFont), frame.subFrameFontSize, frame.subFrameFontOutline);
+					f.fs:SetJustifyH("LEFT");
+					f.texture = f:CreateTexture(frame:GetName() .. "Texture_" .. gridName, "ARTWORK");
+					f.texture:SetPoint("CENTER", 0, 0);
+					--[[f.texture2 = f:CreateTexture(frame:GetName() .. "Texture2_" .. gridName, "ARTWORK");
+					f.texture2:SetPoint("CENTER", 0, 0);
+					f.texture3 = f:CreateTexture(frame:GetName() .. "Texture3_" .. gridName, "ARTWORK");
+					f.texture3:SetPoint("CENTER", 0, 0);
+					f.texture4 = f:CreateTexture(frame:GetName() .. "Texture4_" .. gridName, "ARTWORK");
+					f.texture4:SetPoint("CENTER", 0, 0);]]
+					local textureCount = 4;
+					if (NRC.isClassic) then
+						textureCount = NRC.numWorldBuffs;
+						if (textureCount < 4) then
+							textureCount = 4;
+						end
 					end
-					frame.subFrames[gridName].tooltip = CreateFrame("Frame", frame:GetName() .. "Tooltip_" .. gridName, frame, "TooltipBorderedFrameTemplate");
-					frame.subFrames[gridName].tooltip:SetPoint("BOTTOM", frame.subFrames[gridName], "TOP", 0, 2);
-					frame.subFrames[gridName].tooltip:SetFrameStrata("TOOLTIP");
-					frame.subFrames[gridName].tooltip:SetFrameLevel(99);
-					--frame.subFrames[gridName].tooltip.NineSlice.Background:SetAlpha(1);
-					frame.subFrames[gridName].tooltip:SetBackdropColor(0, 0, 0, 1);
-					frame.subFrames[gridName].tooltip.fs = frame.subFrames[gridName].tooltip:CreateFontString(frame:GetName() .. "NRCTooltipFS", "ARTWORK");
-					frame.subFrames[gridName].tooltip.fs:SetPoint("CENTER", 0, 0);
-					frame.subFrames[gridName].tooltip.fs:SetFont(NRC.regionFont, 12);
-					frame.subFrames[gridName].tooltip.fs:SetJustifyH("LEFT");
-					frame.subFrames[gridName].updateTooltip = function(text)
+					for i = 2, textureCount do
+						f["texture" .. i] = f:CreateTexture(frame:GetName() .. "Texture" .. i .. "_" .. gridName, "ARTWORK");
+						f["texture" .. i]:SetPoint("CENTER", 0, 0);
+					end
+					if (columnCount == 1) then
+						f.readyCheckTexture = f:CreateTexture(frame:GetName() .. "ReadyCheckTexture_" .. gridName, "ARTWORK");
+						f.readyCheckTexture:SetPoint("LEFT", f, "LEFT", 2, 0);
+						f.readyCheckTexture:SetSize(16, 16);
+					end
+					f.tooltip = CreateFrame("Frame", frame:GetName() .. "Tooltip_" .. gridName, frame, "TooltipBorderedFrameTemplate");
+					f.tooltip:SetPoint("BOTTOM", f, "TOP", 0, 2);
+					f.tooltip:SetFrameStrata("TOOLTIP");
+					f.tooltip:SetFrameLevel(99);
+					--f.tooltip.NineSlice.Background:SetAlpha(1);
+					f.tooltip:SetBackdropColor(0, 0, 0, 1);
+					f.tooltip.fs = f.tooltip:CreateFontString(frame:GetName() .. "NRCTooltipFS", "ARTWORK");
+					f.tooltip.fs:SetPoint("CENTER", 0, 0);
+					f.tooltip.fs:SetFont(NRC.regionFont, 12);
+					f.tooltip.fs:SetJustifyH("LEFT");
+					f.updateTooltip = function(text)
 						if (not text) then
 							--Disable tooltip if no text.
-							frame.subFrames[gridName].showTooltip = nil;
+							f.showTooltip = nil;
 						else
-							local tooltipFrame = frame.subFrames[gridName].tooltip;
+							local tooltipFrame = f.tooltip;
 							tooltipFrame.fs:SetText(text);
 							tooltipFrame:SetWidth(tooltipFrame.fs:GetStringWidth() + 18);
 							tooltipFrame:SetHeight(tooltipFrame.fs:GetStringHeight() + 12);
-							frame.subFrames[gridName].showTooltip = true;
+							f.showTooltip = true;
 						end
 					end
-					frame.subFrames[gridName].showTooltipFunc = function()
+					f.showTooltipFunc = function()
 						--Use a function to show tooltip so we can disable showing tooltip if frame isn't being dragged for first install.
-						if (frame.subFrames[gridName].showTooltip) then
-							frame.subFrames[gridName].tooltip:Show();
+						if (f.showTooltip) then
+							f.tooltip:Show();
 						end
 					end
-					frame.subFrames[gridName]:SetScript("OnEnter", function(self)
+					f:SetScript("OnEnter", function(self)
 						if (not self.red) then
-							frame.subFrames[gridName]:SetBackdropColor(0, 1, 0, 0.15);
-							frame.subFrames[gridName]:SetBackdropBorderColor(1, 1, 1, 0.5);
+							f:SetBackdropColor(0, 1, 0, 0.15);
+							f:SetBackdropBorderColor(1, 1, 1, 0.5);
 						end
-						frame.subFrames[gridName].showTooltipFunc();
+						f.showTooltipFunc();
 					end)
-					frame.subFrames[gridName]:SetScript("OnLeave", function(self)
+					f:SetScript("OnLeave", function(self)
 						if (not self.red) then
-							frame.subFrames[gridName]:SetBackdropColor(0, 0, 0, 0);
-							frame.subFrames[gridName]:SetBackdropBorderColor(1, 1, 1, 0);
+							f:SetBackdropColor(0, 0, 0, 0);
+							f:SetBackdropBorderColor(1, 1, 1, 0);
 						end
-						frame.subFrames[gridName].tooltip:Hide();
+						f.tooltip:Hide();
 					end)
-					frame.subFrames[gridName]:SetScript("OnMouseDown", function(self, button)
+					f:SetScript("OnMouseDown", function(self, button)
 						if (button == "LeftButton" and IsShiftKeyDown() and not self:GetParent().isMoving) then
 							self:GetParent():StartMoving();
 							self:GetParent().isMoving = true;
 						end
 					end)
-					frame.subFrames[gridName]:SetScript("OnMouseUp", function(self, button)
+					f:SetScript("OnMouseUp", function(self, button)
 						if (button == "LeftButton" and self:GetParent().isMoving) then
 							self:GetParent():StopMovingOrSizing();
 							self:GetParent().isMoving = false;
@@ -1091,48 +1113,66 @@ function NRC:createGridFrame(name, width, height, x, y, borderSpacing)
 									NRC.db.global[frame:GetName() .. "_x"], NRC.db.global[frame:GetName() .. "_y"] = frame:GetPoint();
 						end
 					end)
-					frame.subFrames[gridName]:SetScript("OnHide", function(self)
+					f:SetScript("OnHide", function(self)
 						if (self:GetParent().isMoving) then
 							self:GetParent():StopMovingOrSizing();
 							self:GetParent().isMoving = false;
 						end
 					end)
-					frame.subFrames[gridName].tooltip:Hide();
+					f.tooltip:Hide();
+					subFrame = f;
 				end
-				local x = data.firstV + (data.spacingV * (columnCount - 1)) - (data.spacingV / 2);
-				local y = -(data.firstH + (data.spacingH * (rowCount - 1)) - (data.spacingH / 2));
-				frame.subFrames[gridName]:SetWidth(data.spacingV);
-				frame.subFrames[gridName]:SetHeight(data.spacingH);
+				local x = data.firstV + (spacingV * (columnCount - 1)) - (spacingV / 2);
+				local y = -(data.firstH + (spacingH * (rowCount - 1)) - (spacingH / 2));
+				subFrame:SetWidth(spacingV);
+				subFrame:SetHeight(spacingH);
 				if (columnCount == 1) then
-					frame.subFrames[gridName]:SetWidth(data.firstV);
+					subFrame:SetWidth(data.firstV);
 					x = data.firstV / 2;
 					if (not frame.readyCheckRunnig) then
-						frame.subFrames[gridName].fs:SetPoint("LEFT", 5, 0);
+						subFrame.fs:SetPoint("LEFT", 5, 0);
 					end
+				--elseif (data.columns[columnCount].customWidth) then
+					--subFrame:SetWidth(data.columns[columnCount].customWidth);
+					--width = width + spacingV + (data.columns[columnCount].customWidth - spacingV);
+					--x = data.columns[columnCount].customWidth / 2;
 				end
 				if (rowCount == 1) then
-					frame.subFrames[gridName]:SetHeight(data.firstH);
+					subFrame:SetHeight(data.firstH);
 					y = -(data.firstH / 2);
 					--Add text or icon to the header row.
 					local header = data.columns[columnCount];
 					if (header.tex) then
-						frame.subFrames[gridName].fs:SetText("");
-						frame.subFrames[gridName].texture:SetTexture(header.tex);
-						frame.subFrames[gridName].texture:SetSize(30, 24);
+						subFrame.fs:SetText("");
+						subFrame.texture:SetTexture(header.tex);
+						subFrame.texture:SetSize(30, 24);
 						--Some stuff for handling resistance icons.
 						if (header.texCoords) then
-							frame.subFrames[gridName].texture:SetTexCoord(header.texCoords[1], header.texCoords[2],
+							subFrame.texture:SetTexCoord(header.texCoords[1], header.texCoords[2],
 									header.texCoords[3], header.texCoords[4]);
 						end
 					else
-						frame.subFrames[gridName].texture:SetTexture();
-						frame.subFrames[gridName].fs:SetText(header.name);
+						subFrame.texture:SetTexture();
+						subFrame.fs:SetText(header.name);
 					end
 				end
-				frame.subFrames[gridName]:ClearAllPoints();
-				frame.subFrames[gridName]:SetPoint("CENTER", frame, "TOPLEFT", x, y);
-				--frame.subFrames[gridName].fs:SetText(string.upper(gridName));
-				frame.subFrames[gridName]:Show();
+				subFrame:ClearAllPoints();
+				if (data.columns[columnCount].customWidth) then
+					--Get half way point of column to attach texture frames to.
+					x = (width - data.columns[columnCount].customWidth) + (data.columns[columnCount].customWidth / 2);
+				end
+				subFrame:SetPoint("CENTER", frame, "TOPLEFT", x, y);
+				--subFrame.fs:SetText(string.upper(gridName));
+				if (not subFrame:IsShown()) then
+					subFrame:Show();
+				end
+				--[[if (data.columns[columnCount].customWidth) then
+					subFrame:SetWidth(data.columns[columnCount].customWidth);
+					width = width + spacingV + (data.columns[columnCount].customWidth - spacingV);
+				elseif (columnCount ~= 1) then
+					subFrame:SetWidth(spacingV);
+				end]]
+				frame.subFrames[gridName] = subFrame;
 			end
 			if (data.adjustWidth) then
 				--Adjust width to fit columns.
@@ -2606,6 +2646,43 @@ function NRC:createTalentFrame(name, width, height, x, y, borderSpacing)
 	frame.setClass = function(class, classID)
 		local offset = 24;
 		local talentData = NRC:getTalentData(class);
+		
+		--talentData from our local DB should be in order but incase in furutre expansions it's not for some reason becaus of exporter problems this sorts them.
+		--Funcs taken from my talent exporter addon.
+		--This was commented out after re-exported cata data in the correct order for local db.
+		--[[local rows = {};
+		for tab, tabData in ipairs(talentData) do
+			--Create tables with row/column for each talent in order.
+			if (not rows[tab]) then
+				rows[tab] = {};
+			end
+			for _, talent in ipairs(tabData.talents) do
+				if (not rows[tab][talent.info.row]) then
+					rows[tab][talent.info.row] = {};
+				end
+				rows[tab][talent.info.row][talent.info.column] = talent.info.name;
+			end
+		end
+		--Iterate the row/colum data in order for each tree and re-assign the wowTreeIndex number.
+		for tab, tabData in ipairs(rows) do
+			local count = 0;
+			for row, rowData in ipairs(tabData) do
+				for column, talentName in pairs(rowData) do
+					count = count + 1;
+					--Find the correct talent name and insert the index, should work fine as talent names are always unique (I hope).
+					for k, v in ipairs(talentData[tab].talents) do
+						if (v.info.name == talentName) then
+							v.info.wowTreeIndex = count;
+						end
+					end
+				end
+			end
+		end
+		for tab, tabData in ipairs(talentData) do
+			table.sort(tabData.talents, function(a, b) return a.info.wowTreeIndex < b.info.wowTreeIndex end);
+		end]]
+		
+		
 		frame.hideAllTalentFrames();
 		if (talentData) then
 			for tree, treeData in ipairs(talentData) do

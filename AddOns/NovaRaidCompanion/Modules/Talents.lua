@@ -50,8 +50,10 @@ function NRC:loadTalentFrame()
 end
 
 function NRC:openTalentFrame(name, talentString)
-	 NRC:updateTalentFrame(name, talentString);
-	 talentFrame:Show();
+	 local isError = NRC:updateTalentFrame(name, talentString);
+	 if (not isError) then
+	 	talentFrame:Show();
+	 end
 end
 
 function NRC:updateTalentFrame(name, talentString, frame, talentString2, showOffspec)
@@ -114,6 +116,11 @@ function NRC:updateTalentFrame(name, talentString, frame, talentString2, showOff
 		for i = 1, #talents do
 			local talent = tonumber(strsub(talents, i, i));
 			local frame = talentFrame.talentFrames[tree][i];
+			if (not frame) then
+				--If a frame is missing then there's a talent data mismatch and likely trying to open an entry in raid log from previois expansion.
+				NRC:debug("Talent frame data mismatch.");
+				return true;
+			end
 			if (talent > 0) then
 				frame.currentRank = talent;
 				frame.texture:SetDesaturated();
@@ -133,19 +140,23 @@ function NRC:updateTalentFrame(name, talentString, frame, talentString2, showOff
 			end
 		end
 	end
-	if (showOffspec) then
+	--I need to fix up the glyphs frame for cata before enabling this again.
+	if (not NRC.isWrath) then
+		talentFrame.glyphs:Hide();
+	end
+	--[[if (showOffspec or NRC.expansionNum < 3) then
 		--Not displaying glyphs for offspec yet, maybe in later version.
 		--The data sync will need to rewritten to include offspec glyphs and keep track of which is the active spec since it can't be inspected.
-		frame.glyphs:Hide();
+		talentFrame.glyphs:Hide();
 	else
 		--local glyphText = "|cFF9CD6DEMajor:|r\n";
-		--[[glyphText = glyphText .. "(1) Glyph of Test\n";
-		glyphText = glyphText .. "(2) Glyph of Test2\n";
-		glyphText = glyphText .. "(3) Empty Slot\n";
-		glyphText = glyphText .. "|cFF9CD6DEMinor:|r\n";
-		glyphText = glyphText .. "(1) Glyph of Test\n";
-		glyphText = glyphText .. "(2) Glyph of Test2\n";
-		glyphText = glyphText .. "(3) Empty Slot";]]
+		--glyphText = glyphText .. "(1) Glyph of Test\n";
+		--glyphText = glyphText .. "(2) Glyph of Test2\n";
+		--glyphText = glyphText .. "(3) Empty Slot\n";
+		--glyphText = glyphText .. "|cFF9CD6DEMinor:|r\n";
+		--glyphText = glyphText .. "(1) Glyph of Test\n";
+		--glyphText = glyphText .. "(2) Glyph of Test2\n";
+		--glyphText = glyphText .. "(3) Empty Slot";
 		if (NRC.glyphs[name]) then
 			local data = NRC:createGlyphDataFromString(NRC.glyphs[name]);
 			NRC:updateGlyphFrame(data, talentFrame);
@@ -156,7 +167,7 @@ function NRC:updateTalentFrame(name, talentString, frame, talentString2, showOff
 		else
 			talentFrame.glyphs:Hide();
 		end
-	end
+	end]]
 end
 
 function NRC:updateGlyphFrame(data, frame, name)
@@ -433,7 +444,7 @@ function NRC:createTalentString()
 		local _, _, classID = UnitClass("player");
 		local talentString = tostring(classID);
 		--Seems all 3 clients are using the new out of order system now.
-		if (NRC.isWrath or NRC.isTBC or NRC.isClassic) then
+		--if (NRC.isWrath or NRC.isTBC or NRC.isClassic) then
 			local data = {
 				classID = classID,
 			};
@@ -453,7 +464,7 @@ function NRC:createTalentString()
 				end
 			end
 			talentString = NRC:createTalentStringFromTable(data);
-		else
+		--[[else
 			for tab = 1, GetNumTalentTabs() do
 				local found;
 				local treeString = "";
@@ -471,7 +482,7 @@ function NRC:createTalentString()
 					talentString = talentString .. "-0";
 				end
 			end
-		end
+		end]]
 		return talentString;
 	end
 end

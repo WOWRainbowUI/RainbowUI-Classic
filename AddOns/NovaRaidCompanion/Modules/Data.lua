@@ -150,7 +150,7 @@ function NRC:OnWhisperCommReceived(commPrefix, string, distribution, sender)
 	if (tonumber(remoteVersion) < 1.22) then
 		return;
 	end
-	if (NRC.isWrath) then
+	if (NRC.expansionNum > 2) then
 		if (cmd == "glyrec") then
 			NRC:receivedGlyphs(data, sender, distribution, true);
 		elseif (cmd == "glyreq") then
@@ -870,12 +870,12 @@ f:RegisterEvent("GROUP_LEFT");
 f:RegisterEvent("UNIT_RESISTANCES");
 f:RegisterEvent("UNIT_INVENTORY_CHANGED");
 f:RegisterEvent("CHARACTER_POINTS_CHANGED");
-if (not NRC.isRetail) then
+if (C_EventUtils.IsEventValid("GLYPH_ADDED")) then
 	f:RegisterEvent("GLYPH_ADDED");
 	f:RegisterEvent("GLYPH_UPDATED");
 	f:RegisterEvent("GLYPH_REMOVED");
 end
-if (not NRC.isTBC and not NRC.isClassic) then
+if (C_EventUtils.IsEventValid("PLAYER_TALENT_UPDATE")) then
 	f:RegisterEvent("PLAYER_TALENT_UPDATE");
 end
 --f:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGE"); --PLAYER_TALENT_UPDATE is enough to cover dual spec change.
@@ -928,6 +928,7 @@ f:SetScript('OnEvent', function(self, event, ...)
 		NRC:throddleEventByFunc("UNIT_INVENTORY_CHANGED", 3, "checkMyEnchants");
 	elseif (event == "CHARACTER_POINTS_CHANGED" or event == "PLAYER_TALENT_UPDATE") then
 		myTalentsChanged = true;
+		NRC:checkMyTalents();
 		NRC:throddleEventByFunc("CHARACTER_POINTS_CHANGED", 10, "sendTalents");
 	elseif (event == "GLYPH_ADDED" or event == "GLYPH_UPDATED" or event == "GLYPH_REMOVED") then
 		NRC:throddleEventByFunc("GLYPH_UPDATED", 5, "sendGlyphs");
@@ -1148,10 +1149,10 @@ function NRC:receivedTalents(data, sender, distribution)
 end
 
 function NRC:checkMyTalents()
-	if (IsInGroup()) then
+	--if (IsInGroup()) then
 		local me = UnitName("player");
 		NRC.talents[me] = NRC:createTalentString();
-	end
+	--end
 end
 
 function NRC:sendGlyphs(sender)

@@ -3,7 +3,7 @@
 ----------------------------------
 
 local addonName, NRC = ...;
-if (not NRC.isWrath and not NRC.isCataPrepatch) then
+if (not NRC.isWrath) then
 	return;
 end
 local L = LibStub("AceLocale-3.0"):GetLocale("NovaRaidCompanion");

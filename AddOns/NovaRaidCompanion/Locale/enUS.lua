@@ -46,6 +46,7 @@ L["Lockouts"] = "Lockouts"
 L["Trades"] = "Trades";
 L["All Trades"] = "All Trades";
 L["tradesForSingleRaid"] = "Trades during %s (Log %s)";
+L["consumesForSingleRaid"] = "Consumes during %s (Log %s)";
 L["Set"] = "Set";
 L["Reset"] = "Reset";
 L["Clear"] = "Clear";
@@ -1221,3 +1222,6 @@ L["raidStatusLowDurationTimeDesc"] = "When buffs are below this duration in seco
 
 L["raidCooldownUniversalDesc"] = "Show %s raid cooldowns?";
 L["raidCooldownUniversalCastDetectDesc"] = "Show %s raid cooldowns? (This cooldown only shows up when a player is seen to have cast it atleast once)";
+
+L["raidStatusWorldBuffsTitle"]= "World Buffs";
+L["raidStatusWorldBuffsDesc"]= "Display a World Buffs column on the Raid Status tracker? This can be much wider than other columns to fit world buffs.";

@@ -207,6 +207,7 @@ NRC.ignoredCreatures = {
 	[15368] = "Tonk Mine",
 	[11859] = "Doomguard",
 	[14337] = "Field Repair Bot 74A",
+	[7863] = "Dream Vision",
 };
 
 --Some data taken from from retail EJ_GetCreatureInfo() with adjustments, some extra data manually added, mapped to encounterID.
@@ -1581,6 +1582,15 @@ NRC.resurrectionSpells = {
 		name = "Rebirth", --Rank 5.
 		icon = 136080,
 	},
+	--SoD.
+	[430318] = {
+		name = "Reintegration", --Mage.
+		icon = 236222,
+	},
+	[437138] = {
+		name = "Revive", --Druid.
+		icon = 132132,
+	},
 };
 
 NRC.magePortals = {
@@ -2541,6 +2551,197 @@ NRC.pal = {
 		order = 6,
 		maxRank = true,
 	},
+};
+
+NRC.worldBuffs = {
+	--[16609] = "rend",
+	--[22888] = "ony",
+	--[24425] = "zan",
+	--New spell ID's after hotfix 23/4/21.
+	[355366] = {
+		name = "Warchief's Blessing",
+		icon = 135759,
+		desc = "+300 Health, 15% Melee Haste, +10 MP5",
+		order = 1,
+		maxRank = true,
+	},
+	[355363] = {
+		name = "Rallying Cry of the Dragonslayer",
+		icon = 134153,
+		desc = "+10% Crit Spells, +5% Crit Melee/Ranged, +140 AP",
+		order = 2,
+		maxRank = true,
+	},
+	[355365] = {
+		name = "Spirit of Zandalar",
+		icon = 132107,
+		desc = "+10% Movement Speed, +15% Stats",
+		order = 3,
+		maxRank = true,
+	},
+	[23768] = {
+		name = "Sayge's Dark Fortune of Damage",
+		icon = 134334,
+		desc = "+10% Damage",
+		order = 4,
+		maxRank = true,
+	},
+	[23769] = {
+		name = "Sayge's Dark Fortune of Resistance",
+		icon = 134334,
+		desc = "+25 Resitances",
+		order = 4,
+		maxRank = true,
+	},
+	[23767] = {
+		name = "Sayge's Dark Fortune of Armor",
+		icon = 134334,
+		desc = "+10% Armor",
+		order = 4,
+		maxRank = true,
+	},
+	[23766] = {
+		name = "Sayge's Dark Fortune of Intelligence",
+		icon = 134334,
+		desc = "+10% Intelligence",
+		order = 4,
+		maxRank = true,
+	},
+	[23738] = {
+		name = "Sayge's Dark Fortune of Spirit",
+		icon = 134334,
+		desc = "+10% Spirit",
+		order = 4,
+		maxRank = true,
+	},
+	[23737] = {
+		name = "Sayge's Dark Fortune of Stamina",
+		icon = 134334,
+		desc = "+10% Stamina",
+		order = 4,
+		maxRank = true,
+	},
+	[23735] = {
+		name = "Sayge's Dark Fortune of Strength",
+		icon = 134334,
+		desc = "+10% Strength",
+		order = 4,
+		maxRank = true,
+	},
+	[23736] = {
+		name = "Sayge's Dark Fortune of Agility",
+		icon = 134334,
+		desc = "+10% Agility",
+		order = 4,
+		maxRank = true,
+	},
+	[22818] = {
+		name = "Mol'dar's Moxie",
+		icon = 136054,
+		desc = "+15% Stamina",
+		order = 5,
+		maxRank = true,
+	},
+	[22817] = {
+		name = "Fengus' Ferocity",
+		icon = 136109,
+		desc = "+200 AP",
+		order = 6,
+		maxRank = true,
+	},
+	[22820] = {
+		name = "Slip'kik's Savvy",
+		icon = 135930,
+		desc = "+3% Spell Crit",
+		order = 7,
+		maxRank = true,
+	},
+	[15366] = {
+		name = "Songflower Serenade",
+		icon = 135934,
+		desc = "+5% Crit, +15 Stats",
+		order = 8,
+		maxRank = true,
+	},
+	--We don't need these on the world buffs frame I think?
+	--[[[8733] = "blackfathom", --Blessing of Blackfathom
+	[29235] = "festivalFortitude", --Fire Festival Fortitude
+	[29846] = "festivalFury", --Fire Festival Fury
+	[29338] = "festivalFury", --Fire Festival Fury 2 diff types? aoe and single version possibly?
+	[29175] = "ribbonDance", --Fire Festival Fortitude
+	[29534] = "silithyst", --Traces of Silithyst]]
+	--SoD.
+	[430947] = {
+		name = "Boon of Blackfathom",
+		icon = 236403,
+		desc = "+3% Spell Crit, +2% Melee/Ranged Crit, +25 SP, +20% Movement speed",
+		order = 9,
+		maxRank = true,
+	},
+	[430352] = {
+		name = "Ashenvale Rallying Cry",
+		icon = 136005,
+		desc = "+5% Damage",
+		order = 10,
+		maxRank = true,
+	},
+	[438536] = {
+		name = "Spark of Inspiration",
+		icon = 236424,
+		desc = "+4% Spell Crit, +42 SP, +10% Melee/Ranged Attack Speed",
+		order = 11,
+		maxRank = true,
+	},--Why is there 2 the same? Horde and Alliance perhaps?
+	[438537] = {
+		name = "Spark of Inspiration",
+		icon = 236424,
+		desc = "+4% Spell Crit, +42 SP, +10% Melee/Ranged Attack Speed",
+		order = 12,
+		maxRank = true,
+	},
+	[446695] = {
+		name = "Fervor of the Temple Explorer",
+		icon = 236368,
+		desc = "+5% Crit, +65 SP, +8% Stats",
+		order = 13,
+		maxRank = true,
+	},
+	[446698] = {
+		name = "Fervor of the Temple Explorer",
+		icon = 236368,
+		desc = "+5% Crit, +65 SP, +8% Stats",
+		order = 13,
+		maxRank = true,
+	},
+	--For testing.
+	--[[[10957] = {
+		name = "Shadow Protection",
+		icon = 136121,
+		desc = "+45 Shadow Resistance",
+		order = 30,
+		maxRank = true,
+	},
+	[10937] = {
+		name = "Power Word: Fortitude",
+		icon = 135987,
+		desc = "+43 Stam",
+		order = 21,
+		maxRank = true,
+	},
+	[10951] = {
+		name = "Inner Fire",
+		icon = 135926,
+		desc = "Test 1",
+		order = 32,
+		maxRank = true,
+	},
+	[15473] = {
+		name = "Shadowform",
+		icon = 136200,
+		desc = "+43 Stam",
+		order = 33,
+		maxRank = true,
+	},]]
 };
 
 --for k, v in pairs(NRC.critterCreatures2) do

@@ -2,16 +2,22 @@
 ---NovaRaidCompanion Raid Status--
 ----------------------------------
 
+--The way frames are handled here could be done a lot better now I know more, one day..
+
 local addonName, NRC = ...;
 local L = LibStub("AceLocale-3.0"):GetLocale("NovaRaidCompanion");
 local raidStatusFrame;
-local flaskSlot, foodSlot, scrollSlot, intSlot, fortSlot, spiritSlot, shadowSlot, motwSlot, palSlot, duraSlot;
+local flaskSlot, foodSlot, scrollSlot, intSlot, fortSlot, spiritSlot, shadowSlot, motwSlot, palSlot, duraSlot, worldBuffsSlot;
 local armorSlot, holyResSlot, fireResSlot, natureResSlot, frostResSlot, shadowResSlot, arcaneResSlot, weaponEnchantsSlot, talentsSlot;
 local slotCount, lastRaidRequest, lastDuraRequest, columCount = 0, 0, 0, 0;
 local readyCheckStatus, readyCheckRunning, readyCheckEndedTimer, readyCheckEndedTimer2 = {};
 local fadeOutTimer;
+local worldBuffDurations = true;
 local InCombatLockdown = InCombatLockdown;
 local lowDurationTime = 300;
+local lastOpened = 0;
+local numWorldBuffs = 0; --Counted further down when loading db.
+local firstUpdate = true;
 
 local f = CreateFrame("Frame", "NRCRaidStatus");
 f:RegisterEvent("GROUP_FORMED");
@@ -106,7 +112,10 @@ end)
 
 function NRC:updateRaidStatusReadyCheckStatus()
 	if (raidStatusFrame and raidStatusFrame:IsShown()) then
-		NRC:updateRaidStatusFrames();
+		--So we don't refresh raid status frame twice on load.
+		if (GetTime() - lastOpened > 0.1) then
+			NRC:updateRaidStatusFrames();
+		end
 		if (readyCheckRunning) then
 			for k, v in pairs(raidStatusFrame.subFrames) do
 				if (v.readyCheckTexture and v.name) then
@@ -141,12 +150,20 @@ function NRC:updateRaidStatusButtonText()
 	if (raidStatusFrame) then
 		if (raidStatusFrame.showRes) then
 			raidStatusFrame.button:SetText(L["Less"]);
-			raidStatusFrame.button.arrowRight:Hide();
-			raidStatusFrame.button.arrowLeft:Show();
+			if (raidStatusFrame.button.arrowRight) then
+				raidStatusFrame.button.arrowRight:Hide();
+			end
+			if (raidStatusFrame.button.arrowLeft) then
+				raidStatusFrame.button.arrowLeft:Show();
+			end
 		else
 			raidStatusFrame.button:SetText(L["More"]);
-			raidStatusFrame.button.arrowLeft:Hide();
-			raidStatusFrame.button.arrowRight:Show();
+			if (raidStatusFrame.button.arrowLeft) then
+				raidStatusFrame.button.arrowLeft:Hide();
+			end
+			if (raidStatusFrame.button.arrowRight) then
+				raidStatusFrame.button.arrowRight:Show();
+			end
 		end
 	end
 end
@@ -210,6 +227,7 @@ function NRC:loadRaidStatusFrames()
 		});
 		raidStatusFrame.borderFrame:SetFrameLevel(10);
 		raidStatusFrame.button:HookScript("OnShow", function(self)
+			lastOpened = GetTime();
 			if (fadeOutTimer) then
 				fadeOutTimer:Cancel();
 				fadeOutTimer = nil;
@@ -434,7 +452,7 @@ function NRC:updateRaidStatusFramesLayout()
 	end
 end
 
-local int, fort, spirit, shadow, motw, pal, weaponEnchants = {}, {}, {}, {}, {}, {}, {};
+local int, fort, spirit, shadow, motw, pal, weaponEnchants, worldBuffs = {}, {}, {}, {}, {}, {}, {}, {};
 for k, v in pairs(NRC.int) do
 	int[k] = v;
 end
@@ -453,11 +471,17 @@ end
 for k, v in pairs(NRC.pal) do
 	pal[k] = v;
 end
+for k, v in pairs(NRC.worldBuffs) do
+	numWorldBuffs = numWorldBuffs + 1;
+	worldBuffs[k] = v;
+end
+--This can't be lower than the max number of world buffs in Classic_DB file obtainable at once or frames won't exist and error.
+NRC.numWorldBuffs = numWorldBuffs - 7; --Minus 7 duplicate dmf buffs and 1 duplicate spark of imagination buff, but +1 for chronoboon display slot.
 for k, v in pairs(NRC.tempEnchants) do
 	weaponEnchants[k] = v;
 end
 if (NRC.isSOD) then
-	--If it's sod we need to reload these buffs from db so the sod phase can be detectd properly and maxRank added.
+	--If it's sod we need to reload these buffs from db so the sod phase can be detected properly and maxRank added.
 	--This is called after logon.
 	function NRC:logonUpdateRaidStatusDatabase()
 		for k, v in pairs(NRC.int) do
@@ -487,6 +511,7 @@ if (NRC.isSOD) then
 		NRC.shadow = nil;
 		NRC.motw = nil;
 		NRC.pal = nil;
+		--NRC.worldBuffs = nil;
 		NRC.tempEnchants = nil;
 	end
 else
@@ -496,6 +521,7 @@ else
 	NRC.shadow = nil;
 	NRC.motw = nil;
 	NRC.pal = nil;
+	--NRC.worldBuffs = nil;
 	NRC.tempEnchants = nil;
 end
 
@@ -524,37 +550,77 @@ function NRC:openRaidStatusFrame(showOnly, fromLog, buttonID)
 	if (not raidStatusFrame) then
 		NRC:loadRaidStatusFrames();
 	end
-	if (not raidStatusFrame:IsShown() or fromLog) then
-		if (buttonID and buttonID == raidStatusFrame.lastbuttonID) then
-			--If we click the same button in raid log again then hide instead.
+	--Delay used to split first load in to different frames if in combat.
+	--if (firstUpdate and InCombatLockdown()) then
+	--Just do every first load for now.
+	if (firstUpdate) then
+		C_Timer.After(0.01, function()
+			if (not raidStatusFrame:IsShown() or fromLog) then
+				if (buttonID and buttonID == raidStatusFrame.lastbuttonID) then
+					--If we click the same button in raid log again then hide instead.
+					raidStatusFrame.lastbuttonID = nil;
+					raidStatusFrame:Hide();
+				else
+					if (fromLog) then
+						--Make frame rise to the top.
+						raidStatusFrame:Hide();
+					end
+					if (NRC.config.raidStatusExpandAlways) then
+						raidStatusFrame.showRes = true;
+					end
+					raidStatusFrame:Show();
+					raidStatusFrame.lastbuttonID = buttonID;
+					--Set a last update time so it doesn't update twice on open and instead waits a second.
+					raidStatusFrame.lastUpdate = GetTime();
+					NRC:updateRaidStatusFrames(true);
+					if (GetServerTime() - lastRaidRequest > 20 and not fromLog) then
+						lastRaidRequest = GetServerTime();
+						NRC:requestRaidData();
+					end
+				end
+			elseif (not showOnly) then
+				raidStatusFrame.lastbuttonID = nil;
+				raidStatusFrame:Hide();
+				--raidStatusFrame.showRes = nil;
+			end
+			--NRC:updateRaidStatusReadyCheckStatus(); --This is hooked OnShow;
+			NRC:updateRaidStatusFrameButtons();
+		end)
+	else
+		if (not raidStatusFrame:IsShown() or fromLog) then
+			if (buttonID and buttonID == raidStatusFrame.lastbuttonID) then
+				--If we click the same button in raid log again then hide instead.
+				raidStatusFrame.lastbuttonID = nil;
+				raidStatusFrame:Hide();
+			else
+				if (fromLog) then
+					--Make frame rise to the top.
+					raidStatusFrame:Hide();
+				end
+				if (NRC.config.raidStatusExpandAlways) then
+					raidStatusFrame.showRes = true;
+				end
+				raidStatusFrame:Show();
+				raidStatusFrame.lastbuttonID = buttonID;
+				--Set a last update time so it doesn't update twice on open and instead waits a second.
+				raidStatusFrame.lastUpdate = GetTime();
+				NRC:updateRaidStatusFrames(true);
+				if (GetServerTime() - lastRaidRequest > 20 and not fromLog) then
+					lastRaidRequest = GetServerTime();
+					NRC:requestRaidData();
+				end
+			end
+		elseif (not showOnly) then
 			raidStatusFrame.lastbuttonID = nil;
 			raidStatusFrame:Hide();
-		else
-			if (fromLog) then
-				--Make frame rise to the top.
-				raidStatusFrame:Hide();
-			end
-			if (NRC.config.raidStatusExpandAlways) then
-				raidStatusFrame.showRes = true;
-			end
-			raidStatusFrame:Show();
-			raidStatusFrame.lastbuttonID = buttonID;
-			NRC:updateRaidStatusFrames(true);
-			if (GetServerTime() - lastRaidRequest > 20 and not fromLog) then
-				lastRaidRequest = GetServerTime();
-				NRC:requestRaidData();
-			end
+			--raidStatusFrame.showRes = nil;
 		end
-	elseif (not showOnly) then
-		raidStatusFrame.lastbuttonID = nil;
-		raidStatusFrame:Hide();
-		--raidStatusFrame.showRes = nil;
+		--NRC:updateRaidStatusReadyCheckStatus(); --This is hooked OnShow;
+		NRC:updateRaidStatusFrameButtons();
 	end
-	NRC:updateRaidStatusReadyCheckStatus();
-	NRC:updateRaidStatusFrameButtons();
 end
 
-local function updateGridTooltip(frame, localBuffData, buffData)
+--[[local function updateGridTooltip(frame, localBuffData, buffData)
 	local tooltipText = "";
 	if (localBuffData.rank) then
 		tooltipText = tooltipText .. tooltipText .. "|cFFDEDE42" .. buffData.name .. "|r |cFF9CD6DE(Rank " .. localBuffData.rank .. ")|r";
@@ -589,13 +655,14 @@ local function updateGridTooltip(frame, localBuffData, buffData)
 		tooltipText = tooltipText .. "\n|cFFFF0000Not Max Rank|r";
 	end
 	frame.updateTooltip(tooltipText);
-end
+end]]
 
 local function updateGridTooltipTalents(frame, name, classHex, talentCount, specName, specIcon, treeData)
 	local nameString = "|c" .. classHex .. name .. "|r";
 	local tooltipText = "|cFFDEDE42" .. nameString .. "|r";
 	if (specName and specIcon) then
-		tooltipText = tooltipText .. "\n|cFFDEDE42" .. specName .. "|r";
+		--tooltipText = tooltipText .. "\n|cFFDEDE42" .. specName .. "|r";
+		tooltipText = tooltipText .. "\n|T" .. specIcon .. ":12:12|t |cFFFFFF00" .. specName .. "|r";
 	end
 	if (treeData) then
 		tooltipText = tooltipText .. "\n|cFF9CD6DE" .. treeData[1] .. " / " .. treeData[2] .. " / " .. treeData[3] .. "|r";
@@ -615,7 +682,125 @@ local function updateGridTooltipRes(frame, name, classHex, type, amount)
 	frame.updateTooltip(tooltipText);
 end
 
+local function updateGridTooltip(frame, localBuffData, buffData)
+	local tooltipText = "|T" .. localBuffData.icon .. ":13:13|t |cFFFFAE42[" .. buffData.name .. "]|r";
+	if (localBuffData.desc and buffData.desc ~= "") then
+		tooltipText = tooltipText .. " |cFF00FF00" .. localBuffData.desc .. "|r";
+	end
+	if (localBuffData.rank) then
+		tooltipText = tooltipText .. " |cFFA0A0A0(Rank " .. localBuffData.rank .. ")|r";
+	end
+	if (not NRC.raidStatusCache) then
+		if (buffData.endTime and buffData.endTime > GetServerTime()) then
+			local remaining = buffData.endTime - GetServerTime();
+			tooltipText = tooltipText .. "\n|cFF9CD6DE" .. NRC:getShortTime(remaining) .. "|r";
+			if (remaining < lowDurationTime) then
+				tooltipText = tooltipText .. " |cFFFF0000Low Duration|r";
+			end
+		elseif (buffData.duration == 0) then
+			--An aura, no duration.
+			tooltipText = tooltipText .. "\n|cFF9CD6DEAura (No duration)|r";
+		else
+			tooltipText = tooltipText .. "\n|cFF9CD6DEDuration unknown (out of range?)|r";
+		end
+		if (buffData.source) then
+			tooltipText = tooltipText .. "  |cFFFFFFFFCast by " .. buffData.source .. "|r";
+		end
+	else
+		if (buffData.source) then
+			tooltipText = tooltipText .. "\n|cFFFFFFFFCast by " .. buffData.source .. "|r";
+		end
+	end
+	if (not localBuffData.maxRank) then
+		tooltipText = tooltipText .. "\n|cFFFF0000Not Max Rank|r";
+	end
+	frame.updateTooltip(tooltipText);
+end
+
 local function getMultipleIconsTooltip(buffData)
+	local tooltipText;
+	if (NRC.scrolls[buffData.buffID]) then
+		tooltipText = "|T" .. NRC.scrolls[buffData.buffID].icon .. ":13:13|t |cFFFFAE42[" .. NRC.scrolls[buffData.buffID].name .. "]|r";
+	else
+		tooltipText = "|T" .. buffData.icon .. ":12:12|t |cFFFFAE42[" .. buffData.name .. "]|r";
+	end
+	if (buffData.desc and buffData.desc ~= "") then
+		tooltipText = tooltipText .. " |cFF00FF00" .. buffData.desc .. "|r";
+	end
+	if (buffData.rank) then
+		tooltipText = tooltipText .. " |cFFA0A0A0(Rank " .. buffData.rank .. ")|r";
+	end
+	if (not NRC.raidStatusCache) then
+		if (buffData.endTime and buffData.endTime > GetServerTime()) then
+			local remaining = buffData.endTime - GetServerTime();
+			tooltipText = tooltipText .. "\n|cFF9CD6DE" .. NRC:getShortTime(remaining) .. "|r";
+			if (remaining < lowDurationTime) then
+				tooltipText = tooltipText .. " |cFFFF0000Low Duration|r";
+			end
+		elseif (buffData.duration == 0) then
+			--An aura, no duration.
+			tooltipText = tooltipText .. "\n|cFF9CD6DEAura (No duration)|r";
+		else
+			tooltipText = tooltipText .. "\n|cFF9CD6DEDuration unknown (out of range?)|r";
+		end
+		--if (buffData.endTime) then
+		--	tooltipText = tooltipText .. "\n" .. NRC:getShortTime(buffData.endTime - GetServerTime()) .. "|r";
+		--end
+		if (buffData.source) then
+			tooltipText = tooltipText .. "  |cFFFFFFFFCast by " .. buffData.source .. "|r";
+		end
+	else
+		if (buffData.source) then
+			tooltipText = tooltipText .. "\n|cFFFFFFFFCast by " .. buffData.source .. "|r";
+		end
+	end
+	if (not buffData.maxRank) then
+		tooltipText = tooltipText .. "\n|cFFFF0000Not Max Rank|r";
+	end
+	return tooltipText;
+end
+
+local chronoIcons = {
+	[L["Fengus' Ferocity"]] = 136109,
+	["Mol'dar's Moxie"] = 136054,
+	["Slip'kik's Savvy"] = 135930,
+	["Rallying Cry of the Dragonslayer"] = 134153,
+	["Warchief's Blessing"] = 135759,
+	["Spirit of Zandalar"] = 132107,
+	["Songflower Serenade"] = 135934,
+	["Boon of Blackfathom"] = 236403,
+	["Spark of Inspiration"] = 236424, 
+	["Fervor of the Temple Explorer"] = 236368,
+	["Sayge's Dark Fortune of Damage"] = 134334,
+	["Sayge's Dark Fortune of Resistance"] = 134334,
+	["Sayge's Dark Fortune of Armor"] = 134334,
+	["Sayge's Dark Fortune of Intelligence"] = 134334,
+	["Sayge's Dark Fortune of Spirit"] = 134334,
+	["Sayge's Dark Fortune of Stamina"] = 134334,
+	["Sayge's Dark Fortune of Strength"] = 134334,
+	["Sayge's Dark Fortune of Agility"] = 134334,
+};
+
+local function getChronoboonTooltip(guid)
+	local data = NRC.chronoCache[guid];
+	local tooltipText = "";
+	if (data) then
+		--tooltipText = tooltipText .. "|cFFFFFF00-----------------------------------------------";
+		--tooltipText = tooltipText .. "|T133881:13:13|t |cFFFFFF00" .. L["Chronobooned"] .. ":|r";
+		tooltipText = tooltipText .. "|cFFFFFF00" .. L["Chronobooned"] .. "|r |T133881:13:13|t";
+		--tooltipText = tooltipText .. "\n|cFFFFFF00-----------------------------------------------";
+		for k, v in pairs(data) do
+			if (chronoIcons[v.name]) then
+				tooltipText = tooltipText .. "\n  |T" .. chronoIcons[v.name] .. ":12:12|t  |cFFFFAE42[" .. v.name .. "]|r  |cFF9CD6DE" .. NRC:getShortTime(v.duration) .. "|r";
+			else
+				tooltipText = tooltipText .. "\n  |cFFFFAE42[" .. v.name .. "]|r  |cFF9CD6DE" .. NRC:getShortTime(v.duration) .. "|r";
+			end
+		end
+	end
+	return tooltipText;
+end
+
+--[[local function getMultipleIconsTooltip(buffData)
 	local tooltipText = "";
 	if (buffData.rank) then
 		tooltipText = tooltipText .. tooltipText .. "|cFFDEDE42" .. buffData.name .. "|r |cFF9CD6DE(Rank " .. buffData.rank .. ")|r";
@@ -640,7 +825,6 @@ local function getMultipleIconsTooltip(buffData)
 			--An aura, no duration.
 			tooltipText = tooltipText .. "\nAura (No duration)|r";
 		else
-			NRC:debug(buffData)
 			tooltipText = tooltipText .. "\nDuration unknown (out of range?)|r";
 		end
 		--if (buffData.endTime) then
@@ -658,7 +842,7 @@ local function getMultipleIconsTooltip(buffData)
 		tooltipText = tooltipText .. "\n|cFFFF0000Not Max Rank|r";
 	end
 	return tooltipText;
-end
+end]]
 
 local function updateCharacterTooltip(frame, name, charData, auras)
 	local _, _, _, classHex = GetClassColor(charData.class);
@@ -724,7 +908,7 @@ function NRC:updateRaidStatusLowDurationTime()
 end
 
 local function updateCooldownSwipe(texture, endTime, maxDuration)
-	if (NRC.config.raidStatusBuffSwipe and endTime and maxDuration) then
+	if (NRC.config.raidStatusBuffSwipe and endTime and maxDuration and maxDuration > 0) then
 		local remaining = endTime - GetServerTime();
 		local elapsedDuration = maxDuration - remaining;
 		if (not texture.cooldown) then
@@ -745,7 +929,7 @@ local function updateCooldownSwipe(texture, endTime, maxDuration)
 end
 
 local function stopCooldownSwipe(texture)
-	if (texture.swipeRunning) then
+	if (texture and texture.swipeRunning) then
 		texture.cooldown:Clear();
 		texture.swipeRunning = nil;
 	end
@@ -753,7 +937,7 @@ end
 
 function NRC:updateAllRaidStatusCooldownSwipes()
 	if (not NRC.config.raidStatusBuffSwipe) then
-		for k, v in pairs(raidStatusFrame.subFrames) do
+		--[[for k, v in pairs(raidStatusFrame.subFrames) do
 			if (v.texture and v.texture.swipeRunning) then
 				stopCooldownSwipe(v.texture);
 			end
@@ -766,12 +950,34 @@ function NRC:updateAllRaidStatusCooldownSwipes()
 			if (v.texture4 and v.texture4.swipeRunning) then
 				stopCooldownSwipe(v.texture4);
 			end
+		end]]
+		for k, v in pairs(raidStatusFrame.subFrames) do
+			for i = 1, NRC.numWorldBuffs do
+				if (i == 1) then
+					if (v.texture and v.texture.swipeRunning) then
+						stopCooldownSwipe(v.texture);
+					end
+				else
+					if (v["texture" .. i] and v["texture" .. i].swipeRunning) then
+						stopCooldownSwipe(v["texture" .. i]);
+					end
+				end
+			end
 		end
 	end
 	NRC:updateRaidStatusFrames(true);
 end
 
 function NRC:updateRaidStatusFrames(updateLayout)
+	if (not raidStatusFrame:IsShown()) then
+		return;
+	end
+	--Updating the layout while moving caus the mouse to lose focus on the frame and moving stops.
+	--In classic it will update layout a second after stopping drag.
+	if (updateLayout ~= false and NRC.isClassic and NRC.config.raidStatusWorldBuffs and not raidStatusFrame.isMoving) then
+		--Allow frame to grow/shrink while open if we're showing world buffs in classic.
+		updateLayout = true;
+	end
 	local data = NRC:createRaidStatusData(updateLayout);
 	if (updateLayout) then
 		raidStatusFrame.updateGridData(data, updateLayout);
@@ -799,6 +1005,15 @@ function NRC:updateRaidStatusFrames(updateLayout)
 			raidStatusFrame.groupFrames[i]:Hide();
 		end
 		columCount = #data.columns;
+		if (firstUpdate) then
+			firstUpdate = nil;
+			--On first open if the player is in combat and on a super slow pc it can exceed the 0.25 second script ran too long threshold.
+			--So split up the creation of the frames and the calc to seperate frames.
+			C_Timer.After(0.01, function()
+				NRC:updateRaidStatusFrames(false);
+			end)
+			return;
+		end
 	end
 	local usingCache = NRC.raidStatusCache;
 	local showSwipe = NRC.config.raidStatusBuffSwipe;
@@ -874,14 +1089,14 @@ function NRC:updateRaidStatusFrames(updateLayout)
 						frame:SetPoint("BOTTOMLEFT", raidStatusFrame.subFrames[rowName .. "1"], "BOTTOMLEFT", -20, -0.6);
 					end
 				end
-				local hasFlask, hasBattle, hasGuardian, hasScroll, hasFood, hasInt, hasFort, hasSpirit, hasShadow, hasMotw, hasPal
+				local hasFlask, hasBattle, hasGuardian, hasScroll, hasFood, hasInt, hasFort, hasSpirit, hasShadow, hasMotw, hasPal, hasWorldBuffs;
 				local hasWeaponEnchant, hasTalents, auras;
 				if (NRC.raidStatusCache) then
 					auras = NRC.raidStatusCache.auraCache[v.guid];
 				else
 					auras = NRC.auraCache[v.guid];
 				end
-				local elixirs, pallyBuffs, scrollBuffs, enchantBuffs = {}, {}, {}, {};
+				local elixirs, pallyBuffs, scrollBuffs, enchantBuffs, wBuffs = {}, {}, {}, {}, {};
 				local eating;
 				if (auras and next(auras) and (v.online or NRC.raidStatusCache)) then
 					for buffID, buffData in pairs(auras) do
@@ -1100,6 +1315,30 @@ function NRC:updateRaidStatusFrames(updateLayout)
 							pallyBuffs[#pallyBuffs].maxRank = pal[buffID].maxRank;
 							pallyBuffs[#pallyBuffs].order = pal[buffID].order;
 							hasPal = true;
+						end
+						if (worldBuffsSlot) then
+							if (buffID == 349981) then
+								--Chronoboon.
+								tinsert(wBuffs, buffData);
+								--Merge some local data with our player auras data.
+								wBuffs[#wBuffs].buffID = buffID;
+								wBuffs[#wBuffs].icon = 133881;
+								wBuffs[#wBuffs].desc = "Suspended World Buffs";
+								wBuffs[#wBuffs].maxRank = true;
+								wBuffs[#wBuffs].order = 0;
+								hasWorldBuffs = true;
+							end
+							if (worldBuffs[buffID]) then
+								tinsert(wBuffs, buffData);
+								--Merge some local data with our player auras data.
+								wBuffs[#wBuffs].buffID = buffID;
+								wBuffs[#wBuffs].icon = worldBuffs[buffID].icon;
+								wBuffs[#wBuffs].rank = worldBuffs[buffID].rank;
+								wBuffs[#wBuffs].desc = worldBuffs[buffID].desc;
+								wBuffs[#wBuffs].maxRank = worldBuffs[buffID].maxRank;
+								wBuffs[#wBuffs].order = worldBuffs[buffID].order;
+								hasWorldBuffs = true;
+							end
 						end
 					end
 				end
@@ -1470,6 +1709,38 @@ function NRC:updateRaidStatusFrames(updateLayout)
 					end
 					--Never add duration to 4th texture, they're too small to see properly if showing 4.
 				end
+				if (next(wBuffs)) then
+					local frame = raidStatusFrame.subFrames[rowName .. worldBuffsSlot];
+					if (not InCombatLockdown()) then
+						frame:SetAttribute("macrotext", "/target " .. name);
+					end
+					NRC:raidStatusSortWorldBuffIcons(frame, wBuffs, #wBuffs, true, true, v.guid);
+					if (worldBuffDurations) then
+						for i = 1, #wBuffs do
+							if (i == 1) then
+								if (wBuffs[i]) then
+									updateCooldownSwipe(frame.texture, wBuffs[i].endTime, wBuffs[i].duration);
+								else
+									stopCooldownSwipe(frame.texture);
+								end
+							else
+								if (wBuffs[i]) then
+									updateCooldownSwipe(frame["texture" .. i], wBuffs[i].endTime, wBuffs[i].duration);
+								else
+									stopCooldownSwipe(frame["texture" .. i]);
+								end
+							end
+						end
+					else
+						for i = 1, #wBuffs do
+							if (i == 1) then
+								stopCooldownSwipe(frame.texture);
+							else
+								stopCooldownSwipe(frame["texture" .. i]);
+							end
+						end
+					end
+				end
 				if (next(enchantBuffs)) then
 					local frame = raidStatusFrame.subFrames[rowName .. weaponEnchantsSlot];
 					if (not InCombatLockdown()) then
@@ -1677,6 +1948,24 @@ function NRC:updateRaidStatusFrames(updateLayout)
 						frame:SetPoint("BOTTOMLEFT", raidStatusFrame.subFrames[rowName .. "1"], "BOTTOMLEFT", -20, -0.6);
 					end
 				end]]
+				if (worldBuffsSlot and not hasWorldBuffs) then
+					local frame = raidStatusFrame.subFrames[rowName .. worldBuffsSlot];
+					frame.texture:SetTexture();
+					stopCooldownSwipe(frame.texture);
+					for i = 2, numWorldBuffs do
+						if (frame["texture" .. i]) then
+							frame["texture" .. i]:SetTexture();
+							stopCooldownSwipe(frame["texture" .. i]);
+						end
+					end
+					frame.fs:SetText("|cFFFF0000X|r");
+					frame.updateTooltip();
+					frame:SetBackdropColor(0, 0, 0, 0);
+					frame:SetBackdropBorderColor(1, 1, 1, 0);
+					if (not InCombatLockdown()) then
+						frame:SetAttribute("macrotext", "/target " .. name);
+					end
+				end
 				updateCharacterTooltip(raidStatusFrame.subFrames[rowName .. "1"], name, v, auras);
 			end
 			if (subGroups) then
@@ -1841,6 +2130,98 @@ function NRC:raidStatusSortMultipleIcons(frame, spellData, maxPossible, checkMax
 	--end
 end
 
+function NRC:raidStatusSortWorldBuffIcons(frame, spellData, maxPossible, checkMaxRank, checkDuration, guid)
+	--Sort spells by order.
+	local order = true;
+	for k, v in pairs(spellData) do
+		if (not v.order) then
+			order = nil;
+		end
+	end
+	if (order) then
+		table.sort(spellData, function(a, b) return a.order < b.order end);
+	end
+	local tooltipText = "";
+	local buffCount = #spellData;
+	frame.fs:SetText("");
+	--NRC:debug(spellData)
+	local lastTexture;
+	frame.texture:ClearAllPoints();
+	for i = 1, NRC.numWorldBuffs do
+		if (frame["texture" .. i]) then
+			frame["texture" .. i]:ClearAllPoints();
+			frame["texture" .. i]:SetTexture();
+		end
+	end
+	if (buffCount == 1) then
+		frame.fs:SetText("");
+		frame.texture:SetPoint("CENTER", 0, 0);
+		frame.texture:SetTexture(spellData[1].icon);
+		frame.texture:SetSize(16, 16);
+		if (spellData[1].buffID ~= 349981) then
+			tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[1]);
+		end
+	elseif (buffCount == 2) then
+		frame.fs:SetText("");
+		frame.texture:SetPoint("CENTER", -8.5, 0);
+		frame.texture2:SetPoint("CENTER", 8.5, 0);
+		frame.texture:SetTexture(spellData[1].icon);
+		frame.texture2:SetTexture(spellData[2].icon);
+		frame.texture:SetSize(16, 16);
+		frame.texture2:SetSize(16, 16);
+		if (spellData[1].buffID ~= 349981) then
+			tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[1]);
+			tooltipText = tooltipText .. "\n" .. getMultipleIconsTooltip(spellData[2]);
+		else
+			tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[2]);
+		end
+	elseif (buffCount == 3) then
+		frame.fs:SetText("");
+		frame.texture:SetPoint("RIGHT", frame, "CENTER", -8, 0);
+		frame.texture2:SetPoint("CENTER", 0, 0);
+		frame.texture3:SetPoint("LEFT", frame, "CENTER", 8, 0);
+		frame.texture:SetTexture(spellData[1].icon);
+		frame.texture2:SetTexture(spellData[2].icon);
+		frame.texture3:SetTexture(spellData[3].icon);
+		frame.texture:SetSize(16, 16);
+		frame.texture2:SetSize(16, 16);
+		frame.texture3:SetSize(16, 16);
+		--Chronoboon is always first slot so we can jut ignore the first slot tooltip if it is, chrono data is shown at the bottom of the tooltip instead.
+		if (spellData[1].buffID ~= 349981) then
+			tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[1]);
+			tooltipText = tooltipText .. "\n" .. getMultipleIconsTooltip(spellData[2]);
+			tooltipText = tooltipText .. "\n" .. getMultipleIconsTooltip(spellData[3]);
+		else
+			tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[2]);
+			tooltipText = tooltipText .. "\n" .. getMultipleIconsTooltip(spellData[3]);
+		end
+	else
+		for i = 1, #spellData do
+			if (i == 1) then
+				frame.texture:SetPoint("LEFT", frame, "LEFT", 1, 0);
+				--frame.texture:SetPoint("CENTER", 0, 0);
+				frame.texture:SetTexture(spellData[1].icon);
+				frame.texture:SetSize(16, 16);
+				tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[1]);
+				lastTexture = frame.texture;
+			else
+				frame["texture" .. i]:SetPoint("LEFT", lastTexture, "RIGHT", 1, 0);
+				--frame["texture" .. i]:SetPoint("CENTER", 0, 0);
+				frame["texture" .. i]:SetTexture(spellData[i].icon);
+				frame["texture" .. i]:SetSize(16, 16);
+				tooltipText = tooltipText .. "\n" .. getMultipleIconsTooltip(spellData[i]);
+				lastTexture = frame["texture" .. i];
+			end
+		end
+	end
+	if (tooltipText == "") then
+		tooltipText = tooltipText .. getChronoboonTooltip(guid);
+	else
+		tooltipText = tooltipText .. "\n\n" .. getChronoboonTooltip(guid);
+	end
+	frame.updateTooltip(tooltipText);
+end
+
 local raidStatusShadowRes, raidStatusFireRes, raidStatusNatureRes, raidStatusFrostRes, raidStatusArcaneRes, raidStatusHolyRes, raidStatusArmorRes;
 local raidStatusWeaponEnchants, raidStatusTalents;
 local function setResColumns()
@@ -1907,6 +2288,35 @@ local function addChar(v, guid, name)
 	end
 end
 
+local function getMaxNumGroupWorldBuffs()
+	local maxBuffs = 0;
+	local groupData;
+	if (GetNumGroupMembers() > 1) then
+			groupData = NRC.groupCache;
+	else
+		--If we're solo.
+		groupData = {
+			[UnitName("Player")] = {
+				guid = UnitGUID("player"),
+			},
+		};
+	end
+	for k, v in pairs(groupData) do
+		local count = 0;
+		if (v.guid and NRC.auraCache[v.guid]) then
+			for buffID, buffData in NRC:pairsByKeys(NRC.auraCache[v.guid]) do
+				if (worldBuffs[buffID]) then
+					count = count + 1;
+				end
+			end
+		end
+		if (count > maxBuffs) then
+			maxBuffs = count;
+		end
+	end
+	return maxBuffs;
+end
+
 function NRC:createRaidStatusData(updateLayout)
 	local data = {};
 	data.rows = {};
@@ -1914,7 +2324,7 @@ function NRC:createRaidStatusData(updateLayout)
 	if (updateLayout) then
 		raidStatusFrame.hideAllRows();
 		flaskSlot, foodSlot, scrollSlot, intSlot, fortSlot, spiritSlot = nil, nil, nil, nil, nil, nil;
-		shadowSlot, motwSlot, palSlot, duraSlot = nil, nil, nil, nil;
+		shadowSlot, motwSlot, palSlot, duraSlot, worldBuffsSlot = nil, nil, nil, nil, nil;
 		armorSlot, holyResSlot, fireResSlot, natureResSlot, frostResSlot, shadowResSlot, arcaneResSlot = nil, nil, nil, nil, nil, nil, nil;
 		slotCount = 0;
 		data.firstH = 25; --Header (first row).
@@ -2120,6 +2530,21 @@ function NRC:createRaidStatusData(updateLayout)
 				slotCount = slotCount + 1;
 			end]]
 		end
+		if (NRC.isClassic and NRC.config.raidStatusWorldBuffs) then
+			local buffCount = 4;
+			local numBuffs = getMaxNumGroupWorldBuffs();
+			if (numBuffs > buffCount) then
+				buffCount = numBuffs;
+			end
+			local slot = #data.columns + 1;
+			data.columns[slot] = {
+				name = "|cFFFFFF00" .. L["World Buffs"],
+				--customWidth only works with the last column atm, it needs rewriting in Frames.lua at some point.
+				customWidth = buffCount * 16.1 + (numBuffs - 1), -- 4 textures wide by default, grows when more buffs.
+			};
+			worldBuffsSlot = slot;
+			slotCount = slotCount + 1;
+		end
 		data.adjustHeight = true;
 		data.adjustWidth = true;
 	end
@@ -2163,6 +2588,9 @@ function NRC:createRaidStatusData(updateLayout)
 					end
 					if (pal[buffID]) then
 						data.chars[count].pal = buffData;
+					end
+					if (worldBuffs[buffID]) then
+						data.chars[count].worldBuffs = buffData;
 					end
 				end
 			end
@@ -2220,40 +2648,55 @@ function NRC:createRaidStatusData(updateLayout)
 			end
 		end
 	else
+		local groupData;
 		if (GetNumGroupMembers() > 1) then
-			local count = 0;
-			data.rows[1] = "Header";
-			for k, v in pairs(NRC.groupCache) do
-				count = count + 1;
-				data.rows[count + 1] = k;
-				data.chars[count] = addChar(v, v.guid, k);
-				local auraCache = NRC.auraCache[v.guid];
-				if (auraCache) then
-					for buffID, buffData in NRC:pairsByKeys(auraCache) do
-						if (NRC.flasks[buffID]) then
-							data.chars[count].flask = buffData;
-						end
-						if (NRC.foods[buffID]) then
-							data.chars[count].food = buffData;
-						end
-						if (int[buffID]) then
-							data.chars[count].int = buffData;
-						end
-						if (fort[buffID]) then
-							data.chars[count].fort = buffData;
-						end
-						if (spirit[buffID]) then
-							data.chars[count].spirit = buffData;
-						end
-						if (shadow[buffID]) then
-							data.chars[count].shadow = buffData;
-						end
-						if (motw[buffID]) then
-							data.chars[count].motw = buffData;
-						end
-						if (pal[buffID]) then
-							data.chars[count].pal = buffData;
-						end
+			groupData = NRC.groupCache;
+		else
+			--If we're solo.
+			local _, class = UnitClass("player");
+			groupData = {
+				[UnitName("Player")] = {
+					guid = UnitGUID("player"),
+					class = class,
+					online = true,
+				},
+			};
+		end
+		local count = 0;
+		data.rows[1] = "Header";
+		for k, v in pairs(groupData) do
+			count = count + 1;
+			data.rows[count + 1] = k;
+			data.chars[count] = addChar(v, v.guid, k);
+			local auraCache = NRC.auraCache[v.guid];
+			if (auraCache) then
+				for buffID, buffData in NRC:pairsByKeys(auraCache) do
+					if (NRC.flasks[buffID]) then
+						data.chars[count].flask = buffData;
+					end
+					if (NRC.foods[buffID]) then
+						data.chars[count].food = buffData;
+					end
+					if (int[buffID]) then
+						data.chars[count].int = buffData;
+					end
+					if (fort[buffID]) then
+						data.chars[count].fort = buffData;
+					end
+					if (spirit[buffID]) then
+						data.chars[count].spirit = buffData;
+					end
+					if (shadow[buffID]) then
+						data.chars[count].shadow = buffData;
+					end
+					if (motw[buffID]) then
+						data.chars[count].motw = buffData;
+					end
+					if (pal[buffID]) then
+						data.chars[count].pal = buffData;
+					end
+					if (worldBuffs[buffID]) then
+						data.chars[count].worldBuffs = buffData;
 					end
 				end
 			end

@@ -4,12 +4,31 @@
 local addonName, NRC = ...;
 local L = LibStub("AceLocale-3.0"):GetLocale("NovaRaidCompanion");
 
-local exportFrame, customStringFrame, tradeExportFrame;
+local exportFrame, customStringFrame, tradeExportFrame, consumesExportFrame;
 
 local function loadExportFrame()
 	if (not exportFrame) then
 		exportFrame = NRC:createExportFrame("NRCExportFrame", 600, 300, 0, 100);
 	end
+end
+
+local wowheadLink = "https://www.wowhead.com/item=";
+local wowheadSpellLink = "https://www.wowhead.com/spell=";
+if (NRC.isMOP) then
+	wowheadLink = "https://www.wowhead.com/mop/item=";
+	wowheadSpellLink = "https://www.wowhead.com/mop/spell=";
+elseif (NRC.isCata) then
+	wowheadLink = "https://www.wowhead.com/cata/item=";
+	wowheadSpellLink = "https://www.wowhead.com/cata/spell=";
+elseif (NRC.isWrath) then
+	wowheadLink = "https://www.wowhead.com/wotlk/item=";
+	wowheadSpellLink = "https://www.wowhead.com/wotlk/spell=";
+elseif (NRC.isTBC) then
+	wowheadLink = "https://www.wowhead.com/tbc/item=";
+	wowheadSpellLink = "https://www.wowhead.com/tbc/spell=";
+elseif (NRC.isClassic) then
+	wowheadLink = "https://www.wowhead.com/classic/item=";
+	wowheadSpellLink = "https://www.wowhead.com/classic/spell=";
 end
 
 local function getDateString()
@@ -813,14 +832,6 @@ local function generateTradesExportString(logID, raidID)
 	local start = NRC.config.tradeExportStart;
 	local finish = NRC.config.tradeExportEnd;
 	local itemsType = NRC.config.tradeExportItemsType;
-	local wowheadLink = "https://www.wowhead.com/item=";
-	if (NRC.isWrath) then
-		wowheadLink = "https://www.wowhead.com/wotlk/item=";
-	elseif (NRC.isTBC) then
-		wowheadLink = "https://www.wowhead.com/tbc/item=";
-	elseif (NRC.isClassic) then
-		wowheadLink = "https://www.wowhead.com/classic/item=";
-	end
 	local maxItemsGiven = 0;
 	local maxItemsReceived = 0;
 	local raidData = NRC.db.global.instances[logID];
@@ -1360,7 +1371,7 @@ function NRC:loadTradesExportFrame(logID, raidID, refresh)
 			instanceID = instanceData.instanceID;
 		end
 		tradeExportFrame.topFrame.fs:SetText("|cFFFFFF00" .. string.format(L["tradesForSingleRaid"], instanceName, logID) .. "|r");
-		tradeExportFrame.topFrame.fs:SetText("|cFFFFFF00Trades during specific raid (Log " .. logID .. ")");
+		--tradeExportFrame.topFrame.fs:SetText("|cFFFFFF00Trades during specific raid (Log " .. logID .. ")");
 		--text = text .. " |cFF9CD6DE(" .. NRC:getTimeString(instanceData.startTime, true) .. " " .. L["ago"] .. ")|r";
 		--Remove prefix from certain instance names.
 		local instanceName = string.gsub(instanceData.instanceName, ".+: ", "");
@@ -1397,4 +1408,448 @@ function NRC:loadTradesExportFrame(logID, raidID, refresh)
 		tradeExportFrame.EditBox:SetFocus();
 	end)
 	tradeExportFrame:Show();
+end
+
+-------------
+---Consumes---
+--------------
+
+local function generateConsumesExportString(logID, raidID)
+	local data = NRC.db.global.instances[logID];
+	if (not data) then
+		return "Error generating export string, consumes data not found.";
+	end
+	local consumeData = NRC:getConsumeData(logID, raidID);
+	local mapToConsumes = NRC.config.mapLootDisplayToConsumes;
+	local raidDate = date(getDateString(), data.enteredTime);
+	local exportString = "";
+	local itemsType = NRC.config.consumesExportItemsType;
+	local cellCount = 0;
+	local raidData = NRC.db.global.instances[logID];
+	local timeString = date(getDateString(), raidData.enteredTime) .. " " .. date("%X", raidData.enteredTime);
+	local instanceName = string.gsub(raidData.instanceName, ".+: ", "");
+	local header = timeString .. " - " .. instanceName .. "\n";
+	--if (raidID) then
+	--	header = header .. "Raid: " .. (instanceName  or "Unknown Raid Name") .. " (" ..(raidData.difficultyName or "Unknown Difficulty") .. ") on " .. timeString .. "\n\n";
+	--end
+	--This is going to get a bit messy so we can display this in order flasks/pots/then the rest.
+	local countData = {};
+	local flasks = {};
+	local pots = {};
+	local other = {};
+	for char, charData in pairs(consumeData) do
+		local t = {};
+		t.name = char;
+		t.class = charData.class;
+		t.flasks = {};
+		t.potions = {};
+		t.other = {};
+		if (charData[1]) then
+			for usageID, item in pairs(charData) do
+				--If no spellID then it's the class data.
+				local spellID = item.spellID;
+				local itemID = item.itemID;
+				local itemIcon = item.itemIcon;
+				if (spellID and not NRC.interrupts[spellID] and not NRC.racials[spellID]) then
+					--if (NRC.flasks[spellID] or NRC.battleElixirs[spellID] or NRC.guardianElixirs[spellID]) then
+					if (NRC.flasks[spellID]) then
+						if (not t.flasks[spellID]) then
+							t.flasks[spellID] = {
+								count = 0;
+							};
+						end
+						local data = t.flasks[spellID];
+						data.count = data.count + 1;
+						data.icon = item.icon;
+						data.spellID = spellID;
+						data.itemID = itemID;
+						data.itemIcon = itemIcon;
+						local spellLink = GetSpellLink(spellID);
+						if (spellLink) then
+							data.spellLink = spellLink;
+						end
+						local spellName = GetSpellInfo(spellID);
+						local itemData = NRC.trackedItems[spellID];
+						if (spellName) then
+							data.spellName = spellName;
+						elseif (itemData) then
+							data.spellName = itemData.name;
+						end
+						if (itemID) then
+							local itemName, itemLink, itemQuality = GetItemInfo(itemID);
+							data.itemName = itemName;
+							data.itemLink = itemLink;
+						end
+					elseif (NRC.dpsPotions[spellID]) then
+						if (not t.potions[spellID]) then
+							t.potions[spellID] = {
+								count = 0;
+							};
+						end
+						local data = t.potions[spellID];
+						data.count = data.count + 1;
+						data.icon = item.icon;
+						data.spellID = spellID;
+						data.itemID = itemID;
+						data.itemIcon = itemIcon;
+						local spellLink = GetSpellLink(spellID);
+						if (spellLink) then
+							data.spellLink = spellLink;
+						end
+						local spellName = GetSpellInfo(spellID);
+						local itemData = NRC.trackedItems[spellID];
+						if (spellName) then
+							data.spellName = spellName;
+						elseif (itemData) then
+							data.spellName = itemData.name;
+						end
+						if (itemID) then
+							local itemName, itemLink, itemQuality = GetItemInfo(itemID);
+							data.itemName = itemName;
+							data.itemLink = itemLink;
+						end
+					else
+						if (not t.other[spellID]) then
+							t.other[spellID] = {
+								count = 0;
+							};
+						end
+						local data = t.other[spellID];
+						data.count = data.count + 1;
+						data.icon = item.icon;
+						data.spellID = spellID;
+						data.itemID = itemID;
+						data.itemIcon = itemIcon;
+						local spellLink = GetSpellLink(spellID);
+						if (spellLink) then
+							data.spellLink = spellLink;
+						end
+						local spellName = GetSpellInfo(spellID);
+						local itemData = NRC.trackedItems[spellID];
+						if (spellName) then
+							data.spellName = spellName;
+						elseif (itemData) then
+							data.spellName = itemData.name;
+						end
+						if (itemID) then
+							local itemName, itemLink, itemQuality = GetItemInfo(itemID);
+							data.itemName = itemName;
+							data.itemLink = itemLink;
+						end
+					end
+				end
+			end
+		end
+		if (next(t.other) or next(t.flasks) or next(t.potions)) then
+			tinsert(countData, t);
+		end
+	end
+	--table.sort(countData, function(a, b)
+	--	return a.class < b.class
+	--		or a.class == b.class and strcmputf8i(a.name, b.name) < 0;
+	--end)
+	table.sort(countData, function(a, b) return a.name < b.name end);
+	--Calc cell count.
+	for k, v in pairs(countData) do
+		local count = 0;
+		for _, consumes in pairs(v.flasks) do
+			count = count + 1;
+		end
+		for _, consumes in pairs(v.potions) do
+			count = count + 1;
+		end
+		for _, consumes in pairs(v.other) do
+			count = count + 1;
+		end
+		if (count > cellCount) then
+			cellCount = count;
+		end
+	end
+	--local useHyperlink = NRC.config.consumesExportItemsType == "wowhead";
+	for k, v in ipairs(countData) do
+		local flaskText, potionText, otherText;
+		local text = v.name;
+		local count = 0;
+		for kk, vv in NRC:pairsByKeys(v.flasks) do
+			count = count + 1;
+			if (not flaskText) then
+				--[[if (useHyperlink) then
+					if (vv.itemID) then
+						flaskText = "=HYPERLINK(\"" .. wowheadLink .. vv.itemID .. "\";\"[" .. (vv.itemName or vv.itemID) .. "]\")x"  .. vv.count;
+					elseif (vv.spellID) then
+						flaskText = "=HYPERLINK(\"" .. wowheadSpellLink .. vv.spellID .. "\";\"[" .. (vv.spellName or vv.itemID) .. "]\")x"  .. vv.count;
+					else
+						flaskText = "[" .. vv.itemID .. "]x" .. vv.count;
+					end
+				elseif (vv.itemName) then]]
+				if (vv.itemName) then
+					flaskText = "[" .. vv.itemName .. "]x" .. vv.count;
+				elseif (vv.spellName) then
+					flaskText = "[" .. vv.spellName .. "]x" .. vv.count;
+				else
+					flaskText = "[" .. vv.itemID .. "]x" .. vv.count;
+				end
+			else
+				--[[if (useHyperlink) then
+					if (vv.itemID) then
+						flaskText = flaskText .. "=HYPERLINK(\"" .. wowheadLink .. vv.itemID .. "\";\"[" .. (vv.itemName or vv.itemID) .. "]\")x"  .. vv.count;
+					elseif (vv.spellID) then
+						flaskText = flaskText .. " =HYPERLINK(\"" .. wowheadSpellLink .. vv.spellID .. "\";\"[" .. (vv.spellName or vv.itemID) .. "]\")x"  .. vv.count;
+					else
+						flaskText = flaskText .. "[" .. vv.itemID .. "]x" .. vv.count;
+					end
+				elseif (vv.itemName) then]]
+				if (vv.itemName) then
+					flaskText = flaskText .. " [" .. vv.itemName .. "]x" .. vv.count;
+				elseif (vv.spellName) then
+					flaskText = flaskText .. " [" .. vv.spellName .. "]x" .. vv.count;
+				else
+					flaskText = flaskText .. " [" .. vv.itemID .. "]x" .. vv.count;
+				end
+			end
+		end
+		for kk, vv in NRC:pairsByKeys(v.potions) do
+			count = count + 1;
+			if (not potionText) then
+				if (vv.itemName) then
+					potionText = "[" .. vv.itemName .. "]x" .. vv.count;
+				elseif (vv.spellName) then
+					potionText = "[" .. vv.spellName .. "]x" .. vv.count;
+				else
+					potionText = "[" .. vv.itemID .. "]x" .. vv.count;
+				end
+			else
+				if (vv.itemName) then
+					potionText = potionText .. " [" .. vv.itemName .. "]x" .. vv.count;
+				elseif (vv.spellName) then
+					potionText = potionText .. " [" .. vv.spellName .. "]x" .. vv.count;
+				else
+					potionText = potionText .. " [" .. vv.itemID .. "]x" .. vv.count;
+				end
+			end
+		end
+		for kk, vv in NRC:pairsByKeys(v.other) do
+			count = count + 1;
+			if (not otherText) then
+				if (vv.itemName) then
+					otherText = "[" .. vv.itemName .. "]x" .. vv.count;
+				elseif (vv.spellName) then
+					otherText = "[" .. vv.spellName .. "]x" .. vv.count;
+				else
+					otherText = "[" .. vv.itemID .. "]x" .. vv.count;
+				end
+			else
+				if (vv.itemName) then
+					otherText = otherText .. ",[" .. vv.itemName .. "]x" .. vv.count;
+				elseif (vv.spellName) then
+					otherText = otherText .. ",[" .. vv.spellName .. "]x" .. vv.count;
+				else
+					otherText = otherText .. ",[" .. vv.itemID .. "]x" .. vv.count;
+				end
+			end
+		end
+		if (flaskText) then
+			 text = text .. "," .. flaskText;
+		else
+			text = text .. ",";
+		end
+		text = text .. ",";
+		if (potionText) then
+			 text = text .. "," .. potionText;
+		else
+			text = text .. ",";
+		end
+		text = text .. ",";
+		if (otherText) then
+			text = text .. "," .. otherText;
+		else
+			text = text .. ",";
+		end
+		--Add missing commas.
+		for i = 3, cellCount - 2 do
+			text = text .. ",";
+		end
+		exportString = exportString .. text .. "\n";
+	end
+	--print(cellCount)
+	--NRC:debug(countData);
+	header = header .. "Character,Flask,,Potion,"; --Add class colors option?
+	for i = 3, cellCount do
+		header = header .. ",Other"
+	end
+    exportString = header .. "\n" .. string.gsub(exportString, "\n$", "");
+    return exportString;
+end
+
+function NRC:loadConsumesExportFrame(logID, raidID, refresh)
+	if (not consumesExportFrame) then
+		consumesExportFrame = NRC:createTradeExportFrame("NRCConsumesExportFrame", 700, 400, 0, 100);
+		consumesExportFrame.topFrame:SetHeight(100);
+	end
+	local type = NRC.config.exportType;
+	consumesExportFrame.EditBox:SetText("");
+	consumesExportFrame.logID = logID;
+	if (not refresh) then
+		consumesExportFrame.dropdownMenu1:SetPoint("TOPRIGHT", consumesExportFrame.topFrame, "TOPRIGHT", -20, -3);
+		consumesExportFrame.dropdownMenu1.tooltip.fs:SetText("|Cffffd000" .. L["tradeExportItemsTypeTooltip"]);
+		consumesExportFrame.dropdownMenu1.tooltip:SetWidth(consumesExportFrame.dropdownMenu1.tooltip.fs:GetStringWidth() + 18);
+		consumesExportFrame.dropdownMenu1.tooltip:SetHeight(consumesExportFrame.dropdownMenu1.tooltip.fs:GetStringHeight() + 12);
+		consumesExportFrame.dropdownMenu1.tooltip:ClearAllPoints();
+		consumesExportFrame.dropdownMenu1.tooltip:SetPoint("BOTTOM", consumesExportFrame.dropdownMenu1, "TOP", 0, 5);
+		NRC.DDM:UIDropDownMenu_SetWidth(consumesExportFrame.dropdownMenu1, 155);
+		consumesExportFrame.dropdownMenu1.initialize = function(dropdown)
+			local info = NRC.DDM:UIDropDownMenu_CreateInfo()
+			info.text = "|cFF9CD6DE" .. L["Wowhead Links"];
+			info.checked = false;
+			info.value = "wowhead";
+			info.func = function(self)
+				NRC.DDM:UIDropDownMenu_SetSelectedValue(dropdown, self.value)
+				NRC.config.consumesExportItemsType = info.value;
+				NRC:loadConsumesExportFrame(logID, raidID, true);
+			end
+			NRC.DDM:UIDropDownMenu_AddButton(info);
+			local info = NRC.DDM:UIDropDownMenu_CreateInfo()
+			info.text = "|cFF9CD6DE" .. L["Item Names"];
+			info.checked = false;
+			info.value = "namecolor";
+			info.func = function(self)
+				NRC.DDM:UIDropDownMenu_SetSelectedValue(dropdown, self.value)
+				NRC.config.consumesExportItemsType = info.value;
+				NRC:loadConsumesExportFrame(logID, raidID, true);
+			end
+			NRC.DDM:UIDropDownMenu_AddButton(info);
+			--[[local info = NRC.DDM:UIDropDownMenu_CreateInfo()
+			info.text = "|cFF9CD6DE" .. L["Item Names"];
+			info.checked = false;
+			info.value = "namenocolor";
+			info.func = function(self)
+				NRC.DDM:UIDropDownMenu_SetSelectedValue(dropdown, self.value)
+				NRC.config.consumesExportItemsType = info.value;
+				NRC:loadConsumesExportFrame(logID, raidID, true);
+			end
+			NRC.DDM:UIDropDownMenu_AddButton(info);
+			local info = NRC.DDM:UIDropDownMenu_CreateInfo()
+			info.text = "|cFF9CD6DE" .. L["Item Ingame Link"];
+			info.checked = false;
+			info.value = "ingamelink";
+			info.func = function(self)
+				NRC.DDM:UIDropDownMenu_SetSelectedValue(dropdown, self.value)
+				NRC.config.consumesExportItemsType = info.value;
+				NRC:loadConsumesExportFrame(logID, raidID, true);
+			end
+			NRC.DDM:UIDropDownMenu_AddButton(info);]]
+			if (not NRC.DDM:UIDropDownMenu_GetSelectedValue(consumesExportFrame.dropdownMenu1)) then
+				--If no value set then it's first load, set saved db value.
+				NRC.DDM:UIDropDownMenu_SetSelectedValue(consumesExportFrame.dropdownMenu1, NRC.config.consumesExportItemsType);
+			end
+		end
+		NRC.DDM:UIDropDownMenu_Initialize(consumesExportFrame.dropdownMenu1, consumesExportFrame.dropdownMenu1.initialize);
+		--consumesExportFrame.dropdownMenu1:HookScript("OnShow", function() NRC.DDM:UIDropDownMenu_Initialize(consumesExportFrame.dropdownMenu1) end);
+		--If we reopen then reset the dropdowns.
+		--if (resetDropdowns) then
+		--	NRC.DDM:UIDropDownMenu_SetSelectedValue(consumesExportFrame.dropdownMenu1, NRC.config.exportType);
+		--end
+		consumesExportFrame.dropdownMenu1:Show();
+		
+		
+		consumesExportFrame.dropdownMenu2:SetPoint("TOPRIGHT", consumesExportFrame.topFrame, "TOPRIGHT", -20, -28);
+		consumesExportFrame.dropdownMenu2.tooltip.fs:SetText("|Cffffd000" .. L["exportDateTooltip"]);
+		consumesExportFrame.dropdownMenu2.tooltip:SetWidth(consumesExportFrame.dropdownMenu2.tooltip.fs:GetStringWidth() + 18);
+		consumesExportFrame.dropdownMenu2.tooltip:SetHeight(consumesExportFrame.dropdownMenu2.tooltip.fs:GetStringHeight() + 12);
+		consumesExportFrame.dropdownMenu2.tooltip:ClearAllPoints();
+		consumesExportFrame.dropdownMenu2.tooltip:SetPoint("BOTTOM", consumesExportFrame.dropdownMenu2, "TOP", 0, 5);
+		NRC.DDM:UIDropDownMenu_SetWidth(consumesExportFrame.dropdownMenu2, 155);
+		consumesExportFrame.dropdownMenu2.initialize = function(dropdown)
+			local info = NRC.DDM:UIDropDownMenu_CreateInfo()
+			info.text = "|cFF9CD6DEmm/dd/yyyy";
+			info.checked = false;
+			info.value = "mm/dd/yyyy";
+			info.func = function(self)
+				NRC.DDM:UIDropDownMenu_SetSelectedValue(dropdown, self.value)
+				NRC.config.exportDate = info.value;
+				NRC:loadConsumesExportFrame(logID, raidID, true);
+			end
+			NRC.DDM:UIDropDownMenu_AddButton(info);
+			local info = NRC.DDM:UIDropDownMenu_CreateInfo()
+			info.text = "|cFF9CD6DEdd/mm/yyyy";
+			info.checked = false;
+			info.value = "dd/mm/yyyy";
+			info.func = function(self)
+				NRC.DDM:UIDropDownMenu_SetSelectedValue(dropdown, self.value)
+				NRC.config.exportDate = info.value;
+				NRC:loadConsumesExportFrame(logID, raidID, true);
+			end
+			NRC.DDM:UIDropDownMenu_AddButton(info);
+			local info = NRC.DDM:UIDropDownMenu_CreateInfo()
+			info.text = "|cFF9CD6DEyyyy/mm/dd";
+			info.checked = false;
+			info.value = "yyyy/mm/dd";
+			info.func = function(self)
+				NRC.DDM:UIDropDownMenu_SetSelectedValue(dropdown, self.value)
+				NRC.config.exportDate = info.value;
+				NRC:loadConsumesExportFrame(logID, raidID, true);
+			end
+			NRC.DDM:UIDropDownMenu_AddButton(info);
+			local info = NRC.DDM:UIDropDownMenu_CreateInfo()
+			info.text = "|cFF9CD6DEyyyy/dd/mm";
+			info.checked = false;
+			info.value = "yyyy/dd/mm";
+			info.func = function(self)
+				NRC.DDM:UIDropDownMenu_SetSelectedValue(dropdown, self.value)
+				NRC.config.exportDate = info.value;
+				NRC:loadConsumesExportFrame(logID, raidID, true);
+			end
+			NRC.DDM:UIDropDownMenu_AddButton(info);
+			if (not NRC.DDM:UIDropDownMenu_GetSelectedValue(consumesExportFrame.dropdownMenu2)) then
+				--If no value set then it's first load, set saved db value.
+				NRC.DDM:UIDropDownMenu_SetSelectedValue(consumesExportFrame.dropdownMenu2, NRC.config.exportDate);
+			end
+		end
+		NRC.DDM:UIDropDownMenu_Initialize(consumesExportFrame.dropdownMenu2, consumesExportFrame.dropdownMenu2.initialize);
+		consumesExportFrame.dropdownMenu2:Show();
+	end
+	
+	
+	--Hide these for now until we work out the format better, can't have hyperlinks with plain text in same cell..
+	consumesExportFrame.dropdownMenu1:Hide();
+	consumesExportFrame.dropdownMenu2:Hide();
+		
+		
+	local instanceName = "Error (Unknown Log)";
+	local instanceData = NRC.db.global.instances[logID];
+	local instanceID, timeString;
+	if (instanceData) then
+		instanceName = instanceData.instanceName;
+		instanceID = instanceData.instanceID;
+		timeString = date(getDateString(), instanceData.enteredTime) .. " " .. date("%X", instanceData.enteredTime);
+	end
+	consumesExportFrame.topFrame.fs:SetText("|cFFFFFF00" .. string.format(L["consumesForSingleRaid"], instanceName, logID) .. "|r");
+	--consumesExportFrame.topFrame.fs:SetText("|cFFFFFF00Trades during specific raid (Log " .. logID .. ")");
+	--text = text .. " |cFF9CD6DE(" .. NRC:getTimeString(instanceData.startTime, true) .. " " .. L["ago"] .. ")|r";
+	--Remove prefix from certain instance names.
+	local instanceName = string.gsub(instanceData.instanceName, ".+: ", "");
+	instanceName = NRC:addDiffcultyText(instanceName, instanceData.difficultyName, instanceData.difficultyID);
+	consumesExportFrame.topFrame.fs2:ClearAllPoints();
+	consumesExportFrame.topFrame.fs2:SetFontObject(QuestFont_Huge);
+	if (timeString) then
+		consumesExportFrame.topFrame.fs2:SetPoint("TOP", -15, -32);
+		consumesExportFrame.topFrame.fs2:SetText("|cFFFFD100" .. instanceName .. "|r\n|cFF9CD6DE" .. timeString);
+	else
+		consumesExportFrame.topFrame.fs2:SetPoint("TOP", -15, -40);
+		consumesExportFrame.topFrame.fs2:SetText("|cFFFFD100" .. instanceName);
+	end
+
+	consumesExportFrame.topFrame.button:Hide();
+	local text = "Error, export type not found.";
+	text = generateConsumesExportString(logID, raidID);
+	consumesExportFrame.topFrame.button:SetText("Create Custom Export String");
+	consumesExportFrame.topFrame.button:SetScript("OnClick", function(self, arg)
+		loadCreateCustomStringFrame();
+	end)
+	consumesExportFrame.EditBox:Insert(text);
+	consumesExportFrame.EditBox:HighlightText();
+	C_Timer.After(0.1, function()
+		consumesExportFrame.EditBox:SetFocus();
+	end)
+	consumesExportFrame:Show();
 end

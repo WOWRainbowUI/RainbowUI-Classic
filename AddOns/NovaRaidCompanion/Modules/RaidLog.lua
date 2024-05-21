@@ -779,6 +779,10 @@ local function getConsumeData(id, encounterID, attemptID, guidOnly)
 	return consumeData;
 end
 
+function NRC:getConsumeData(id, encounterID, attemptID, guidOnly)
+	return getConsumeData(id, encounterID, attemptID, guidOnly);
+end
+
 local function getTradeData(logID, raidID)
 	local data;
 	if (logID and raidID) then
@@ -3484,6 +3488,14 @@ function NRC:loadRaidLogConsumes(logID, encounterID, encounterName, attemptID, g
 	raidLogFrame.scrollChild.fs:Show();
 	raidLogFrame.scrollChild.fs2:Show();
 	raidLogFrame.scrollChild.rfs:Show();
+	raidLogFrame.scrollChild.exportButton:ClearAllPoints();
+	raidLogFrame.scrollChild.exportButton:SetPoint("TOPRIGHT", -260, -2);
+	raidLogFrame.scrollChild.exportButton:SetSize(110, 25);
+	raidLogFrame.scrollChild.exportButton:SetText(L["Export"]);
+	raidLogFrame.scrollChild.exportButton:SetScript("OnClick", function(self, arg)
+		NRC:loadConsumesExportFrame(logID);
+	end)
+	raidLogFrame.scrollChild.exportButton:Show();
 	--Remove prefix from certain instance names.
 	local instanceName = string.gsub(data.instanceName, ".+: ", "");
 	instanceName = NRC:addDiffcultyText(instanceName, data.difficultyName, data.difficultyID);

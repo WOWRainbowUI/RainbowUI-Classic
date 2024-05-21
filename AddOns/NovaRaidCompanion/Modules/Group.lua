@@ -202,6 +202,7 @@ function NRC:groupMemberLeft(name, data)
 	--print(name, "left group")
 	--NRC.cooldownList[data.guid] = nil;
 	NRC.auraCache[data.guid] = nil;
+	NRC.chronoCache[data.guid] = nil;
 	NRC.durability[name] = nil;
 	NRC:removeRaidManaChar(name);
 	NRC:removeFromManaCache(name);
@@ -718,7 +719,7 @@ function NRC:createTalentStringFromInspect(guid)
 		return;
 	end
 	--Seems all 3 clients are using the new out of order system now.
-	if (NRC.isWrath or NRC.isTBC or NRC.isClassic) then
+	--if (NRC.isWrath or NRC.isTBC or NRC.isClassic) then
 		if (unit or classID) then
 			local data = {
 				classID = classID,
@@ -769,7 +770,7 @@ function NRC:createTalentStringFromInspect(guid)
 		--if (talentString and not strfind(talentString, "0%-0%-0")) then
 			return talentString, talentString2;
 		--end
-	else
+	--[[else
 		if (unit or classID) then
 			--Number of talents varies by class, but if we get a rough num for this expansion and add 20 it should cover it.
 			--We stop iteration when we reach nil (end of talent tree) anyway.
@@ -802,7 +803,7 @@ function NRC:createTalentStringFromInspect(guid)
 		--if (talentString and not strfind(talentString, "0%-0%-0")) then
 			return talentString;
 		--end
-	end
+	end]]
 end
 
 local inspectTalentsCheckBox, inspectTalentsFrame;
@@ -843,15 +844,25 @@ local function openInspectTalentsFrame()
 		end]]
 		local talentString, talentString2 = NRC:createTalentStringFromInspect(guid);
 		if (talentString) then
-			NRC:updateTalentFrame(name, talentString, inspectTalentsFrame, talentString2);
+			local isError = NRC:updateTalentFrame(name, talentString, inspectTalentsFrame, talentString2);
 			inspectTalentsFrame:SetScale(0.875);
-			inspectTalentsFrame:Show();
+			if (not isError) then
+				inspectTalentsFrame:Show();
+			end
 		end
 		if (realm and realm ~= "" and realm ~= NRC.realm) then
 			name = name .. "-" .. realm;
 		end
-		if (NRC.isWrath) then
-			NRC:sendComm("WHISPER", "glyreq " .. NRC.version, name);
+		if (NRC.expansionNum > 2) then
+			local isEnemy;
+			local targetName = UnitName("target");
+			if (name == targetName) then
+				--Current target should always be the inspect target if hostile since they can't be raid frames to click on etc.
+				isEnemy = UnitIsEnemy("player", "target");
+			end
+			if (not isEnemy) then
+				NRC:sendComm("WHISPER", "glyreq " .. NRC.version, name);
+			end
 		end
 	end
 end
@@ -1007,6 +1018,9 @@ f:SetScript('OnEvent', function(self, event, ...)
 	elseif (event == "GROUP_LEFT") then
 		NRC.groupCache = {};
 		NRC.unitMap = {};
+		C_Timer.After(1, function()
+			NRC:aurasScanGroup();
+		end)
 		--NRC.healerCache = {};
 		NRC:updateHealerCache();
 	end

@@ -6,7 +6,7 @@
 ---Better to use slightly more ram with table storage than losing fps.
 
 local addonName, NRC = ...;
-if (not NRC.isWrath and not NRC.isCataPrepatch) then
+if (not NRC.isWrath) then
 	return;
 end
 local L = LibStub("AceLocale-3.0"):GetLocale("NovaRaidCompanion");
@@ -458,6 +458,7 @@ NRC.ignoredCreatures = {
 	[15368] = "Tonk Mine",
 	[11859] = "Doomguard",
 	[14337] = "Field Repair Bot 74A",
+	[7863] = "Dream Vision",
 	--Wrath.
 	[29561] = "Scrapbot",
 	[33404] = "Wind-Up Train Wrecker",
@@ -10413,4 +10414,8 @@ NRC.pal = {
 		order = 6,
 		maxRank = true,
 	},
+};
+
+NRC.worldBuffs = {
+
 };
