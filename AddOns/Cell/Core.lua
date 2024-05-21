@@ -17,12 +17,12 @@ local P = Cell.pixelPerfectFuncs
 local L = Cell.L
 
 -- sharing version check
-Cell.MIN_VERSION = 189
-Cell.MIN_CLICKCASTINGS_VERSION = 189
-Cell.MIN_LAYOUTS_VERSION = 222
-Cell.MIN_INDICATORS_VERSION = 222
-Cell.MIN_DEBUFFS_VERSION = 189
-Cell.MIN_QUICKASSIST_VERSION = 217
+Cell.MIN_VERSION = 200
+Cell.MIN_CLICKCASTINGS_VERSION = 200
+Cell.MIN_LAYOUTS_VERSION = 226
+Cell.MIN_INDICATORS_VERSION = 226
+Cell.MIN_DEBUFFS_VERSION = 200
+Cell.MIN_QUICKASSIST_VERSION = 227
 
 --[==[@debug@
 local debugMode = true
@@ -435,25 +435,25 @@ function eventFrame:ADDON_LOADED(arg1)
 
         -- dispelBlacklist ------------------------------------------------------------------------
         if type(CellDB["dispelBlacklist"]) ~= "table" then
-            CellDB["dispelBlacklist"] = I:GetDefaultDispelBlacklist()
+            CellDB["dispelBlacklist"] = I.GetDefaultDispelBlacklist()
         end
         Cell.vars.dispelBlacklist = F:ConvertTable(CellDB["dispelBlacklist"])
 
         -- debuffBlacklist ------------------------------------------------------------------------
         if type(CellDB["debuffBlacklist"]) ~= "table" then
-            CellDB["debuffBlacklist"] = I:GetDefaultDebuffBlacklist()
+            CellDB["debuffBlacklist"] = I.GetDefaultDebuffBlacklist()
         end
         Cell.vars.debuffBlacklist = F:ConvertTable(CellDB["debuffBlacklist"])
         
         -- bigDebuffs -----------------------------------------------------------------------------
         if type(CellDB["bigDebuffs"]) ~= "table" then
-            CellDB["bigDebuffs"] = I:GetDefaultBigDebuffs()
+            CellDB["bigDebuffs"] = I.GetDefaultBigDebuffs()
         end
         Cell.vars.bigDebuffs = F:ConvertTable(CellDB["bigDebuffs"])
         
         -- debuffTypeColor -----------------------------------------------------------------------------
         if type(CellDB["debuffTypeColor"]) ~= "table" then
-            I:ResetDebuffTypeColor()
+            I.ResetDebuffTypeColor()
         end
 
         -- defensives/externals -------------------------------------------------------------------
@@ -474,7 +474,7 @@ function eventFrame:ADDON_LOADED(arg1)
         -- }
 
         -- if type(CellDB["cleuAuras"]) ~= "table" then CellDB["cleuAuras"] = {} end
-        -- I:UpdateCleuAuras(CellDB["cleuAuras"])
+        -- I.UpdateCleuAuras(CellDB["cleuAuras"])
 
         -- if type(CellDB["cleuGlow"]) ~= "table" then
         --     CellDB["cleuGlow"] = {"Pixel", {{0, 1, 1, 1}, 9, 0.25, 8, 2}}
@@ -482,12 +482,12 @@ function eventFrame:ADDON_LOADED(arg1)
         
         -- targetedSpells -------------------------------------------------------------------------
         if type(CellDB["targetedSpellsList"]) ~= "table" then
-            CellDB["targetedSpellsList"] = I:GetDefaultTargetedSpellsList()
+            CellDB["targetedSpellsList"] = I.GetDefaultTargetedSpellsList()
         end
         Cell.vars.targetedSpellsList = F:ConvertTable(CellDB["targetedSpellsList"])
         
         if type(CellDB["targetedSpellsGlow"]) ~= "table" then
-            CellDB["targetedSpellsGlow"] = I:GetDefaultTargetedSpellsGlow()
+            CellDB["targetedSpellsGlow"] = I.GetDefaultTargetedSpellsGlow()
         end
         Cell.vars.targetedSpellsGlow = CellDB["targetedSpellsGlow"]
 
@@ -496,9 +496,9 @@ function eventFrame:ADDON_LOADED(arg1)
 
         -- consumables ----------------------------------------------------------------------------
         if type(CellDB["consumables"]) ~= "table" then
-            CellDB["consumables"] = I:GetDefaultConsumables()
+            CellDB["consumables"] = I.GetDefaultConsumables()
         end
-        Cell.vars.consumables = I:ConvertConsumables(CellDB["consumables"])
+        Cell.vars.consumables = I.ConvertConsumables(CellDB["consumables"])
 
         -- misc -----------------------------------------------------------------------------------
         Cell.version = GetAddOnMetadata(addonName, "version")
@@ -707,7 +707,6 @@ function eventFrame:PLAYER_ENTERING_WORLD()
     end
 end
 
-local prevSpec
 function eventFrame:PLAYER_LOGIN()
     F:Debug("|cffbbbbbb=== PLAYER_LOGIN ===")
     eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -727,8 +726,7 @@ function eventFrame:PLAYER_LOGIN()
     Cell.vars.playerGUID = UnitGUID("player")
     
     -- update spec vars
-    if not prevSpec then prevSpec = GetSpecialization() end
-    Cell.vars.playerSpecID, Cell.vars.playerSpecName, _, Cell.vars.playerSpecIcon, Cell.vars.playerSpecRole = GetSpecializationInfo(prevSpec)
+    Cell.vars.playerSpecID, Cell.vars.playerSpecName, _, Cell.vars.playerSpecIcon, Cell.vars.playerSpecRole = GetSpecializationInfo(GetSpecialization())
     if Cell.vars.playerSpecName == "" then
         Cell.vars.playerSpecName = L["No Spec"]
         Cell.vars.playerSpecIcon = 134400
@@ -764,9 +762,9 @@ function eventFrame:PLAYER_LOGIN()
     -- update CLEU health
     Cell:Fire("UpdateCLEU")
     -- update builtIns and customs
-    I:UpdateDefensives(CellDB["defensives"])
-    I:UpdateExternals(CellDB["externals"])
-    I:UpdateCrowdControls(CellDB["crowdControls"])
+    I.UpdateDefensives(CellDB["defensives"])
+    I.UpdateExternals(CellDB["externals"])
+    I.UpdateCrowdControls(CellDB["crowdControls"])
     -- update pixel perfect
     Cell:Fire("UpdatePixelPerfect")
     -- overrideLGF
@@ -782,34 +780,49 @@ function eventFrame:UI_SCALE_CHANGED()
     end
 end
 
-local forceRecheck
+-------------------------------------------------
+-- ACTIVE_TALENT_GROUP_CHANGED
+-------------------------------------------------
+local timer
 local checkSpecFrame = CreateFrame("Frame")
 checkSpecFrame:SetScript("OnEvent", function()
     eventFrame:ACTIVE_TALENT_GROUP_CHANGED()
 end)
--- PLAYER_SPECIALIZATION_CHANGED fires when level up, ACTIVE_TALENT_GROUP_CHANGED usually fire twice.
+
+-- ACTIVE_TALENT_GROUP_CHANGED fires twice
+-- PLAYER_SPECIALIZATION_CHANGED fires when level up
+-- ACTIVE_PLAYER_SPECIALIZATION_CHANGED only fires when player manually change spec
 -- NOTE: ACTIVE_TALENT_GROUP_CHANGED fires before PLAYER_LOGIN, but can't GetSpecializationInfo before PLAYER_LOGIN
 function eventFrame:ACTIVE_TALENT_GROUP_CHANGED()
-    F:Debug("|cffbbbbbb=== ACTIVE_TALENT_GROUP_CHANGED ===")
-    -- not in combat & spec CHANGED
-    if not InCombatLockdown() and (prevSpec and prevSpec ~= GetSpecialization() or forceRecheck) then
-        prevSpec = GetSpecialization()
+    -- not in combat
+    if InCombatLockdown() then
+        checkSpecFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+        return
+    end
+    
+    --  fires twice
+    if timer then timer:Cancel() end
+    timer = C_Timer.NewTimer(0.5, function()
+        timer = nil
+        F:Debug("|cffbbbbbb=== ACTIVE_TALENT_GROUP_CHANGED ===")
+        
         -- update spec vars
-        Cell.vars.playerSpecID, Cell.vars.playerSpecName, _, Cell.vars.playerSpecIcon, Cell.vars.playerSpecRole = GetSpecializationInfo(prevSpec)
-        if not Cell.vars.playerSpecID then -- NOTE: when join in battleground, spec auto switched, during loading, can't get info from GetSpecializationInfo, until PLAYER_ENTERING_WORLD
-            forceRecheck = true
+        Cell.vars.playerSpecID, Cell.vars.playerSpecName, _, Cell.vars.playerSpecIcon, Cell.vars.playerSpecRole = GetSpecializationInfo(GetSpecialization())
+
+        if not Cell.vars.playerSpecID then
+            -- NOTE: when join in battleground, spec auto switched, during loading, can't get info from GetSpecializationInfo, until PLAYER_ENTERING_WORLD
             checkSpecFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
             F:Debug("|cffffbb77SpecChanged:|r FAILED")
         else
-            forceRecheck = false
             checkSpecFrame:UnregisterEvent("PLAYER_ENTERING_WORLD")
+            checkSpecFrame:UnregisterEvent("PLAYER_REGEN_ENABLED")
+            F:Debug("|cffffbb77SpecChanged:|r", Cell.vars.playerSpecID, Cell.vars.playerSpecRole)
             if not CellDB["clickCastings"][Cell.vars.playerClass]["useCommon"] then
                 Cell:Fire("UpdateClickCastings")
             end
-            F:Debug("|cffffbb77SpecChanged:|r", Cell.vars.playerSpecRole)
-            Cell:Fire("SpecChanged", Cell.vars.playerSpecRole)
+            Cell:Fire("SpecChanged", Cell.vars.playerSpecID, Cell.vars.playerSpecRole)
         end
-    end
+    end)
 end
 
 eventFrame:SetScript("OnEvent", function(self, event, ...)

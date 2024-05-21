@@ -17,11 +17,11 @@ local P = Cell.pixelPerfectFuncs
 local L = Cell.L
 
 -- sharing version check
-Cell.MIN_VERSION = 189
-Cell.MIN_CLICKCASTINGS_VERSION = 189
-Cell.MIN_LAYOUTS_VERSION = 222
-Cell.MIN_INDICATORS_VERSION = 222
-Cell.MIN_DEBUFFS_VERSION = 189
+Cell.MIN_VERSION = 200
+Cell.MIN_CLICKCASTINGS_VERSION = 200
+Cell.MIN_LAYOUTS_VERSION = 226
+Cell.MIN_INDICATORS_VERSION = 226
+Cell.MIN_DEBUFFS_VERSION = 200
 
 --[==[@debug@
 local debugMode = true
@@ -379,25 +379,25 @@ function eventFrame:ADDON_LOADED(arg1)
 
         -- dispelBlacklist ------------------------------------------------------------------------
         if type(CellDB["dispelBlacklist"]) ~= "table" then
-            CellDB["dispelBlacklist"] = I:GetDefaultDispelBlacklist()
+            CellDB["dispelBlacklist"] = I.GetDefaultDispelBlacklist()
         end
         Cell.vars.dispelBlacklist = F:ConvertTable(CellDB["dispelBlacklist"])
         
         -- debuffBlacklist ------------------------------------------------------------------------
         if type(CellDB["debuffBlacklist"]) ~= "table" then
-            CellDB["debuffBlacklist"] = I:GetDefaultDebuffBlacklist()
+            CellDB["debuffBlacklist"] = I.GetDefaultDebuffBlacklist()
         end
         Cell.vars.debuffBlacklist = F:ConvertTable(CellDB["debuffBlacklist"])
 
         -- bigDebuffs -----------------------------------------------------------------------------
         if type(CellDB["bigDebuffs"]) ~= "table" then
-            CellDB["bigDebuffs"] = I:GetDefaultBigDebuffs()
+            CellDB["bigDebuffs"] = I.GetDefaultBigDebuffs()
         end
         Cell.vars.bigDebuffs = F:ConvertTable(CellDB["bigDebuffs"])
                 
         -- debuffTypeColor -----------------------------------------------------------------------------
         if type(CellDB["debuffTypeColor"]) ~= "table" then
-            I:ResetDebuffTypeColor()
+            I.ResetDebuffTypeColor()
         end
 
         -- defensives/externals -------------------------------------------------------------------
@@ -419,20 +419,20 @@ function eventFrame:ADDON_LOADED(arg1)
 
         -- targetedSpells -------------------------------------------------------------------------
         if type(CellDB["targetedSpellsList"]) ~= "table" then
-            CellDB["targetedSpellsList"] = I:GetDefaultTargetedSpellsList()
+            CellDB["targetedSpellsList"] = I.GetDefaultTargetedSpellsList()
         end
         Cell.vars.targetedSpellsList = F:ConvertTable(CellDB["targetedSpellsList"])
         
         if type(CellDB["targetedSpellsGlow"]) ~= "table" then
-            CellDB["targetedSpellsGlow"] = I:GetDefaultTargetedSpellsGlow()
+            CellDB["targetedSpellsGlow"] = I.GetDefaultTargetedSpellsGlow()
         end
         Cell.vars.targetedSpellsGlow = CellDB["targetedSpellsGlow"]
 
         -- consumables ----------------------------------------------------------------------------
         if type(CellDB["consumables"]) ~= "table" then
-            CellDB["consumables"] = I:GetDefaultConsumables()
+            CellDB["consumables"] = I.GetDefaultConsumables()
         end
-        Cell.vars.consumables = I:ConvertConsumables(CellDB["consumables"])
+        Cell.vars.consumables = I.ConvertConsumables(CellDB["consumables"])
         
         -- misc -----------------------------------------------------------------------------------
         Cell.version = GetAddOnMetadata(addonName, "version")
@@ -655,9 +655,11 @@ local function CheckDivineAegis()
     end
 end
 
-local function UpdateSpecVars()
-    Cell.vars.activeTalentGroup = GetActiveTalentGroup()
-    Cell.vars.playerSpecID = Cell.vars.activeTalentGroup
+local function UpdateSpecVars(exceptActiveTalentGroup)
+    if not exceptActiveTalentGroup then
+        Cell.vars.activeTalentGroup = GetActiveTalentGroup()
+        Cell.vars.playerSpecID = Cell.vars.activeTalentGroup
+    end
     Cell.vars.primaryTalentTree = GetPrimaryTalentTree()
     if Cell.vars.primaryTalentTree then
         _, Cell.vars.playerSpecName, _, Cell.vars.playerSpecIcon = GetTalentTabInfo(Cell.vars.primaryTalentTree)
@@ -717,14 +719,14 @@ function eventFrame:PLAYER_LOGIN()
     -- update CLEU
     Cell:Fire("UpdateCLEU")
     -- update builtIns and customs
-    I:UpdateDefensives(CellDB["defensives"])
-    I:UpdateExternals(CellDB["externals"])
+    I.UpdateDefensives(CellDB["defensives"])
+    I.UpdateExternals(CellDB["externals"])
     -- update pixel perfect
     Cell:Fire("UpdatePixelPerfect")
     -- overrideLGF
     F:OverrideLGF(CellDB["general"]["overrideLGF"])
     -- LibHealComm
-    F:EnableLibHealComm(CellDB["appearance"]["useLibHealComm"])
+    -- F:EnableLibHealComm(CellDB["appearance"]["useLibHealComm"])
 end
 
 function eventFrame:UI_SCALE_CHANGED()
@@ -751,7 +753,7 @@ end
 -- check Divine Aegis
 function eventFrame:PLAYER_TALENT_UPDATE()
     CheckDivineAegis()
-    UpdateSpecVars()
+    UpdateSpecVars(true)
     F:UpdateClickCastingProfileLabel()
 end
 
