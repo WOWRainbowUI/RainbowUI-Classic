@@ -1,5 +1,13 @@
 ## SpellActivationOverlay Changelog
 
+#### v1.4.4 (2024-05-20)
+
+Shout-out to fellow developer stako. Thanks!
+
+Bug Fixes
+- Hunter's Master Marksman should now trigger correctly (Cataclysm)
+- Mage's Heating Up during Hot Streak has been reinstated (Cataclysm)
+
 #### v1.4.3 (2024-05-12)
 
 New Spell Alerts:
