@@ -1398,7 +1398,7 @@ D["Leatrix_Plus"] = {
     },
 };
 D["LFGBulletinBoard"] = {
-    defaultEnable = 1,
+    defaultEnable = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and 1 or 0,
 	tags = { "BOSSRAID" },
 	title = "組隊佈告欄",
 	desc = "將尋求組隊訊息依據副本，難度…等規則分類，就像勇者接受委託的佈告欄一樣!``特別注意：預設只會顯示燃燒的遠征副本，如果需要顯示60級以下的經典版副本，需要在設定選項中勾選。`",
