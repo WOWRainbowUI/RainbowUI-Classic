@@ -12,7 +12,7 @@ end
 local mod	= DBM:NewMod("Chromaggus", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240303152906")
+mod:SetRevision("20240511084932")
 mod:SetCreatureID(14020)
 mod:SetEncounterID(616)
 mod:SetModelID(14367)
@@ -37,7 +37,7 @@ local warnFrenzy		= mod:NewSpellAnnounce(23128, 3, nil, "Tank|RemoveEnrage|Heale
 local warnPhase2Soon	= mod:NewPrePhaseAnnounce(2, 1)
 local warnPhase2		= mod:NewPhaseAnnounce(2)
 local warnMutation		= mod:NewCountAnnounce(23174, 4)
-local warnVuln			= mod:NewAnnounce("WarnVulnerable", 1, false)
+local warnVuln			= mod:NewAnnounce("WarnVulnerable", 1, nil, false)
 
 local specWarnBronze	= mod:NewSpecialWarningYou(23170, nil, nil, nil, 1, 8)
 local specWarnFrenzy	= mod:NewSpecialWarningDispel(23128, "RemoveEnrage", nil, nil, 1, 6)
@@ -126,7 +126,7 @@ local function update_vulnerability(self)
 				DBM.InfoFrame:Update()
 			end
 		end
-		if self.Options.NPAuraOnVulnerable then
+		if target and self.Options.NPAuraOnVulnerable then
 			DBM.Nameplate:Hide(true, target, 22277, 135924)
 			DBM.Nameplate:Hide(true, target, 22277, 135808)
 			DBM.Nameplate:Hide(true, target, 22277, 136006)

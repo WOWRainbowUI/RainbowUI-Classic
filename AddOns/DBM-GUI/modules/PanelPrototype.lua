@@ -14,6 +14,8 @@ local CreateFrame, GetCursorPosition, UIParent, GameTooltip, NORMAL_FONT_COLOR, 
 local DBM = DBM
 local CreateTextureMarkup = CreateTextureMarkup
 
+local GetSpellDescription = C_Spell.GetSpellDescription or GetSpellDescription
+
 --TODO, not 100% sure which ones use html and which don't so some might need true added or removed for 2nd arg
 local function parseDescription(name, usesHTML)
 	if not name then
@@ -26,10 +28,12 @@ local function parseDescription(name, usesHTML)
 	if name:find("%$spell:") then
 		name = name:gsub("%$spell:(%-?%d+)", function(id)
 			local spellId = tonumber(id)
-			if spellId < 0 then
-			    return "$journal:" .. -spellId
+			if spellId then
+				if spellId < 0 then
+				    return "$journal:" .. -spellId
+				end
+				spellName = DBM:GetSpellName(spellId)
 			end
-			spellName = DBM:GetSpellName(spellId)
 			if not spellName then
 				spellName = CL.UNKNOWN
 				DBM:Debug("Spell ID does not exist: " .. spellId)

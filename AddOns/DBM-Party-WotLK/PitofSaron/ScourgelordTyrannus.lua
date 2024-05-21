@@ -5,7 +5,7 @@ if not mod:IsClassic() then
 	mod.statTypes = "normal,heroic,timewalker"
 end
 
-mod:SetRevision("20240428124541")
+mod:SetRevision("20240502130748")
 mod:SetCreatureID(36658, 36661)
 mod:SetEncounterID(2000)
 mod:DisableESCombatDetection()
@@ -127,7 +127,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 		else
 			warnHoarfrost:Show(target)
 		end
-		if self.Options.SetIconOnHoarfrostTarget then
+		if target and self.Options.SetIconOnHoarfrostTarget then
 			self:SetIcon(target, 8, 5)
 		end
 	end

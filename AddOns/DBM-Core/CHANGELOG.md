@@ -1,72 +1,49 @@
-# <DBM Mod> Raids (DF)
+# <DBM Mod> Delves (TWW)
 
-## [10.2.37](https://github.com/DeadlyBossMods/DeadlyBossMods/tree/10.2.37) (2024-04-29)
-[Full Changelog](https://github.com/DeadlyBossMods/DeadlyBossMods/compare/10.2.36...10.2.37) [Previous Releases](https://github.com/DeadlyBossMods/DeadlyBossMods/releases)
+## [10.2.41](https://github.com/DeadlyBossMods/DeadlyBossMods/tree/10.2.41) (2024-05-16)
+[Full Changelog](https://github.com/DeadlyBossMods/DeadlyBossMods/compare/10.2.40...10.2.41) [Previous Releases](https://github.com/DeadlyBossMods/DeadlyBossMods/releases)
 
-- prep new core tag too  
-- Support multiple retail tocs for war within alpha  
-- Fixed a bug that caused cinematic skip options to not be shown in GUI on wrath classic  
-- Pull boss mod basics and difficulty handling out of core (#1070)  
-- Icon notes and tweaks  
-- migrate several icons to numeric type system  
-- Define icon types and check for legacy ones still using true/false (and flag them as warnings)  
-    (assuming I did this right)  
-- improve SpecFlags  
-- accept "movetostatue" for voicepack audio  
-- Hacky support for more auto spec role filling on more common objects.  
-- Update localization.es.lua (#1069)  
-- Load World Events mod in SoD based on DMF schedule  
-- Disable Lua Check global warnings in favor of LuaLS  
-- Use voice enum for EnablePrivateAuraSound (#1068)  
-- Fix custom path for :Play(): can use asset IDs  
-- Update localization.es.lua (#1065)  
-- cleanup extended icon hack stuff. blizzard fixed that ages ago and isn't adding official icon extention any time soon  
-- Fix https://github.com/DeadlyBossMods/DeadlyBossMods/issues/1064  
-    Fix https://github.com/DeadlyBossMods/DeadlyBossMods/issues/1063  
-- Enabling warnings for globals that we write  
-    By default LuaLS allows us to implictly declare a global by writing to  
-    it, whereas LuaCheck didn't allow this. Since we don't want to write to  
-    many globals it's better to require them to be explicitly declared in  
-    .luarc.json.  
-    Unlike LuaCheck this unfortunately doesn't support regular expressions  
-    to define the set of allowed globals, this will be fixed in  
-    https://github.com/LuaLS/lua-language-server/pull/2629 soon hopefully.  
-- Use GetSpellName api instead of GetSpellInfo in all places that only care about name  
-- Also add key to cctype  
-- Define enum for DispelType  
-- Update localization.es.lua (#1059)  
-- Update localization.es.lua (#1058)  
-- Icons: cleanup (#1060)  
-- Ignore target on pull timer if person targetted is someone in raid.  
-- Raszageth update:  
-     - Static Charge target warning will also use shorttext name  
-     - Hurricane Wing will now have a cast bar til it ends  
-     - Hurricane Wing will now announce when it has ended with positve green text and "safe now" TTS alert  
-- Fix all issues in https://github.com/DeadlyBossMods/DeadlyBossMods/issues/1056  
-- Rescope definition of "Easy dungeon" to now just be follower and normal. heroic is the new mythic 0 and should not be treated as trivially as in the past. This basically makes it so now trash warnings show up by default in heroic dungeons and up instead of just mythic 0 and up (as per season 4 and later, heroic is the new mythic 0 and the new mythic 0 is basically the old mythic 10)  
-- Use GetSpellName in war within when we only need name and not entire table  
-- prevent a lua error on war within when calling GetSpellTexture with a nil spellId, the api throws error now (as opposed to live of just failing silently  
-- Update koKR (#1055)  
-- lol luacheck failing on whitespace in a commented line  
-- Sadly, BW didn't agree with using countdown to also support universal supporting break timers. They'd rather support multi minute pull timers so changing DBM to supporting multi miniute pull timers and back to no break timers for non boss mod users.  
-- Update localization.ru.lua (#1054)  
-- unregister unused spellId  
-- Fixed a bug where broodkeeper was referencing wrong timer going into stage 2 when setting the new icy timer  
-    Fixed a bug on RAszageth where breath timer could show wrong count due to CLEU event being too slow (switched to unit event which is way faster)  
-    Closes https://github.com/DeadlyBossMods/DeadlyBossMods/issues/1053  
-- Add PT message when trying to send pull timers too large.  
-    Match blizzards cancelation rule of canceling for negative integers too and not just 0  
-- Allow 1 minute break timers  
-- some consistency tweaks  
-- Migrate to also using blizzard countdown for break timers  
-    Fixed not blocking blizzard countdowns in combat on 10.2.7 and higher.  
-    used more consistent naming conventions between break and pull timer functions.  
-- Fix GetIcon object  
-- Refix two things off top of head  
-- More modularization in core (#1045)  
-    Co-authored-by: Adam <MysticalOS@users.noreply.github.com>  
-- micro adjust a few timers for Season 4 Vault  
-    Added nameplate cooldown timer for Add interrupts on Dathea  
-    Also converted aerial slash Cd to namepate only on dathia  
-    And fixed interrupt warning not showing on all difficulties on dathia  
-- Bump alpha  
+- prep new tag for war within alpha delves support and better support for MoP scenarios returning in tomorrow remix  
+- RU locale for Delves (#1088)  
+- Make sync debug easier to notice since it's higher prio  
+- Fix regression with loadmod, handle it a diff way that still fixes scenario starts  
+- add 3 new trash abilities to delves  
+    Added support for FungalFolley's end boss  
+- support start delay for scenario's, since delves are always delayed by 5 seconds.  
+- Fix bug that caused scenario mods like delves to re-enter combat due to fact LoadModsOnDemands were firing scenariocheck on all map changes and not just instance map changes. The load type is now scoped better and filtered appropriately  
+- case sensitive fix  
+- Tweaks  
+- Fix 100206 getting flagged by packager  
+- Fix rename mapping  
+- Fix typo  
+- Fixed delve bug where a wipe would end delve with a success  
+- Add more zones for the special load conditions of delves to core  
+    Split trash abilities into their own common mod since trash abilities are shared between ALL delves so needed a unified trash mod  
+    Added earthcrawl mines end boss support  
+    Added lava blast to delve trash alerts  
+- quiet luacheck  
+- template remaining delve mods  
+- Remove diagnostic disables  
+- More LuaLS annotations for variables storing mods  
+- Tests: add /dbm test clear  
+- Tests: Make AntiSpam more deterministic  
+- Fix comparison function  
+    Check to see if it's a number, and not string of "No Raid Module"  
+- Delves kr locale initializing (#1087)  
+- Tag that as a TWW mod to future proof before it's too late.  
+- Add another spell to the spiral weave  
+    another delve core fix  
+- Fix another delve niche case  
+- fix bad option keys  
+- Support delves in trivial checks, and special load conditions, and check for wipe  
+- Preliminary delve work  
+- Fix bad case of stripping `-` from instance names;  
+    - Use a special case match of ` - `, to actually detect the space cases we wanted. this means moving away from strsplit as that is a list of deliminators rather than a pattern.  
+- Fix GetSpellDescription on alpha  
+- Fix UnitName issue in pull timer target  
+    Utilise `DBM:GetUnitFullName` instead, for appropriate filtering of friendly targets.  
+- change this to debuglevel 3. it spams a TON on retail (since group size changes every time someone joins or leaves raid.  
+- Fixed bugs with classic subversion check  
+     - It now ACTUALLY checks classic subversion instead of echoing DBM core version check (and only running IF dbm core is out of date)  
+     - It no longer runs on retail  
+- bump alpha  
