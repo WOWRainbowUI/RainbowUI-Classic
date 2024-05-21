@@ -21,6 +21,9 @@ do --繁体说明书
     text = text .. "-BUG反饋：郵箱buick_hbj@163.com，Q群322785325\n\n"
     -- text = text .. "-由於黑盒工坊有BUG不能正確識別本地插件版本，可能會導致不能更新插件。\n請考慮使用其他插件管理器，例如：curseforge" .. "\n\n"
 
+    update = update .. "|cff00FF00" .. "5月21日更新v1.9.0b" .. "|r\n"
+    update = update .. [[-<60/plus>修復了裝備自動記錄失效的問題]] .. "\n\n"
+
     update = update .. "|cff00FF00" .. "5月20日更新v1.9.0" .. "|r\n"
     update = update .. [[-角色配置文件：增加刪除某角色全部配置文件的按鈕]] .. "\n"
     update = update .. [[-<CTM>更新CTM P1表格、裝備庫、角色總覽等]] .. "\n"

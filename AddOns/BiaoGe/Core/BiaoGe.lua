@@ -1439,22 +1439,22 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
     ----------定时获取当前副本----------
     do
         -- 获取当前副本
-        local lastzoneId
+        local lastZoneID
         C_Timer.NewTicker(5, function()               -- 每5秒执行一次
             BG.FB2 = nil
-            local fbId = select(8, GetInstanceInfo()) -- 获取副本ID
-            for id, value in pairs(BG.FBIDtable) do   -- 把副本ID转换为副本英文简写
-                if fbId == id then
-                    BG.FB2 = value
+            local FBID = select(8, GetInstanceInfo()) -- 获取副本ID
+            for _FBID, FB in pairs(BG.FBIDtable) do   -- 把副本ID转换为副本英文简写
+                if FBID == _FBID then
+                    BG.FB2 = FB
                     break
                 end
             end
-            if lastzoneId ~= fbId then
+            if lastZoneID ~= FBID then
                 if BG.FB2 then
                     BG.ClickFBbutton(BG.FB2)
                 end
             end
-            lastzoneId = fbId
+            lastZoneID = FBID
         end)
     end
     ----------高亮团长发出的装备----------
