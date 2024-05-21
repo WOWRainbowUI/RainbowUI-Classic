@@ -181,14 +181,14 @@ frame:SetScript("OnEvent", function(self, event, addonName)
     local f = CreateFrame("Frame")
     f:RegisterEvent("ENCOUNTER_START")
     f:RegisterEvent("ENCOUNTER_END")
-    f:SetScript("OnEvent", function(self, even, bossId, _, _, _, success)
-        -- pt(even, bossId, success)
+    f:SetScript("OnEvent", function(self, even, bossID, _, _, _, success)
+        -- pt(even, bossID, success)
         local FB = BG.FB2
         if not FB then return end
         if even == "ENCOUNTER_START" then
             start = true
-            for _bossId, _numb in pairs(BG.Loot.encounterID[FB]) do
-                if bossId and (bossId == tonumber(_bossId)) then
+            for _bossID, _numb in pairs(BG.Loot.encounterID[FB]) do
+                if bossID and (bossID == tonumber(_bossID)) then
                     numb = _numb
                     lasttime = GetTime()
                     -- local text = BG.STC_g1(L["BOSS战开始"])
@@ -197,8 +197,8 @@ frame:SetScript("OnEvent", function(self, event, addonName)
                 end
             end
         elseif even == "ENCOUNTER_END" and success == 1 then
-            for _bossId, _numb in pairs(BG.Loot.encounterID[FB]) do
-                if bossId and (bossId == tonumber(_bossId)) then
+            for _bossID, _numb in pairs(BG.Loot.encounterID[FB]) do
+                if bossID and (bossID == tonumber(_bossID)) then
                     numb = _numb
                     lasttime = GetTime()
                     start = nil
