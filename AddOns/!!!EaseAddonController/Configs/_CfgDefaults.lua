@@ -2140,7 +2140,7 @@ D["SilverPlateTweaks"] = {
 	img = true,
 };
 D["SimpleItemLevel"] = {
-	defaultEnable = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and 1 or 0,,
+	defaultEnable = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and 1 or 0,
 	tags = { "ITEM" },
 	title = "顯示物品等級",
 	desc = "在角色視窗的裝備欄位、背包和浮動提示資訊中顯示物品等級數字。`",
