@@ -145,7 +145,7 @@ function AuctionatorUndercutScanMixin:ReceiveEvent(eventName, ...)
 
   elseif eventName == Auctionator.AH.Events.ScanResultsUpdate then
     local results, gotAllResults = ...
-    local itemID = GetItemInfoInstant(self.currentAuction.itemLink)
+    local itemID = C_Item.GetItemInfoInstant(self.currentAuction.itemLink)
     local item = Item:CreateFromItemID(itemID)
     item:ContinueOnItemLoad(function()
       self:ProcessScanResult(results, gotAllResults)
@@ -158,26 +158,32 @@ function AuctionatorUndercutScanMixin:ReceiveEvent(eventName, ...)
 end
 
 function AuctionatorUndercutScanMixin:SearchForUndercuts(auction)
-  local name = Auctionator.Utilities.GetNameFromLink(auction.itemLink)
   Auctionator.Debug.Message("undercut scan: searching", name)
 
   Auctionator.AH.AbortQuery()
 
   Auctionator.EventBus:Register(self, QUERY_EVENTS)
-  Auctionator.AH.QueryAuctionItems({
-    searchString = name,
-    isExact = true,
-  })
+
+  if Auctionator.Config.Get(Auctionator.Config.Options.SELLING_IGNORE_ITEM_SUFFIX) and Auctionator.Utilities.IsEquipment(select(6, GetItemInfoInstant(self.currentAuction.itemLink))) then
+    Auctionator.AH.QueryAuctionItems({
+      searchString = C_Item.GetItemNameByID((GetItemInfoInstant(self.currentAuction.itemLink))),
+      isExact = false,
+    })
+  else
+    Auctionator.AH.QueryAuctionItems({
+      searchString = Auctionator.Utilities.GetNameFromLink(auction.itemLink),
+      isExact = true,
+    })
+  end
 end
 
 function AuctionatorUndercutScanMixin:ProcessScanResult(results, gotAllResults)
   local cleanLink = Auctionator.Search.GetCleanItemLink(self.currentAuction.itemLink)
 
-  local itemIDWanted = GetItemInfoInstant(self.currentAuction.itemLink)
+  local itemIDWanted = C_Item.GetItemInfoInstant(self.currentAuction.itemLink)
   local itemLevelWanted = GetDetailedItemLevelInfo(self.currentAuction.itemLink)
 
-  local ignoreItemLevel = Auctionator.Config.Get(Auctionator.Config.Options.SELLING_IGNORE_ITEM_LEVEL)
-  local itemLevelMatch = Auctionator.Config.Get(Auctionator.Config.Options.SELLING_ITEM_LEVEL_MATCH_ONLY)
+  local ignoreItemSuffix = Auctionator.Config.Get(Auctionator.Config.Options.SELLING_IGNORE_ITEM_SUFFIX)
 
   local positions = {}
   local itemsAhead = 0
@@ -187,12 +193,11 @@ function AuctionatorUndercutScanMixin:ProcessScanResult(results, gotAllResults)
   for _, r in ipairs(results) do
     local resultCleanLink = Auctionator.Search.GetCleanItemLink(r.itemLink)
     local unitPrice = Auctionator.Utilities.ToUnitPrice(r)
-    local itemID = GetItemInfoInstant(resultCleanLink)
+    local itemID = C_Item.GetItemInfoInstant(resultCleanLink)
     -- Assumes that scan results are sorted by Blizzard column unitprice
     if unitPrice ~= 0 and (
         cleanLink == resultCleanLink or
-        (ignoreItemLevel and itemID == itemIDWanted) or
-        (itemLevelMatch and itemID == itemIDWanted and itemLevelWanted == GetDetailedItemLevelInfo(r.itemLink)) ) then
+        (ignoreItemSuffix and itemID == itemIDWanted)) then
       if r.info[Auctionator.Constants.AuctionItemInfo.Owner] == playerName and seenUnitPrices[unitPrice] == nil then
         seenUnitPrices[unitPrice] = true
         table.insert(positions, {

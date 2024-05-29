@@ -63,16 +63,12 @@ function AuctionatorBuyAuctionsDataProviderMixin:OnLoad()
   self:SetUpEvents()
   self.gotAllResults = true
   self.requestAllResults = true
-  self.ignoreItemLevel = false
+  self.ignoreItemSuffix = false
   self.itemLevelMatch = false
 end
 
-function AuctionatorBuyAuctionsDataProviderMixin:SetIgnoreItemLevel(state)
-  self.ignoreItemLevel = state
-end
-
-function AuctionatorBuyAuctionsDataProviderMixin:SetItemLevelMatchOnly(state)
-  self.itemLevelMatch = state
+function AuctionatorBuyAuctionsDataProviderMixin:SetIgnoreItemSuffix(state)
+  self.ignoreItemSuffix = state
 end
 
 function AuctionatorBuyAuctionsDataProviderMixin:SetUpEvents()
@@ -85,7 +81,7 @@ function AuctionatorBuyAuctionsDataProviderMixin:SetUpEvents()
 end
 
 function AuctionatorBuyAuctionsDataProviderMixin:SetAuctions(entries)
-  local itemID = GetItemInfoInstant(self.searchKey)
+  local itemID = C_Item.GetItemInfoInstant(self.searchKey)
   local item = Item:CreateFromItemID(itemID)
   item:ContinueOnItemLoad(function()
     self.allAuctions = {}
@@ -95,20 +91,37 @@ function AuctionatorBuyAuctionsDataProviderMixin:SetAuctions(entries)
   end)
 end
 
-function AuctionatorBuyAuctionsDataProviderMixin:SetQuery(itemLink)
+function AuctionatorBuyAuctionsDataProviderMixin:SetQuery(itemLink, callback)
   self:Reset()
 
   if itemLink == nil then
     self.query = nil
     self.searchKey = nil
+    callback()
   else
     self.searchKey = Auctionator.Search.GetCleanItemLink(itemLink)
-    self.query = {
-      searchString = Auctionator.Utilities.GetNameFromLink(itemLink),
-      minLevel = nil, maxLevel = nil,
-      itemClassFilters = {},
-      isExact = true,
-    }
+    local itemID = C_Item.GetItemInfoInstant(self.searchKey)
+    -- Searching without the gear item suffix if the option is turned on
+    local isExact = not self.ignoreItemSuffix or not Auctionator.Utilities.IsEquipment(select(6, C_Item.GetItemInfoInstant(itemLink)))
+    if isExact then
+      self.query = {
+        searchString = Auctionator.Utilities.GetNameFromLink(itemLink),
+        minLevel = nil, maxLevel = nil,
+        itemClassFilters = {},
+        isExact = isExact,
+      }
+      callback()
+    else
+      Item:CreateFromItemID(itemID):ContinueOnItemLoad(function()
+        self.query = {
+          searchString = C_Item.GetItemNameByID(itemID),
+          minLevel = nil, maxLevel = nil,
+          itemClassFilters = {},
+          isExact = isExact,
+        }
+        callback()
+      end)
+    end
   end
 end
 
@@ -126,7 +139,7 @@ function AuctionatorBuyAuctionsDataProviderMixin:ReceiveEvent(eventName, eventDa
     if self.gotAllResults then
       Auctionator.EventBus:Unregister(self, BUY_EVENTS)
     end
-    local itemID = GetItemInfoInstant(self.searchKey)
+    local itemID = C_Item.GetItemInfoInstant(self.searchKey)
     local item = Item:CreateFromItemID(itemID)
     item:ContinueOnItemLoad(function()
       self:ImportAdditionalResults(eventData)
@@ -187,16 +200,15 @@ function AuctionatorBuyAuctionsDataProviderMixin:EndAnyQuery()
 end
 
 function AuctionatorBuyAuctionsDataProviderMixin:ImportAdditionalResults(results)
-  local itemIDWanted = GetItemInfoInstant(self.searchKey)
+  local itemIDWanted = C_Item.GetItemInfoInstant(self.searchKey)
   local itemLevelWanted = GetDetailedItemLevelInfo(self.searchKey)
 
   local waiting = #results
   for _, entry in ipairs(results) do
     local itemID = entry.info[Auctionator.Constants.AuctionItemInfo.ItemID]
     local itemString = Auctionator.Search.GetCleanItemLink(entry.itemLink)
-    if self.searchKey == itemString or
-      (self.ignoreItemLevel and itemID == itemIDWanted) or
-      (self.itemLevelMatch and itemID == itemIDWanted and itemLevelWanted == GetDetailedItemLevelInfo(entry.itemLink)) then
+    if (self.searchKey == itemString) or
+      (self.ignoreItemSuffix and itemID == itemIDWanted) then
       table.insert(self.allAuctions, entry)
     end
   end
@@ -305,7 +317,7 @@ end
 
 function AuctionatorBuyAuctionsDataProviderMixin:PurgeAndReplaceOwnedAuctions(ownedAuctions)
   if self.query ~= nil then
-    local itemID = GetItemInfoInstant(self.searchKey)
+    local itemID = C_Item.GetItemInfoInstant(self.searchKey)
     local item = Item:CreateFromItemID(itemID)
       item:ContinueOnItemLoad(function()
       self.onPreserveScroll()
