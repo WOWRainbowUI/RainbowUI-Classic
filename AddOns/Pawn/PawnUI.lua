@@ -2115,13 +2115,13 @@ function PawnUI_OnSocketUpdate()
 
 	-- Find out what item it is.
 	local _, ItemLink = ItemSocketingDescription:GetItem()
-	if strfind(ItemLink, "item:167555") then
+	if ItemLink and strfind(ItemLink, "item:167555") then -- 暫時修正
 		-- Don't show an error message on Pocket-Sized Computation Device, which has three punch card sockets and no stats.
 		return
 	end
 	local Item = PawnGetItemData(ItemLink)
 	if not Item or not Item.Values then
-		VgerCore.Fail("Failed to update the socketing UI because we didn't know what item was in it.")
+		-- VgerCore.Fail("Failed to update the socketing UI because we didn't know what item was in it.")
 		return
 	end
 	if not Item.UnenchantedStats then return end -- Can't do anything interesting if we couldn't get unenchanted item data
