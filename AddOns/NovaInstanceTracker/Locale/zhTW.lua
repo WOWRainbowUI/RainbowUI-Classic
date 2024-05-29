@@ -428,6 +428,8 @@ L["Sunreaver Warden"] = "Sunreaver Warden";
 L["Silver Covenant Warden"] = "Silver Covenant Warden";
 L["note"] = "備註:"
 
+L["Dungeon weeklies remaining"] = "地城每週剩餘";
+
 --增加
 L["Nova Instance Tracker"] = "Nova 副本進度追蹤";
 L["NovaInstanceTracker"] = "副本-進度";
