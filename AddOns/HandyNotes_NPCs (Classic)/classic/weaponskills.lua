@@ -6,12 +6,12 @@ wm, ws = data["weaponmasters"], data["weaponskills"]
 local L = LibStub("AceLocale-3.0"):GetLocale("HandyNotes_NPCs (Classic)")
 
 wm[11867] = "200, 201, 202, 227, 1180, 5011"
-wm[2704] = "196, 197, 227, 264, 2567"
-wm[11868] = "196, 197, 264, 1180, 2567, 15590"
+wm[2704] = "196, 197, 227, 264"
+wm[11868] = "196, 197, 264, 1180, 15590"
 wm[11865] = "196, 197, 198, 199, 266, 15590"
-wm[13084] = "1180, 2567, 5011"
+wm[13084] = "1180, 5011"
 wm[11869] = "198, 199, 227, 266"
-wm[11866] = "227, 264, 1180, 2567, 15590"
+wm[11866] = "227, 264, 1180, 15590"
 wm[11870] = "200, 201, 202, 1180, 5011"
 ws[200] = {
 	name = L["Polearms"],
@@ -102,15 +102,6 @@ ws[197] = {
 ws[264] = {
 	name = L["Bows"],
 	icon = "inv_weapon_bow_05",
-	classes = {
-		WARRIOR = true,
-		HUNTER = true,
-		ROGUE = true,
-	}
-}
-ws[2567] = {
-	name = L["Thrown"],
-	icon = "inv_throwingknife_02",
 	classes = {
 		WARRIOR = true,
 		HUNTER = true,

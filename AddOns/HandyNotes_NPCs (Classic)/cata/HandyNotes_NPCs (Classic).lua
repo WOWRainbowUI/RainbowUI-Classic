@@ -19,6 +19,7 @@ local icons = {
 	flightmastersUndiscovered = "Interface\\Addons\\HandyNotes_NPCs (Classic)\\flightmaster_undiscovered.tga",
 	auctioneers = "Interface\\MINIMAP\\TRACKING\\Auctioneer",
 	bankers = "Interface\\MINIMAP\\TRACKING\\Banker",
+	battlemasters = "Interface\\MINIMAP\\TRACKING\\BattleMaster",
 	guildmasters = "Interface\\MINIMAP\\TRACKING\\POIArrow", -- TODO: Find a better icon
 	innkeepers = "Interface\\MINIMAP\\TRACKING\\Innkeeper",
 	mailboxes = "Interface\\MINIMAP\\TRACKING\\Mailbox",
@@ -54,6 +55,7 @@ PROFESSIONS[L["Alchemy"]] = "Alchemy"
 PROFESSIONS[L["Blacksmithing"]] = "Blacksmithing"
 PROFESSIONS[L["Enchanting"]] = "Enchanting"
 PROFESSIONS[L["Engineering"]] = "Engineering"
+PROFESSIONS[L["Jewelcrafting"]] = "Jewelcrafting"
 PROFESSIONS[L["Leatherworking"]] = "Leatherworking"
 PROFESSIONS[L["Tailoring"]] = "Tailoring"
 PROFESSIONS[L["Herbalism"]] = "Herbalism"
@@ -62,6 +64,7 @@ PROFESSIONS[L["Skinning"]] = "Skinning"
 PROFESSIONS[L["Cooking"]] = "Cooking"
 PROFESSIONS[L["First Aid"]] = "First Aid"
 PROFESSIONS[L["Fishing"]] = "Fishing"
+PROFESSIONS[L["Archaeology"]] = "Archaeology"
 
 local db, learned
 local _, class, faction
@@ -95,17 +98,34 @@ function pluginHandler:OnEnter(uiMapId, coord)
 		tooltip:SmartAnchorTo(self)
 		tooltip:Show()
 	else
-		local tooltip = self:GetParent() == WorldMapButton and WorldMapTooltip or GameTooltip
-		if ( self:GetCenter() > UIParent:GetCenter() ) then -- compare X coordinate
-			tooltip:SetOwner(self, "ANCHOR_LEFT")
-		else
-			tooltip:SetOwner(self, "ANCHOR_RIGHT")
-		end
+		--local tooltip = self:GetParent() == WorldMapButton and WorldMapTooltip or GameTooltip
+		local tooltip = LibQTip:Acquire("HandyNotes_NPCs", 1, "LEFT")
+		self.tooltip = tooltip
+		--if ( self:GetCenter() > UIParent:GetCenter() ) then -- compare X coordinate
+		--	tooltip:SetOwner(self, "ANCHOR_LEFT")
+		--else
+		--	tooltip:SetOwner(self, "ANCHOR_RIGHT")
+		--end
 
 		if (not nodeData.name) then return end
-		tooltip:AddLine(nodeData.name)
+		tooltip:AddHeader(nodeData.name)
+		tooltip:SetLineTextColor(1, 0, 0.6, 0.1, 1)
 		if (nodeData.description) then
 			tooltip:AddLine(nodeData.description, 0, 0.6, 0.1)
+		end
+		if nodeData.category == "spirithealers" then
+			local f = nodeData.faction
+			tooltip:AddLine(f)
+			if f == "Horde" then
+				tooltip:SetLineTextColor(2, 1, 0, 0, 1)
+			elseif f == "Alliance" then
+				tooltip:SetLineTextColor(2, 0, 0, 1, 1)
+			end
+		end
+		if nodeData.category == "flightmasters" then
+			if nodeData["fpName"] then
+				tooltip:AddLine(nodeData["fpName"])
+			end
 		end
 		if nodeData.subcategories and nodeData.subcategories["weaponmaster"] then
 			if nodeData.npcID and data["weaponmasters"][nodeData.npcID] then
@@ -115,8 +135,8 @@ function pluginHandler:OnEnter(uiMapId, coord)
 				end
 			end
 		end
+		tooltip:SmartAnchorTo(self)
 		tooltip:Show()
-		return
 	end
 end
 
@@ -149,7 +169,8 @@ do
 			if value then
 				-- "Do you think God stays in heaven because he, too, lives in fear of what he's created here on earth?"
 				if db.show then
-				if (value.faction == faction or value.faction == "Neutral") then
+				if (value.faction == faction or value.faction == "Neutral" or value.category == "spirithealers") then
+				if not (value.category == "battlemasters") or db.showBattlemasters then
 				if not (value.category == "flightmasters") or db.showFlightMasters and (not value.classes or value.classes[class]) then
 				if not (value.category == "guildmasters") or db.showGuildMasters then
 				if not (value.category == "rares") or db.showRares then
@@ -198,6 +219,7 @@ do
 					end
 
 					return state, nil, icon, db.zoneScale, db.zoneAlpha
+				end
 				end
 				end
 				end
@@ -383,6 +405,7 @@ local defaults = {
 		showInnkeepers = true,
 		showMailboxes = true,
 		showBankers = true,
+		showBattlemasters = true,
 		showAuctioneers = true,
 		showGuildMasters = true,
 		showRepair = true,
@@ -827,7 +850,7 @@ function Addon:SKILL_LINES_CHANGED()
 end
 
 function Addon:TAXIMAP_OPENED()
-taxiNodes = C_TaxiMap.GetAllTaxiNodes(GetTaxiMapID())
+	taxiNodes = C_TaxiMap.GetAllTaxiNodes(GetTaxiMapID())
 	for k, v in pairs(taxiNodes) do
 		if v.state == Enum.FlightPathState.Unreachable then
 			self.db.char.learned[v.name] = false
@@ -865,6 +888,7 @@ function HandyNotes_NPCsDropDownMenu(frame, level, menuList)
 			showInnkeepers = L["Show Innkeepers"],
 			showGuildMasters = L["Show Guildmasters"],
 			showMountTrainers = L["Show Mount Trainers"],
+			showBattlemasters = L["Show Battlemasters"],
 			showRares = L["Show Rares"],
 		}
 
