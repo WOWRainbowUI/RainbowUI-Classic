@@ -551,3 +551,5 @@ L["Cata Fishing Daily"] = "Cata Fishing Daily";
 L["Cata Jewelcrafting Daily"] = "Cata Jewelcrafting Daily";
 
 L["Dungeon weeklies remaining"] = "Dungeon weeklies remaining";
+
+L["currencyGains"] = "Currencies";

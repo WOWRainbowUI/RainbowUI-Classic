@@ -430,6 +430,8 @@ L["note"] = "備註:"
 
 L["Dungeon weeklies remaining"] = "地城每週剩餘";
 
+L["currencyGains"] = "貨幣";
+
 --增加
 L["Nova Instance Tracker"] = "Nova 副本進度追蹤";
 L["NovaInstanceTracker"] = "副本-進度";
@@ -458,3 +460,4 @@ L["Short"] = "短";
 L["Lockouts"] = "副本進度";
 L["Raid Lockouts (Including Alts)"] = "副本進度 (包括分身}";
 L["Auto Select (Spec Based)"] = "自動選擇 (根據專精)";
+L["First Aid"] = "急救";

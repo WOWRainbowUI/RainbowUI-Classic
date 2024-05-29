@@ -706,20 +706,47 @@ end
 
 --Cata and onwards honor recording, new event added.
 function NIT:chatMsgCurrency(...)
-	if (not NIT.inInstance or NIT.data.instances[1].type ~= "bg") then
+	if (not NIT.inInstance) then
 		return;
 	end
-	if (not NIT.data.instances[1].honor) then
-		NIT.data.instances[1].honor = 0;
-	end
 	local text = ...;
-	if (strmatch(text, "currency:1901")) then
-		local honorGained = strmatch(text, "currency:.+\]|h|r %D*(%d+)")
-		if (not honorGained) then
+	if (not strmatch(text, "currency:")) then
+		return;
+	end
+	local currencyID = tonumber(strmatch(text, "currency:(%d+):"));
+	local instance = NIT.data.instances[1];
+	if (currencyID == 1901 and instance.type == "bg") then
+		local amount = strmatch(text, "currency:.+\]|h|r%D*(%d+)");
+		if (not amount) then
 			NIT:debug("Honor error:", text);
 			return;
 		end
-		NIT.data.instances[1].honor = NIT.data.instances[1].honor + honorGained;
+		if (not instance.honor) then
+			instance.honor = 0;
+		end
+		instance.honor = instance.honor + amount;
+	else
+		local amount = strmatch(text, "currency:.+\]|h|r%D*(%d+)");
+		print(1, amount)
+		if (not amount) then
+			NIT:debug("Valor error:", text);
+			return;
+		end
+		local data = C_CurrencyInfo.GetCurrencyInfo(currencyID);
+		if (not instance.currencies) then
+			instance.currencies = {};
+		end
+		if (not instance.currencies[currencyID]) then
+			instance.currencies[currencyID] = {
+				count = 0;
+			};
+		end
+		print(2, amount, data.name, data.iconFileID)
+		instance.currencies[currencyID] = {
+			name = data.name,
+			count = instance.currencies[currencyID].count + amount,
+			icon = data.iconFileID,
+		}; --/run NIT.data.instances[1].currencies[395] = {name = "Justice Points", count = 5, icon = 463446}
 	end
 end
 

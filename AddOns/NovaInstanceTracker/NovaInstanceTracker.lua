@@ -1278,10 +1278,10 @@ end)
 NITInstanceFrame.fs = NITInstanceFrame.EditBox:CreateFontString("NITInstanceFrameFS", "ARTWORK");
 NITInstanceFrame.fs:SetPoint("TOP", 0, -0);
 NITInstanceFrame.fs:SetFont(NIT.regionFont, 14);
-NITInstanceFrame.fs2 = NITInstanceFrame:CreateFontString("NITInstanceFrameFS", "ARTWORK");
+NITInstanceFrame.fs2 = NITInstanceFrame:CreateFontString("NITInstanceFrameFS2", "ARTWORK");
 NITInstanceFrame.fs2:SetPoint("TOPLEFT", 0, -14);
 NITInstanceFrame.fs2:SetFont(NIT.regionFont, 14);
-NITInstanceFrame.fs3 = NITInstanceFrame:CreateFontString("NITbuffListFrameFS", "ARTWORK");
+NITInstanceFrame.fs3 = NITInstanceFrame:CreateFontString("NITInstanceFrameFS3", "ARTWORK");
 NITInstanceFrame.fs3:SetPoint("BOTTOM", 0, -20);
 NITInstanceFrame.fs3:SetFont(NIT.regionFont, 14);
 NITInstanceFrame.fs4 = NITInstanceFrame:CreateFontString("NITInstanceFrameFS4", "ARTWORK");
@@ -2555,6 +2555,15 @@ function NIT:recalcInstanceLineFramesTooltip(obj)
 					v = "+" .. NIT:commaValue(v);
 				end
 				text = text .. "\n |cFF9CD6DE" .. k .. "|r " .. v;
+			end
+		end
+		if (data.currencies and next(data.currencies)) then
+			text = text .. "\n\n|cFFFFFF00" .. L["currencyGains"] .. ":|r"
+			for k, v in NIT:pairsByKeys(data.currencies) do
+				if (v.count > 0) then
+					local texture = "|T" .. v.icon .. ":13:13:0:0|t";
+					text = text .. "\n " .. texture .. " |cFF9CD6DE" .. v.name .. "|r +" .. v.count;
+				end
 			end
 		end
 		if (data.group and next(data.group)) then
