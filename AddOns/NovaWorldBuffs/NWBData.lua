@@ -3039,6 +3039,9 @@ function NWB:recordAttunements()
 end
 
 function NWB:recordAttunementKeys()
+	if (not KeyRingButtonIDToInvSlotID) then
+		return; --This was patched out a month after cata release instead of during beta?
+	end
 	local char = UnitName("player");
 	if (not NWB.data.myChars[char]) then
 		NWB.data.myChars[char] = {};

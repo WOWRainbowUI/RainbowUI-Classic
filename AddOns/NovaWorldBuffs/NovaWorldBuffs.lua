@@ -134,6 +134,7 @@ function NWB:OnInitialize()
 	self:removeOldLayers();
 	--Before we start the ticker we need a temp record of our last online time to check dmf reset.
 	self.lastOnlineCache = NWB.data.myChars[UnitName("player")].lo;
+	--self:loadTbCache();
 	self:ticker();
 	self:yellTicker();
 	self:createBroker();
@@ -904,6 +905,10 @@ function NWB:ticker()
 	if (NWB.isSOD) then
 		NWB:checkAshenvaleTimer();
 		NWB:checkStranglethornTimer();
+	end
+	if (NWB.isCata) then
+		NWB:checkTolBaradTimer();
+		--NWB:checkWintergraspTimer();
 	end
 	C_Timer.After(1, function()
 		NWB:ticker();
@@ -6030,6 +6035,12 @@ function NWB:updateMinimapButton(tooltip, frame)
 	if (NWB.isClassic) then
 		NWB:addDMFMinimapString(tooltip);
 		--3 day reset is bundled in the above with dmf string.
+	end
+	if (NWB.isCata) then
+		--First line adds the top seperator, the rest don't so they're merged in the same section.
+		--NWB:addTolBaradMinimapString(tooltip);
+		NWB:addTolBaradMinimapString(tooltip, nil, true);
+		NWB:addWintergraspMinimapString(tooltip, true);
 	end
 	tooltip:AddLine("|cFF9CD6DE" .. L["Left-Click"] .. "|r " .. L["Timers"]);
 	tooltip:AddLine("|cFF9CD6DE" .. L["Right-Click"] .. "|r " .. L["Buffs"]);

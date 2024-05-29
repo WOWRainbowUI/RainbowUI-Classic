@@ -825,8 +825,8 @@ L["disableBuffTimersMaxBuffLevelDesc"] = "是否在64級以上角色的小地圖
 L["hideMinimapBuffTimersTitle"] = "關閉所有等級的小地圖增益計時器";
 L["hideMinimapBuffTimersDesc"] = "是否在所有角色的小地圖圖標上時隱藏世界增益計時器？你只會看到泰羅卡塔的計時器和每日任務等。";
 
-L["guildTerok10Title"] = "泰洛卡10分公會提醒";
-L["guildTerok10Desc"] = "在泰洛卡靈魂尖塔還剩 10 分鐘時，傳送公會訊息。";
+L["guildTerok10Title"] = "公會計時器訊息"; 
+L["guildTerok10Desc"] = "當世界事件即將出現時，例如 TBC 的泰羅卡森林塔樓、巫妖王之怒的冬泉谷、大災變的托爾巴拉德等，向公會聊天發送一條訊息。";
 
 L["showShatWorldmapMarkersTerokTitle"] = "在薩塔斯世界地圖顯示泰洛卡計時器";
 L["showShatWorldmapMarkersTerokDesc"] = "是否在在薩塔斯世界地圖上顯示泰洛卡計時器圖標?";
@@ -986,3 +986,136 @@ L["Config"] = "設定選項"
 
 L["Yes"] = "是"
 L["No"] = "否"
+--5/20					  
+
+L["Mouseover char names for extra info"] = "滑鼠懸停在角色名稱上以獲取更多資訊";
+L["Show Stats"] = "顯示統計"; 
+L["Event Running"] = "活動進行中";
+
+L["Left-Click"] = "左鍵點擊";
+L["Right-Click"] = "右鍵點擊";
+L["Shift Left-Click"] = "Shift + 左鍵點擊";
+L["Shift Right-Click"] = "Shift + 右鍵點擊";
+L["Control Left-Click"] = "Ctrl + 左鍵點擊";
+
+--Try keep these roughly the same length or shorter.
+L["Guild Layers"] = "公會層級";
+L["Timers"] = "計時器";
+L["Buffs"] = "增益效果";
+L["Felwood Map"] = "費伍德地圖";
+L["Config"] = "設定";
+L["Resources"] = "資源"; 
+L["Layer"] = "層級";
+L["Layer Map"] = "層級地圖";
+L["Rend Log"] = "撕裂記錄";
+L["Timer Log"] = "計時器記錄";
+L["Copy/Paste"] = "複製/貼上";
+L["Ashenvale PvP Event Resources"] = "梣谷 PvP 活動資源";
+L["All other alts using default"] = "所有其他分身角色使用預設設定";
+L["Chronoboon CD"] = "時空寶珠冷卻時間"; 
+L["All"] = "全部"; 
+L["Old Data"] = "舊資料";
+L["Ashenvale data is old"] = "梣谷資料過舊";
+L["Ashenvale"] = "梣谷";
+L["Ashenvale Towers"] = "梣谷占塔";
+L["Warning"] = "警告";
+L["Refresh"] = "刷新";
+L["PvP enabled"] = "已啟用 PvP";
+L["Hold Shift to drag"] = "按住 Shift 鍵拖曳";
+L["Hold to drag"] = "按住拖曳";
+
+L["Can't find current layer or no timers active for this layer."] = "找不到當前鏡像或此鏡像沒有啟用的計時器。";
+L["No guild members online sharing layer data found."] = "找不到線上分享鏡像資料的公會成員。";
+
+L["ashenvaleOverlayFontTitle"] = "覆蓋文字字體";
+L["ashenvaleOverlayFontDesc"] = "覆蓋顯示要使用的字體。";
+
+L["minimapLayerFontTitle"] = "小地圖鏡像文字字體";
+L["minimapLayerFontDesc"] = "小地圖鏡像文字要使用的字體。";
+
+L["minimapLayerFontSizeTitle"] = "小地圖鏡像文字字體大小";
+L["minimapLayerFontSizeDesc"] = "小地圖鏡像文字要使用的字體大小。";
+
+L["zone"] = "區域";
+L["zones mapped"] = "已映射的區域";
+L["Layer Mapping for"] = "鏡像映射用於";
+L["formatForDiscord"] = "將文字格式化以貼到 Discord 中？(添加顏色等)";
+L["Copy Frame"] = "複製框架";
+L["Show how many times you got each buff."] = "顯示您獲得每個增益效果的次數。";
+L["Show all alts that have buff stats? (stats must be enabled)."] = "顯示所有具有增益效果統計數據的分身角色？(必須啟用統計數據)。";
+L["No timer logs found."] = "沒有找到計時器記錄。";
+L["Merge Layers"] = "合併鏡像";
+L["mergeLayersTooltip"] = "如果多個鏡像具有相同的計時器，這將將它們合併到 [所有鏡像] 中，而不是單獨顯示。";
+L["Ready"] = "準備就緒";
+L["Chronoboon"] = "時空寶珠";
+L["Local Time"] = "當地時間";
+L["Server Time"] = "伺服器時間";
+L["12 hour"] = "12 小時";
+L["24 hour"] = "24 小時";
+L["Alliance"] = "聯盟";
+L["Horde"] = "部落";
+L["No Layer"] = "無鏡像";
+L["No data yet."] = "尚未有資料。";
+L["Ashenvale Resources"] = "[梣谷資源";
+L["No character specific buffs set yet."] = "尚未設定角色特定增益效果。";
+L["All characters are using default"] = "所有角色都使用預設設定";
+L["Orgrimmar"] = "奧格瑪";
+L["Stormwind"] = "暴風城";
+L["Dalaran"] = "達拉然";
+L["left"] = "剩餘";  --Same as remaining basically.
+L["remaining"] = "剩餘";
+
+L["Online"] = "線上";
+L["Offline"] = "離線";
+L["Rested"] = "已休息";
+L["Not Rested"] = "未休息";
+L["No zones mapped for this layer yet."] = "此鏡像沒有對應的區域。";
+L["Cooldown"] = "冷卻時間";
+L["dmfLogonBuffResetMsg"] = "這些角色在已休息區域離線 8 小時以上，而黑暗之門的增益效果冷卻時間已重置";
+L["dmfOfflineStatusTooltip"] = "暗月馬戲團增益冷卻時間 8 小時以上離線狀態（已休息區域）";
+L["chronoboonReleased"] = "您已使用時空寶珠釋放了一個黑暗之門的增益效果，新的 4 小時冷卻時間已開始。";
+
+L["Stranglethorn"] = "荊棘谷大戰"; 
+L["ashenvaleEventRunning"] = "梣谷大戰正在進行：%s";
+L["ashenvaleEventStartsIn"] = "梣谷大戰將在 %s 開始";
+L["ashenvaleStartSoon"] = "梣谷大戰將在 %s 開始"; 
+L["stranglethornEventRunning"] = "荊棘谷大戰正在進行：%s";
+L["stranglethornEventStartsIn"] = "荊棘谷大戰將在 %s 開始";
+L["stranglethornStartSoon"] = "荊棘谷大戰將在 %s 開始"; 
+L["Spark of Inspiration"] = "靈感火花"; 
+L["specificBuffDropped"] = "%s 增益效果已掉落。";
+L["3 day raid reset"] = "3 天團本重置";
+L["Darkmoon Faire is up"] = "黑暗之門正在舉行";
+L["dmfAbbreviation"] = "暗月馬戲團";
+L["Ashenvale PvP Event"] = "梣谷大戰 PvP 活動";
+L["Stranglethorn PvP Event"] = "荊棘谷大戰 PvP 活動";
+
+L["overlayShowArtTitle"] = "顯示浮動圖示";
+L["overlayShowArtDesc"] = "顯示浮動圖示？";
+
+L["overlayShowAshenvaleTitle"] = "顯示梣谷大戰圖示";
+L["overlayShowAshenvaleDesc"] = "顯示艾梣谷大戰計時器？";
+
+L["overlayShowStranglethornTitle"] = "顯示荊棘谷大戰圖示";
+L["overlayShowStranglethornDesc"] = "顯示剃刀高地計時器？";
+
+L["sodMiddleScreenWarningTitle"] = "螢幕警告";
+L["sodMiddleScreenWarningDesc"] = "在螢幕中間顯示一個 15/30 分鐘的警告，提醒您關於像 STV 等的 SoD 事件。";
+
+L["stvBossMarkerTooltip"] = "NWB 首領標記（實驗性）";
+L["Boss"] = "首領"; 
+L["stvBossSpotted"] = "發現了 Loa 首領！請查看地圖以獲取位置。";
+L["Total coins this event"] = "此活動的硬幣總數"; 
+L["Last seen"] = "上次看見";
+L["World Events"] = "世界事件";
+L["layersNoGuild"] = "您沒有公會，此命令僅顯示公會成員。";
+
+L["No guild"] = "無公會";
+
+L["Temple of Atal'Hakkar"] = "阿塔哈卡神殿"; 
+
+L["cappingSupportTitle"] = "佔領支持";
+L["cappingSupportDesc"] = "如果安裝了佔領功能，是否為梣谷/荊棘谷大戰啟動計時條？";
+
+L["Tol Barad"] = "托爾巴拉德";
+L["eventIsRunning"] = "%s 正在進行中";
