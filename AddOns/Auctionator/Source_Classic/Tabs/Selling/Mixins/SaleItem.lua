@@ -163,7 +163,7 @@ function AuctionatorSaleItemMixin:OnUpdate()
     return
 
   elseif self.itemInfo.location ~= nil and not C_Item.DoesItemExist(self.itemInfo.location) then
-    local itemInfo = Auctionator.Groups.Utilities.QueryItem(self.itemInfo.key.sortKey)
+    local itemInfo = Auctionator.Groups.Utilities.QueryItem(self.itemInfo.sortKey)
     self.itemInfo.location = itemInfo and itemInfo.locations[1]
     -- Bag position changes (race condition or posting reattempt)
     if not self.itemInfo.location then
@@ -303,7 +303,7 @@ function AuctionatorSaleItemMixin:ReceiveEvent(event, ...)
       end
 
       item:ContinueOnItemLoad(function()
-        itemInfo.stackSize = select(8, GetItemInfo(itemInfo.itemLink))
+        itemInfo.stackSize = select(8, C_Item.GetItemInfo(itemInfo.itemLink))
         self.itemInfo = itemInfo
 
         self:Update()
@@ -560,7 +560,7 @@ function AuctionatorSaleItemMixin:SetEquipmentMultiplier(itemLink)
   local item = Item:CreateFromItemLink(itemLink)
   item:ContinueOnItemLoad(function()
     local multiplier = Auctionator.Config.Get(Auctionator.Config.Options.GEAR_PRICE_MULTIPLIER)
-    local vendorPrice = select(11, GetItemInfo(itemLink))
+    local vendorPrice = select(11, C_Item.GetItemInfo(itemLink))
     if multiplier ~= 0 and vendorPrice ~= 0 then
       -- Check for a vendor price multiplier being set (and a vendor price)
       self:SetUnitPrice(
@@ -609,7 +609,9 @@ function AuctionatorSaleItemMixin:GetStackableWarningThreshold()
 
   -- Identifies when an auction is skewing the current price down and is
   -- probably not meant to be so low.
-  local watchPoint = self:GetParent().BuyFrame.CurrentPrices.SearchDataProvider.allAuctions[5] or self:GetParent().BuyFrame.CurrentPrices.SearchDataProvider.allAuctions[1]
+  local allAuctions = self:GetParent().BuyFrame.CurrentPrices.SearchDataProvider.allAuctions
+  local midPoint = math.min(5, math.ceil(#allAuctions / 2))
+  local watchPoint = allAuctions[midPoint]
   if watchPoint ~= nil then
     local watchPointPrice = Auctionator.Utilities.ToUnitPrice(watchPoint) or 0
     return Auctionator.Utilities.PriceWarningThreshold(watchPointPrice)
@@ -635,7 +637,7 @@ function AuctionatorSaleItemMixin:GetConfirmationMessage()
 
   -- Determine if the item is worth more to sell to a vendor than to post on the
   -- AH.
-  local itemInfo = { GetItemInfo(self.itemInfo.itemLink) }
+  local itemInfo = { C_Item.GetItemInfo(self.itemInfo.itemLink) }
   local vendorPrice = itemInfo[Auctionator.Constants.ITEM_INFO.SELL_PRICE]
   if Auctionator.Utilities.IsVendorable(itemInfo) and
      vendorPrice * self:GetStackSize() * self:GetNumStacks()
@@ -772,7 +774,7 @@ function AuctionatorSaleItemMixin:ReselectItem(details)
   -- yet
   local count = details.itemInfo.count - details.stackSize * details.numStacksReached
   if count > 0 then
-    local itemInfo = Auctionator.Groups.Utilities.QueryItem(details.itemInfo.key.sortKey)
+    local itemInfo = Auctionator.Groups.Utilities.QueryItem(details.itemInfo.sortKey)
     if itemInfo then
       Auctionator.Debug.Message("found again, trying")
       self:UnlockItem()

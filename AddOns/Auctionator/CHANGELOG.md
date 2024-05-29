@@ -1,6 +1,6 @@
 # Auctionator
 
-## [10.2.36](https://github.com/Auctionator/Auctionator/tree/10.2.36) (2024-04-28)
-[Full Changelog](https://github.com/Auctionator/Auctionator/compare/10.2.35...10.2.36) 
+## [10.2.46](https://github.com/Auctionator/Auctionator/tree/10.2.46) (2024-05-28)
+[Full Changelog](https://github.com/Auctionator/Auctionator/compare/10.2.45...10.2.46) 
 
-- Patch so that Auctionator passes checks for Cataclysm on Curseforge  
+- Vanilla: Fix selling bag not populating  
