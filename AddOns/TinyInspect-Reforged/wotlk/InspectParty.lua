@@ -158,7 +158,7 @@ local function PrintItemLevel(members)
                 v.slevel or v.ilevel,
                 select(4, GetClassColor(v.class)),
                 v.name,
-                v.spec and "("..v.spec..")" or ""
+                ""
             ), 1, 0.82, 0)
         end
     end
@@ -188,7 +188,7 @@ local function SendItemLevel(members)
     SendChatMessage(string.rep("-", num), channel)
     for _, v in pairs(members) do
         if (v.done or v.slevel or v.ilevel > 0) then
-            SendChatMessage(format(pattern, label, v.slevel or v.ilevel, v.name, v.spec and "("..v.spec..")" or ""), channel)
+            SendChatMessage(format(pattern, label, v.slevel or v.ilevel, v.name, ""), channel)
         end
     end
     SendChatMessage(string.rep("-", num), channel)
