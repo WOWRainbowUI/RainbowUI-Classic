@@ -245,6 +245,7 @@ frame:SetScript("OnEvent", function(self, event, addonName)
                 { name = "命中", value = HIT_LCD },
                 { name = "急速", value = STAT_HASTE },
                 { name = "暴击", value = STAT_CRITICAL_STRIKE },
+                { name = "韧性", value = RESILIENCE },
                 { name = "防御", value = STAT_CATEGORY_DEFENSE },
                 { name = "招架", value = STAT_PARRY },
                 { name = "躲闪", value = STAT_DODGE },

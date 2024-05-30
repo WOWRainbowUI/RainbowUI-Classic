@@ -423,6 +423,265 @@ do
             AddCurrency(FB, 395, 58162, 1650)
             AddCurrency(FB, 395, 58163, 1650)
         end
+
+        -- 荣誉点数
+        do
+            AddCurrency(FB, 1901, 64712)
+            AddCurrency(FB, 1901, 64709)
+            AddCurrency(FB, 1901, 64731)
+            AddCurrency(FB, 1901, 64708)
+            AddCurrency(FB, 1901, 64772)
+            AddCurrency(FB, 1901, 64811)
+            AddCurrency(FB, 1901, 64773)
+            AddCurrency(FB, 1901, 64988)
+            AddCurrency(FB, 1901, 64769)
+            AddCurrency(FB, 1901, 64735)
+            AddCurrency(FB, 1901, 64737)
+            AddCurrency(FB, 1901, 64829)
+            AddCurrency(FB, 1901, 64788)
+            AddCurrency(FB, 1901, 64853)
+            AddCurrency(FB, 1901, 64776)
+            AddCurrency(FB, 1901, 64687)
+            AddCurrency(FB, 1901, 64839)
+            AddCurrency(FB, 1901, 64710)
+            AddCurrency(FB, 1901, 64799)
+            AddCurrency(FB, 1901, 64813)
+            AddCurrency(FB, 1901, 64770)
+            AddCurrency(FB, 1901, 64847)
+            AddCurrency(FB, 1901, 64771)
+            AddCurrency(FB, 1901, 64746)
+            AddCurrency(FB, 1901, 64798)
+            AddCurrency(FB, 1901, 64780)
+            AddCurrency(FB, 1901, 64843)
+            AddCurrency(FB, 1901, 64727)
+            AddCurrency(FB, 1901, 64728)
+            AddCurrency(FB, 1901, 64812)
+            AddCurrency(FB, 1901, 64845)
+            AddCurrency(FB, 1901, 64819)
+            AddCurrency(FB, 1901, 64762)
+            AddCurrency(FB, 1901, 64800)
+            AddCurrency(FB, 1901, 64854)
+            AddCurrency(FB, 1901, 64703)
+            AddCurrency(FB, 1901, 64765)
+            AddCurrency(FB, 1901, 64846)
+            AddCurrency(FB, 1901, 64748)
+            AddCurrency(FB, 1901, 64856)
+            AddCurrency(FB, 1901, 64711)
+            AddCurrency(FB, 1901, 64723)
+            AddCurrency(FB, 1901, 64730)
+            AddCurrency(FB, 1901, 64815)
+            AddCurrency(FB, 1901, 64768)
+            AddCurrency(FB, 1901, 64875)
+            AddCurrency(FB, 1901, 64982)
+            AddCurrency(FB, 1901, 64991)
+            AddCurrency(FB, 1901, 64685)
+            AddCurrency(FB, 1901, 64802)
+            AddCurrency(FB, 1901, 64827)
+            AddCurrency(FB, 1901, 64828)
+            AddCurrency(FB, 1901, 64831)
+            AddCurrency(FB, 1901, 64947)
+            AddCurrency(FB, 1901, 64689)
+            AddCurrency(FB, 1901, 64764)
+            AddCurrency(FB, 1901, 64844)
+            AddCurrency(FB, 1901, 64841)
+            AddCurrency(FB, 1901, 64851)
+            AddCurrency(FB, 1901, 64763)
+            AddCurrency(FB, 1901, 64796)
+            AddCurrency(FB, 1901, 64784)
+            AddCurrency(FB, 1901, 64720)
+            AddCurrency(FB, 1901, 64787)
+            AddCurrency(FB, 1901, 64690)
+            AddCurrency(FB, 1901, 64724)
+            AddCurrency(FB, 1901, 64785)
+            AddCurrency(FB, 1901, 64692)
+            AddCurrency(FB, 1901, 64833)
+            AddCurrency(FB, 1901, 64865)
+            AddCurrency(FB, 1901, 64992)
+            AddCurrency(FB, 1901, 64683)
+            AddCurrency(FB, 1901, 64747)
+            AddCurrency(FB, 1901, 64736)
+            AddCurrency(FB, 1901, 64786)
+            AddCurrency(FB, 1901, 64952)
+            AddCurrency(FB, 1901, 64704)
+            AddCurrency(FB, 1901, 64761)
+            AddCurrency(FB, 1901, 64821)
+            AddCurrency(FB, 1901, 64832)
+            AddCurrency(FB, 1901, 64866)
+            AddCurrency(FB, 1901, 65149)
+            AddCurrency(FB, 1901, 64713)
+            AddCurrency(FB, 1901, 64754)
+            AddCurrency(FB, 1901, 64795)
+            AddCurrency(FB, 1901, 64820)
+            AddCurrency(FB, 1901, 64929)
+            AddCurrency(FB, 1901, 64691)
+            AddCurrency(FB, 1901, 64729)
+            AddCurrency(FB, 1901, 64778)
+            AddCurrency(FB, 1901, 64855)
+            AddCurrency(FB, 1901, 64870)
+            AddCurrency(FB, 1901, 64753)
+            AddCurrency(FB, 1901, 64814)
+            AddCurrency(FB, 1901, 64830)
+            AddCurrency(FB, 1901, 64836)
+            AddCurrency(FB, 1901, 64688)
+            AddCurrency(FB, 1901, 64777)
+            AddCurrency(FB, 1901, 64739)
+            AddCurrency(FB, 1901, 64745)
+            AddCurrency(FB, 1901, 64964)
+            AddCurrency(FB, 1901, 64852)
+            AddCurrency(FB, 1901, 64932)
+            AddCurrency(FB, 1901, 64966)
+            AddCurrency(FB, 1901, 69790)
+            AddCurrency(FB, 1901, 64749)
+            AddCurrency(FB, 1901, 64684)
+            AddCurrency(FB, 1901, 64706)
+            AddCurrency(FB, 1901, 64797)
+            AddCurrency(FB, 1901, 64822)
+            AddCurrency(FB, 1901, 64834)
+            AddCurrency(FB, 1901, 64868)
+            AddCurrency(FB, 1901, 64877)
+            AddCurrency(FB, 1901, 64967)
+            AddCurrency(FB, 1901, 64984)
+            AddCurrency(FB, 1901, 65152)
+            AddCurrency(FB, 1901, 64837)
+            AddCurrency(FB, 1901, 64857)
+            AddCurrency(FB, 1901, 64869)
+            AddCurrency(FB, 1901, 64876)
+            AddCurrency(FB, 1901, 64968)
+            AddCurrency(FB, 1901, 64732)
+            AddCurrency(FB, 1901, 64781)
+            AddCurrency(FB, 1901, 64805)
+            AddCurrency(FB, 1901, 64838)
+            AddCurrency(FB, 1901, 64931)
+            AddCurrency(FB, 1901, 64937)
+            AddCurrency(FB, 1901, 64987)
+            AddCurrency(FB, 1901, 64803)
+            AddCurrency(FB, 1901, 64804)
+            AddCurrency(FB, 1901, 64958)
+            AddCurrency(FB, 1901, 64981)
+            AddCurrency(FB, 1901, 64990)
+            AddCurrency(FB, 1901, 64681)
+            AddCurrency(FB, 1901, 64696)
+            AddCurrency(FB, 1901, 64719)
+            AddCurrency(FB, 1901, 64756)
+            AddCurrency(FB, 1901, 64954)
+            AddCurrency(FB, 1901, 65147)
+            AddCurrency(FB, 1901, 64734)
+            AddCurrency(FB, 1901, 64767)
+            AddCurrency(FB, 1901, 64842)
+            AddCurrency(FB, 1901, 64872)
+            AddCurrency(FB, 1901, 64878)
+            AddCurrency(FB, 1901, 64945)
+            AddCurrency(FB, 1901, 64740)
+            AddCurrency(FB, 1901, 64750)
+            AddCurrency(FB, 1901, 64807)
+            AddCurrency(FB, 1901, 64935)
+            AddCurrency(FB, 1901, 64963)
+            AddCurrency(FB, 1901, 69788)
+            AddCurrency(FB, 1901, 69789)
+            AddCurrency(FB, 1901, 64699)
+            AddCurrency(FB, 1901, 64705)
+            AddCurrency(FB, 1901, 64714)
+            AddCurrency(FB, 1901, 64718)
+            AddCurrency(FB, 1901, 64721)
+            AddCurrency(FB, 1901, 64738)
+            AddCurrency(FB, 1901, 64742)
+            AddCurrency(FB, 1901, 64801)
+            AddCurrency(FB, 1901, 64806)
+            AddCurrency(FB, 1901, 64863)
+            AddCurrency(FB, 1901, 64938)
+            AddCurrency(FB, 1901, 64986)
+            AddCurrency(FB, 1901, 69787)
+            AddCurrency(FB, 1901, 64682)
+            AddCurrency(FB, 1901, 64697)
+            AddCurrency(FB, 1901, 64707)
+            AddCurrency(FB, 1901, 64867)
+            AddCurrency(FB, 1901, 64927)
+            AddCurrency(FB, 1901, 64980)
+            AddCurrency(FB, 1901, 64702)
+            AddCurrency(FB, 1901, 64715)
+            AddCurrency(FB, 1901, 64725)
+            AddCurrency(FB, 1901, 64733)
+            AddCurrency(FB, 1901, 64779)
+            AddCurrency(FB, 1901, 64782)
+            AddCurrency(FB, 1901, 64835)
+            AddCurrency(FB, 1901, 64873)
+            AddCurrency(FB, 1901, 64949)
+            AddCurrency(FB, 1901, 64956)
+            AddCurrency(FB, 1901, 64962)
+            AddCurrency(FB, 1901, 64975)
+            AddCurrency(FB, 1901, 65151)
+            AddCurrency(FB, 1901, 64686)
+            AddCurrency(FB, 1901, 64698)
+            AddCurrency(FB, 1901, 64757)
+            AddCurrency(FB, 1901, 64808)
+            AddCurrency(FB, 1901, 64809)
+            AddCurrency(FB, 1901, 64840)
+            AddCurrency(FB, 1901, 64862)
+            AddCurrency(FB, 1901, 64864)
+            AddCurrency(FB, 1901, 64940)
+            AddCurrency(FB, 1901, 64943)
+            AddCurrency(FB, 1901, 64957)
+            AddCurrency(FB, 1901, 64972)
+            AddCurrency(FB, 1901, 64985)
+            AddCurrency(FB, 1901, 65155)
+            AddCurrency(FB, 1901, 64716)
+            AddCurrency(FB, 1901, 64874)
+            AddCurrency(FB, 1901, 64926)
+            AddCurrency(FB, 1901, 64928)
+            AddCurrency(FB, 1901, 64934)
+            AddCurrency(FB, 1901, 64939)
+            AddCurrency(FB, 1901, 64948)
+            AddCurrency(FB, 1901, 64950)
+            AddCurrency(FB, 1901, 64951)
+            AddCurrency(FB, 1901, 64953)
+            AddCurrency(FB, 1901, 65156)
+            AddCurrency(FB, 1901, 69792)
+            AddCurrency(FB, 1901, 64766)
+            AddCurrency(FB, 1901, 64923)
+            AddCurrency(FB, 1901, 64942)
+            AddCurrency(FB, 1901, 64946)
+            AddCurrency(FB, 1901, 64960)
+            AddCurrency(FB, 1901, 64971)
+            AddCurrency(FB, 1901, 65148)
+            AddCurrency(FB, 1901, 65154)
+            AddCurrency(FB, 1901, 69791)
+            AddCurrency(FB, 1901, 64722)
+            AddCurrency(FB, 1901, 64924)
+            AddCurrency(FB, 1901, 64936)
+            AddCurrency(FB, 1901, 64955)
+            AddCurrency(FB, 1901, 64959)
+            AddCurrency(FB, 1901, 64961)
+            AddCurrency(FB, 1901, 64965)
+            AddCurrency(FB, 1901, 64970)
+            AddCurrency(FB, 1901, 64974)
+            AddCurrency(FB, 1901, 64976)
+            AddCurrency(FB, 1901, 64978)
+            AddCurrency(FB, 1901, 65150)
+            AddCurrency(FB, 1901, 65153)
+            AddCurrency(FB, 1901, 64741)
+            AddCurrency(FB, 1901, 64751)
+            AddCurrency(FB, 1901, 64925)
+            AddCurrency(FB, 1901, 64930)
+            AddCurrency(FB, 1901, 64933)
+            AddCurrency(FB, 1901, 64941)
+            AddCurrency(FB, 1901, 64944)
+            AddCurrency(FB, 1901, 64969)
+            AddCurrency(FB, 1901, 64973)
+            AddCurrency(FB, 1901, 64977)
+            AddCurrency(FB, 1901, 64979)
+            AddCurrency(FB, 1901, 64983)
+            AddCurrency(FB, 1901, 64989)
+
+            if BG.IsAlliance() then
+                AddCurrency(FB, 1901, 64793)
+                AddCurrency(FB, 1901, 64790)
+                AddCurrency(FB, 1901, 64791)
+            else
+                AddCurrency(FB, 1901, 64794)
+                AddCurrency(FB, 1901, 64789)
+                AddCurrency(FB, 1901, 64792)
+            end
+        end
     end
 end
 
@@ -466,7 +725,7 @@ do
             BG.Loot.BOT.Faction["1178:3"] = { 65176, }
             BG.Loot.BOT.Faction["1178:4"] = { 62454, 62455, 62460, 62458, 62457, 62459, 68740, 62456 }
             BG.Loot.BOT.Faction["1178:5"] = { 62466, 62465, 62464, 62463, 62467 }
-            -- 蛮锤部族
+            -- 龙喉氏族
             BG.Loot.BOT.Faction["1172:3"] = { 62405, 62407, 62406, 62404 }
             BG.Loot.BOT.Faction["1172:4"] = { 62415, 62408, 62409, 62410 }
             BG.Loot.BOT.Faction["1172:5"] = { 62416, 62417, 62418, 62420 }
@@ -476,13 +735,56 @@ end
 
 -- 专业制造
 do
-    BG.Loot.BOT.Profession = {
-        ["锻造"] = {},
-        ["制皮"] = {},
-        ["裁缝"] = {},
+    -- P1
+    local FB = "BOT"
+    BG.Loot[FB].Profession = {
+        ["锻造"] = { 55058, 55059, 55060, 55061, 55062, 55063, 55069, 55070, 55064, 55065, 55066, 55067, 55068, 67602, 67605, 55071, 55072, 55073, 55074, 55075, 55076, 55077, 55079, 55080, 55081, 55082, 55083, 55084, 55085, 55043, 55044, 55045, 55046, 55052, 55246, 54876, 55023 },
+        ["制皮"] = { 56562, 56537, 56561, 56539, 56564, 56536, 56538, 56563, 56548, 56549, 56546, 56534, 56526, 56559, 56535, 56547, 56558, 56527, 56542, 56530, 56522, 56554, 56523, 56543, 56555, 56531, 56533, 56532, 56524, 56556, 56525, 56557, 56545, 56544, 56521, 56529, 56520, 56541, 56528, 56553, 56552, 56540, 56518, 56519, 56513, 56504, 56484, 56498 },
+        ["裁缝"] = { 54503, 54504, 54505, 54506, 54487, 54488, 54489, 54490, 54491, 54492, 54493, 54494, 54495, 54496, 54497, 54498, 54499, 54500, 54501, 54502, 54485, 54479, 54475, 54478 },
+        ["工程"] = { 59359, 59448, 59449, 59453, 59455, 59456, 59458, 59364, 59367, 59598, 59599, 60403 },
+        ["珠宝加工"] = { 52318, 52319, 52320, 52321, 52322, 52323, 52348, 52350, 69852, 52311, 52493 },
+        ["铭文"] = { 75066, 75069, 75079, 62234, 62235, 62243, 62244, 62245, 62236, 62231, 62233, 62240, 62241, 62242 },
+        ["考古"] = { 64377, 64489, 64645, 64880, 64885, 64904, 69764 },
     }
 end
 
 -- 任务
 do
+end
+
+-- 世界掉落
+do
+    -- P1
+    local FB = "BOT"
+    BG.Loot[FB].World = { 67131, 67140, 67134, 67142, 67135, 67133, 67143, 67136, 67139, 67129, 67146, 67132, 69876, 67147, 67149, 67141, 67148, 67150, 69844, 67130, 67137, 67138, 67145, 67144, 69843, 69842, 69877, 67239, 67246, 67153, 67240, 67235, 55824, 55855, 67051, 55822, 55823, 66920, 66988, 55854, 55261, 66983, 55260, 66904, 66916, 55791, 55262, 55790, 67110, 66961, 55789, 67114, 66883, 67106, 67032, 67109, 67040, 66956, 66981, 67037, 66980, 66958, 66641, 66880, 66952, 67029, 66977, 66879, 67101, 67098, 67099, 66979, 66954 }
+end
+
+
+-- 马戏团
+do
+    local function AddDB(FB, get, itemID, count, coin, color, type)
+        if type then
+            GetItemInfo(count)
+        end
+
+        get = get or ""
+        count = count or ""
+        coin = coin or ""
+        type = type or ""
+
+        tinsert(BG.Loot[FB].Sod_Currency, {
+            [itemID] = get .. "-" .. count .. "-" .. coin .. "-" .. color .. "-" .. type
+        })
+    end
+
+    -- P1
+    local FB = "BOT"
+    local get = L["暗月马戏团"]
+    local coin = 132119
+    local color = "7B68EE"
+    AddDB(FB, get, 62047, 62021, nil, color, 1) -- 2个物品ID，第一个是卡牌饰品，第二个某某套牌
+    AddDB(FB, get, 62050, 62044, nil, color, 1)
+    AddDB(FB, get, 62049, 62045, nil, color, 1)
+    AddDB(FB, get, 62051, 62045, nil, color, 1)
+    AddDB(FB, get, 62048, 62046, nil, color, 1)
 end

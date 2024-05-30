@@ -4,7 +4,7 @@ local ver = select(4, GetBuildInfo())
 -- if ver > 20000 then
 --     ADDONSELF.ver = "v1.8.6"
 -- else
-ADDONSELF.ver = "v1.9.0b"
+ADDONSELF.ver = "v1.9.1"
 -- end
 
 if (GetLocale() == "zhTW") then return end
@@ -26,11 +26,15 @@ do --简体说明书
     text = text .. "|cffFFFFFF-交换格子：|rCTRL+ALT+点击格子1，再点格子2，可交换两行全部内容\n"
     text = text .. "|cffFFFFFF-更多功能介绍可在设置里查看|r\n\n"
     text = text .. "-BUG反馈：邮箱buick_hbj@163.com，Q群322785325\n\n"
-    -- text = text .. "-由于黑盒工坊有BUG不能正确识别本地插件版本，可能会导致不能更新插件。\n请考虑使用其他插件管理器，例如：curseforge" .. "\n\n"
 
     -- update = update .. "|cff00FF00" .. "" .. "|r\n"
     -- update = update .. [[]] .. "\n"
     -- update = update .. [[]] .. "\n\n"
+
+    update = update .. "|cff00FF00" .. "5月24日更新v1.9.1" .. "|r\n"
+    update = update .. [[-装备库：增加[获取途径过滤] ]] .. "\n"
+    update = update .. [[-<CTM>装备库：增加荣誉点数、专业制造、世界掉落、暗月马戏团装备]] .. "\n"
+    update = update .. [[-<CTM>装备过滤：增加词缀"韧性"]] .. "\n\n"
 
     update = update .. "|cff00FF00" .. "5月21日更新v1.9.0b" .. "|r\n"
     update = update .. [[-<60/plus>修复了装备自动记录失效的问题]] .. "\n\n"
@@ -83,6 +87,22 @@ ADDONSELF.L = L
 
 local L = {}
 do
+    L["获取途径过滤"] = true
+    L["团本"] = true
+    L["5人本"] = true
+    L["牌子/货币"] = true
+    L["声望"] = true
+    L["专业"] = true
+    L["世界掉落"] = true
+    L["PVP"] = true
+    L["世界BOSS"] = true
+    L["团本：25人"] = true
+    L["团本：10人"] = true
+    L["团本：英雄难度"] = true
+    L["团本：普通难度"] = true
+    L["获取途径显示"] = true
+
+
     L["选择一个目标角色"] = true
     L["删除角色"] = true
     L["确定删除%s的全部配置文件？"] = true
