@@ -1417,6 +1417,7 @@ L["Zul'Gurub"] = "祖爾格拉布"
 L["Zulian, Razzashi, and Hakkari Coins"] = "祖利安、拉札希和哈卡萊硬幣"
 L["Zygor addon not found."] = "你尚未安裝Zygor插件。"
 
+
 -- 自行加入
 L["Leatrix Plus"] = "功能百寶箱"
 L["If checked, party invitations from friends or guild members will be automatically accepted unless you are queued for a battleground."] = "勾選後，會自動接受來自好友或公會成員的組隊邀請，除非你正在排戰場。"
