@@ -870,6 +870,7 @@ local function SetHooks()
 
 	local bck_QUEST_TRACKER_MODULE_SetBlockHeader = QUEST_TRACKER_MODULE.SetBlockHeader
 	function QUEST_TRACKER_MODULE:SetBlockHeader(block, text, questLogIndex, isQuestComplete, questID)
+		if not text then return end -- 暫時修正
 		local _, level, suggestedGroup, _, _, _, frequency, _ = GetQuestLogTitle(questLogIndex)
 		block.level = level or 0
 		if db.questsShowLevels then
