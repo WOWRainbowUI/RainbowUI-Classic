@@ -193,3 +193,6 @@ AL["Vendor"] = "商人"
 AL["Wand"] = "魔杖"
 AL["Weapons"] = "武器"
 AL["Wintersaber Trainers"] = "冬刃豹訓練師"
+
+-- 自行加入
+AL["iLvlAvg"] = "平均物品等級"

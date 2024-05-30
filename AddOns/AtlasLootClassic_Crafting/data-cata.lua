@@ -39,7 +39,7 @@ local QUEST_EXTRA_ITTYPE = data:AddExtraItemTableType("Quest")
 local PRICE_EXTRA_ITTYPE = data:AddExtraItemTableType("Price")
 
 local PROF_CONTENT = data:AddContentType(ALIL["Professions"], ATLASLOOT_PRIMPROFESSION_COLOR)
-local PROF_GATH_CONTENT = data:AddContentType(AL["Gathering Professions"], ATLASLOOT_PRIMPROFESSION_COLOR)
+local PROF_GATH_CONTENT = data:AddContentType(ALIL["Gathering Professions"], ATLASLOOT_PRIMPROFESSION_COLOR)
 local PROF_SEC_CONTENT = data:AddContentType(AL["Secondary Professions"], ATLASLOOT_SECPROFESSION_COLOR)
 local PROF_CLASS_CONTENT = data:AddContentType(AL["Class Professions"], ATLASLOOT_CLASSPROFESSION_COLOR)
 
@@ -116,7 +116,7 @@ data["AlchemyCata"] = {
 			},
 		},
 		{
-			name = AL["Stones"],
+			name = ALIL["Trinket"],
 			[NORMAL_DIFF] = {
                 {1, 80508}, -- Lifebound Alchemist Stone
                 {2, 96253}, -- Quicksilver Alchemist Stone
@@ -1717,12 +1717,12 @@ data["HerbalismCata"] = {
 		{
 			name = AL["Illustrious Grand Master"],
 			[NORMAL_DIFF] = {
-				{ 1,  52983 }, -- Cinderbloom
-				{ 2,  52985 }, -- Azshara's Veil
-				{ 3,  52984 }, -- Stormvine
-				{ 4,  52987 }, -- Twilight Jasmine
-				{ 5,  52986 }, -- Heartblossom
-				{ 6,  52988 }, -- Whiptail
+				{ 1,  52987 }, -- Twilight Jasmine
+				{ 2,  52988 }, -- Whiptail
+				{ 3,  52986 }, -- Heartblossom
+				{ 4,  52984 }, -- Stormvine
+				{ 5,  52985 }, -- Azshara's Veil
+				{ 6,  52983 }, -- Cinderbloom
 				{ 16,  52989 }, -- Deathspore Pod
 			}
 		},
@@ -1838,7 +1838,7 @@ data["CookingCata"] = {
 			},
 		},
 		{
-			name = ALIL["Useful Stat"],
+			name = AL["Useful Stat"],
 			[NORMAL_DIFF] = {
 				{ 1, 88019 }, -- Fortune Cookie
 			},

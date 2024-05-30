@@ -5,6 +5,7 @@ if not AL then return end
 -- These localization strings are translated on Curseforge: https://www.curseforge.com/wow/addons/atlaslootclassic/localization
 -- Collections
 AL["%s Sets"] = "%s 套装"
+AL["%s Vendor"] = "%s 供应商"
 AL["'%s' Vendor"] = "'%s' 供应商"
 AL["P4'%s' Vendor"] = "'正义徽章' 供应商  P4"
 AL["P5'%s' Vendor"] = "'正义徽章' 供应商  P5"
@@ -109,3 +110,5 @@ AL["25RAID"] = "25 人"
 AL["25RAIDH"] = "25 人英雄"
 
 AL["Gems"] = "宝石"
+AL["Justice Points"] = "正义点数"
+AL["Valor Points"] = "勇气点数"

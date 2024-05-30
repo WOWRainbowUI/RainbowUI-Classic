@@ -1,6 +1,6 @@
 ## Interface: 11502
-## Author: Lag
-## Version: v4.0.0-alpha0
+## Author: Snowflame0
+## Version: v4.0.0-alpha10
 ## Dependencies: AtlasLootClassic
 ## LoadOnDemand: 1
 
@@ -15,8 +15,6 @@
 
 ## X-Category: Map
 ## X-License: GPL v2
-
-
 
 Locales\constants.cn.lua
 Locales\constants.tw.lua

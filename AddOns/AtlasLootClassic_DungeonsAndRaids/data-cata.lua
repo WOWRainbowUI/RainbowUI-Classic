@@ -19,6 +19,7 @@ local data = AtlasLoot.ItemDB:Add(addonname, 4, AtlasLoot.CATA_VERSION_NUM)
 local AL = AtlasLoot.Locales
 local ALIL = AtlasLoot.IngameLocales
 
+local LFR_DIFF = data:AddDifficulty("LFR", nil, nil, nil, true)
 local NORMAL_DIFF = data:AddDifficulty("NORMAL", nil, nil, nil, true)
 local HEROIC_DIFF = data:AddDifficulty("HEROIC", nil, nil, nil, true)
 
@@ -53,6 +54,178 @@ local PURPLE = "|cff9900ff%s|r"
 
 -- format
 local BONUS_LOOT_SPLIT = "%s - %s"
+
+-- tier sets
+local T11_SET = {
+	name = format(AL["Tier %s Sets"], "11"),
+	ExtraList = true,
+	TableType = SET_ITTYPE,
+	--ContentPhaseBC = 6,
+	IgnoreAsSource = true,
+	[NORMAL_DIFF] = {
+		{1,    4000941 }, -- Warlock
+        {3,    4000935 }, -- Priest Holy
+        {4,    4000936 }, -- Priest Shadow
+        {6,    4000937 }, -- Rogue
+        {8,    4000930 }, -- Hunter
+        {10,   4000943 }, -- Warrior Tank
+        {11,   4000942 }, -- Warrior DPS
+        {13,   4000926 }, -- Death Knight Tank
+        {14,   4000925 }, -- Death Knight DPS
+        {16,   4000931 }, -- Mage
+        {18,   4000928 }, -- Druid Resto
+        {19,   4000929 }, -- Druid Balance
+        {20,   4000927 }, -- Druid Feral
+        {22,   4000938 }, -- Shaman Resto
+        {23,   4000940 }, -- Shaman Elemental
+        {24,   4000939 }, -- Shaman Enhance
+        {26,   4000933 }, -- Paladin Holy
+        {27,   4000934 }, -- Paladin Prot
+        {28,   4000932 }, -- Paladin DPS
+	},
+	[HEROIC_DIFF] = {
+        {1,    4001941 }, -- Warlock
+        {3,    4001935 }, -- Priest Holy
+        {4,    4001936 }, -- Priest Shadow
+        {6,    4001937 }, -- Rogue
+        {8,    4001930 }, -- Hunter
+        {10,   4001943 }, -- Warrior Tank
+        {11,   4001942 }, -- Warrior DPS
+        {13,   4001926 }, -- Death Knight Tank
+        {14,   4001925 }, -- Death Knight DPS
+        {16,   4001931 }, -- Mage
+        {18,   4001928 }, -- Druid Resto
+        {19,   4001929 }, -- Druid Balance
+        {20,   4001927 }, -- Druid Feral
+        {22,   4001938 }, -- Shaman Resto
+        {23,   4001940 }, -- Shaman Elemental
+        {24,   4001939 }, -- Shaman Enhance
+        {26,   4001933 }, -- Paladin Holy
+        {27,   4001934 }, -- Paladin Prot
+        {28,   4001932 }, -- Paladin DPS
+	},
+}
+
+local T12_SET = {
+	name = format(AL["Tier %s Sets"], "12"),
+	ExtraList = true,
+	TableType = SET_ITTYPE,
+	--ContentPhaseBC = 6,
+	IgnoreAsSource = true,
+	[NORMAL_DIFF] = {
+        {1,    4000960 }, -- Warlock
+        {3,    4000954 }, -- Priest Holy
+        {4,    4000955 }, -- Priest Shadow
+        {6,    4000956 }, -- Rogue
+        {8,    4000949 }, -- Hunter
+        {10,   4000962 }, -- Warrior Tank
+        {11,   4000961 }, -- Warrior DPS
+        {13,   4000945 }, -- Death Knight Tank
+        {14,   4000944 }, -- Death Knight DPS
+        {16,   4000950 }, -- Mage
+        {18,   4000947 }, -- Druid Resto
+        {19,   4000948 }, -- Druid Balance
+        {20,   4000946 }, -- Druid Feral
+        {22,   4000957 }, -- Shaman Resto
+        {23,   4000959 }, -- Shaman Elemental
+        {24,   4000958 }, -- Shaman Enhance
+        {26,   4000952 }, -- Paladin Holy
+        {27,   4000953 }, -- Paladin Prot
+        {28,   4000951 }, -- Paladin DPS
+	},
+	[HEROIC_DIFF] = {
+        {1,    4001960 }, -- Warlock
+        {3,    4001954 }, -- Priest Holy
+        {4,    4001955 }, -- Priest Shadow
+        {6,    4001956 }, -- Rogue
+        {8,    4001949 }, -- Hunter
+        {10,   4001962 }, -- Warrior Tank
+        {11,   4001961 }, -- Warrior DPS
+        {13,   4001945 }, -- Death Knight Tank
+        {14,   4001944 }, -- Death Knight DPS
+        {16,   4001950 }, -- Mage
+        {18,   4001947 }, -- Druid Resto
+        {19,   4001948 }, -- Druid Balance
+        {20,   4001946 }, -- Druid Feral
+        {22,   4001957 }, -- Shaman Resto
+        {23,   4001959 }, -- Shaman Elemental
+        {24,   4001958 }, -- Shaman Enhance
+        {26,   4001952 }, -- Paladin Holy
+        {27,   4001953 }, -- Paladin Prot
+        {28,   4001951 }, -- Paladin DPS
+	},
+}
+
+local T13_SET = {
+	name = format(AL["Tier %s Sets"], "13"),
+	ExtraList = true,
+	TableType = SET_ITTYPE,
+	--ContentPhaseBC = 6,
+	IgnoreAsSource = true,
+	[LFR_DIFF] = {
+		{1, 0}, -- Death Knight Normal DPS Set
+		{2, 0}, -- Death Knight Normal Tank Set
+		{4, 0}, -- Druid Normal Melee Set
+		{5, 0}, -- Druid Normal Resto Set
+		{6, 0}, -- Druid Normal Balance Set
+		{8, 0}, -- Hunter Normal
+		{10, 0}, -- Mage Normal
+		{12, 0}, -- Paladin DPS
+		{13, 0}, -- Paladin Holy
+		{14, 0}, -- Paladin Prot
+		{16, 0}, -- Priest
+		{17, 0}, -- Priest
+		{19, 0}, -- Rogue
+		{21, 0}, -- Shaman
+		{22, 0}, -- Shaman
+		{23, 0}, -- Shaman
+		{25, 0}, -- Warlock
+		{27, 0}, -- Warrior
+		{28, 0}, -- Warrior
+	},
+	[NORMAL_DIFF] = {
+		{1, 0}, -- Death Knight Normal DPS Set
+		{2, 0}, -- Death Knight Normal Tank Set
+		{4, 0}, -- Druid Normal Melee Set
+		{5, 0}, -- Druid Normal Resto Set
+		{6, 0}, -- Druid Normal Balance Set
+		{8, 0}, -- Hunter Normal
+		{10, 0}, -- Mage Normal
+		{12, 0}, -- Paladin DPS
+		{13, 0}, -- Paladin Holy
+		{14, 0}, -- Paladin Prot
+		{16, 0}, -- Priest
+		{17, 0}, -- Priest
+		{19, 0}, -- Rogue
+		{21, 0}, -- Shaman
+		{22, 0}, -- Shaman
+		{23, 0}, -- Shaman
+		{25, 0}, -- Warlock
+		{27, 0}, -- Warrior
+		{28, 0}, -- Warrior
+	},
+	[HEROIC_DIFF] = {
+		{1, 0}, -- Death Knight Heroic DPS Set
+		{2, 0}, -- Death Knight Heroic Tank Set
+		{4, 0}, -- Druid Normal Melee Set
+		{5, 0}, -- Druid Normal Resto Set
+		{6, 0}, -- Druid Normal Balance Set
+		{8, 0}, -- Hunter Heroic
+		{10, 0}, -- Mage Heroic
+		{12, 0}, -- Paladin DPS
+		{13, 0}, -- Paladin Holy
+		{14, 0}, -- Paladin Prot
+		{16, 0}, -- Priest
+		{17, 0}, -- Priest
+		{19, 0}, -- Rogue
+		{21, 0}, -- Shaman
+		{22, 0}, -- Shaman
+		{23, 0}, -- Shaman
+		{25, 0}, -- Warlock
+		{27, 0}, -- Warrior
+		{28, 0}, -- Warrior
+	},
+}
 
 --Achievements
 local CATA_DUNGEON_HERO_AC_TABLE = {	--[Cataclysm Dungeon Hero]
@@ -363,12 +536,14 @@ data["ThroneOfTheTides"] = {
 				{ 2, 55235 },	-- Decapod Slippers
 				{ 3, 55229 },	-- Anomuran Helm
 				{ 4, 55237 },	-- Porcelain Crab
+				{ 5, 55248 },   -- Conch of Thundering Waves
 			},
 			[HEROIC_DIFF] = {
 				{ 1, 56276 },	-- Anthia's Ring
 				{ 2, 56277 },	-- Decapod Slippers
 				{ 3, 56278 },	-- Anomuran Helm
 				{ 4, 56280 },	-- Porcelain Crab
+				{ 5, 56279 },   -- Conch of Thundering Waves
 			},
 		},
 		{ -- Ozumat
@@ -451,6 +626,7 @@ data["TheStonecore"] = {
 				{ 2, 55797 },	-- Hematite Plate Gloves
 				{ 3, 55799 },	-- Rose Quartz Band
 				{ 4, 55801 },	-- Quicksilver Blade
+				{ 5, 55800 },   -- Stalagmite Dragon
 				{ 16, 63043, "mount" },	-- Reins of the Vitreous Stone Drake
 			},
 			[HEROIC_DIFF] = {
@@ -458,6 +634,7 @@ data["TheStonecore"] = {
 				{ 2, 56336 },	-- Hematite Plate Gloves
 				{ 3, 56333 },	-- Rose Quartz Band
 				{ 4, 56335 },	-- Quicksilver Blade
+				{ 5, 56337 },   -- Stalagmite Dragon
 				{ 16, 63043, "mount" },	-- Reins of the Vitreous Stone Drake
 			},
 		},
@@ -492,6 +669,7 @@ data["TheStonecore"] = {
 				{ 7, 55820 },	-- Prophet's Scepter
 				{ 8, 55813 },	-- Elementium Fang
 				{ 9, 55815 },	-- Darkling Staff
+				{ 10, 55821},   -- Book of Dark Prophecies
 				{ 16, "ac4846" },
 			},
 			[HEROIC_DIFF] = {
@@ -504,7 +682,8 @@ data["TheStonecore"] = {
 				{ 7, 56349 },	-- Prophet's Scepter
 				{ 8, 56346 },	-- Elementium Fang
 				{ 9, 56343 },	-- Darkling Staff
-				{ 11, 52078, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Chaos Orb
+				{ 10, 56350},   -- Book of Dark Prophecies
+				{ 12, 52078, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Chaos Orb
 				{ 16, "ac5063" },
 				{ 17, "ac5287" },
 			},
@@ -817,12 +996,14 @@ data["HallsOfOrigination"] = {
 				{ 2, 55997 },	-- Bloodpetal Mantle
 				{ 3, 55999 },	-- Seedling Pod
 				{ 4, 56000 },	-- Band of Life Energy
+				{ 5, 56001 },   -- Slashing Thorns
 			},
 			[HEROIC_DIFF] = {
 				{ 1, 56417 },	-- Robes of Rampant Growth
 				{ 2, 56419 },	-- Bloodpetal Mantle
 				{ 3, 56421 },	-- Seedling Pod
 				{ 4, 56418 },	-- Band of Life Energy
+				{ 5, 56420 },   -- Slashing Thorns
 			},
 		},
 		{ -- Setesh, Construct of Destruction
@@ -1076,7 +1257,9 @@ data["Deadmines"] = {
 				{ 6, 63486 },	-- Shackles of the Betrayed
 				{ 7, 63478 },	-- Stonemason's Helm
 				{ 8, 63483 },	-- Guildmaster's Greaves
-				{ 10, 52078, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Chaos Orb
+				{ 9, 63480 },   -- Record of the Brotherhood's End
+				{ 10, 63487 },  -- Book of the Well Sung Song
+				{ 12, 52078, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Chaos Orb
 				{ 16, "ac5083" },
 				{ 17, "ac5371" },
 			},
@@ -1134,6 +1317,17 @@ data["ShadowfangKeep"] = {
 			name = AL["Lord Walden"],
 			EncounterJournalID = 99,
 			[HEROIC_DIFF] = {
+				{ 1, 63455 },	-- Blinders of the Follower
+				{ 2, 63454 },	-- Double Dealing Bracers
+				{ 3, 63452 },	-- Burden of Lost Humanity
+				{ 4, 63450 },	-- Phantom Armor
+				{ 5, 63453 },	-- Iron Will Girdle
+			},
+		},
+		{ -- Lord Godfrey
+			name = AL["Lord Godfrey"],
+			EncounterJournalID = 100,
+			[HEROIC_DIFF] = {
 				{ 1, 63465 },	-- Mantle of Loss
 				{ 2, 63463 },	-- Mantle of the Eastern Lords
 				{ 3, 63459 },	-- Worgen Hunter's Helm
@@ -1143,25 +1337,10 @@ data["ShadowfangKeep"] = {
 				{ 7, 63464 },	-- Greaves of the Misguided
 				{ 8, 63456 },	-- Meteor Shard
 				{ 9, 63461 },	-- Staff of Isolation
-				{ 11, 52078, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Chaos Orb
+				{ 10, 63460} ,  -- Relic of Arathor
+				{ 12, 52078, [ATLASLOOT_IT_FILTERIGNORE] = true },	-- Chaos Orb
 				{ 16, "ac5093" },
 				{ 17, "ac5505" },
-			},
-		},
-		{ -- Lord Godfrey
-			name = AL["Lord Godfrey"],
-			EncounterJournalID = 100,
-			[HEROIC_DIFF] = {
-				{1, 63456},
-				{2, 63457},
-				{3, 63458},
-				{4, 63459},
-				{5, 63460},
-				{6, 63461},
-				{7, 63462},
-				{8, 63463},
-				{9, 63464},
-				{10, 63465},
 			},
 		},
 		CATA_DUNGEON_HERO_AC_TABLE,
@@ -1613,7 +1792,7 @@ data["TheBastionOfTwilight"] = {
 				{ 18, 60210 },	-- Crossfire Carbine
 			},
 		},
-		-- T11_SET,
+		T11_SET,
 		CATA_DEFENDER_AC_TABLE,
 		CATA_RAID1_AC_TABLE,
 	}
@@ -1873,7 +2052,7 @@ data["BlackwingDescent"] = {
 				{ 21, 59460 },	-- Theresa's Booklight
 			},
 		},
-		-- T11_SET,
+		T11_SET,
 		CATA_DEFENDER_AC_TABLE,
 		CATA_RAID1_AC_TABLE,
 	}
@@ -1988,7 +2167,7 @@ data["ThroneOfTheFourWinds"] = {
 				{ 117, "ac5305" },
 			},
 		},
-		-- T11_SET,
+		T11_SET,
 		CATA_DEFENDER_AC_TABLE,
 		CATA_RAID1_AC_TABLE,
 	}
@@ -2377,7 +2556,7 @@ data["Firelands"] = {
 				{ 19, 71617 },	-- Crystallized Firestone
 			},
 		},
-		--T12_SET,
+		T12_SET,
 		CATA_RAID2_AC_TABLE,
 	}
 }

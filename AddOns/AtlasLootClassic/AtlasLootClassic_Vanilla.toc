@@ -1,6 +1,6 @@
 ## Interface: 11502
-## Author: Lag
-## Version: v4.0.0-alpha0
+## Author: Snowflame0
+## Version: v4.0.0-alpha10
 ## SavedVariables: AtlasLootClassicDB
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibDBIcon-1.0, LibDataBroker-1.1
 ## LoadOnDemand: 0
@@ -21,7 +21,7 @@
 ## X-WoWI-ID: 25185
 ## X-Wago-ID: RXKqzoGy
 
-Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+embeds.xml
 
 Init.lua
 Constants.lua
@@ -46,20 +46,20 @@ Core\TargetScan.lua
 
 MiniMapButton.lua
 
-Data\Token.lua
-Data\Profession.lua
-Data\Recipe.lua
-Data\Companion.lua
-Data\ContentPhase.lua
-Data\Droprate.lua
-Data\AutoSelect.lua
-Data\Requirements.lua
-Data\ClassFilter.lua
-Data\ItemSet.lua
-Data\VendorPrice.lua
+Data-sod\Token.lua
+Data-sod\Profession.lua
+Data-sod\Recipe.lua
+Data-sod\Companion.lua
+Data-sod\ContentPhase.lua
+Data-sod\Droprate.lua
+Data-sod\AutoSelect.lua
+Data-sod\Requirements.lua
+Data-sod\ClassFilter.lua
+Data-sod\ItemSet.lua
+Data-sod\VendorPrice.lua
 
-ItemDB\ItemDB.lua
-ItemDB\SoundData.lua
+ItemDB\ItemDB-sod.lua
+ItemDB\SoundData-sod.lua
 
 Button\Button.lua
 Button\Item_type.lua

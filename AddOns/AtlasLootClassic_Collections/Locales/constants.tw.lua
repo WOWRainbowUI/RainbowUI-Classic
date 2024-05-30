@@ -6,6 +6,7 @@ if not AL then return end
 -- Collections
 AL["%s Sets"] = "%s 套裝"
 AL["'%s' Vendor"] = "'%s' 商人"
+AL["%s Vendor"] = "%s 商人"
 AL["P4'%s' Vendor"] = "'正義徽章' 商人  P4"
 AL["P5'%s' Vendor"] = "'正義徽章' 商人  P5"
 AL["'%s %s' Vendor"] = "'%s %s' 商人"
@@ -89,6 +90,7 @@ AL["Revanchion"] = "雷瓦克安"
 AL["Scarlet Monastery - Graveyard"] = "血色修道院 - 墓地"
 AL["Scorn"] = "瑟克恩"
 AL["Scourge Invasion"] = "天譴軍入侵"
+AL["Sidereal Essence"] = "恆星精華"
 AL["Silithus Abyssal"] = "深淵議會"
 AL["Smokywood Pastures"] = "燻木農場"
 AL["Smokywood Pastures Special Gift"] = "燻木農場特殊禮物"
@@ -124,4 +126,5 @@ AL["25RAID"] = "25 人"
 AL["25RAIDH"] = "25 人英雄"
 
 AL["Gems"] = "寶石"
-							
+AL["Justice Points"] = "正義點數"
+AL["Valor Points"] = "勇氣點數"

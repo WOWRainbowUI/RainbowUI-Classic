@@ -2,7 +2,7 @@
 
 if not AL then return end
 
--- These localization strings are translated on Curseforge: https://www.curseforge.com/wow/addons/atlaslootclassic/localization
+-- These localization strings are translated on Curseforge: https://www.curseforge.com/wow/addons/atlaslootclassic-cata/localization
 AL["--- or ---"] = "--- 或 ---"
 AL["%s will finish loading after combat."] = "%s 将会在战斗结束后载入。"
 AL["(%d) Set:"] = "(%d) 套装："

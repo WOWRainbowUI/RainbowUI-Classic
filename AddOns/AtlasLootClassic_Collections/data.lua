@@ -35,6 +35,12 @@ local VENDOR_DIFF = data:AddDifficulty(AL["Vendor"], "vendor", 0)
 local T10_1_DIFF = data:AddDifficulty(AL["10H / 25 / 25H"], "T10_1", 0)
 local T10_2_DIFF = data:AddDifficulty(AL["25 Raid Heroic"], "T10_2", 0)
 
+local T11_1_DIFF = data:AddDifficulty(AL["Normal"], "T11_1", 0)
+local T11_2_DIFF = data:AddDifficulty(AL["Heroic"], "T11_2", 0)
+
+local T12_1_DIFF = data:AddDifficulty(AL["Normal"], "T12_1", 0)
+local T12_2_DIFF = data:AddDifficulty(AL["Heroic"], "T12_2", 0)
+
 local ALLIANCE_DIFF, HORDE_DIFF, LOAD_DIFF
 if UnitFactionGroup("player") == "Horde" then
 	HORDE_DIFF = data:AddDifficulty(FACTION_HORDE, "horde", nil, 1)
@@ -53,7 +59,6 @@ local QUEST_EXTRA_ITTYPE = data:AddExtraItemTableType("Quest")
 local PRICE_EXTRA_ITTYPE = data:AddExtraItemTableType("Price")
 local SET_EXTRA_ITTYPE = data:AddExtraItemTableType("Set")
 
-local SOD_CONTENT = data:AddContentType(AL["SoD Exclusives"], ATLASLOOT_RAID20_COLOR)
 local VENDOR_CONTENT = data:AddContentType(AL["Vendor"], ATLASLOOT_DUNGEON_COLOR)
 local SET_CONTENT = data:AddContentType(AL["Sets"], ATLASLOOT_PVP_COLOR)
 --local WORLD_BOSS_CONTENT = data:AddContentType(AL["World Bosses"], ATLASLOOT_WORLD_BOSS_COLOR)
@@ -495,6 +500,98 @@ data["TierSets"] = {
 				{ 26,   3251899 }, -- Paladin / Heal
 				{ 27,   3251901 }, -- Paladin / Prot
 				{ 28,   3251900 }, -- Paladin / DD
+			},
+		}),
+		AtlasLoot:GameVersion_GE(AtlasLoot.CATA_VERSION_NUM, {
+			name = format(AL["Tier %s Sets"], "11"),
+			CoinTexture = "CATA",
+			[T11_1_DIFF] = {
+				{1,    4000941 }, -- Warlock
+				{3,    4000935 }, -- Priest Holy
+				{4,    4000936 }, -- Priest Shadow
+				{6,    4000937 }, -- Rogue
+				{8,    4000930 }, -- Hunter
+				{10,   4000943 }, -- Warrior Tank
+				{11,   4000942 }, -- Warrior DPS
+				{13,   4000926 }, -- Death Knight Tank
+				{14,   4000925 }, -- Death Knight DPS
+				{16,   4000931 }, -- Mage
+				{18,   4000928 }, -- Druid Resto
+				{19,   4000929 }, -- Druid Balance
+				{20,   4000927 }, -- Druid Feral
+				{22,   4000938 }, -- Shaman Resto
+				{23,   4000940 }, -- Shaman Elemental
+				{24,   4000939 }, -- Shaman Enhance
+				{26,   4000933 }, -- Paladin Holy
+				{27,   4000934 }, -- Paladin Prot
+				{28,   4000932 }, -- Paladin DPS
+			},
+			[T11_2_DIFF] = {
+				{1,    4001941 }, -- Warlock
+				{3,    4001935 }, -- Priest Holy
+				{4,    4001936 }, -- Priest Shadow
+				{6,    4001937 }, -- Rogue
+				{8,    4001930 }, -- Hunter
+				{10,   4001943 }, -- Warrior Tank
+				{11,   4001942 }, -- Warrior DPS
+				{13,   4001926 }, -- Death Knight Tank
+				{14,   4001925 }, -- Death Knight DPS
+				{16,   4001931 }, -- Mage
+				{18,   4001928 }, -- Druid Resto
+				{19,   4001929 }, -- Druid Balance
+				{20,   4001927 }, -- Druid Feral
+				{22,   4001938 }, -- Shaman Resto
+				{23,   4001940 }, -- Shaman Elemental
+				{24,   4001939 }, -- Shaman Enhance
+				{26,   4001933 }, -- Paladin Holy
+				{27,   4001934 }, -- Paladin Prot
+				{28,   4001932 }, -- Paladin DPS
+			},
+		}),
+		AtlasLoot:GameVersion_GE(AtlasLoot.CATA_VERSION_NUM, {
+			name = format(AL["Tier %s Sets"], "12"),
+			CoinTexture = "CATA",
+			[T12_1_DIFF] = {
+				{1,    4000960 }, -- Warlock
+				{3,    4000954 }, -- Priest Holy
+				{4,    4000955 }, -- Priest Shadow
+				{6,    4000956 }, -- Rogue
+				{8,    4000949 }, -- Hunter
+				{10,   4000962 }, -- Warrior Tank
+				{11,   4000961 }, -- Warrior DPS
+				{13,   4000945 }, -- Death Knight Tank
+				{14,   4000944 }, -- Death Knight DPS
+				{16,   4000950 }, -- Mage
+				{18,   4000947 }, -- Druid Resto
+				{19,   4000948 }, -- Druid Balance
+				{20,   4000946 }, -- Druid Feral
+				{22,   4000957 }, -- Shaman Resto
+				{23,   4000959 }, -- Shaman Elemental
+				{24,   4000958 }, -- Shaman Enhance
+				{26,   4000952 }, -- Paladin Holy
+				{27,   4000953 }, -- Paladin Prot
+				{28,   4000951 }, -- Paladin DPS
+			},
+			[T12_2_DIFF] = {
+				{1,    4001960 }, -- Warlock
+				{3,    4001954 }, -- Priest Holy
+				{4,    4001955 }, -- Priest Shadow
+				{6,    4001956 }, -- Rogue
+				{8,    4001949 }, -- Hunter
+				{10,   4001962 }, -- Warrior Tank
+				{11,   4001961 }, -- Warrior DPS
+				{13,   4001945 }, -- Death Knight Tank
+				{14,   4001944 }, -- Death Knight DPS
+				{16,   4001950 }, -- Mage
+				{18,   4001947 }, -- Druid Resto
+				{19,   4001948 }, -- Druid Balance
+				{20,   4001946 }, -- Druid Feral
+				{22,   4001957 }, -- Shaman Resto
+				{23,   4001959 }, -- Shaman Elemental
+				{24,   4001958 }, -- Shaman Enhance
+				{26,   4001952 }, -- Paladin Holy
+				{27,   4001953 }, -- Paladin Prot
+				{28,   4001951 }, -- Paladin DPS
 			},
 		}),
 	},
@@ -1215,6 +1312,15 @@ data["Darkmoon"] = {
 				{ 4, 44326 },	-- Nobles Deck
 			},
 		}),
+		AtlasLoot:GameVersion_GE(AtlasLoot.CATA_VERSION_NUM, {
+			name = AL["Cataclysm"],
+			[NORMAL_DIFF] = {
+				{ 1, 62021 },	-- Volcanic Deck
+				{ 2, 62044 },	-- Tsunami Deck
+				{ 3, 62045 },	-- Hurricane Deck
+				{ 4, 62046 },	-- Earthquake Deck
+			},
+		}),
 	},
 }
 
@@ -1814,266 +1920,6 @@ data["ScourgeInvasion"] = {
 				{ 1, 23178 }, -- Mantle of Lady Falther'ess
 				{ 2, 23177 }, -- Lady Falther'ess' Finger
 			}
-		},
-	},
-}
-data["Sod Exclusives"] = {
-	name = AL["Waylaid Supplies"],
-	ContentType = SOD_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
-	TableType = NORMAL_ITTYPE,
-	gameVersion = AtlasLoot.CLASSIC_VERSION_NUM,
-	items = {
-		{
-			name = AL["Level 25: Phase 1"],
-			[NORMAL_DIFF] = {
-				{ 1, 211322 }, -- Waylaid Supplies: Minor Wizard Oil
-				{ 2, 211321 }, -- Waylaid Supplies: Lesser Magic Wands
-				{ 3, 211318 }, -- Waylaid Supplies: Minor Healing Potions
-				{ 4, 211320 }, -- Waylaid Supplies: Runed Copper Pants
-				{ 5, 211323 }, -- Waylaid Supplies: Rough Copper Bombs
-				{ 6, 211329 }, -- Waylaid Supplies: Herb Baked Eggs
-				{ 7, 211326 }, -- Waylaid Supplies: Embossed Leather Vests
-				{ 8, 211332 }, -- Waylaid Supplies: Heavy Linen Bandages
-				{ 9, 211319 }, -- Waylaid Supplies: Copper Shortswords
-				{ 10, 211330 }, -- Waylaid Supplies: Spiced Wolf Meat
-				{ 11, 211324 }, -- Waylaid Supplies: Rough Boomsticks
-				{ 12, 211327 }, -- Waylaid Supplies: Brown Linen Pants
-				{ 13, 211317 }, -- Waylaid Supplies: Silverleaf
-				{ 14, 211325 }, -- Waylaid Supplies: Handstitched Leather Belts
-				{ 15, 211328 }, -- Waylaid Supplies: Brown Linen Robes
-				{ 16, 211934 }, -- Waylaid Supplies: Healing Potions
-				{ 17, 211315 }, -- Waylaid Supplies: Light Leather
-				{ 18, 211331 }, -- Waylaid Supplies: Brilliant Smallfish
-				{ 19, 210771 }, -- Waylaid Supplies: Copper Bars
-				{ 20, 211933 }, -- Waylaid Supplies: Rough Stone
-				{ 21, 211316 }, -- Waylaid Supplies: Peacebloom
-				{ 22, 211828 }, -- Waylaid Supplies: Minor Mana Oil
-				{ 23, 211824 }, -- Waylaid Supplies: Lesser Mana Potions
-				{ 24, 211835 }, -- Waylaid Supplies: Smoked Sagefish
-				{ 25, 211829 }, -- Waylaid Supplies: Small Bronze Bombs
-				{ 26, 211822 }, -- Waylaid Supplies: Bruiseweed
-				{ 27, 211838 }, -- Waylaid Supplies: Heavy Wool Bandages
-				{ 28, 211825 }, -- Waylaid Supplies: Rough Bronze Boots
-				{ 29, 211836 }, -- Waylaid Supplies: Smoked Bear Meat
-				{ 30, "INV_Box_01", nil, AL["Continued on next page ->"], nil },
-				{ 101, 211831 }, -- Waylaid Supplies: Dark Leather Cloaks
-				{ 102, 211837 }, -- Waylaid Supplies: Goblin Deviled Clams
-				{ 103, 211820 }, -- Waylaid Supplies: Silver Bars
-				{ 104, 211821 }, -- Waylaid Supplies: Medium Leather
-				{ 105, 211833 }, -- Waylaid Supplies: Gray Woolen Shirts
-				{ 106, 211827 }, -- Waylaid Supplies: Runed Silver Rods
-				{ 107, 211819 }, -- Waylaid Supplies: Bronze Bars
-				{ 108, 211830 }, -- Waylaid Supplies: Ornate Spyglasses
-				{ 109, 211826 }, -- Waylaid Supplies: Silver Skeleton Keys
-				{ 110, 211935 }, -- Waylaid Supplies: Elixir of Firepower
-				{ 111, 211834 }, -- Waylaid Supplies: Pearl-clasped Cloaks
-				{ 112, 211823 }, -- Waylaid Supplies: Swiftthistle
-				{ 113, 211832 }, -- Waylaid Supplies: Hillman's Shoulders
-			},
-		},
-		{
-			name = AL["Level 40: Phase 2"],
-			[NORMAL_DIFF] = {
-				{ 1, 215403 }, -- Waylaid Supplies: Deadly Scopes
-				{ 2, 215400 },
-				{ 3, 215402 },
-				{ 4, 215389 },
-				{ 5, 215391 },
-				{ 6, 215411 }, -- Waylaid Supplies: Frost Leather Cloaks
-				{ 7, 215398 },
-				{ 8, 215387 },
-				{ 9, 215420 },
-				{ 10, 215421 },
-				{ 11, 215413 },
-				{ 12, 215408 }, -- Waylaid Supplies: Frost Leather Cloaks
-				{ 13, 215392 },
-				{ 14, 215386 },
-				{ 15, 215390 },
-				{ 16, 215399 },
-				{ 17, 215395 }, -- Waylaid Supplies: Elixirs of Agility
-				{ 18, 215388 },
-				{ 19, 215393 },
-				{ 20, 215401 }, -- Waylaid Supplies: Compact Harvest Reaper Kits
-				{ 21, 215419 },
-				{ 22, 215414 },
-				{ 23, 215385 },
-				{ 24, 215417 },
-				{ 25, 215415 },
-				{ 26, 215407 },
-				{ 27, 215418 }, -- Waylaid Supplies: Spider Sausages
-				{ 28, 215404 },
-				{ 29, 215396 },
-				{ 30, "INV_Box_01", nil, AL["Continued on next page ->"], nil },
-				{ 101, 215397 },
-				{ 102, 215409 },
-				{ 103, 215416 }, -- Waylaid Supplies: White Bandit Masks
-			},
-		},
-				{
-			name = AL["Level 50: Phase 3"],
-			[NORMAL_DIFF] = {
-				{ 1, 220927 }, -- Waylaid Supplies: Thick Hide
-				{ 2, 220926 }, --Waylaid Supplies: Rugged Leather
-				{ 3, 220925 }, --Waylaid Supplies: Thorium Bars
-				{ 4, 220924 }, --Waylaid Supplies: Truesilver Bars
-				{ 5, 220923 }, --Waylaid Supplies: Dreamfoil
-				{ 6, 220922 }, --Waylaid Supplies: Sungrass
-				{ 7, 220921 }, --Waylaid Supplies: Heavy Mageweave Bandages
-				{ 8, 220920 }, --Waylaid Supplies: Tender Wolf Steaks
-				{ 9, 220919 }, --Waylaid Supplies: Nightfin Soup
-				{ 10, 220918 }, --Waylaid Supplies: Undermine Clam Chowder
-				{ 11, 220942 }, --Waylaid Supplies: Tuxedo Shirts
-				{ 12, 220941 }, --Waylaid Supplies: Runecloth Belts
-				{ 13, 220940 }, --Waylaid Supplies: Black Mageweave Headbands
-				{ 14, 220939 }, --Waylaid Supplies: Runic Leather Bracers
-				{ 15, 220938 }, --Waylaid Supplies: Wicked Leather Bracers
-				{ 16, 220937 }, --Waylaid Supplies: Rugged Armor Kits
-				{ 17, 220936 }, --Waylaid Supplies: Truesilver Gauntlets
-				{ 18, 220935 }, --Waylaid Supplies: Thorium Belts
-				{ 19, 220934 }, --Waylaid Supplies: Mithril Coifs
-				{ 20, 220933 }, --Waylaid Supplies: Thorium Rifles
-				{ 21, 220932 }, --Waylaid Supplies: Thorium Grenades
-				{ 22, 220931 }, --Waylaid Supplies: Hi-Explosive Bombs
-				{ 23, 220930 }, --Waylaid Supplies: Major Healing Potions
-				{ 24, 220929 }, -- Waylaid Supplies: Superior Mana Potions
-				{ 25, 220928 }, -- Waylaid Supplies: Enchanted Thorium Bars
-			},
-		},
-	},
-}
-
-data["SoD Set Items"] = {
-	name = AL["Set Items"],
-	ContentType = SOD_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
-	TableType = SET_ITTYPE,
-	gameVersion = AtlasLoot.CLASSIC_VERSION_NUM,
-	items = {
-		{
-			name = AL["Level 25 Raid"],
-			[NORMAL_DIFF] = {
-				{ 1, 1570 }, -- Twilight Invoker's Vestments
-				{ 3, 1578 }, -- 
-				{ 4, 1579 }, -- 
-				{ 6, 1577 }, -- 
-			},
-		},
-		{
-			name = AL["Level 40 Raid"],
-			[NORMAL_DIFF] = {
-				{ 1, 1584 },
-				{ 2, 1587 },
-				{ 3, 1588 },
-				{ 5, 1585 },
-				{ 6, 1586 },
-				{ 8, 1590 },
-				{ 9, 1591 },
-				{ 11, 1589 },
-				{ 12, 1592 },
-			},
-		},
-		{
-			name = AL["Level 50 Raid"],
-			[NORMAL_DIFF] = {
-				{ 1, 1637 }, 
-				{ 2, 1638 }, 
-				{ 3, 1639 }, 
-				{ 5, 1640 }, 
-				{ 6, 1641 }, 
-				{ 7, 1642 }, 
-				{ 8, 1643 }, 
-				{ 10, 1644 }, 
-				{ 11, 1645 }, 
-				{ 12, 1646 }, 
-				{ 13, 1647 }, 
-				{ 16, 1648 }, 
-				{ 17, 1649 },
-				{ 18, 1650 },
-			},
-		},
-		{
-			name = AL["Level 50 Emerald Sets"],
-			[NORMAL_DIFF] = {
-				{ 1, 1652 },
-				{ 2, 1653 },
-				{ 4, 1654 },
-				{ 5, 1655 },
-				{ 6, 1656 },
-				{ 8, 1657 },
-				{ 9, 1658 },
-				{ 10, 1659 },
-				{ 12, 1660 },
-				{ 13, 1661 },
-			},
-		},
-		{
-			name = AL["Level 50 PvP Sets"],
-			[NORMAL_DIFF] = {
-				{ 1, "INV_Box_01", nil, AL["Horde"], nil },
-				{ 2, 1618 }, --Blood Guard's Plate
-				{ 4, 1624 },
-				{ 5, 1623 },
-				{ 6, 1622 },
-				{ 7, 1625 },
-				{ 9, 1627 },
-				{ 10, 1631 },
-				{ 11, 1629 },
-				{ 13, 1633 },
-				{ 14, 1635 },
-				{ 16, "INV_Box_01", nil, AL["Alliance"], nil },
-				{ 17, 1619 },
-				{ 18, 1620 },
-				{ 19, 1621 },
-				{ 21, 1665 },
-				{ 22, 1626 },
-				{ 24, 1628 },
-				{ 25, 1630 },
-				{ 26, 1632 },
-				{ 28, 1634 },
-				{ 29, 1636 },
-			},
-		},
-	},
-}
-
-data["DarkMoon Cards"] = {
-	name = AL["Darkmoon Cards"],
-	ContentType = SOD_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
-	TableType = NORMAL_ITTYPE,
-	gameVersion = AtlasLoot.CLASSIC_VERSION_NUM,
-	items = {
-		{
-			name = AL["Level 50 Cards"],
-			[NORMAL_DIFF] = {
-				{ 1, 221272 }, -- Wilds Deck
-				{ 2, 221280 }, -- Plagues Deck
-				{ 3, 221289 }, -- Dunes Deck
-				{ 4, 221299 }, -- Nightmares Deck
-			},
-		},
-	},
-}
-
-data["Wild Offerings"] = {
-	name = AL["Wild Offerings"],
-	ContentType = SOD_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
-	TableType = NORMAL_ITTYPE,
-	gameVersion = AtlasLoot.CLASSIC_VERSION_NUM,
-	items = {
-		{
-			name = AL["Wild Offering Rewards"],
-			[NORMAL_DIFF] = {
-				{ 1, 223194 }, -- Band of the Wilds
-				{ 2, 223195 }, -- Breadth of the Beast
-				{ 3, 223197 }, -- Defender of the Wilds
-				{ 4, 223192 }, -- Cord of the Untamed
-				{ 5, 223193 }, -- Crown of the Dreamweaver
-				{ 6, 223196 }, -- Godslayer's Greaves
-				{ 7, 221491 }, -- Shadowtooth Bag
-			},
 		},
 	},
 }

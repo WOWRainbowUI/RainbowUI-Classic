@@ -952,54 +952,6 @@ RECIPE_DATA.CLASSIC = {
 	[23684] = {1,225,30020}, -- Crystal Infused Bandage
 	[23689] = {1,300,30021}, -- Manual: Crystal Infused Bandage
 	[23690] = {6,300,30047}, -- Recipe: Crystal Flake Throat Lozenge
-	-- Season of Discovery
-	[210709] = {4,90,426607}, -- Recipe: Elixir of Coalesced Regret
-	[210779] = {2,150,427063}, -- Pattern: Mantle of the Second War
-	[211247] = {8,125,428425}, -- Pattern: Phoenix Bindings
-	[211846] = {2,100,430397}, -- Plans: Blackfathom Sharpening Stone
-	[210779] = {2,150,427063}, -- Plans: Mantle of the Second War
-	[211849] = {10,100,430409}, -- Formula: Blackfathom Mana Oil
-	[210709] = {10,90,426607}, -- Recipe: Elixir of Coalesced Regret
-	[210178] = {9,135,424641}, -- Schematic: Shredder Autosalvage Unit
-	[211247] = {8,125,428424}, -- Pattern: Phoenix Bindings
-	[215369] = {8,125,435841}, -- Pattern: Invoker's Cord
-	[215370] = {8,125,435848}, -- Pattern: Invoker's Mantle
-	[215433] = {4,200,435969}, -- Recipe: Insulating Gniodine
-	[215163] = {4,225,435971}, -- Recipe: Mildly-Irradiated Rejuvenation Potion
-	[215384] = {2,200,435910}, -- Plans: Low-Background Truesilver Plates
-	[215383] = {2,225,435906}, -- Plans: Reflective Truesilver Braincage
-	[215155] = {2,225,435908}, -- Plans: Temepered Interference-Negating Helmet
-	[215432] = {9,225,435966}, -- Schematic: Ez-Thro Radiation Bomb
-	[215431] = {9,225,435964}, -- Schematic: High-Yield Radiation Bomb
-	[215156] = {9,225,435960}, -- Schematic: Hyperconductive Goldwrap
-	[215429] = {9,200,435956}, -- Schematic: Polished Truesilver Gears
-	[212230] = {9,205,431362}, -- Schematic: Soul Vessel
-	[215153] = {9,225,435958}, -- Schematic: Whirling Truesilver Gearwall
-	[215367] = {3,200,435819}, -- Pattern: Faintly Glowing Leather
-	[215152] = {3,225,435904}, -- Pattern: Glowing Gneuro-Linked Cowl
-	[215422] = {3,225,435949}, -- Pattern: Glowing Hyperconductive Scale Coif
-	[215423] = {3,225,435951}, -- Pattern: Gneuro-Conductive Channeler's Hood
-	[215424] = {3,225,435953}, -- Pattern: Rad-Resistant Scale Hood
-	[215149] = {8,225,435610}, -- Pattern: Gneuro-Linked Arcano-Filament Monocle
-	[215368] = {8,200,435827}, -- Pattern: Hyperconductive Arcano-Filament
-	[217276] = {2,200,439122}, -- Golden Scale Boots
-	[217280] = {2,190,439126}, -- Golden Scale Coif
-	[217278] = {2,195,439124}, -- Golden Scale Cuirass
-	[217274] = {2,205,439120}, -- Golden Scale Gauntlets
-	[217286] = {2,170,439132}, -- Golden Scale Leggings
-	[217284] = {2,175,439130}, -- Golden Scale Shoulders
-	[217266] = {3,170,439112}, -- Pattern: Guardian Belt
-	[217264] = {3,195,439110}, -- Pattern: Guardian Leather Bracers
-	[217271] = {3,205,439118}, -- Pattern: Turtle Scale Gloves
-	[217260] = {8,220,439105}, -- Pattern: Big Voodoo Mask
-	[217262] = {8,215,439108}, -- Pattern: Big Voodoo Robe
-	[217254] = {8,175,439097}, -- Pattern: Pattern: Boots of the Enchanter
-	[217244] = {8,205,439085}, -- Pattern: Crimson Silk Robe
-	[217251] = {8,190,439093}, -- Pattern: Crimson Silk Shoulders
-	[217249] = {8,195,439091}, -- Pattern: Earthen Silk Belt
-	[217258] = {8,165,439102}, -- Pattern: Enchanter's Cowl
-	[217399] = {4,190,439960}, -- Recipe: Lesser Arcane Elixir
-	[223163] = {10,190,448624}, -- Formula: Scroll of Spatial Mending
 }
 
 if AtlasLoot:GameVersion_GE(AtlasLoot.BC_VERSION_NUM) then
@@ -2331,6 +2283,42 @@ if AtlasLoot:GameVersion_GE(AtlasLoot.WRATH_VERSION_NUM) then
 		[52023] = {9,450,72953}, -- Plans: Iceblade Arrow
 		[54797] = {8,425,75596}, -- Frosty Flying Carpet
 		[54798] = {8,425,75597}, -- Pattern: Frosty Flying Carpet
+    }
+end
+
+if AtlasLoot:GameVersion_GE(AtlasLoot.CATA_VERSION_NUM) then
+    RECIPE_DATA.CATA = {
+		[65426] = {6,500,88003}, -- Recipe: Baked Rockfish
+		[62799] = {6,500,88011}, -- Recipe: Broiled Dragon Feast
+		[65431] = {6,505,88013}, -- Recipe: Chocolate Cookie
+		[65432] = {6,525,88019}, -- Recipe: Fortune Cookie
+		[62800] = {6,525,88036}, -- Recipe: Seafood Magnifique Feast
+		[65433] = {6,525,88044}, -- Recipe: South Island Iced Tea
+		[65427] = {6,500,88004}, -- Recipe: Basilisk Liverdog
+		[65429] = {6,500,88005}, -- Recipe: Beer-Basted Crocolisk
+		[65424] = {6,500,88034}, -- Recipe: Blackbelly Sushi
+		[65430] = {6,500,88014}, -- Recipe: Crocolisk Au Gratin
+		[65422] = {6,500,88016}, -- Recipe: Delicious Sagefish Tail
+		[65428] = {6,500,88020}, -- Recipe: Grilled Dragon
+		[65409] = {6,500,88025}, -- Recipe: Lavascale Minestrone
+		[65420] = {6,500,88031}, -- Recipe: Mushroom Sauce Mudfish
+		[65421] = {6,500,88039}, -- Recipe: Severed Sagefish Head
+		[65425] = {6,500,88042}, -- Recipe: Skewered Eel
+		[68688] = {6,500,96133}, -- Recipe: Scalding Murglesnout
+		[65423] = {6,475,88018}, -- Recipe: Fish Fry
+		[65418] = {6,475,88021}, -- Recipe: Hearty Seafood Soup
+		[65417] = {6,475,88033}, -- Recipe: Pickled Guppy
+		[65419] = {6,475,88046}, -- Recipe: Tender Baked Turtle
+		[65411] = {6,450,88012}, -- Recipe: Broiled Mountain Trout
+		[65407] = {6,450,88024}, -- Recipe: Lavascale Fillet
+		[65412] = {6,450,88028}, -- Recipe: Lightly Fried Lurker
+		[65416] = {6,450,88030}, -- Recipe: Lurker Lunch
+		[65410] = {6,450,88035}, -- Recipe: Salted Eye
+		[65413] = {6,450,88037}, -- Recipe: Seasoned Crab
+		[65406] = {6,450,88047}, -- Recipe: Whitecrest Gumbo
+		[65415] = {6,450,88022}, -- Recipe: Highland Spirits
+		[65414] = {6,450,88045}, -- Recipe: Starfire Espresso
+		[65408] = {6,450,88017}, -- Recipe: Feathered Lure
     }
 end
 

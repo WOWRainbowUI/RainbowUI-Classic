@@ -1,10 +1,10 @@
 ## Interface: 11502
-## Author: Lag
-## Version: v4.0.0-alpha0
+## Author: Snowflame0
+## Version: v4.0.0-alpha10
 ## Dependencies: AtlasLootClassic
 ## LoadOnDemand: 1
 
-## Title: AtlasLootClassic |cFFFF0000[Data]|r
+## Title: AtlasLootClassic |cFFFF5733Cata|r |cFFFF0000[Data]|r
 ## Title-zhCN: AtlasLoot经典版 |cFFFF0000[数据]|r
 ## Title-zhTW: |cffB973FF[裝備]|r 副本戰利品查詢-資料
 ## Notes: AtlasLoot data module
@@ -20,4 +20,4 @@ core.lua
 
 locales.lua
 items.lua
-source.lua
+source-sod.lua

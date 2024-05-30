@@ -113,11 +113,6 @@ local FACTION_KEY = {
 	[609] = "Cenarion Circle",
 	[749] = "Hydraxian Waterlords",
 	[910] = "Brood of Nozdormu",
-	-- SoD
-	[889] = "Warsong Outriders",
-	[890] = "Silverwing Sentinels",
-	[2586] = AL["Azeroth Commerce Authority"],
-	[2587] = "Durotar Supply and Logistics",
 	-- BC
 	[922] = AL["Tranquillien"], -- Horde only
 	[941] = AL["The Mag'har"], -- Horde only
@@ -130,7 +125,7 @@ local FACTION_KEY = {
 	[1094] = AL["The Silver Covenant"], -- Alli only
 	[1124] = AL["The Sunreavers"], -- Horde only
 	-- Cata
-	[1177] = AL["Baradin's Warders"], -- Alli only
+	[1177] = AL["Baradin's Wardens"], -- Alli only
 	[1174] = AL["Wildhammer Clan"], -- Alli only
 	[1178] = AL["Hellscream's Reach"], -- Horde only
 	[1172] = AL["Dragonmaw Clan"], -- Horde only

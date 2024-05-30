@@ -1,6 +1,6 @@
 ## Interface: 11502
-## Author: Lag
-## Version: v4.0.0-alpha0
+## Author: Snowflame0
+## Version: v4.0.0-alpha10
 ## Dependencies: AtlasLootClassic
 ## LoadOnDemand: 1
 
@@ -19,4 +19,4 @@
 Locales\Locales.xml
 
 private.lua
-data.lua
+data-sod.lua
