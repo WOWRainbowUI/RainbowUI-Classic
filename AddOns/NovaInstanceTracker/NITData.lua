@@ -149,7 +149,6 @@ function NIT:sendComm(distribution, string, target)
 end
 
 function NIT:versionCheck(remoteVersion)
-	if (not version or not remoteVersion) then return end -- 暫時修正
 	if (remoteVersion == 0) then
 		--Comm is from NWB.
 		return;
