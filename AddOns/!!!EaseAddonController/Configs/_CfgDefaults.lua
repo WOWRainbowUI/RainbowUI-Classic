@@ -286,6 +286,27 @@ D["BattleGroundEnemies"] = {
 		text = "|cffFF2D2D啟用插件後需要重新載入介面。|r",
 	},
 };
+D["AutoPotion"] = {
+	defaultEnable = 0,
+	tags = { "ITEM" },
+	title = "一鍵吃糖/喝紅水",
+	desc = "只要按一個按鈕或快速鍵，便能使用治療石、治療藥水或自己的補血技能。``會自動選用背包中的物品，有糖先吃糖，有水喝水，節省快捷列格子又方便!`",
+	modifier = "彩虹ui",
+	icon = "Interface\\Icons\\inv_alchemy_80_potion01red",
+	img = true,
+	{
+		type = "text",
+        text = "|cffFF2D2D啟用插件後需要重新載入介面。|r",       
+	},
+	{
+        text = "設定選項",
+        callback = function(cfg, v, loading) SlashCmdList["HAM"]("") end,
+    },
+	{
+		type = "text",
+        text = "使用巨集: 載入插件後，從 Esc > 巨集設定，將名稱為 AutoPotion 巨集拉到快捷列上，然後重新載入介面。\n\n使用快速鍵: 從 Esc > 選項 > 按鍵綁定 > 插件 > 使用巨集 AutoPotion，設定一個按鍵後便能使用。\n\n當背包中有相關物品但巨集無效時，只要重新載入介面即可。\n",       
+	},
+};
 D["Baganator"] = {
 	defaultEnable = 0,
 	tags = { "ITEM" },
