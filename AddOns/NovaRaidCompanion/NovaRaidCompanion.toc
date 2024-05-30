@@ -2,7 +2,7 @@
 ## Notes: Raid and combat helpers, raid wide cooldown tracking.
 ## Title: Nova Raid Companion
 ## Author: Novaspark-Arugal OCE
-## Version: 1.41
+## Version: 1.43
 ## SavedVariables: NRCdatabase
 
 embeds.xml
