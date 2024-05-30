@@ -872,7 +872,7 @@ function UUI.Center.ScrollCreateOnButton(lineButton)
     -- if create texture directly, highlight effect is different.
     local anchor = (UUI.BUTTON_H - UUI.ICON_W)/2
     -- 經典版移除圖示
-	if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+	if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then
 		local icon = b:Frame():Key("icon"):Size(UUI.ICON_W):TL(math.max(2, anchor-2), -anchor+1)
 		:Texture():Key("tex"):ALL():SetTexture("Interface\\Buttons\\Button-Backpack-Up"):up()
 		:un();
@@ -940,7 +940,7 @@ function UUI.Center.ScrollUpdateOneButton(b, idx)
     end
 
     -- 經典版移除圖示
-	if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+	if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then
 		b.icon.tex:SetTexture(info.icon or UUI.DEFAULT_ICON)
 	end
 
@@ -949,7 +949,7 @@ function UUI.Center.ScrollUpdateOneButton(b, idx)
         b:Enable();
         b:GetHighlightTexture():Show()
         -- 經典版移除圖示
-		if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+		if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then
 			b.icon.tex:SetVertexColor(1,1,1)
 		end
         b.check:Show()
@@ -966,7 +966,7 @@ function UUI.Center.ScrollUpdateOneButton(b, idx)
             b.text1:SetShadowOffset(2,-2)
             b:GetNormalTexture():SetVertexColor(1,1,1)
             -- 經典版移除圖示
-			if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+			if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then
 				CoreUIUndesaturateTexture(b.icon.tex);
 			end
             CoreUIUndesaturateTexture(b:GetNormalTexture());
@@ -979,7 +979,7 @@ function UUI.Center.ScrollUpdateOneButton(b, idx)
             b.text1:SetShadowOffset(1,-1)
             b:GetNormalTexture():SetVertexColor(.75,.75,.75)
             -- 經典版移除圖示
-			if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+			if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then
 				if not (info.lod and enabled) then CoreUIDesaturateTexture(b.icon.tex); end
 			end
             CoreUIDesaturateTexture(b:GetNormalTexture());
@@ -1006,7 +1006,7 @@ function UUI.Center.ScrollUpdateOneButton(b, idx)
         b:Disable();
         b:GetHighlightTexture():Hide()
         -- 經典版移除圖示
-		if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+		if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then
 			b.icon.tex:SetVertexColor(.3,.3,.3)
 		end
         b.check:Hide()
@@ -1016,7 +1016,7 @@ function UUI.Center.ScrollUpdateOneButton(b, idx)
         b:GetNormalTexture():SetVertexColor(.3,.3,.3)
         CoreUIDesaturateTexture(b:GetNormalTexture())
         -- 經典版移除圖示
-		if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+		if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then
 			CoreUIDesaturateTexture(b.icon.tex);
 		end
     end

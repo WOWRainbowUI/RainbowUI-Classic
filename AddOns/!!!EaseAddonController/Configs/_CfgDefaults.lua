@@ -37,6 +37,7 @@ D["!BugGrabber"] = {
 	title = "錯誤收集器",
 	desc = "收集錯誤訊息，防止遊戲中斷，訊息會顯示在錯誤訊息袋中。`",
 	modifier = "Rabbit, Whyv, zhTW",
+	icon = "Interface\\AddOns\\BugSack\\Media\\icon",
 	img = true,
 };
 D["!KalielsTracker"] = {
@@ -45,6 +46,7 @@ D["!KalielsTracker"] = {
 	title = "任務追蹤清單增強",
 	desc = "增強畫面右方任務追蹤清單的功能。在設定選項中可以調整位置和文字大小。`",
 	modifier = "BNS, 彩虹ui",
+	icon = "Interface\\Addons\\!KalielsTracker\\Media\\KT_logo",
 	img = true,
     {
         text = "設定選項",
@@ -89,7 +91,7 @@ D["ActionCamPlus"] = {
 	title = "動感鏡頭 Plus",
 	desc = "啟用遊戲內建的動作鏡頭功能，有多種不同的鏡頭效果可供調整。``像是會記憶騎乘坐騎的鏡頭距離，下坐騎後便會自動恢復。或是記憶戰鬥中的鏡頭距離，戰鬥結束後便會自動恢復。``如果想要更像家機般的遊玩感受，請在設定選項中啟用 '動感鏡頭' 和 '上下調整鏡頭'`",
 	modifier = "彩虹ui",
-	icon = "Interface\\Icons\\ability_racial_soar",
+	icon = "Interface\\Icons\\ability_eyeoftheowl",
     {
         text = "開/關動感鏡頭",
         callback = function(cfg, v, loading) SlashCmdList["ACTIONCAMPLUS"]("") end,
@@ -152,7 +154,7 @@ D["Align"] = {
 	tags = { "MISC" },
 	title = "對齊網格",
 	desc = "顯示調整UI時方便用來對齊位置的網格線。`",
-	--icon = "Interface\\Icons\\inv_misc_net_01",
+	icon = "Interface\\Icons\\inv_misc_net_01",
 	img = true,
     {
         text = "32x32 網格",
@@ -181,6 +183,7 @@ D["ArenaScreenshot"] = {
 	title = "敵方目標警報",
 	desc = "競技場被集火提示。",
 	modifier = "彩虹ui",
+	icon = "Interface\\Icons\\ability_hunter_focusedaim",
     {
 		type = "text",
         text = "此UI不需要設定\n由麻也魔改版本。",
@@ -213,6 +216,7 @@ D["AtlasLootClassic"] = {
 	title = "副本戰利品查詢",
 	desc = "顯示首領與小怪可能掉落的物品，並可查詢各陣營與戰場的獎勵物品、套裝物品等資訊。`",
 	modifier = "arith, BNS, Daviesh, jerry99spkk, Proteyer, scars377, sheahoi, soso15, Whyv, ytzyt, zhTW, 彩虹ui",
+	icon = "Interface\\Icons\\INV_Box_01",
 	{
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["ATLASLOOT"]("options") end,
@@ -275,7 +279,6 @@ D["BattleGroundEnemies"] = {
 	title = "戰場目標框架",
 	desc = "戰場專用的敵方單位框架，可以監控敵人的血量、減益效果、控場遞減...等等多種狀態。`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\achievement_pvp_h_08",
 	img = true,
     {
         text = "設定選項",
@@ -292,7 +295,7 @@ D["AutoPotion"] = {
 	title = "一鍵吃糖/喝紅水",
 	desc = "只要按一個按鈕或快速鍵，便能使用治療石、治療藥水或自己的補血技能。``會自動選用背包中的物品，有糖先吃糖，有水喝水，節省快捷列格子又方便!`",
 	modifier = "彩虹ui",
-	icon = "Interface\\Icons\\inv_alchemy_80_potion01red",
+	icon = "Interface\\Icons\\inv_potion_54",
 	img = true,
 	{
 		type = "text",
@@ -361,6 +364,7 @@ D["BiaoGe"] = {
 	tags = { "BOSSRAID" },
 	title = "金團表格",
 	desc = "好用的金團記錄表單，可與金團帳本等金團拍賣插件一起使用，可設定心願清單，可以通報帳單流拍或消費及欠款，加入團隊時還可連通 WCL 插件回報加入者的分數裝等。``還有冰冠城塞的攻略可以看!`",
+	icon = "Interface\\AddOns\\BiaoGe\\Media\\icon\\icon",
     {
 		type = "text",
         text = "|cffFF2D2D啟用插件後需要重新載入介面。|r",       
@@ -384,7 +388,7 @@ D["BetterBags"] = {
 	title = "掰特包",
 	desc = "Adi 背包的進化版，效能好、bug 少、東西不亂跑，分類清楚好好找。``也可以變成不分類的合併背包，或是清單背包。背包大小、分類都可以自行調整，還有有多種分類外掛模組可供選用。``|cffFF2D2D特別注意: 各種外掛模組的分類預設都不開啟，第一次使用時請點背包視窗左上角的背包圖示，或是在設定選項中勾選，要額外顯示哪些分類。|r`",
 	modifier = "彩虹ui",
-	icon = "Interface\\Icons\\reliquarybag_icon",
+	icon = "Interface\\Icons\\inv_misc_bag_soulbag",
 	{
         text = "設定選項",
         callback = function(cfg, v, loading) 
@@ -488,7 +492,7 @@ D["BuyEmAllClassic"] = {
 	tags = { "AUCTION" },
 	title = "大量購買",
 	desc = "在商人視窗按 Shift+左鍵 點一下物品可一次購買一組或最大數量。`",
-	--icon = "Interface\\Icons\\inv_misc_coin_02",
+	icon = 132763,
 	img = true,
 };
 D["CastCursor"] = {
@@ -510,6 +514,7 @@ D["ccc"] = {
 	title = "控場監控",
 	desc = "控場監控計時條。",
 	modifier = "由麻也, 彩虹ui",
+	icon = "Interface\\Icons\\achievement_bg_winab_underxminutes",
 	{
         text = "解鎖移動",
         callback = function(cfg, v, loading) SlashCmdList["CCC"]("unlock") end,
@@ -683,14 +688,9 @@ D["ColorPickerPlus"] = {
 	defaultEnable = 1,
 	tags = { "ENHANCEMENT" },
 	title = "顏色選擇器 Plus",
-	desc = "提供更方便的方式來選擇顏色，可以輸入顏色數值、直接選擇職業顏色，或是將自訂顏色儲存成色票供日後使用。`",
+	desc = "提供更方便的方式來選擇顏色，可以輸入顏色數值、直接選擇職業顏色，或是將自訂顏色儲存成色票供日後使用。``選擇顏色時會自動出現。`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\achievement_doublerainbow",
 	img = true,
-	{
-        type = "text",
-		text = "選擇顏色時會自動出現。",
-    },
 };
 D["Combuctor"] = {
 	defaultEnable = 0,
@@ -723,6 +723,7 @@ D["CopyAnything"] = {
 	title = "快速複製文字",
 	desc = "快速複製任何框架上面的文字!``聊天視窗中的文字、隊伍框架上面的隊友名字、選取目標框架上面的怪物名字，甚至是設定選項、插件名稱都能複製。``|cffFF2D2D將滑鼠指向要複製的文字，然後連按兩次 Ctrl+C 就複製好了! ``特別注意：使用前必須先將快速鍵設為 Ctrl+C，詳細請點上方的齒輪圖示標籤頁看用法說明。|r`",
 	modifier = "彩虹ui",
+	icon = "Interface\\Icons\\inv_scroll_01",
 	{
         text = "設定選項",
         callback = function(cfg, v, loading) 
@@ -880,7 +881,7 @@ D["djbags"] = {
 	title = "DJ 智能分類背包",
 	desc = "精簡小巧、時尚又美觀的背包。會自動分類物品，也能自訂分類的整合背包。",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\inv_misc_bag_25_mooncloth",
+	icon = "Interface\\Icons\\inv_misc_bag_14",
 	img = true,
 	{
 		type = "text",
@@ -974,14 +975,14 @@ D["EasyConversion"] = {
 	tags = { "SOCIAL" }, 
 	title = "聊天文字簡轉繁",
 	desc = "將聊天視窗中的簡體字轉換成繁體，看起來更輕鬆，溝通無障礙!``如果你不太習慣看簡體字，可以使用這個插件。``|cffFF2D2D特別注意：只會轉換聊天視窗中的文字，其他任何地方的文字都不會轉換，玩家名字也不會轉換。|r`",
-	icon = "Interface\\Icons\\ability_evoker_innatemagic5",
+	icon = "Interface\\Icons\\ability_racial_twoforms",
 };
 D["EasyFrames"] = {
 	defaultEnable = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and 1 or 0,
 	title = "暴雪頭像 (美化調整)",
 	desc = "喜愛遊戲內建的頭像推薦使用這個插件，讓內建頭像變得更漂亮，還額外提供了許多自訂化的選項。``建議搭配 '暴雪頭像 (增強功能)' 插件一起使用。`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\achievement_leader_tyrande_whisperwind",
+	icon = "Interface\\Icons\\inv_pet_babyblizzardbear",
 	img = true,
     {
         text = "設定選項",
@@ -1028,6 +1029,7 @@ D["EnhBloodlust"] = {
 	tags = { "COMBAT" },
 	title = "嗜血音樂",
 	desc = "為嗜血和英勇效果添加超棒的音樂。``這次的音樂是：`Biri-Biri`by YOASOBI``https://www.youtube.com/watch?v=I2i8ILhpzyU",
+	icon = "Interface\\Icons\\spell_nature_bloodlust",
 	img = true,
 	{
         text = "測試音樂",
@@ -1060,7 +1062,7 @@ D["ExtVendorUI_Classic"] = {
 	title = "商人介面增強",
 	desc = "和 NPC 交易時會加大商人的購物視窗，可以用滑鼠滾輪來換頁。提供多種過濾方式，過濾已經學會、已經購買過、不能使用的物品、裝備部位、塑形外觀...等等。``也有快速賣垃圾和不要的物品功能，並且可以自訂要賣出和不要賣出的物品清單。``|cffFF2D2D這個插件不會自動賣垃圾，需要手動按一下快速賣出按鈕。要使用自動賣垃圾請在 '功能百寶箱' 的設定選項中開啟/關閉。|r`",
 	modifier = "BNS, 彩虹ui",
-	--icon = "Interface\\Icons\\inv_misc_coin_16",
+	icon = "Interface\\Icons\\inv_misc_coin_01",
     {
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["EXTVENDOR"]("") end,
@@ -1107,7 +1109,6 @@ D["FriendListColors"] = {
 	title = "彩色好友名單",
 	desc = "有好友的人生是彩色的!``好友名單顯示職業顏色，還可以自訂要顯示哪些內容。`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\achievement_doublerainbow",
 	img = true,
     {
         text = "設定選項",
@@ -1138,7 +1139,7 @@ D["FocusInterruptSounds"] = {
 	title = "斷法提醒和通報",
 	desc = "你的敵對目標開始施放可以中斷的法術時，會有語音提醒快打斷。``成功打斷時會在聊天視窗顯示訊息告知你的隊友，可以自行設定其他要提醒打斷和不要提醒的法術。``PvE 和 PvP 都適用哦！`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\spell_arcane_arcane04",
+	icon = "Interface\\Icons\\spell_arcane_arcane04",
 	img = true,
     {
         text = "設定選項",
@@ -1158,7 +1159,7 @@ D["GatherMate2"] = {
 	title = "採集助手",
 	desc = "採草、挖礦、釣魚的好幫手。``收集草、礦、考古學、寶藏和釣魚的位置，在世界地圖和小地圖上顯示採集點的位置。`",
 	modifier = "alpha2009, arith, BNS, chenyuli, ibmibmibm, icearea, jerry99spkk, kagaro, laxgenius, machihchung, morphlings, scars377, sheahoi, soso15, titanium0107, wxx011, zhTW",
-	--icon = "Interface\\Icons\\inv_herbalism_70_starlightrosepetals",
+	icon = "Interface\\AddOns\\GatherMate2\\Artwork\\Icon.tga",
 	img = true,
     {
         text = "設定選項",
@@ -1236,7 +1237,7 @@ D["Glass"] = {
 	title = "聊天視窗美化",
 	desc = "極簡風格的聊天視窗，會自動淡出聊天文字，讓你更能沉浸在遊戲中，並且提供更多的選項來自訂聊天視窗。``|cffFF2D2D特別注意：使用此插件時請關閉 '功能百寶箱' 插件裡面的 '聊天功能 > 聊天視窗' 底下的相關選項，以避免功能衝突而發生錯誤。|r`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\inv_gizmo_adamantiteframe",
+	icon = "Interface\\Icons\\inv_gizmo_adamantiteframe",
     {
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["ACECONSOLE_GLASS"]("") end,
@@ -1260,7 +1261,6 @@ D["GTFO"] = {
 	title = "地板傷害警報",
 	desc = "你快死了! 麻煩神走位!``踩在會受到傷害的區域上面時會發出警報聲，趕快離開吧!``受到傷害愈嚴重警報聲音愈大，設定選項中可以調整音量。`",
 	modifier = "Andyca, BNS, wowuicn, Zensunim",
-	--icon = "Interface\\Icons\\spell_fire_volcano",
 	img = true,
     {
         text = "設定選項",
@@ -1285,7 +1285,7 @@ D["HandyNotes"] = {
 	title = "地圖標記",
 	desc = "提供經典時期的 NPC 位置，以及探索賽符文的位置和攻略指南。``|cffFF2D2D警告: 此插件會嚴重影響探索體驗的樂趣，請自行斟酌是否要載入使用。|r`",
 	modifier = "Sprider @巴哈姆特, BNS, Charlie, 彩虹ui",
-	--icon = "Interface\\Icons\\inv_misc_map_01",
+	icon = "Interface\\Icons\\inv_misc_map_01",
 	img = true,
     {
         text = "設定選項",
@@ -1341,7 +1341,6 @@ D["Immersion"] = {
 	desc = "與NPC對話、接受/交回任務時，會使用遊戲內建 '說話的頭' 風格的對話方式，取代傳統的任務說明。``讓你更能享受並融入任務內容的對話劇情。`",
 	author = "MunkDev",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\achievement_leader_sylvanas",
 	img = true,
     {
         text = "設定選項",
@@ -1382,7 +1381,7 @@ D["InterruptedIn"] = {
 	title = "巨集指令 /iin",
 	desc = "讓你可以使用 /iin 指令製作具有時間性的發話巨集，具備中斷發話的功能。``例如開怪倒數巨集：`/iin stop`/stopmacro [btn:2]`/pull 5`/iin 0 大家注意要開怪啦 >>%T<<`/iin 1 4...`/iin 2 3...`/iin 3 2...偷爆發`/iin 4 1...`/iin 5 上!!!`/iin start``中斷倒數巨集：`/iin stop`/pull 0`/iin 0 >>>已中斷!!!<<<`/iin start``分裝倒數巨集：`/iin stop`/stopmacro [btn:2]`/iin 0.1 %L 倒數開始囉，要的骰！`/iin 5 5...`/iin 6 4...`/iin 7 3...`/iin 8 2...`/iin 9 1...`/iin 10 0!!!`/iin start``詳細說明和更多範例請看`https://goo.gl/yN2S5n`",
 	author = "永恆滿月",
-	--icon = "Interface\\Icons\\spell_holy_borrowedtime",
+	icon = "Interface\\Icons\\spell_holy_borrowedtime",
 	img = true,
 };
 D["Leatrix_Maps"] = {
@@ -1391,7 +1390,6 @@ D["Leatrix_Maps"] = {
 	title = "世界地圖增強",
 	desc = "讓大地圖視窗化，可自由移動位置和調整大小。還有顯示未探索區域、副本入口、區域等級和坐標...等功能。`",
 	modifier = "BNS, 彩虹ui",
-	-- --icon = "Interface\\Icons\\inv_gizmo_hardenedadamantitetube",
     {
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["Leatrix_Maps"]("") end,
@@ -1407,7 +1405,6 @@ D["Leatrix_Plus"] = {
 	title = "功能百寶箱",
 	desc = "讓生活更美好的插件，提供多種各式各樣的遊戲功能設定。``包括自動修裝、自動賣垃圾、加大鏡頭最遠距離...還有更多功能!",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\inv_gizmo_hardenedadamantitetube",
 	img = true,
     {
         text = "設定選項",
@@ -1424,6 +1421,7 @@ D["LFGBulletinBoard"] = {
 	title = "組隊佈告欄",
 	desc = "將尋求組隊訊息依據副本，難度…等規則分類，就像勇者接受委託的佈告欄一樣!``特別注意：預設只會顯示燃燒的遠征副本，如果需要顯示60級以下的經典版副本，需要在設定選項中勾選。`",
 	modifier = "由麻也, 彩虹ui",
+	icon = "Interface\\Icons\\spell_holy_prayerofshadowprotection",
     {
         text = "顯示佈告欄",
         callback = function(cfg, v, loading) SlashCmdList["LFGBulletinBoard"]("") end,
@@ -1459,6 +1457,7 @@ D["LootMonitor"] = {
 	title = "進本/摸屍體/拾取監控",
 	desc = "可以看到誰先進本、誰第一個摸屍體，也會記錄誰拿了什麼裝備。``團隊和5人副本都可以使用。",
 	modifier = "彩虹ui",
+	icon = 135859,
     {
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["LMC"]("") end,
@@ -1474,7 +1473,6 @@ D["ls_Toasts"] = {
 	title = "通知面板增強",
 	desc = "可以完全自訂彈出式通知面板，移動位置、調整大小、選擇要顯示哪些通知，還有更多自訂選項。``選擇自己想看的通知，讓彈出的通知不會再擋住快捷列或重要的畫面。`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\inv_misc_food_100",
 	img = true,
     {
         text = "設定選項",
@@ -1491,8 +1489,7 @@ D["MailLogger"] = {
 	title = "交易通知/記錄",
 	desc = "自動記錄與玩家交易，以及郵件的物品內容。方便查看交易歷史記錄。`",
 	modifier = "Aoikaze, 彩虹ui",
-	--icon = "Interface\\Icons\\inv_misc_food_36",
-	-- img = true,
+	icon = "Interface\\MINIMAP\\TRACKING\\Mailbox",
 	{
         text = "顯示交易記錄",
         callback = function(cfg, v, loading) SlashCmdList["MLC"]("all") end,
@@ -1552,7 +1549,7 @@ D["MeepMerp"] = {
 	tags = { "COMBAT" },
 	title = "超出法術範圍音效",
 	desc = "距離過遠、超出法術可以施放的範圍時會發出「咕嚕嚕嚕～」的音效來提醒。`",
-	--icon = "Interface\\Icons\\highmaulraid_range_far",
+	icon = "Interface\\Icons\\spell_holy_blessingofstrength",
 	img = true,
 	{
 		type = "text",
@@ -1589,7 +1586,6 @@ D["MikScrollingBattleText"] = {
 	tags = { "COMBAT" },
 	title = "MSBT捲動戰鬥文字",
 	desc = "讓打怪的傷害數字和系統訊息，整齊的在角色周圍捲動。``可以自訂顯示的位置、大小和要顯示哪些戰鬥文字。`",
-	--icon = "Interface\\Icons\\ability_warrior_challange",
 	img = true,
     {
         text = "設定選項",
@@ -1627,7 +1623,7 @@ D["Molinari"] = {
     defaultEnable = 0,
 	title = "一鍵分解物品",
 	desc = "提供快速拆裝分解、研磨草藥、勘探寶石和開鎖的功能!``只要按下 Ctrl+Alt 鍵再點一下背包中物品，立馬分解!``設定選項中可以將要避免不小心被處理掉的物品加入忽略清單。`",
-	-- icon = "Interface\\Icons\\inv_enchant_disenchant",
+	icon = "Interface\\Icons\\ability_miling",
     {
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["MolinariSlash"]("") end,
@@ -1699,7 +1695,7 @@ D["NameplateSCT"] = {
 	title = "血條浮動戰鬥文字",
 	desc = "『我輸出超高的！』``喜歡高爽度的爆擊數字，想要看清楚每一發打出的傷害有多少嗎?`` 讓打怪的傷害數字在血條周圍跳動，完全可以自訂字體、大小、顏色和動畫效果。也可以在傷害數字旁顯示法術圖示、依據傷害類型顯示文字顏色，更容易分辨是哪個技能打出的傷害。``不擋畫面，清楚就是爽！``|cffFF2D2D只會套用到打怪的傷害數字，不會影響其它浮動戰鬥文字。|r`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\boss_odunrunes_yellow",
+	icon = "Interface\\Icons\\achievement_guild_level10",
 	img = true,
     {
         text = "設定選項",
@@ -1720,6 +1716,7 @@ D["NovaInstanceTracker"] = {
 	title = "Nova 副本進度追蹤",
 	desc = "記錄打了哪些副本、打了幾次，以及怪物數量、經驗值、金錢和戰利品拾取記錄。",
 	modifier = "由麻也 (VJ Kokusho)",
+	icon = "Interface\\AddOns\\NovaInstanceTracker\\Media\\portal",
 	{
         text = "顯示主視窗",
         callback = function(cfg, v, loading) SlashCmdList["NITCMD"]("") end,
@@ -1739,6 +1736,7 @@ D["NovaWorldBuffs"] = {
 	title = "Nova 世界增益監控",
 	desc = "自動取得黑妹、奈法及酋長的祝福的時間，並且倒數計時下一次可以插龍頭的時間，以及輕歌花下一次的時間。``|cffFF2D2D特別注意：目前尚未支援沒有公會的玩家，查看時間可能會發生錯誤。|r`",
 	modifier = "由麻也 (VJ Kokusho)",
+	icon = "Interface\\Icons\\inv_misc_head_dragon_01",
 	{
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["NWBCMD"]("options") end,
@@ -1761,8 +1759,8 @@ D["NovaRaidCompanion"] = {
 	tags = { "BOSSRAID" },
 	title = "NRC 團隊夥伴",
 	desc = "提供出團時會用到的許多方便功能。像是團隊技能監控、項鍊監控、檢查食物精煉油抗性天賦、增益快照、拾取記錄、交易紀錄...等。",
-	modifier = "彩虹UI",
-	icon = "Interface\\AddOns\\MRT\\media\\OptionLogo2",
+	modifier = "由麻也 (VJ Kokusho)",
+	icon = "Interface\\AddOns\\NovaRaidCompanion\\Media\\nrc_icon2",
     {
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["NRCCMD"]("config") end,
@@ -1785,7 +1783,7 @@ D["NugComboBar"] = {
 	tags = { "CLASSALL" },
 	title = "連擊點數-3D圓",
 	desc = "使用精美的3D圓形來顯示連擊點數。``支援盜賊和德魯伊的連擊點數、術士靈魂裂片、法師祕法充能和聖騎士聖能。`",
-	--icon = "Interface\\Icons\\ability_mage_greaterpyroblast",
+	icon = "Interface\\AddOns\\NugComboBar\\tex\\purpleflame_tex",
 	img = true,
     {
         text = "設定選項",
@@ -1816,7 +1814,6 @@ D["OmniBar"] = {
 	title = "敵方技能監控 (條列)",
 	desc = "監控敵人的技能冷卻時間。`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\achievement_pvp_a_11",
 	img = true,
     {
         text = "設定選項",
@@ -1829,7 +1826,6 @@ D["OmniCD"] = {
 	title = "隊友技能冷卻監控",
 	desc = "在隊伍框架旁顯示隊友的技能、斷法冷卻時間，監控起來簡單又方便。可以在設定選項中自行選擇要監控哪些法術技能，PvP/PvE 都適用!``|cffFF2D2D要監控團隊的技能建議改用 'MRT團隊工具包' 裡面的 '團隊技能冷卻' 功能。``競技場建議改用 '競技場頭像Ex' 插件，功能更完整。|r`",
 	modifier = "彩虹ui",
-	icon = "Interface\\Icons\\spell_mage_altertime_active",
 	img = true,
     {
         text = "設定選項",
@@ -1881,6 +1877,7 @@ D["PallyPower"] = {
 	tags = { "CLASSALL" },
 	title = "聖騎威能",
 	desc = "能快速施放祝福的快捷列，並且可以分配團隊祝福工作，顯示祝福、光環、正義之怒及聖印的時間跟提醒。`",
+	icon = "Interface\\AddOns\\PallyPower\\Icons\\SummonChampion",
 };
 D["Pawn"] = {
     defaultEnable = 1,
@@ -1888,7 +1885,7 @@ D["Pawn"] = {
 	desc = "計算屬性 EP 值並給予裝備提升百分比的建議。``此建議適用於大部分的情況，但因為天賦、配裝和手法流派不同，所需求的屬性可能不太一樣，這時可以自訂屬性權重分數，以便完全符合個人需求。`",
 	author = "VgerAN",
 	modifier = "BNS, scars377, 彩虹ui",
-	--icon = "Interface\\Icons\\achievement_garrisonfollower_levelup",
+	icon = "Interface\\AddOns\\Pawn\\Textures\\UpgradeArrow",
 	img = true,
     {
         text = "設定選項",
@@ -1915,7 +1912,6 @@ D["Postal"] = {
 	title = "超強信箱",
 	desc = "強化信箱功能。``收件人可以快速地選擇分身，避免寄錯；一次收取所有信件，還有更多功能。`",
 	modifier = "a9012456, Adavak, andy52005, BNS, NightOw1, smartdavislin, titanium0107, whocare, Whyv",
-	--icon = "Interface\\Icons\\achievement_guildperk_gmail",
 	img = true,
 };
 D["PowerRaid"] = {
@@ -1939,7 +1935,7 @@ D["Quartz"] = {
 	title = "施法條增強",
 	desc = "功能增強、模組化、可自訂外觀的施法條。``包括玩家、寵物的施法條，還有 GCD、揮擊、增益/減益效果和環境對應的計時條，都可以自訂調整。`",
 	modifier = "a9012456, Adavak, alpha2009, Adavak, Ananhaid, nevcairiel, Seelerv, Whyv, YuiFAN, 半熟魷魚, 彩虹ui",
-	--icon = "Interface\\Icons\\spell_holy_renew",
+	icon = "Interface\\Icons\\spell_holy_divineprovidence",
 	img = true,
     {
         text = "設定選項",
@@ -1970,7 +1966,7 @@ D["Questie"] = {
 	title = "任務位置提示",
 	desc = "在地圖上標示出任務位置，包含任務 NPC 和任務怪的位置。``還有個人冒險日記的功能，讓你可以隨時撰寫冒險筆記以及查看已完成/未完成的任務。`",
 	modifier = "彩虹ui",
-	-- --icon = "Interface\\Icons\\achievement_leader_king_varian_wrynn",
+	icon = "Interface\\AddOns\\Questie\\Icons\\complete",
 	{
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["ACECONSOLE_QUESTIE"]("") end,
@@ -1990,8 +1986,7 @@ D["QuickTargets"] = {
 	title = "快速上標",
 	desc = "快速幫目標加上骷髏、叉叉、星星、月亮...等標記圖示，只要按一下快速鍵!``|cffFF2D2D第一次使用前請先在 Esc > 選項 > 按鍵綁定 > 插件 > 快速上標，設定好快速鍵。|r`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\ability_creature_cursed_02",
-	-- img = true,
+	icon = "Interface\\Icons\\ability_creature_cursed_02",
 	{
 		type = "text",
         text = "先在 Esc > 選項 > 按鍵綁定 > 插件 > 快速上標，設定好快速鍵 (預設為 Shift+F，如果曾經有調整過按鍵設定就需要重新設定)。\n\n把滑鼠指向要上標的對象，按下快速鍵直接上標，不用選取為目標。\n\n上標時多按幾下快速鍵可以循環切換成不同的標記圖示。\n",       
@@ -2004,6 +1999,7 @@ D["RaidLedger"] = {
 	desc = "記錄掉落物品並且可以記上金額，輸入人數可自動計算出一個人分多少錢。``金團必備。`",
 	author = "Boshi Lian",
 	modifier = "BNS, Boshi Lian",
+	icon = "Interface\\Icons\\inv_misc_note_03",
 	{
         text = "顯示主視窗",
         callback = function(cfg, v, loading) SlashCmdList["RAIDLEDGER"]("") end,
@@ -2026,7 +2022,6 @@ D["RangeDisplay"] = {
 	title = "顯示距離",
 	desc = "顯示你和目標之間的距離，包括當前目標、專注目標、寵物、滑鼠指向對象以及競技場對象。還可以依據距離遠近來設定警告音效。``|cffFF2D2D特別注意：Stuf 頭像已有顯示距離的功能，如無特別需求可以不用載入這個插件。|r``使用暴雪頭像 (美化調整) 或遊戲內建的頭像時，可以搭配此插件一起使用。`",
 	modifier = "alpha2009, lcncg, 彩虹ui",
-	--icon = "Interface\\Icons\\ability_hunter_pathfinding",
 	img = true,
     {
         text = "設定選項",
@@ -2051,6 +2046,7 @@ D["RollTrackerClassicZ"] = {
 	title = "骰子記錄",
 	desc = "記錄並統計擲骰子 /roll 的點數，自動計算出骰最大的贏家，還可以將結果發佈到聊天頻道。``特別適合分裝使用。`",
 	modifier = "彩虹ui",
+	icon = "Interface\\Buttons\\UI-GroupLoot-Dice-Up",
 	{
         text = "顯示主視窗",
         callback = function(cfg, v, loading) SlashCmdList["RollTrackerClassicZ"]("") end,
@@ -2080,7 +2076,7 @@ D["SexyMap"] = {
     defaultEnable = 1,
 	title = "性感小地圖",
 	desc = "讓你的小地圖更具特色和樂趣，並增添一些性感的選項設定。``|cffFF2D2D注意：在經典版中因為暴雪移除了一些材質圖案，導致某些預設外觀會顯示出綠色方塊，仍待修正。|r`",
-	--icon = "Interface\\Icons\\inv_misc_celestialmap",
+	icon = "Interface\\Icons\\spell_arcane_blast",
 	img = true,
     {
         text = "設定選項",
@@ -2101,12 +2097,14 @@ D["SharedMedia_Rainbow"] = {
 	tags = { "MISC" },
 	title = "彩虹字體材質包",
 	desc = "讓不同的插件能夠共享材質、背景、邊框、字體和音效，也提供了多種中英文字體和材質可供設定插件時使用。``|cffFF2D2D特別注意：在插件的設定中選擇字體時，英文字體只能顯示英文、無法顯示中文 (遇到中文字會變成問號)。如有需要顯示中文，請選擇中文字體。|r`",
+	icon = "Interface\\Icons\\achievement_doublerainbow",
 };
 D["SharedMedia_BNS"] = {
     defaultEnable = 1,
 	tags = { "MISC" },
 	title = "BNS 音效材質包",
 	desc = "讓不同的插件能夠共享材質、背景、邊框、字體和音效，也提供了多種中英文字體、音效和材質可供 WA 和其他插件使用。`",
+	icon = "Interface\\Icons\\inv_misc_herb_goldclover",
 };
 D["ShinyBuffs"] = {
 	defaultEnable = 1,
@@ -2114,7 +2112,7 @@ D["ShinyBuffs"] = {
 	title = "我的增益/減益效果",
 	desc = "美化畫面右上角自己的增益、減益效果圖示，可以調整位置、自訂圖示和文字大小。`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\ability_bossdarkvindicator_auraofcontempt",
+	icon = "Interface\\Icons\\spell_holy_wordfortitude",
 	img = true,
     {
         text = "設定選項",
@@ -2129,7 +2127,7 @@ D["Shooter"] = {
 	defaultEnable = 1,
 	title = "成就自動截圖",
 	desc = "獲得成就時會自動擷取螢幕畫面，為你的魔獸生活捕捉難忘的回憶。``畫面截圖都存放在`World of Warcraft > _classic_ > Screenshots 資料夾內。`",
-	--icon = "Interface\\Icons\\inv_misc_toy_07",
+	icon = "Interface\\Icons\\inv_misc_toy_07",
 	img = true,
 };
 D["SilverDragon"] = {
@@ -2138,7 +2136,6 @@ D["SilverDragon"] = {
 	title = "稀有怪獸與牠們的產地",
 	desc = "功能強大的稀有怪通知插件，記錄稀有怪的位置和時間，發現時會通知你。支援舊地圖的稀有怪!``發現稀有怪獸時預設的通知效果會顯示通知面板、螢幕閃紅光和發出音效，還可以和隊友、公會同步通知發現的稀有怪，都可以在設定選項中調整。`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\inv_misc_head_dragon_black_nightmare",
 	img = true,
     {
         text = "設定選項",
@@ -2158,6 +2155,7 @@ D["SilverPlateTweaks"] = {
 	tags = { "ENHANCEMENT" },
 	title = "血條距離微調",
 	desc = "自動調整血條的視野距離 (可以看見距離多遠範圍內的血條)、堆疊時的間距和螢幕邊緣的距離 (不要超出畫面範圍)。``|cffFF2D2D特別注意：可以在威力血條的設定選項 > 暴雪設定，手動調整血條距離等相關數值，但是請先關閉這個插件。|r`",
+	icon = "Interface\\Icons\\spell_misc_hellifrepvpcombatmorale",
 	img = true,
 };
 D["SimpleItemLevel"] = {
@@ -2165,6 +2163,7 @@ D["SimpleItemLevel"] = {
 	tags = { "ITEM" },
 	title = "顯示物品等級",
 	desc = "在角色視窗的裝備欄位、背包和浮動提示資訊中顯示物品等級數字。`",
+	icon = "Interface\\Icons\\achievement_level_50",
 	{
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["SIMPLEITEMLEVEL"]("") end,
@@ -2196,6 +2195,7 @@ D["Skillet-Classic"] = {
 	title = "專業助手",
 	desc = "取代遊戲內建的專業視窗，提供更清楚的資訊、更容易瀏覽的畫面、還有排程的功能。`",
 	modifier = "BNS, bsmorgan , 彩虹ui",
+	icon = "Interface\\AddOns\\Skillet-Classic\\Icons\\crafted",
     {
         text = "設定選項",
         callback = function(cfg, v, loading) 
@@ -2208,7 +2208,7 @@ D["SmartQuest"] = {
 	title = "智能任務通報",
 	desc = "追蹤和通報隊伍成員的任務進度，會在聊天視窗顯示文字和播放音效。一起組隊解任務時粉方便!``|cffFF2D2D注意：需要隊友和你都有載入這個插件才會互相通報。|r`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\achievement_garrisonquests_0010",
+	icon = "Interface\\Icons\\achievement_quests_completed_uldum",
     {
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["SMARTQUEST"]("OPTIONS") end,
@@ -2219,6 +2219,7 @@ D["SpellActivationOverlay"] = {
 	tags = { "COMBAT" },
 	title = "法術警告",
 	desc = "顯示和正式服一樣的法術警告效果，技能觸發時在角色周圍顯示材質圖案，以及快捷列的按鈕發光。``可以自訂大小、位置，還可以選擇哪些法術技能觸發時要顯示提醒效果。`",
+	icon = "Interface\\Icons\\ability_paladin_beaconoflight",
     {
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["SAO"]("") end,
@@ -2245,7 +2246,7 @@ D["Spy"] = {
 	title = "偵測敵方玩家",
 	desc = "PvP 的野外求生的利器，偵測並列出附近所有的敵對陣營玩家。將玩家加入 KOS 即殺清單，出現在你附近時便會播放警告音效，或是通報到聊天頻道。``還能夠和公會、隊伍、團隊成員分享即殺玩家的資料，自保圍剿兩相宜。也會記錄最近遇到的敵方玩家和勝敗次數統計。`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\achievement_pvp_a_h",
+	icon = "Interface\\Icons\\achievement_pvp_a_h",
 	img = true,
 	{
 		type = "text",
@@ -2278,6 +2279,7 @@ D["SpellWhisper"] = {
 	title = "技能通報",
 	desc = "強大的技能通報軟體，施法、打斷、控場、破控、OT...等等想得到的都可以通報，也可自訂技能及法術通報。``只要你想得到沒有報不到`",
 	modifier = "由麻也, 彩虹ui",
+	icon = 136013,
     {
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["SWC"]("gui") end,
@@ -2288,7 +2290,7 @@ D["Stuf"] = {
 	title = "Stuf 頭像",
 	desc = "玩家、目標、小隊等頭像和血條框架，簡單好用自訂性高!``也有傳統頭像樣式和其他外觀樣式可供選擇，詳細用法說明請看：`http://wp.me/p7DTni-142`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\inv_kingrastakhanshead",
+	icon = "Interface\\Icons\\inv_misc_petmoonkinta",
 	img = true,
     {
         text = "設定選項",
@@ -2343,7 +2345,7 @@ D["TargetNameplateIndicator"] = {
 	title = "目標指示箭頭",
 	desc = "當前目標血條上方顯示箭頭，讓目標更明顯。``|cffFF2D2D特別注意：一定要開啟敵方和友方的名條/血條，才能顯示出箭頭。|r`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\ability_warrior_charge",
+	icon = "Interface\\Icons\\ability_warrior_charge",
 	img = true,
 	{
         text = "設定選項",
@@ -2356,6 +2358,7 @@ D["ThreatClassic2"] = {
 	title = "仇恨監控",
 	desc = "顯示隊友的仇恨值，有 OT 提醒、許多校正和顏色設定。`",
 	modifier = "由麻也, 秋月, 彩虹ui",
+	icon = "Interface\\Icons\\spell_fire_incinerate",
 	{
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["TC2_SLASHCMD"]("") end,
@@ -2372,8 +2375,7 @@ D["TalentEmu"] = {
 	desc = "包括了天賦模擬器和範本的功能，能夠從暴雪或 Wowhead 網站的天賦模擬器匯入天賦，或是將點好的天賦分享給其他玩家。`",
 	author = "ALA @ 网易有爱",
 	modifier = "ALA, 彩虹ui",
-	-- --icon = "Interface\\Icons\\inv_misc_book_01",
-	-- img = true,
+	icon = "Interface\\AddOns\\TalentEmu\\Media\\Textures\\ICON",
 	{
         text = "打開模擬器",
         callback = function(cfg, v, loading) SlashCmdList["ALATALENTEMU"]("") end,
@@ -2393,7 +2395,7 @@ D["TidyPlates_ThreatPlates"] = {
 	title = "威力血條",
 	desc = "威力強大、能夠根據仇恨值變化血條、提供更多自訂選項的血條。還可以幫指定的怪自訂血條樣式，讓血條更清楚明顯。``威力血條現在已經是獨立運作的插件，不再需要和 Tidy 血條一起載入使用，也請不要同時載入。`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\ability_warrior_innerrage",
+	icon = "Interface\\Icons\\ability_warrior_innerrage",
 	img = true,
 	{
         text = "設定選項",
@@ -2426,7 +2428,7 @@ D["TinyChat"] = {
 	title = "聊天按鈕和功能增強",
 	desc = "一個超輕量級的聊天功能增強插件。``提供快速切換頻道按鈕、表情圖案、開怪倒數、擲骰子、顯示物品圖示...還有更多功能。`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\spell_holy_divineprovidence",
+	icon = "Interface\\Icons\\inv_misc_food_28",
     img = true,
 	{
         text = "重置聊天按鈕位置",
@@ -2451,7 +2453,7 @@ D["MerInspect"] = {
 	title = "(請刪除) 裝備觀察",
 	desc = "這是舊的插件，已改用另一個裝備觀察插件。``請刪除舊的資料夾 (AddOns 裡面的 MerInspect) 以避免發生衝突。`",
 	modifier = "彩虹ui",
-	-- --icon = "Interface\\Icons\\inv_helmet_leather_raiddruid_q_01",
+	icon = "Interface\\Icons\\achievement_level_20",
 	img = true,
 	{
         text = "設定選項",
@@ -2482,7 +2484,7 @@ D["TinyInspect-Reforged"] = {
 	tags = { "ITEM" },
 	title = "裝備觀察",
 	desc = "觀察其他玩家和自己時會在角色資訊視窗右方列出已裝備的物品清單，方便查看裝備和物品等級。``還包含裝備欄物品等級、背包中物品等級，和滑鼠提示中顯示玩家專精和裝等的功能。`",
-	icon = "Interface\\Icons\\inv_helmet_leather_raiddruid_q_01",
+	icon = "Interface\\Icons\\achievement_level_20",
 	img = true,
 	{
         text = "設定選項",
@@ -2492,34 +2494,16 @@ D["TinyInspect-Reforged"] = {
 D["TinyTooltip"] = {
     defaultEnable = 0,
 	tags = { "ENHANCEMENT" },
-	title = "浮動提示資訊增強",
-	desc = "提供更多的選項讓你可以自訂滑鼠指向時所顯示的提示說明。`",
+	title = "(請刪除) 浮動提示資訊增強",
+	desc = "這是舊的插件，已改用另一個浮動提示資訊增強插件。``請刪除舊的資料夾 (AddOns 裡面的 TinyTooltip) 以避免發生衝突。`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\inv_wand_02",
-	img = true,
-    {
-        text = "設定選項",
-        callback = function(cfg, v, loading) SlashCmdList["TinyTooltip"]("") end,
-    },
-	{
-        text = "恢復為預設值",
-        callback = function(cfg, v, loading) SlashCmdList["TinyTooltip"]("reset") end,
-		reload = true,
-    },
-	{
-		type = "text",
-        text = "|cffFF2D2D啟用插件後需要重新載入介面。|r",       
-	},
-	{
-		type = "text",
-		text = "查看法術ID：滑鼠指向時按住 Alt 鍵。\n\n戰鬥中顯示浮動提示資訊：在設定選項中取消勾選 '戰鬥中隱藏'，玩家和NPC的戰鬥中隱藏也要分別取消勾選。\n\nDIY 模式：在設定選項中按下 DIY，可以分別拖曳每種資訊文字，自行安排呈現的位置。\n\n|cffFF2D2D請勿同時開啟 功能百寶箱 > 界面設置 > 增強工具提示 的功能，以免發生衝突。|r\n",
-	},
 };
 D["TinyTooltip-Reforged"] = {
     defaultEnable = 1,
 	tags = { "ENHANCEMENT" },
 	title = "浮動提示資訊增強",
 	desc = "提供更多的選項讓你可以自訂滑鼠指向時所顯示的提示說明。`",
+	icon = "Interface\\Icons\\inv_wand_02",
 	modifier = "彩虹ui",
 	img = true,
     {
@@ -2554,9 +2538,6 @@ D["TomTom"] = {
     defaultEnable = 1,
 	title = "TomTom 導航箭頭",
 	desc = "一個簡單的導航助手。自行在世界地圖上設定好目的地導航點，或是輸入坐標後，會在畫面中間出現指示方向的導航箭頭，跟著跑就對了!``直接點一下聊天視窗中別人貼的坐標也可以開始導航哦!``和任務高手插件不同，TomTom 不會自動幫任務導航，需要自己手動設定目的地。`",
-	-- modifier = "彩虹ui",
-	-- --icon = "Interface\\Icons\\inv_wand_02",
-	-- img = true,
     {
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["TOMTOM"]("") end,
@@ -2574,6 +2555,7 @@ D["TotemTimers"] = {
     defaultEnable = 0,
 	title = "薩滿圖騰快捷列",
 	desc = "能快速施放圖騰的快捷列，並且會顯示圖騰、復生、閃電盾和武器增益效果的時間和提醒。`",
+	icon = "Interface\\Icons\\spell_nature_stoneskintotem",
     {
         text = "設定選項",
         callback = function(cfg, v, loading) if SlashCmdList["TOTEMTIMERS"] then SlashCmdList["TOTEMTIMERS"]("") end end,
@@ -2585,12 +2567,12 @@ D["TransmogChecker"] = {
 	title = "塑形收集提示",
 	desc = "在物品的浮動提示資訊中，顯示你是否已經收集到這個外觀。`",
 	modifier = "彩虹ui",
+	icon = "Interface\\Icons\\inv_chest_plate29v1",
 };
 D["tullaRange"] = {
     defaultEnable = 1,
 	title = "射程著色",
 	desc = "超出射程時，快捷列圖示會顯示紅色，能量不足時顯示藍色，技能無法使用時顯示灰色。`",
-	--icon = "Interface\\Icons\\inv_misc_food_28",
 	img = true,
     {
         text = "設定選項",
@@ -2607,6 +2589,7 @@ D["UnitFramesPlus"] = {
 	title = "暴雪頭像 (增強功能)",
 	desc = "加強遊戲內建頭像的功能，提供更多自訂選項。像是 3D 動態頭像、在框架外側顯示額外的血量/法力值、頭像上的戰鬥文字、隊友和寵物的目標、隊友的血量、較穩定的目標的目標，以及目標的目標的目標框架...等等。``建議搭配 '暴雪頭像 (美化調整)' 插件一起使用，也可以單獨使用。`",
 	modifier = "彩虹ui",
+	icon = "Interface\\Icons\\inv_misc_pet_03",
     {
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["UnitFramesPlus"]("") end,
@@ -2670,7 +2653,7 @@ D["WeakAuras"] = {
 	title = "WA技能提醒",
 	desc = "輕量級，但功能強大實用、全面性的技能提醒工具，會依據增益/減益和各種觸發效果顯示圖形和資訊，以便做醒目的提醒。``在經典版中還沒有範本的功能，需要手動設定來建立提醒效果，或是匯入別人寫好的提醒效果字串使用，詳細請看教學。``基礎用法教學：`http://bit.ly/learn-wa``各種WA提醒效果字串下載：`https://wago.io`",
 	modifier = "a9012456, scars377, Stanzilla, Wowords, 彩虹ui",
-	--icon = "Interface\\Icons\\spell_holy_aspiration",
+	icon = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\icon.blp",
 	img = true,
     {
         text = "設定選項",
@@ -2716,7 +2699,6 @@ D["WorldMapTrackingEnhanced"] = {
 	tags = { "MAP" },
 	title = "世界地圖追蹤增強",
 	desc = "加強世界地圖右上角放大鏡的追蹤功能，提供更多的項目，隨時選擇地圖上要顯示、不顯示哪些圖示。``支援地圖標記相關模組、採集助手、戰寵助手和世界任務追蹤插件，讓你可以快速開關地圖上的圖示，不需要分別停用每個插件。`",
-	--icon = "Interface\\Icons\\inv_misc_spyglass_03",
 	img = true,
 	{
         text = "設定選項",
@@ -2738,7 +2720,7 @@ D["xanSoundAlerts"] = {
 	tags = { "COMBAT" },
 	title = "血量/法力過低音效",
 	desc = "血量或法力/能量太低時，會發出音效來提醒。``支援多種能量類型，可在設定選項中勾選。",
-	--icon = "Interface\\Icons\\spell_brokenheart",
+	icon = "Interface\\Icons\\spell_brokenheart",
 	{
         text = "設定選項",
         callback = function(cfg, v, loading) SlashCmdList["XANSOUNDALERTS"]("") end,
@@ -2751,28 +2733,9 @@ D["xanSoundAlerts"] = {
 D["XIV_Databar"] = {
     defaultEnable = 0,
 	tags = { "ENHANCEMENT" },
-	title = "功能資訊列 (舊版)",
-	desc = "在畫面最下方顯示一排遊戲功能小圖示，取代原本的微型選單和背包按鈕。還會顯示時間、耐久度、天賦、專業、兌換通貨、金錢、傳送和系統資訊等等。``在設定選項中可以自行選擇要顯示哪些資訊、調整位置和顏色。`",
+	title = "(請刪除) 功能資訊列",
+	desc = "這是舊的插件，已改用另一個功能資訊列插件。``請刪除舊的資料夾 (AddOns 裡面的 XIV_Databar) 以避免發生衝突。`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\ability_hunter_beasttraining",
-	img = true,
-    {
-        text = "設定選項",
-        callback = function(cfg, v, loading) 
-			-- InterfaceOptionsFrame:Show()
-			InterfaceOptionsFrame_OpenToCategory("資訊列")
-			InterfaceOptionsFrame_OpenToCategory("功能模組")
-			InterfaceOptionsFrame_OpenToCategory("資訊列")
-		end,
-    },
-	{
-		type = "text",
-        text = "設定功能模組：打開設定選項視窗後，在視窗左側點 '資訊列' 旁的加號將它展開，再選擇 '功能模組'。\n",
-	},
-	{
-		type = "text",
-        text = "開啟/關閉功能模組後如果沒有正常顯示，請重新載入。",
-	},
 };
 D["XIV_Databar_Continued"] = {
     defaultEnable = 1,
@@ -2780,7 +2743,6 @@ D["XIV_Databar_Continued"] = {
 	title = "功能資訊列",
 	desc = "在畫面最下方顯示一排遊戲功能小圖示，取代原本的微型選單和背包按鈕。還會顯示時間、耐久度、天賦、專業、兌換通貨、金錢、傳送和系統資訊等等。``在設定選項中可以自行選擇要顯示哪些資訊、調整位置和顏色。`",
 	modifier = "彩虹ui",
-	--icon = "Interface\\Icons\\ability_hunter_beasttraining",
 	img = true,
     {
         text = "設定選項",
@@ -2802,6 +2764,7 @@ D["YouGotMail"] = {
 	tags = { "ITEM" },
 	title = "新郵件通知音效",
 	desc = "收到新的郵件時會播放 You got mail 經典音效。`",
+	icon = "Interface\\Icons\\achievement_guildperk_gmail",
 };
 D["zz_itemsdb"] = {
 	defaultEnable = 0,
