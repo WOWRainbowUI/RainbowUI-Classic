@@ -281,7 +281,7 @@ local dungeonTags = {
 		zhCN = "闪电大厅",
 	},
 	HOO = { -- Halls of Origination
-		enGB = "hoo origination",
+		enGB = "hoo origination halls",
 		deDE = nil,
 		ruRU = nil,
 		frFR = nil,
@@ -979,7 +979,7 @@ dungeonTags["DEADMINES"] = { enGB = "dm" } -- should normalize "DM" to "DEADMINE
 -- a more modular way of adding "categories" to the bulletin board
 -- the tags and the key and the display name for the category would all be defined in the same place
 local otherTags = {
-	TRADE = {
+	TRADE = { -- Trade Services
 	  enGB = "buy buying sell selling wts wtb hitem henchant htrade enchanter",
 	  deDE = "kaufe verkauf kauf verkaufe ah vk tg trinkgeld trinkgold vz schneider verzauberer verzaubere schliesskassetten schließkassetten kassetten schlossknacken schloßknacken alchimie",
 	  ruRU = "куплю продам втс втб чантера чант энчантера скрафчу сделаю чарю чары",
@@ -987,7 +987,7 @@ local otherTags = {
 	  zhTW = "買 賣 售 收 代工 出售 附魔 COD",
 	  zhCN = "买 卖 收 代工 出售 附魔",
 	},
-	TRAVEL = {
+	TRAVEL = { -- Travel Services
 	  enGB = "sum summ summon summons summoning port portal travel",
 	  deDE = nil,
 	  ruRU = nil,
@@ -995,7 +995,7 @@ local otherTags = {
 	  zhTW = "傳送 開門 拉人",
 	  zhCN = "传送 开门 拉人",
 	},
-	BLOOD = isSoD and {
+	BLOOD = isSoD and { -- Bloodmoon Event
 	  enGB = "blood bloodmoon bm",
 	  deDE = nil,
 	  ruRU = nil,
@@ -1003,14 +1003,18 @@ local otherTags = {
 	  zhTW = "血月",
 	  zhCN = "血月",
 	} or nil,
-	INCUR = isSoD and {
-	  enGB = "inc incur incursion incursions incurusions",
+	INCUR = isSoD and { -- Incursion Event
+	  enGB = "inc incur incursion incursions incurusions loops",
 	  deDE = nil,
 	  ruRU = nil,
 	  frFR = nil,
 	  zhTW = "惡夢 入侵",
 	  zhCN = "恶梦 入侵",
 	} or nil,
+	--- Random Dungeon Finder
+	RDF = not isClassicEra and {
+	  enGB = "rdf random dungeons spam heroics",
+	}
 }
 
 --- Secondary Dungeon Tags: related to identifying dungeon or activity name from a message.
@@ -1061,7 +1065,8 @@ end
 for locale, dungeonTags in pairs(GBB.dungeonTagsLoc) do
 	for dungeonKey, _ in pairs(dungeonTags) do
 		if not (validGameVersionKeys[dungeonKey] 
-			or GBB.dungeonSecondTags[dungeonKey])
+			or GBB.dungeonSecondTags[dungeonKey]
+			or otherTags[dungeonKey])
 		then
 			GBB.dungeonTagsLoc[locale][dungeonKey] = nil
 		end

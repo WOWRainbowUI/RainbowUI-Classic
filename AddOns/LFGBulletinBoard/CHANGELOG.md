@@ -1,8 +1,37 @@
 # LFG Bulletin Board
 
-## [v3.10-115-g5372eae](https://github.com/juemrami/LFG-Bulletin-Board/tree/5372eaebb96871e3b35a0cd824980b475639ee47) (2024-05-20)
-[Full Changelog](https://github.com/juemrami/LFG-Bulletin-Board/compare/v3.10...5372eaebb96871e3b35a0cd824980b475639ee47) [Previous Releases](https://github.com/juemrami/LFG-Bulletin-Board/releases)
+## [v3.10-124-ge1dfda7](https://github.com/juemrami/LFG-Bulletin-Board/tree/e1dfda76b7e1275de6b5c0451ab5a9e14ffba51a) (2024-05-22)
+[Full Changelog](https://github.com/juemrami/LFG-Bulletin-Board/compare/v3.10...e1dfda76b7e1275de6b5c0451ab5a9e14ffba51a) [Previous Releases](https://github.com/juemrami/LFG-Bulletin-Board/releases)
 
+- minor: tweaks to presets in `Tags.lua` (#55)  
+    - Incursions got "loops" added to it  
+    - Halls of Origination got "halls" added.  
+      - requires future disambiguation with wotlk's "halls" dungeons  
+- feat: add "Random Dungeon" category for cataclysm (#54)  
+    - useful atm since ppl seem just be spamming the rdf tool  
+    - disabled by default, users will have to check the filter in the cataclysm panel.  
+    - only english tags added  
+    ![example](https://i.imgur.com/39PnGYk.png)  
+- refactor: new way of generating class icons (juemrami/LFG-Bulletin-Board#52)  
+    - Allows us to get rid of the big hard coded tables.  
+    - passing size 18 is the same is the seperate table for "big" icons that used to exist.  
+- perf: `CreateItem` uses `SetFormattedText` to reduce concatenations (juemrami/LFG-Bulletin-Board#51)  
+    - very slight memory usage reduction for not using repeated concats.  
+    - it also just easier to maintain.  
+- minor: ui nits with spacing between board entries (juemrami/LFG-Bulletin-Board#53)  
+    - Highlight texture would slightly clip the message text in the bottom without this extra padding. Super nit.  
+- refactor: readability and flow of `CreateItem` (juemrami/LFG-Bulletin-Board#8)  
+    Resulting code makes it alot easier to move and manage the ui elements within  
+    the entry item itself.  
+- fix: colored header hover highlight (juemrami/LFG-Bulletin-Board#7)  
+    Fix to headers colored by `GBB.DB.ColorOnLevel` not being affected by the highlight font object.  
+- feat: mouseover highlight textures for `GBB.FramesEntries` (juemrami/LFG-Bulletin-Board#4)  
+    - Headers will now use a highlighted text on mouseover  
+    - Request entries will show a highlight texture on mouseover  
+    **images**:  
+    ![example-gif](https://i.imgur.com/1HKkHot.gif)  
+- refactor: renames cleanups for `CreateHeader` (juemrami/LFG-Bulletin-Board#6)  
+    - this changes none of the functionality, but renames variable and moves conditional logic to be more readable for debugging purposes.  
 - docs: update alpha `changelog.txt`  
 - hotfix: add basic preset english tags for cataclysm (juemrami/LFG-Bulletin-Board#50)  
     **images**  
