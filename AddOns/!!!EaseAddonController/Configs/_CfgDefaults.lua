@@ -2561,7 +2561,7 @@ D["TotemTimers"] = {
 D["TransmogChecker"] = {
     defaultEnable = 1,
 	tags = { "COLLECTION" },
-	title = "塑形外觀提示",
+	title = "塑形收集提示",
 	desc = "在物品的浮動提示資訊中，顯示你是否已經收集到這個外觀。`",
 	modifier = "彩虹ui",
 };
