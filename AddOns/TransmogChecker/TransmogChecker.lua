@@ -161,7 +161,7 @@ GameTooltip:HookScript("OnTooltipSetItem", function(tooltip)
 					tooltip:AddLine("|cFFFF7F00你已經收集了這個外觀，但不是來自此物品。|r")
 				end
             elseif appearanceCollected == nil then
-                tooltip:AddLine("|cFFFF0000你的職業無法使用這件物品|r")
+                tooltip:AddLine("|cFFFF0000你的職業無法使用這個外觀|r")
             else 
                 tooltip:AddLine("|cFFFF7F00你還沒收集到這個外觀|r")
             end
