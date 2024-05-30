@@ -1,0 +1,12 @@
+## Interface: 40400
+## Title: Transmog Checker
+## Notes: Displays a tooltip line if the item has been collected as transmog source
+## Version: 0.0.7
+## Dependencies:Blizzard_AuctionUI
+## Author: Diamon
+
+## Title-zhTW: |cffFFFF66[塑形]|r 外觀提示
+## Notes-zhTW: Transmog Checker |n|n在物品的浮動提示資訊中，顯示你是否已經收集到這個外觀。
+## X-Category-zhTW: 收藏
+
+TransmogChecker.lua

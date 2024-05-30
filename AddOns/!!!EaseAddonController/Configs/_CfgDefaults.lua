@@ -2558,6 +2558,13 @@ D["TotemTimers"] = {
         callback = function(cfg, v, loading) if SlashCmdList["TOTEMTIMERS"] then SlashCmdList["TOTEMTIMERS"]("") end end,
     },
 };
+D["TransmogChecker"] = {
+    defaultEnable = 1,
+	tags = { "COLLECTION" },
+	title = "塑形外觀提示",
+	desc = "在物品的浮動提示資訊中，顯示你是否已經收集到這個外觀。`",
+	modifier = "彩虹ui",
+};
 D["tullaRange"] = {
     defaultEnable = 1,
 	title = "射程著色",
