@@ -273,8 +273,10 @@ local function FilterItem(FB, itemID, EquipLocs, type, hard, ii, otherID) -- 重
         local tex = C_CurrencyInfo.GetCurrencyInfo(currencyID).iconFileID
         local quantity = C_CurrencyInfo.GetCurrencyInfo(currencyID).quantity
         local color = "FFFFFF"
-        if quantity < count then
+        if count and quantity < count then
             color = "FF0000"
+        else
+            count = ""
         end
         -- local get = BG.STC_y1(count .. " " .. AddTexture(tex)) .. AddPrice(itemID)
         -- local get = BG.STC_y1(AddTexture(tex) .. name .. " " .. BG.STC_w1(count) .. AddTexture(tex)) .. AddPrice(itemID)
@@ -292,23 +294,6 @@ local function FilterItem(FB, itemID, EquipLocs, type, hard, ii, otherID) -- 重
             haved = CheckHaved(itemID)
         }
         return a
-
-        --[[         local name = C_CurrencyInfo.GetCurrencyInfo(otherID).name
-        local tex = C_CurrencyInfo.GetCurrencyInfo(otherID).iconFileID
-        local get = BG.STC_y1(AddTexture(tex) .. name) .. AddPrice(itemID)
-
-        local a = {
-            itemID = itemID,
-            link = link,
-            level = level,
-            quality = quality,
-            texture = Texture,
-            get = get,
-            bindType = bindType,
-            type = GetTypeID(type),
-            haved = CheckHaved(itemID)
-        }
-        return a ]]
     elseif type == "faction" then -- 声望
         local tbl = {
             FACTION_STANDING_LABEL4,
@@ -352,6 +337,12 @@ local function FilterItem(FB, itemID, EquipLocs, type, hard, ii, otherID) -- 重
             icon = AddTexture(136243, nil, ":100:100:8:92:8:92")
         elseif otherID == "附魔" then
             icon = AddTexture(136244, nil, ":100:100:8:92:8:92")
+        elseif otherID == "珠宝加工" then
+            icon = AddTexture(134071, nil, ":100:100:8:92:8:92")
+        elseif otherID == "铭文" then
+            icon = AddTexture(237171, nil, ":100:100:8:92:8:92")
+        elseif otherID == "考古" then
+            icon = AddTexture(441139, nil, ":100:100:8:92:8:92")
         end
         local name = TRADE_SKILLS .. ": " .. L[otherID] .. icon
         local get = BG.STC_y2(name) .. AddPrice(itemID)
@@ -520,36 +511,62 @@ local function CheckItemCache(EquipLocs) -- 不传入参数时是检查所有物
     for _, FB in pairs(BG.phaseFBtable[BG.FB1]) do
         -- 团本
         for _, hard in ipairs(BG.difficultyTable[BG.FB1]) do
-            if BG.Loot[FB][hard] then
-                local ii = 1
-                while BG.Loot[FB][hard]["boss" .. ii] do
-                    for i, itemID in ipairs(BG.Loot[FB][hard]["boss" .. ii]) do
-                        count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "raid", hard, ii, k)
+            local yes = true
+            if EquipLocs then
+                if BG.IsVanilla() then
+                    if BiaoGe.ItemLib.fitlerGet.raid then
+                        yes = false
                     end
-                    -- BOSS掉落后兑换的装备，这些装备不能设为心愿
-                    if BG.Loot[FB][hard]["boss" .. ii .. "other"] then
-                        for i, itemID in ipairs(BG.Loot[FB][hard]["boss" .. ii .. "other"]) do
-                            count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "raid", hard, ii, "other")
-                        end
+                elseif BG.IsWLK() or BG.IsCTM() then
+                    if BiaoGe.ItemLib.fitlerGet.raidhero and hard == "H" then
+                        yes = false
                     end
-                    ii = ii + 1
+                    if BiaoGe.ItemLib.fitlerGet.raidnormal and hard == "N" then
+                        yes = false
+                    end
+                    if BiaoGe.ItemLib.fitlerGet.raid25 and strfind(hard, "25") then
+                        yes = false
+                    end
+                    if BiaoGe.ItemLib.fitlerGet.raid10 and strfind(hard, "10") then
+                        yes = false
+                    end
                 end
-                -- 团本任务奖励
-                local ii = 1
-                if BG.Loot[FB][hard].Quest then
-                    for name, _ in pairs(BG.Loot[FB][hard].Quest) do
-                        for _, itemID in pairs(BG.Loot[FB][hard].Quest[name]) do
-                            count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "raid", hard, ii, name)
+            end
+
+            if yes then
+                if BG.Loot[FB][hard] then
+                    local ii = 1
+                    while BG.Loot[FB][hard]["boss" .. ii] do
+                        for i, itemID in ipairs(BG.Loot[FB][hard]["boss" .. ii]) do
+                            count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "raid", hard, ii, k)
+                        end
+                        -- BOSS掉落后兑换的装备
+                        if BG.Loot[FB][hard]["boss" .. ii .. "other"] then
+                            for i, itemID in ipairs(BG.Loot[FB][hard]["boss" .. ii .. "other"]) do
+                                count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "raid", hard, ii, "other")
+                            end
+                        end
+                        ii = ii + 1
+                    end
+                    -- 团本任务奖励
+                    local ii = 1
+                    if BG.Loot[FB][hard].Quest then
+                        for name, _ in pairs(BG.Loot[FB][hard].Quest) do
+                            for _, itemID in pairs(BG.Loot[FB][hard].Quest[name]) do
+                                count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "raid", hard, ii, name)
+                            end
                         end
                     end
                 end
             end
         end
         -- 5人本
-        for FB_5 in pairs(BG.Loot[FB].Team) do
-            for BossName, _ in pairs(BG.Loot[FB].Team[FB_5]) do
-                for _, itemID in pairs(BG.Loot[FB].Team[FB_5][BossName]) do
-                    count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "fb5", hard, ii, FB_5 .. ":" .. BossName)
+        if not EquipLocs or not BiaoGe.ItemLib.fitlerGet.fb5 then
+            for FB_5 in pairs(BG.Loot[FB].Team) do
+                for BossName, _ in pairs(BG.Loot[FB].Team[FB_5]) do
+                    for _, itemID in pairs(BG.Loot[FB].Team[FB_5][BossName]) do
+                        count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "fb5", hard, ii, FB_5 .. ":" .. BossName)
+                    end
                 end
             end
         end
@@ -560,41 +577,55 @@ local function CheckItemCache(EquipLocs) -- 不传入参数时是检查所有物
             end
         end
         -- 牌子装备
-        for itemID, v in pairs(BG.Loot[FB].Currency) do
-            count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "currency", hard, ii, v)
-        end
-        -- 声望装备
-        for k, v in pairs(BG.Loot[FB].Faction) do
-            for i, itemID in ipairs(BG.Loot[FB].Faction[k]) do
-                count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "faction", hard, ii, k)
-            end
-        end
-        -- 专业制造
-        for k, v in pairs(BG.Loot[FB].Profession) do
-            for i, itemID in ipairs(BG.Loot[FB].Profession[k]) do
-                count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "profession", hard, ii, k)
-            end
-        end
-        -- 世界掉落
-        for i, itemID in ipairs(BG.Loot[FB].World) do
-            count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "world", hard, ii, k)
-        end
-        -- 世界BOSS
-        for k, v in pairs(BG.Loot[FB].WorldBoss) do
-            for i, itemID in ipairs(BG.Loot[FB].WorldBoss[k]) do
-                count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "worldboss", hard, ii, k)
-            end
-        end
-        -- PVP
-        for k, v in pairs(BG.Loot[FB].Pvp) do
-            for i, itemID in ipairs(BG.Loot[FB].Pvp[k]) do
-                count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "pvp", hard, ii, k)
+        if not EquipLocs or not BiaoGe.ItemLib.fitlerGet.currency then
+            for itemID, v in pairs(BG.Loot[FB].Currency) do
+                count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "currency", hard, ii, v)
             end
         end
         -- 赛季服货币/牌子
-        for i, v in pairs(BG.Loot[FB].Sod_Currency) do
-            for itemID, currency in pairs(BG.Loot[FB].Sod_Currency[i]) do
-                count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "sod_currency", hard, ii, currency)
+        if not EquipLocs or not BiaoGe.ItemLib.fitlerGet.currency then
+            for i, v in pairs(BG.Loot[FB].Sod_Currency) do
+                for itemID, currency in pairs(BG.Loot[FB].Sod_Currency[i]) do
+                    count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "sod_currency", hard, ii, currency)
+                end
+            end
+        end
+        -- 声望装备
+        if not EquipLocs or not BiaoGe.ItemLib.fitlerGet.faction then
+            for k, v in pairs(BG.Loot[FB].Faction) do
+                for i, itemID in ipairs(BG.Loot[FB].Faction[k]) do
+                    count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "faction", hard, ii, k)
+                end
+            end
+        end
+        -- 专业制造
+        if not EquipLocs or not BiaoGe.ItemLib.fitlerGet.profession then
+            for k, v in pairs(BG.Loot[FB].Profession) do
+                for i, itemID in ipairs(BG.Loot[FB].Profession[k]) do
+                    count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "profession", hard, ii, k)
+                end
+            end
+        end
+        -- 世界掉落
+        if not EquipLocs or not BiaoGe.ItemLib.fitlerGet.world then
+            for i, itemID in ipairs(BG.Loot[FB].World) do
+                count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "world", hard, ii, k)
+            end
+        end
+        -- 世界BOSS
+        if not EquipLocs or not BiaoGe.ItemLib.fitlerGet.worldboss then
+            for k, v in pairs(BG.Loot[FB].WorldBoss) do
+                for i, itemID in ipairs(BG.Loot[FB].WorldBoss[k]) do
+                    count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "worldboss", hard, ii, k)
+                end
+            end
+        end
+        -- PVP
+        if not EquipLocs or not BiaoGe.ItemLib.fitlerGet.pvp then
+            for k, v in pairs(BG.Loot[FB].Pvp) do
+                for i, itemID in ipairs(BG.Loot[FB].Pvp[k]) do
+                    count1, count2, tbl = Mode(FB, count1, count2, tbl, EquipLocs, itemID, "pvp", hard, ii, k)
+                end
             end
         end
     end
@@ -1412,6 +1443,7 @@ function BG.ItemLibUI()
     if not BiaoGe.ItemLib.itemLibOrder then
         BiaoGe.ItemLib.itemLibOrder = 1
     end
+    BiaoGe.ItemLib.fitlerGet = BiaoGe.ItemLib.fitlerGet or {}
 
     local width = BG.ItemLibFramewidth
     BG.itemLib_Hope_Buttons = {}
@@ -1562,10 +1594,171 @@ function BG.ItemLibUI()
         end
         CreateLine(BG.ItemLibMainFrame[num]["title1"], 0, width - 20)
 
+        -- 排序按钮
         local sorter = f:CreateTexture(nil, "OVERLAY")
         sorter:SetSize(8, 8)
         sorter:SetTexture("Interface/Buttons/ui-sortarrow")
         BG.ItemLibMainFrame[num].sorter = sorter
+
+        -- 获取途径过滤
+        do
+            local parent = BG.ItemLibMainFrame[num]["title4"]
+            local bt = CreateFrame("Button", nil, parent) -- 下滚
+            bt:SetSize(35, 25)
+            bt:SetPoint("RIGHT", parent, "RIGHT", 5, 0)
+            bt.normalTex = bt:CreateTexture()
+            bt.normalTex:SetPoint("CENTER")
+            bt.normalTex:SetSize(20, 20)
+            bt.normalTex:SetTexture("interface/garrison/garrisonbuildingui")
+            bt.normalTex:SetTexCoord(0.28, 0.33, 0.9, 1)
+            bt:SetNormalTexture(bt.normalTex)
+            bt.highlightTex = bt:CreateTexture()
+            bt.highlightTex:SetPoint("CENTER")
+            bt.highlightTex:SetSize(20, 20)
+            bt.highlightTex:SetTexture("interface/garrison/garrisonbuildingui")
+            bt.highlightTex:SetTexCoord(0.28, 0.33, 0.9, 1)
+            bt:SetHighlightTexture(bt.highlightTex)
+            BG.ItemLibMainFrame[num].fitlerGetButton = bt
+            bt:SetScript("OnEnter", function(self)
+                GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
+                GameTooltip:ClearLines()
+                GameTooltip:AddLine(L["获取途径过滤"], 1, 1, 1, true)
+                GameTooltip:Show()
+            end)
+            bt:SetScript("OnLeave", GameTooltip_Hide)
+
+            local tbl
+            if BG.IsVanilla_Sod() then
+                tbl = {
+                    { name = L["团本"], name2 = "raid", },
+                    { name = L["5人本"], name2 = "fb5", },
+                    { name = L["牌子/货币"], name2 = "currency", },
+                    { name = L["声望"], name2 = "faction", },
+                    { name = L["专业"], name2 = "profession", },
+                    { name = L["世界掉落"], name2 = "world", },
+                    { name = L["PVP"], name2 = "pvp", },
+                }
+            elseif BG.IsVanilla_60() then
+                tbl = {
+                    { name = L["团本"], name2 = "raid", },
+                    { name = L["声望"], name2 = "faction", },
+                    { name = L["专业"], name2 = "profession", },
+                    { name = L["世界掉落"], name2 = "world", },
+                    { name = L["世界BOSS"], name2 = "worldboss", },
+                    { name = L["PVP"], name2 = "pvp", },
+                }
+            elseif BG.IsWLK() then
+                tbl = {
+                    { name = L["团本：25人"], name2 = "raid25", },
+                    { name = L["团本：10人"], name2 = "raid10", },
+                    { name = L["团本：英雄难度"], name2 = "raidhero", },
+                    { name = L["团本：普通难度"], name2 = "raidnormal", },
+                    { name = L["5人本"], name2 = "fb5", },
+                    { name = L["牌子/货币"], name2 = "currency", },
+                    { name = L["声望"], name2 = "faction", },
+                    { name = L["专业"], name2 = "profession", },
+                }
+            elseif BG.IsCTM() then
+                tbl = {
+                    { name = L["团本：英雄难度"], name2 = "raidhero", },
+                    { name = L["团本：普通难度"], name2 = "raidnormal", },
+                    { name = L["5人本"], name2 = "fb5", },
+                    { name = L["牌子/货币"], name2 = "currency", },
+                    { name = L["声望"], name2 = "faction", },
+                    { name = L["专业"], name2 = "profession", },
+                    { name = L["世界掉落"], name2 = "world", },
+                }
+            end
+
+            local function UpdateTex()
+                local hasFitlerGet
+                for kk, vv in pairs(tbl) do
+                    for k, v in pairs(BiaoGe.ItemLib.fitlerGet) do
+                        if vv.name2 == k then
+                            hasFitlerGet = true
+                            break
+                        end
+                    end
+                    if hasFitlerGet then break end
+                end
+                if hasFitlerGet then
+                    bt.normalTex:SetVertexColor(0, 1, 0)
+                    bt.highlightTex:SetVertexColor(0, 1, 0)
+                else
+                    bt.normalTex:SetVertexColor(1, 1, 1)
+                    bt.highlightTex:SetVertexColor(1, 1, 1)
+                end
+            end
+            UpdateTex()
+
+            local f = CreateFrame("Frame", nil, bt, "BackdropTemplate")
+            f:SetBackdrop({
+                bgFile = "Interface/ChatFrame/ChatFrameBackground",
+                edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+                edgeSize = 10,
+                insets = { left = 3, right = 3, top = 3, bottom = 3 }
+            })
+            f:SetBackdropColor(0, 0, 0, 0.8)
+            f:SetSize(180, #tbl * 25 + 40)
+            f:SetPoint("TOPLEFT", BG.ItemLibMainFrame.bg1, "TOPRIGHT", 0, 1)
+
+            f:EnableMouse(true)
+            f:SetFrameLevel(110)
+            f:Hide()
+
+            BG.ItemLibMainFrame[num].fitlerGetButton:SetScript("OnClick", function(self)
+                BG.PlaySound(1)
+                if f:IsVisible() then
+                    f:Hide()
+                else
+                    f:Show()
+                end
+            end)
+
+            local t = f:CreateFontString()
+            t:SetFont(BIAOGE_TEXT_FONT, 15, "OUTLINE")
+            t:SetPoint("TOP", f, "TOP", 0, -10)
+            t:SetTextColor(RGB("FFD100"))
+            t:SetText(L["获取途径显示"])
+            t:SetJustifyH("CENTER")
+
+            f.CloseButton = CreateFrame("Button", nil, f, "UIPanelCloseButton")
+            f.CloseButton:SetPoint("TOPRIGHT", f, "TOPRIGHT", 2, 2)
+
+            local buttons = {}
+            for i, v in ipairs(tbl) do
+                local bt = CreateFrame("CheckButton", nil, f, "ChatConfigCheckButtonTemplate")
+                bt:SetSize(25, 25)
+                if i == 1 then
+                    bt:SetPoint("TOPLEFT", f, 10, -30)
+                else
+                    bt:SetPoint("TOPLEFT", buttons[i - 1], "BOTTOMLEFT", 0, -0)
+                end
+                bt.name = v.name
+                bt.name2 = v.name2
+                bt.Text:SetText(v.name)
+                bt:SetHitRectInsets(0, -bt.Text:GetWidth(), 0, 0)
+                bt.Text:SetWidth(150)
+                bt.Text:SetWordWrap(false)
+
+                tinsert(buttons, bt)
+                if BiaoGe.ItemLib.fitlerGet[bt.name2] then
+                    bt:SetChecked(false)
+                else
+                    bt:SetChecked(true)
+                end
+                bt:SetScript("OnClick", function(self)
+                    BG.PlaySound(1)
+                    if self:GetChecked() then
+                        BiaoGe.ItemLib.fitlerGet[self.name2] = nil
+                    else
+                        BiaoGe.ItemLib.fitlerGet[self.name2] = true
+                    end
+                    UpdateTex()
+                    BG.UpdateAllItemLib()
+                end)
+            end
+        end
 
         -- 头顶大标题
         local t = f:CreateFontString()

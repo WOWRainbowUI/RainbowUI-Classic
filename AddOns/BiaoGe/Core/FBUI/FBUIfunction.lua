@@ -1123,7 +1123,7 @@ function BG.FBZhiChuZongLanGongZiUI(FB)
     if not BiaoGe[FB]["boss" .. Maxb[FB] + 1]["zhuangbei3"] then
         BG.Frame[FB]["boss" .. Maxb[FB] + 1]["zhuangbei3"]:SetText(L["输出补贴"])
     end
-    if not BG.IsVanilla() then
+    if BG.IsWLK() then
         if not BiaoGe[FB]["boss" .. Maxb[FB] + 1]["zhuangbei4"] then
             BG.Frame[FB]["boss" .. Maxb[FB] + 1]["zhuangbei4"]:SetText(L["放鱼补贴"])
         end

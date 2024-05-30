@@ -217,7 +217,7 @@ elseif BG.IsCTM() then
         [4] = 6,
         [5] = 6,
         [6] = 20,
-        [7] = 13,
+        [7] = 12,
     }
     buttonCount.BWD = {
         [1] = 6,
