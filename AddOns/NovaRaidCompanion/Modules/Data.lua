@@ -240,6 +240,7 @@ function NRC:sendComm(distribution, string, target)
 	if ((UnitInBattleground("player") or NRC:isInArena()) and distribution ~= "GUILD") then
 		return;
 	end
+	--print(string)
 	if (distribution == "CHANNEL") then
 		--Get channel ID number.
 		local addonChannelId = GetChannelName(target);
@@ -259,7 +260,11 @@ function NRC:sendComm(distribution, string, target)
 	end
 	--NRC:debug("Serialized length:", string.len(serialized));
 	--NRC:debug("Compressed length:", string.len(compressed));
-	NRC:SendCommMessage(NRC.commPrefix, data, distribution, target);
+	if ((distribution == "PARTY" or distribution == "RAID") and IsInGroup(LE_PARTY_CATEGORY_INSTANCE)) then
+		NRC:SendCommMessage(NRC.commPrefix, data, "INSTANCE_CHAT", target);
+	else
+		NRC:SendCommMessage(NRC.commPrefix, data, distribution, target);
+	end
 end
 
 --Send full data.

@@ -965,7 +965,13 @@ function NRC:getMetaGem()
 								--Very rare no text but it does happen, just act like it was active.
 								return "", "", 0, true
 							end --ITEM_REQ_SKILL = Requires %s (hopefully works in all languages?).
-							if (strfind(text, gemEffect, 1, true) and strfind(text, string.gsub(ITEM_REQ_SKILL, "%%s", "(.+)"))) then
+							--Spoiler alert, it didn't work for all laguages. --Benötigt %1$s
+							--Easier just to match the first word "Requires" than deal with the different captures in other languages I think.
+							--And oh boy we can't even match the first word becaus lua won't match accented letters as a word, so match to first space instead.
+							--I suck at string matching and languages are hard ok.
+							local firstWord = strmatch(ITEM_REQ_SKILL, "^(.+) ");
+							--if (strfind(text, gemEffect, 1, true) and strfind(text, string.gsub(ITEM_REQ_SKILL, "%%s", "(.+)"))) then
+							if (strfind(text, gemEffect, 1, true) and strfind(text, firstWord)) then
 								foundGemText = true;
 								metaGemActive = not strmatch(text, "cff808080") or false;
 								break;
