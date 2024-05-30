@@ -1,10 +1,13 @@
 --[[
 
 Group Bulletin Board 	
+3.x alpha-v3
+ - Added hover highlights to tell who your messaging/what youre clicking
+ - Added a "Random Dungeon" category in "Others" for cataclysm RDF
+ 
 3.x alpha-v2
  - Tool request tab temporarily disabled until it can be fixed
  - Search pattern support for cata dungeons (see Search Patterns config)
-
 3.x alpha-v1
  - ptBR localization support added
  - missing localizations for dungeon names added.
