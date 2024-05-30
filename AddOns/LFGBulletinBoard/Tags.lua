@@ -1014,7 +1014,7 @@ local otherTags = {
 	--- Random Dungeon Finder
 	RDF = not isClassicEra and {
 	  enGB = "rdf random dungeons spam heroics",
-	}
+	} or nil
 }
 
 --- Secondary Dungeon Tags: related to identifying dungeon or activity name from a message.
