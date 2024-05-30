@@ -395,19 +395,22 @@ function VUHDO_initBuffsFromSpellBook()
 
 			if VUHDO_isSpellKnown(tParentSpellName) then
 				tChildSpellName, _, tIcon, _, _, _, tSpellId = GetSpellInfo(tParentSpellName);
-				VUHDO_BUFFS[tChildSpellName] = {
-					["icon"] = tIcon,
-					["id"] = tSpellId
-				};
 
-				if tChildSpellName ~= tParentSpellName then
-					VUHDO_BUFFS[tParentSpellName] = {
+				if tChildSpellName then
+					VUHDO_BUFFS[tChildSpellName] = {
 						["icon"] = tIcon,
 						["id"] = tSpellId
 					};
-				end
 
-				VUHDO_CLASS_BUFFS_BY_TARGET_TYPE[tCategSpells[2]][tParentSpellName] = true;
+					if tChildSpellName ~= tParentSpellName then
+						VUHDO_BUFFS[tParentSpellName] = {
+							["icon"] = tIcon,
+							["id"] = tSpellId
+						};
+					end
+
+					VUHDO_CLASS_BUFFS_BY_TARGET_TYPE[tCategSpells[2]][tParentSpellName] = true;
+				end
 			end
 		end
 	end

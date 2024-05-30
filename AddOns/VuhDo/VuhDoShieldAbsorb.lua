@@ -365,6 +365,10 @@ function VUHDO_parseCombatLogShieldAbsorb(aMessage, aSrcGuid, aDstGuid, aShieldN
 
 		if VUHDO_SHIELDS[anAbsorbSpellId] then
 			VUHDO_updateShield(tUnit, anAbsorbSpellId);
+
+			VUHDO_updateBouquetsForEvent(tUnit, 36); -- VUHDO_UPDATE_SHIELD
+
+			VUHDO_updateShieldBar(tUnit);
 		end
 
 		return;
