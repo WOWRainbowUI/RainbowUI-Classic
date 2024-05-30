@@ -1201,6 +1201,7 @@ function PawnRecalculateScaleTotal(ScaleName)
 	local ThisScaleBestGems = PawnScaleBestGems[ScaleName]
 
 	local QualityLevelData
+if PawnGemQualityLevels then -- 暫時修正
 	for _, QualityLevelData in pairs(PawnGemQualityLevels) do
 		local ItemLevel = QualityLevelData[1]
 		local GemData = QualityLevelData[2]
@@ -1230,7 +1231,7 @@ function PawnRecalculateScaleTotal(ScaleName)
 			ThisScaleBestGems.BlueSocketValue[ItemLevel] = BestBlue
 		end
 	end
-
+end -- 暫時修正結束
 	-- Now the meta gems.
 	if not VgerCore.IsClassic and not VgerCore.IsMainline then
 		for _, QualityLevelData in pairs(PawnMetaGemQualityLevels) do
