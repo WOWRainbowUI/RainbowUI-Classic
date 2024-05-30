@@ -61,7 +61,7 @@ local SendAddonMessage = C_ChatInfo and C_ChatInfo.SendAddonMessage or function(
 
 local function SendPlayerInfo()
     local ilvl = select(2, GetAverageItemLevel())
-    local spec = select(2, GetSpecializationInfo(GetSpecialization()))
+    local spec = nil -- select(2, GetSpecializationInfo(GetSpecialization()))
     SendAddonMessage("TinyInspectReforged", format("%s|%s|%s", "LV", ilvl, spec or ""), "PARTY")
 end
 
@@ -103,7 +103,7 @@ LibEvent:attachEvent("GROUP_ROSTER_UPDATE", function(self)
             ilevel = select(2, GetAverageItemLevel()),
             done   = true,
             unit   = "player",
-            spec   = select(2, GetSpecializationInfo(GetSpecialization())),
+            spec   = nil, -- select(2, GetSpecializationInfo(GetSpecialization())),
         }
         SendPlayerInfo()
         LibSchedule:AddTask({
