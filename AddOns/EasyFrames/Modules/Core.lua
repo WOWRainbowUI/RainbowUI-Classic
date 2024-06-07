@@ -45,6 +45,12 @@ function Core:OnInitialize()
 end
 
 function Core:OnEnable()
+    -- Temporary fix after WoW Api update. https://us.forums.blizzard.com/en/wow/t/cataclysm-classic-personal-status-bar/1869645
+    if (not PlayerFrameHealthBar.TextString) then
+        SetTextStatusBarText(PlayerFrameHealthBar, PlayerFrameHealthBarText)
+        SetTextStatusBarText(PlayerFrameManaBar, PlayerFrameManaBarText)
+    end
+
     self:RegisterEvent("GROUP_ROSTER_UPDATE", "EventHandler")
     self:RegisterEvent("PLAYER_TARGET_CHANGED", "EventHandler")
     self:RegisterEvent("PLAYER_FOCUS_CHANGED", "EventHandler")
