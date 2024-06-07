@@ -803,6 +803,12 @@ function UnitFramesPlus_PlayerInit()
 		UnitFramesPlusDB["player"]["extrabar"] = 0
 		UnitFramesPlusDB["player"]["dragonborder"] = 0
 		UnitFramesPlusDB["player"]["colorhp"] = 0
+	else
+		-- Temporary fix after WoW Api update. https://us.forums.blizzard.com/en/wow/t/cataclysm-classic-personal-status-bar/1869645
+		if (not PlayerFrameHealthBar.TextString) then
+			SetTextStatusBarText(PlayerFrameHealthBar, PlayerFrameHealthBarText)
+			SetTextStatusBarText(PlayerFrameManaBar, PlayerFrameManaBarText)
+		end
 	end
 
 	UnitFramesPlus_PlayerShiftDrag();
