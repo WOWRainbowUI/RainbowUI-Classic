@@ -82,6 +82,8 @@ L["YOU_LOST"] = "你失去了"
 L["YOU_RECEIVED"] = "你收到了"
 
 -- Classic Era
+L["ITEM_FILTERS_DESC"] = "這些物品會忽略物品品質。"
+L["NEW_ITEM_FILTER_DESC"] = "輸入物品 ID。"
 L["TYPE_LOOT_ITEMS"] = "拾取(物品)"
 
 -- Classic
