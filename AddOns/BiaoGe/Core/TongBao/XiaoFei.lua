@@ -1,26 +1,26 @@
-local AddonName, ADDONSELF = ...
+local AddonName, ns = ...
 
-local LibBG = ADDONSELF.LibBG
-local L = ADDONSELF.L
+local LibBG = ns.LibBG
+local L = ns.L
 
-local RR = ADDONSELF.RR
-local NN = ADDONSELF.NN
-local RN = ADDONSELF.RN
-local Size = ADDONSELF.Size
-local FrameHide = ADDONSELF.FrameHide
-local SetClassCFF = ADDONSELF.SetClassCFF
-local RGB_16 = ADDONSELF.RGB_16
+local RR = ns.RR
+local NN = ns.NN
+local RN = ns.RN
+local Size = ns.Size
+local FrameHide = ns.FrameHide
+local SetClassCFF = ns.SetClassCFF
+local RGB_16 = ns.RGB_16
 
-local Maxb = ADDONSELF.Maxb
-local Maxi = ADDONSELF.Maxi
-local HopeMaxn = ADDONSELF.HopeMaxn
-local HopeMaxb = ADDONSELF.HopeMaxb
-local HopeMaxi = ADDONSELF.HopeMaxi
+local Maxb = ns.Maxb
+local Maxi = ns.Maxi
+local HopeMaxn = ns.HopeMaxn
+local HopeMaxb = ns.HopeMaxb
+local HopeMaxi = ns.HopeMaxi
 
 local pt = print
 
 ------------------函数：通报消费排名-----------------
-local function CreateListTable(type, tx)
+local function CreateListTable(onClick, tbl1)
     local alltable = {}
     local newtable = {}
     local FB = BG.FB1
@@ -57,34 +57,38 @@ local function CreateListTable(type, tx)
     end)
 
     -- 开始
-    local tx = tx or {}
+    local tbl1 = tbl1 or {}
+    local tbl2 = {}
     local text = L["———通报消费排名———"]
-    table.insert(tx, text)
+    table.insert(tbl1, text)
+    table.insert(tbl2, { text })
 
     if #newtable ~= 0 then
         for i, v in ipairs(newtable) do
-            if type then
+            if onClick then
                 text = i .. ". " .. v.maijia .. " " .. v.jine
             else
                 text = i .. ". " .. RGB_16(v.maijia, unpack(v.color)) .. " " .. v.jine
             end
-            table.insert(tx, text)
+            table.insert(tbl1, text)
+            table.insert(tbl2, { text })
         end
     else
         local text = L["没有消费记录"]
-        table.insert(tx, text)
+        table.insert(tbl1, text)
+        table.insert(tbl2, { text })
     end
-    return tx
+    return tbl1, tbl2
 end
 
 
 function BG.XiaoFeiUI(lastbt)
-    local bt = CreateFrame("Button", nil, BG.FBMainFrame, "UIPanelButtonTemplate")
+    local bt = CreateFrame("Button", nil, BG.ButtonZhangDan, "UIPanelButtonTemplate")
     bt:SetSize(90, BG.ButtonZhangDan:GetHeight())
     bt:SetPoint("LEFT", lastbt, "RIGHT", 10, 0)
     bt:SetText(L["通报消费"])
-    bt:Show()
     BG.ButtonXiaoFei = bt
+    tinsert(BG.TongBaoButtons, bt)
     -- 鼠标悬停提示
     bt:SetScript("OnEnter", function(self)
         if BG.Backing then return end
@@ -96,9 +100,11 @@ function BG.XiaoFeiUI(lastbt)
             GameTooltip:AddLine(v)
         end
         GameTooltip:Show()
+        GameTooltip:SetClampedToScreen(false)
     end)
     bt:SetScript("OnLeave", function(self)
         GameTooltip:Hide()
+        GameTooltip:SetClampedToScreen(true)
     end)
     -- 点击通报消费排名
     bt:SetScript("OnClick", function(self)
@@ -112,10 +118,8 @@ function BG.XiaoFeiUI(lastbt)
                 bt:SetEnabled(true)
             end)
 
-            local tx = CreateListTable(true)
-            for index, value in ipairs(tx) do
-                SendChatMessage(value, "RAID")
-            end
+            local _, tbl = CreateListTable(true)
+            BG.SendMsgToRaid(tbl)
 
             PlaySoundFile(BG.sound2, "Master")
         end

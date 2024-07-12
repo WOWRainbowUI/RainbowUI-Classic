@@ -1,4 +1,4 @@
-local AddonName, ADDONSELF = ...
+local AddonName, ns = ...
 
 local pt = print
 
@@ -6,18 +6,17 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
     if addonName ~= AddonName then return end
 
     local aura_env = aura_env or {}
-    aura_env.ver = "v1.1"
+    aura_env.ver = "v1.4"
+
+    function aura_env.GetVerNum(str)
+        return tonumber(string.match(str, "v(%d+%.%d+)")) or 0
+    end
 
     if not _G.BGA then
         _G.BGA = {}
         _G.BGA.Frames = {}
     else
-        local function GetVerNum(str)
-            local ver = tonumber(string.match(str, "v(%d+%.%d+)"))
-            return ver
-        end
-
-        if GetVerNum(aura_env.ver) <= GetVerNum(_G.BGA.ver) then
+        if aura_env.GetVerNum(aura_env.ver) <= aura_env.GetVerNum(_G.BGA.ver) then
             return
         end
 
@@ -44,7 +43,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
 
     if (GetLocale() == "zhTW") then
         aura_env.L["Alt+点击才能生效"] = "Alt+點擊才能生效"
-        aura_env.L["只有团长有权限取消拍卖"] = "只有團長有權限取消拍賣"
+        aura_env.L["只有团长或物品分配者有权限取消拍卖"] = "只有團長或物品分配者有權限取消拍賣"
         aura_env.L["根据你的出价动态改变增减幅度"] = "根據你的出價動態改變增減幅度"
         aura_env.L["长按可以快速调整价格"] = "長按可以快速調整價格"
         aura_env.L["在输入框使用滚轮也可快速调整价格"] = "在輸入框使用滾輪也可快速調整價格"
@@ -115,9 +114,14 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
     aura_env.GREEN1 = "00FF00"
     aura_env.RED1 = "FF0000"
 
-    aura_env.WIDTH = 300
+    aura_env.WIDTH = 310
     aura_env.REPEAT_TIME = 20
     aura_env.HIDEFRAME_TIME = 3
+    aura_env.edgeSize = 2.5
+    aura_env.backdropColor = { 0, 0, 0, 0.6 }
+    aura_env.backdropBorderColor = { 1, 1, 0, 1 }
+    aura_env.backdropColor_IsMe = { aura_env.RGB("009900", 0.6) }
+    aura_env.backdropBorderColor_IsMe = { 0, 1, 0, 1 }
     aura_env.raidRosterInfo = {}
 
     -- 字体
@@ -161,9 +165,28 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         _G.BGA.FontWhite15:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
     end
 
+    function aura_env.IsRaidLeader(player)
+        if not player then
+            player = UnitName("player")
+        end
+        if player == aura_env.raidLeader then
+            return true
+        end
+    end
+
+    function aura_env.IsML(player)
+        if not player then
+            player = UnitName("player")
+        end
+        if (player == aura_env.raidLeader) or (player == aura_env.ML) then
+            return true
+        end
+    end
+
     function aura_env.UpdateRaidRosterInfo()
         wipe(aura_env.raidRosterInfo)
         aura_env.raidLeader = nil
+        aura_env.ML = nil
         if IsInRaid(1) then
             for i = 1, GetNumGroupMembers() do
                 local name, rank, subgroup, level, class2, class, zone, online,
@@ -188,13 +211,16 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
                     if rank == 2 then
                         aura_env.raidLeader = name
                     end
+                    if isML then
+                        aura_env.ML = name
+                    end
                 end
             end
 
             C_ChatInfo.SendAddonMessage(aura_env.AddonChannel, "MyVer" .. "," .. aura_env.ver, "RAID")
         end
         for i, f in ipairs(_G.BGA.Frames) do
-            if not f.IsEnd and UnitName("player") == aura_env.raidLeader then
+            if not f.IsEnd and aura_env.IsML() then
                 f.cancel:Show()
             else
                 f.cancel:Hide()
@@ -239,7 +265,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         GameTooltip:ClearLines()
         GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
         GameTooltip:AddLine(aura_env.L["Alt+点击才能生效"], 1, 0.82, 0, true)
-        GameTooltip:AddLine(aura_env.L["只有团长有权限取消拍卖"], 0.5, 0.5, 0.5, true)
+        GameTooltip:AddLine(aura_env.L["只有团长或物品分配者有权限取消拍卖"], 0.5, 0.5, 0.5, true)
         GameTooltip:Show()
     end
 
@@ -347,14 +373,14 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
                         f.topMoney:SetText(aura_env.L["|cff00FF00买家：|r"] .. f.colorplayer)
                     end
 
-                    if UnitName("player") == aura_env.raidLeader then
+                    if aura_env.IsRaidLeader() then
                         SendChatMessage(format(aura_env.L["{rt6}拍卖成功{rt6} %s %s %s"], f.link, f.player, f.money), "RAID")
                     end
                 else
                     f.currentMoney:SetText(aura_env.L["|cffFF0000流拍：|r"] .. f.money)
                     f.topMoney:SetText("")
 
-                    if UnitName("player") == aura_env.raidLeader then
+                    if aura_env.IsRaidLeader() then
                         SendChatMessage(format(aura_env.L["{rt7}流拍{rt7} %s"], f.link), "RAID")
                     end
                 end
@@ -494,19 +520,21 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         f.start = false
         if player == UnitName("player") then
             f.topMoney:SetText(aura_env.L["|cffFFD100出价最高者：|r"] .. "|cff" .. aura_env.GREEN1 .. aura_env.L[">> 你 <<"])
-            f:SetBackdropBorderColor(0, 1, 0, 1)
+            f:SetBackdropColor(unpack(aura_env.backdropColor_IsMe))
+            f:SetBackdropBorderColor(unpack(aura_env.backdropBorderColor_IsMe))
         else
             if f.mod == "anonymous" then
                 f.topMoney:SetText(aura_env.L["|cffFFD100出价最高者：|r"] .. aura_env.L["匿名"])
             else
                 f.topMoney:SetText(aura_env.L["|cffFFD100出价最高者：|r"] .. f.colorplayer)
             end
-            f:SetBackdropBorderColor(0, 0, 0, 1)
+            f:SetBackdropColor(unpack(aura_env.backdropColor))
+            f:SetBackdropBorderColor(unpack(aura_env.backdropBorderColor))
         end
         aura_env.myMoney_OnTextChanged(f.myMoney)
         aura_env.UpdateAllOnEnters()
 
-        if f.remaining <= aura_env.REPEAT_TIME then
+        if (f.remaining or 0) <= aura_env.REPEAT_TIME then
             aura_env.Auctioning(f, aura_env.REPEAT_TIME)
         end
     end
@@ -567,6 +595,16 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         end)
     end
 
+    function aura_env.anim(parent)
+        local animGroup = parent:CreateAnimationGroup()
+        local scaleAnim = animGroup:CreateAnimation("Scale")
+        scaleAnim:SetOrder(1)
+        scaleAnim:SetDuration(.5)
+        scaleAnim:SetScaleFrom(2, 2)
+        scaleAnim:SetScaleTo(1, 1)
+        animGroup:Play()
+    end
+
     function aura_env.CreateAuction(auctionID, itemID, money, duration, player, mod)
         for i, f in ipairs(_G.BGA.Frames) do
             if f.auctionID == auctionID then
@@ -589,10 +627,10 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             f:SetBackdrop({
                 bgFile = "Interface/ChatFrame/ChatFrameBackground",
                 edgeFile = "Interface/ChatFrame/ChatFrameBackground",
-                edgeSize = 2,
+                edgeSize = aura_env.edgeSize,
             })
-            f:SetBackdropColor(0, 0, 0, 0.6)
-            f:SetBackdropBorderColor(0, 0, 0, 1)
+            f:SetBackdropColor(unpack(aura_env.backdropColor))
+            f:SetBackdropBorderColor(unpack(aura_env.backdropBorderColor))
             f:SetSize(aura_env.WIDTH, 108)
             if #_G.BGA.Frames == 0 then
                 f:SetPoint("TOPLEFT", 0, 0)
@@ -623,7 +661,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             local bt = CreateFrame("Button", nil, AuctionFrame)
             bt:SetNormalFontObject(_G.BGA.FontGreen15)
             bt:SetHighlightFontObject(_G.BGA.FontWhite15)
-            bt:SetPoint("TOPRIGHT", -3, -3)
+            bt:SetPoint("TOPRIGHT", -aura_env.edgeSize - 1, -3)
             bt:SetText(aura_env.L["隐藏"])
             bt:SetSize(bt:GetFontString():GetWidth(), 20)
             bt.owner = AuctionFrame
@@ -649,7 +687,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             local bt = CreateFrame("Button", nil, AuctionFrame)
             bt:SetNormalFontObject(_G.BGA.FontGreen15)
             bt:SetHighlightFontObject(_G.BGA.FontWhite15)
-            bt:SetPoint("TOPLEFT", 3, -3)
+            bt:SetPoint("TOPLEFT", aura_env.edgeSize + 1, -3)
             bt:SetText(aura_env.L["取消拍卖"])
             bt:SetSize(bt:GetFontString():GetWidth(), 20)
             bt:RegisterForClicks("AnyUp")
@@ -659,7 +697,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             bt:SetScript("OnLeave", GameTooltip_Hide)
             AuctionFrame.cancel = bt
 
-            if UnitName("player") == aura_env.raidLeader then
+            if aura_env.IsML() then
                 bt:Show()
             else
                 bt:Hide()
@@ -668,8 +706,8 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         -- 装备显示
         do
             local f = CreateFrame("Frame", nil, AuctionFrame, "BackdropTemplate")
-            f:SetPoint("TOPLEFT", f:GetParent(), "TOPLEFT", 2, -25)
-            f:SetPoint("BOTTOMRIGHT", f:GetParent(), "TOPRIGHT", -2, -53)
+            f:SetPoint("TOPLEFT", f:GetParent(), "TOPLEFT", aura_env.edgeSize + 1, -25)
+            f:SetPoint("BOTTOMRIGHT", f:GetParent(), "TOPRIGHT", -aura_env.edgeSize - 1, -53)
             f:SetFrameLevel(f:GetParent():GetFrameLevel() + 10)
             f.owner = AuctionFrame
             f.itemID = itemID
@@ -703,12 +741,14 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             ftex.tex:SetAllPoints()
             ftex.tex:SetTexture(Texture)
             ftex.tex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+
             -- 装备等级
             local t = ftex:CreateFontString()
             t:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
             t:SetPoint("BOTTOM", ftex, "BOTTOM", 0, 0)
             t:SetText(level)
             t:SetTextColor(r, g, b)
+
             -- 装备名称
             local t = f:CreateFontString()
             t:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
@@ -735,6 +775,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             s:SetMinMaxValues(0, 1000)
             s.owner = AuctionFrame
             AuctionFrame.bar = s
+
             -- 剩余时间
             local remainingTime = f:CreateFontString()
             remainingTime:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
@@ -744,7 +785,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         end
         -- 价格
         do
-            local width = 170
+            local width = 190
             local height = 25
             local f = CreateFrame("Frame", nil, AuctionFrame)
             f:SetSize(width, 20)
@@ -783,14 +824,16 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             if player and player ~= "" then
                 if player == UnitName("player") then
                     t:SetText(aura_env.L["|cffFFD100出价最高者：|r"] .. "|cff" .. aura_env.GREEN1 .. aura_env.L[">> 你 <<"])
-                    AuctionFrame:SetBackdropBorderColor(0, 1, 0, 1)
+                    AuctionFrame:SetBackdropColor(unpack(aura_env.backdropColor_IsMe))
+                    AuctionFrame:SetBackdropBorderColor(unpack(aura_env.backdropBorderColor_IsMe))
                 else
                     if mod == "anonymous" then
                         t:SetText(aura_env.L["|cffFFD100出价最高者：|r"] .. aura_env.L["匿名"])
                     else
                         t:SetText(aura_env.L["|cffFFD100出价最高者：|r"] .. AuctionFrame.colorplayer)
                     end
-                    AuctionFrame:SetBackdropBorderColor(0, 0, 0, 1)
+                    AuctionFrame:SetBackdropColor(unpack(aura_env.backdropColor))
+                    AuctionFrame:SetBackdropBorderColor(unpack(aura_env.backdropBorderColor))
                 end
             elseif mod == "anonymous" then
                 t:SetText(aura_env.L["|cffFFD100< 匿名模式 >|r"])
@@ -867,6 +910,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
 
             aura_env.myMoney_OnTextChanged(AuctionFrame.myMoney)
         end
+        aura_env.anim(AuctionFrame)
 
         aura_env.Auctioning(AuctionFrame, duration)
     end
@@ -901,8 +945,8 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             local prefix, msg, distType, senderFullName = ...
             if prefix ~= aura_env.AddonChannel then return end
             local arg1, arg2, arg3, arg4, arg5, arg6, arg7 = strsplit(",", msg)
-            -- print(senderFullName, arg1, arg2, arg3, arg4, arg5, arg6, arg7) --todo
             local sender, realm = strsplit("-", senderFullName)
+            -- print(sender, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
             if arg1 == "SendMyMoney" and distType == "RAID" then
                 local auctionID = tonumber(arg2)
                 local money = tonumber(arg3)
@@ -919,7 +963,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
                         end
                     end
                 end
-            elseif arg1 == "StartAuction" and distType == "RAID" and sender == aura_env.raidLeader then
+            elseif arg1 == "StartAuction" and distType == "RAID" then
                 local auctionID = tonumber(arg2)
                 local itemID = tonumber(arg3)
                 local money = tonumber(arg4)
@@ -928,7 +972,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
                 local mod = arg7
                 aura_env.CreateAuction(auctionID, itemID, money, duration, player, mod)
 
-                if UnitName("player") == aura_env.raidLeader then
+                if aura_env.IsRaidLeader() then
                     local tbl = {
                         normal = aura_env.L["正常模式"],
                         anonymous = aura_env.L["匿名模式"],
@@ -946,7 +990,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
                         end)
                     end
                 end
-            elseif arg1 == "CancelAuction" and distType == "RAID" and sender == aura_env.raidLeader then
+            elseif arg1 == "CancelAuction" and distType == "RAID" then
                 local auctionID = tonumber(arg2)
                 for i, f in ipairs(_G.BGA.Frames) do
                     if f.auctionID == auctionID and not f.IsEnd then
@@ -962,7 +1006,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
                         f.myMoney:Hide()
                         f.cancel:Hide()
 
-                        if UnitName("player") == aura_env.raidLeader then
+                        if aura_env.IsRaidLeader() then
                             SendChatMessage(format(aura_env.L["{rt7}拍卖取消{rt7} %s"], f.link), "RAID")
                         end
 
@@ -998,15 +1042,19 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             elseif arg1 == "VersionCheck" and distType == "RAID" then
                 C_ChatInfo.SendAddonMessage(aura_env.AddonChannel, "MyVer" .. "," .. aura_env.ver, "RAID")
             end
-        elseif even == "GROUP_ROSTER_UPDATE" or even == "PLAYER_ENTERING_WORLD" then
+        elseif even == "GROUP_ROSTER_UPDATE" then
             C_Timer.After(0.5, function()
                 aura_env.UpdateRaidRosterInfo()
             end)
-            if even == "PLAYER_ENTERING_WORLD" then
-                C_Timer.After(2, function()
-                    aura_env.GetAuctioningFromRaid()
-                end)
-            end
+        elseif even == "PLAYER_ENTERING_WORLD" then
+            local isLogin, isReload = ...
+            if not (isLogin or isReload) then return end
+            C_Timer.After(0.5, function()
+                aura_env.UpdateRaidRosterInfo()
+            end)
+            C_Timer.After(2, function()
+                aura_env.GetAuctioningFromRaid()
+            end)
         end
     end)
 end)

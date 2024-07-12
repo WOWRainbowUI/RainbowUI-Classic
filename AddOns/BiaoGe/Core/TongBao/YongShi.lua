@@ -1,30 +1,30 @@
-local AddonName, ADDONSELF = ...
+local AddonName, ns = ...
 
-local LibBG = ADDONSELF.LibBG
-local L = ADDONSELF.L
+local LibBG = ns.LibBG
+local L = ns.L
 
-local RR = ADDONSELF.RR
-local NN = ADDONSELF.NN
-local RN = ADDONSELF.RN
-local TongBao = ADDONSELF.TongBao
-local FrameHide = ADDONSELF.FrameHide
-local RGB = ADDONSELF.RGB
+local RR = ns.RR
+local NN = ns.NN
+local RN = ns.RN
+local TongBao = ns.TongBao
+local FrameHide = ns.FrameHide
+local RGB = ns.RGB
 
-local Maxb = ADDONSELF.Maxb
-local Maxi = ADDONSELF.Maxi
-local HopeMaxn = ADDONSELF.HopeMaxn
-local HopeMaxb = ADDONSELF.HopeMaxb
-local HopeMaxi = ADDONSELF.HopeMaxi
+local Maxb = ns.Maxb
+local Maxi = ns.Maxi
+local HopeMaxn = ns.HopeMaxn
+local HopeMaxb = ns.HopeMaxb
+local HopeMaxi = ns.HopeMaxi
 
 local pt = print
 
 function BG.YongShiUI(lastbt)
-    local bt = CreateFrame("Button", nil, BG.FBMainFrame, "UIPanelButtonTemplate")
+    local bt = CreateFrame("Button", nil, BG.ButtonZhangDan, "UIPanelButtonTemplate")
     bt:SetSize(90, BG.ButtonZhangDan:GetHeight())
     bt:SetPoint("LEFT", lastbt, "RIGHT", 10, 0)
     bt:SetText(L["通报用时"])
-    bt:Show()
     BG.ButtonYongShi = bt
+    tinsert(BG.TongBaoButtons, bt)
     bt:SetScript("OnEnter", function(self)
         if BG.Backing then return end
         local FB = BG.FB1
@@ -48,6 +48,7 @@ function BG.YongShiUI(lastbt)
             GameTooltip:AddLine(L["没有记录"])
         end
         GameTooltip:Show()
+        GameTooltip:SetClampedToScreen(false)
     end)
     bt:SetScript("OnLeave", function(self)
         local FB = BG.FB1
@@ -57,6 +58,7 @@ function BG.YongShiUI(lastbt)
             end
         end
         GameTooltip:Hide()
+        GameTooltip:SetClampedToScreen(true)
     end)
     bt:SetScript("OnClick", function(self)
         FrameHide(0)
@@ -71,11 +73,15 @@ function BG.YongShiUI(lastbt)
             local FB = BG.FB1
             SendChatMessage(L["———通报击杀用时———"], "RAID")
             local yes
+            local t = 0
             for b = 1, Maxb[FB] do
                 local time = BiaoGe[FB]["boss" .. b]["time"]
                 if time then
+                    -- BG.After(t, function()
                     local bossname2 = BG.Boss[FB]["boss" .. b].name2
                     SendChatMessage(b .. ". " .. bossname2 .. " " .. time, "RAID")
+                    -- end)
+                    -- t = t + BG.tongBaoSendCD
                     yes = true
                 end
             end
@@ -105,9 +111,9 @@ function BG.YongShiUI(lastbt)
 
                 local numb
                 if BG.Loot.encounterID[BG.FB2] then
-                    for key, value in pairs(BG.Loot.encounterID[BG.FB2]) do
-                        if tonumber(ID) == tonumber(key) then
-                            numb = value
+                    for _numb, _bossID in ipairs(BG.Loot.encounterID[BG.FB2]) do
+                        if ID == _bossID then
+                            numb = _numb
                             break
                         end
                     end

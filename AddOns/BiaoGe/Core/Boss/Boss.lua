@@ -1,22 +1,22 @@
-if BG.IsVanilla() then return end
+if BG.IsVanilla then return end
 
-local AddonName, ADDONSELF = ...
+local AddonName, ns = ...
 
-local LibBG = ADDONSELF.LibBG
-local L = ADDONSELF.L
+local LibBG = ns.LibBG
+local L = ns.L
 
-local RR = ADDONSELF.RR
-local NN = ADDONSELF.NN
-local RN = ADDONSELF.RN
-local Size = ADDONSELF.Size
-local RGB = ADDONSELF.RGB
-local GetClassRGB = ADDONSELF.GetClassRGB
-local SetClassCFF = ADDONSELF.SetClassCFF
-local Maxb = ADDONSELF.Maxb
-local Maxi = ADDONSELF.Maxi
-local BossNum = ADDONSELF.BossNum
-local FrameHide = ADDONSELF.FrameHide
-local AddTexture = ADDONSELF.AddTexture
+local RR = ns.RR
+local NN = ns.NN
+local RN = ns.RN
+local Size = ns.Size
+local RGB = ns.RGB
+local GetClassRGB = ns.GetClassRGB
+local SetClassCFF = ns.SetClassCFF
+local Maxb = ns.Maxb
+local Maxi = ns.Maxi
+local BossNum = ns.BossNum
+local FrameHide = ns.FrameHide
+local AddTexture = ns.AddTexture
 
 local pt = print
 
@@ -237,25 +237,27 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             local f = CreateFrame("Frame", nil, frame)
             f:SetSize(frame.spellFramebg:GetWidth() - 28, frame.spellFramebg:GetHeight() - 10)
             frame["Boss" .. i].spellFrame = f
-            local s = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
-            s:SetPoint("TOPLEFT", frame.spellFramebg, "TOPLEFT", 0, -5)
-            s:SetSize(frame.spellFramebg:GetWidth() - 28, frame.spellFramebg:GetHeight() - 10)
-            s.ScrollBar.scrollStep = BG.scrollStep
+            local scroll = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
+            scroll:SetPoint("TOPLEFT", frame.spellFramebg, "TOPLEFT", 0, -5)
+            scroll:SetSize(frame.spellFramebg:GetWidth() - 28, frame.spellFramebg:GetHeight() - 10)
+            scroll.ScrollBar.scrollStep = BG.scrollStep
+            BG.CreateSrollBarBackdrop(scroll.ScrollBar)
 
-            s:SetScrollChild(f)
-            frame["Boss" .. i].spellScrollFrame = s
+            scroll:SetScrollChild(f)
+            frame["Boss" .. i].spellScrollFrame = scroll
 
 
             -- 创建职业职责滚动框
             local f = CreateFrame("Frame", nil, frame)
             f:SetSize(frame.classFramebg:GetWidth() - 28, frame.classFramebg:GetHeight() - 10)
             frame["Boss" .. i].classFrame = f
-            local s = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
-            s:SetPoint("TOPLEFT", frame.classFramebg, "TOPLEFT", 0, -5)
-            s:SetSize(frame.classFramebg:GetWidth() - 28, frame.classFramebg:GetHeight() - 10)
-            s.ScrollBar.scrollStep = BG.scrollStep
-            s:SetScrollChild(f)
-            frame["Boss" .. i].classScrollFrame = s
+            local scroll = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
+            scroll:SetPoint("TOPLEFT", frame.classFramebg, "TOPLEFT", 0, -5)
+            scroll:SetSize(frame.classFramebg:GetWidth() - 28, frame.classFramebg:GetHeight() - 10)
+            scroll.ScrollBar.scrollStep = BG.scrollStep
+            BG.CreateSrollBarBackdrop(scroll.ScrollBar)
+            scroll:SetScrollChild(f)
+            frame["Boss" .. i].classScrollFrame = scroll
 
             -- BOSS切换按钮点击
             bt:SetScript("OnClick", function(self)

@@ -1,23 +1,23 @@
-local _, ADDONSELF = ...
+local _, ns = ...
 
-local LibBG = ADDONSELF.LibBG
-local L = ADDONSELF.L
+local LibBG = ns.LibBG
+local L = ns.L
 
-local RR = ADDONSELF.RR
-local NN = ADDONSELF.NN
-local RN = ADDONSELF.RN
-local Size = ADDONSELF.Size
-local RGB = ADDONSELF.RGB
-local GetClassRGB = ADDONSELF.GetClassRGB
-local SetClassCFF = ADDONSELF.SetClassCFF
-local Maxb = ADDONSELF.Maxb
-local Maxi = ADDONSELF.Maxi
-local HopeMaxn = ADDONSELF.HopeMaxn
-local HopeMaxb = ADDONSELF.HopeMaxb
-local HopeMaxi = ADDONSELF.HopeMaxi
-local FrameHide = ADDONSELF.FrameHide
-local AddTexture = ADDONSELF.AddTexture
-local RGB_16 = ADDONSELF.RGB_16
+local RR = ns.RR
+local NN = ns.NN
+local RN = ns.RN
+local Size = ns.Size
+local RGB = ns.RGB
+local GetClassRGB = ns.GetClassRGB
+local SetClassCFF = ns.SetClassCFF
+local Maxb = ns.Maxb
+local Maxi = ns.Maxi
+local HopeMaxn = ns.HopeMaxn
+local HopeMaxb = ns.HopeMaxb
+local HopeMaxi = ns.HopeMaxi
+local FrameHide = ns.FrameHide
+local AddTexture = ns.AddTexture
+local RGB_16 = ns.RGB_16
 
 local pt = print
 
@@ -26,7 +26,7 @@ BG.History = {}
 function BG.UpdateHistoryButton()
     local bt = BG.History.HistoryButton
     bt:SetFormattedText(L["历史表格（%d个）"], #BiaoGe.HistoryList[BG.FB1])
-    bt:SetSize(bt:GetFontString():GetWidth(), 30)
+    bt:SetSize(bt:GetFontString():GetWidth(), 20)
 end
 
 function BG.HistoryUI()
@@ -54,17 +54,18 @@ function BG.HistoryUI()
             BG.History.GaiMingFrame:Hide()
         end)
 
-        local s = CreateFrame("ScrollFrame", nil, BG.History.List, "UIPanelScrollFrameTemplate") -- 滚动
-        s:SetWidth(BG.History.List:GetWidth() - 27)
-        s:SetHeight(BG.History.List:GetHeight() - 9)
-        s:SetPoint("TOPLEFT", BG.History.List, "TOPLEFT", 0, -5)
-        s.ScrollBar.scrollStep = BG.scrollStep
+        local scroll = CreateFrame("ScrollFrame", nil, BG.History.List, "UIPanelScrollFrameTemplate") -- 滚动
+        scroll:SetWidth(BG.History.List:GetWidth() - 27)
+        scroll:SetHeight(BG.History.List:GetHeight() - 9)
+        scroll:SetPoint("TOPLEFT", BG.History.List, "TOPLEFT", 0, -5)
+        scroll.ScrollBar.scrollStep = BG.scrollStep
+        BG.CreateSrollBarBackdrop(scroll.ScrollBar)
 
         local child = CreateFrame("Frame", nil, BG.History.List) -- 子框架
-        child:SetWidth(s:GetWidth())
-        child:SetHeight(s:GetHeight())
+        child:SetWidth(scroll:GetWidth())
+        child:SetHeight(scroll:GetHeight())
         BG.History.child = child
-        s:SetScrollChild(child)
+        scroll:SetScrollChild(child)
 
         local TitleText = BG["HistoryFrame" .. BG.FB1]:CreateFontString() -- 标题
         TitleText:SetPoint("TOP", BG.MainFrame, "TOP", 0, -4);
@@ -80,7 +81,7 @@ function BG.HistoryUI()
     ------------------历史表格按键------------------
     do
         local bt = CreateFrame("Button", nil, parent)
-        bt:SetPoint("TOPRIGHT", BG.MainFrame, "TOPRIGHT", -30, 4)
+        bt:SetPoint("TOPRIGHT", BG.MainFrame, "TOPRIGHT", -30, -1)
         bt:SetNormalFontObject(BG.FontGreen15)
         bt:SetDisabledFontObject(BG.FontDis15)
         bt:SetHighlightFontObject(BG.FontWhite15)
@@ -108,6 +109,7 @@ function BG.HistoryUI()
             local DT = tonumber(date("%y%m%d%H%M%S"))
             local DTcn = date(L["%m月%d日%H:%M:%S\n"])
             BiaoGe.History[FB][DT] = {}
+            BiaoGe.History[FB][DT].tradeTbl = {}
             for b = 1, Maxb[FB] + 2 do
                 BiaoGe.History[FB][DT]["boss" .. b] = {}
                 for i = 1, Maxi[FB] do
@@ -120,7 +122,9 @@ function BG.HistoryUI()
                         local maijia = BG.Frame[FB]["boss" .. b]["maijia" .. i]
                         if maijia:GetText() ~= "" then
                             BiaoGe.History[FB][DT]["boss" .. b]["maijia" .. i] = maijia:GetText()
-                            BiaoGe.History[FB][DT]["boss" .. b]["color" .. i] = { maijia:GetTextColor() }
+                            for k, v in pairs(BG.playerClass) do
+                                BiaoGe.History[FB][DT]["boss" .. b][k .. i] = BiaoGe[FB]["boss" .. b][k .. i]
+                            end
                         end
 
                         local jine = BG.Frame[FB]["boss" .. b]["jine" .. i]
@@ -141,6 +145,22 @@ function BG.HistoryUI()
                 end
                 BiaoGe.History[FB][DT]["boss" .. b]["time"] = BiaoGe[FB]["boss" .. b]["time"]
             end
+            for i, v in ipairs(BiaoGe[FB].tradeTbl) do
+                BiaoGe.History[FB][DT].tradeTbl[i] = v
+            end
+            if BiaoGe[FB].raidRoster then
+                BiaoGe.History[FB][DT].raidRoster = {}
+                for k, v in pairs(BiaoGe[FB].raidRoster) do
+                    BiaoGe.History[FB][DT].raidRoster[k] = v
+                end
+            end
+            if BiaoGe[FB].lockoutIDtbl then
+                BiaoGe.History[FB][DT].lockoutIDtbl = {}
+                for k, v in pairs(BiaoGe[FB].lockoutIDtbl) do
+                    BiaoGe.History[FB][DT].lockoutIDtbl[k] = v
+                end
+            end
+
             local d = { DT, format(L["%s%s %s人 工资:%s"], DTcn, BG.GetFBinfo(FB, "localName"),
                 BG.Frame[FB]["boss" .. Maxb[FB] + 2]["jine" .. 4]:GetText(),
                 BG.Frame[FB]["boss" .. Maxb[FB] + 2]["jine" .. 5]:GetText()) }
@@ -155,13 +175,12 @@ function BG.HistoryUI()
         bt:SetDisabledFontObject(BG.FontDis15)
         bt:SetHighlightFontObject(BG.FontWhite15)
         bt:SetText(L["保存表格"])
-        bt:SetSize(bt:GetFontString():GetWidth(), 30)
+        bt:SetSize(bt:GetFontString():GetWidth(), 20)
         BG.SetTextHighlightTexture(bt)
         BG.History.SaveButton = bt
 
         bt:SetScript("OnEnter", function(self)
-            GameTooltip:SetOwner(self, "ANCHOR_NONE")
-            GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
+            GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
             GameTooltip:ClearLines()
             GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
             GameTooltip:AddLine(L["把当前表格保存至历史表格。"], 1, 0.82, 0, true)
@@ -190,13 +209,12 @@ function BG.HistoryUI()
         bt:SetDisabledFontObject(BG.FontDis15)
         bt:SetHighlightFontObject(BG.FontWhite15)
         bt:SetText(L["分享表格"])
-        bt:SetSize(bt:GetFontString():GetWidth(), 30)
+        bt:SetSize(bt:GetFontString():GetWidth(), 20)
         BG.SetTextHighlightTexture(bt)
         BG.History.SendButton = bt
 
         bt:SetScript("OnEnter", function(self)
-            GameTooltip:SetOwner(self, "ANCHOR_NONE")
-            GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
+            GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
             GameTooltip:ClearLines()
             GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
             GameTooltip:AddLine(L["把当前表格发给别人，类似发WA那样。"], 1, 0.82, 0, true)
@@ -274,13 +292,14 @@ function BG.HistoryUI()
         end)
         BG.frameWenBen.edit = edit
 
-        local s = CreateFrame("ScrollFrame", nil, BG.frameWenBen.frame, "UIPanelScrollFrameTemplate")
-        s:SetWidth(BG.frameWenBen.frame:GetWidth() - 27)
-        s:SetHeight(BG.frameWenBen.frame:GetHeight() - 29)
-        s:SetPoint("BOTTOMLEFT", BG.frameWenBen.frame, "BOTTOMLEFT", 0, 2)
-        s.ScrollBar.scrollStep = BG.scrollStep
-        s:SetScrollChild(edit)
-        BG.frameWenBen.scroll = s
+        local scroll = CreateFrame("ScrollFrame", nil, BG.frameWenBen.frame, "UIPanelScrollFrameTemplate")
+        scroll:SetWidth(BG.frameWenBen.frame:GetWidth() - 27)
+        scroll:SetHeight(BG.frameWenBen.frame:GetHeight() - 29)
+        scroll:SetPoint("BOTTOMLEFT", BG.frameWenBen.frame, "BOTTOMLEFT", 0, 2)
+        scroll.ScrollBar.scrollStep = BG.scrollStep
+        BG.CreateSrollBarBackdrop(scroll.ScrollBar)
+        scroll:SetScrollChild(edit)
+        BG.frameWenBen.scroll = scroll
 
         -- 创建按键
         local bt = CreateFrame("Button", nil, parent)
@@ -289,13 +308,12 @@ function BG.HistoryUI()
         bt:SetDisabledFontObject(BG.FontDis15)
         bt:SetHighlightFontObject(BG.FontWhite15)
         bt:SetText(L["导出表格"])
-        bt:SetSize(bt:GetFontString():GetWidth(), 30)
+        bt:SetSize(bt:GetFontString():GetWidth(), 20)
         BG.SetTextHighlightTexture(bt)
         BG.History.DaoChuButton = bt
 
         bt:SetScript("OnEnter", function(self)
-            GameTooltip:SetOwner(self, "ANCHOR_NONE")
-            GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
+            GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
             GameTooltip:ClearLines()
             GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
             GameTooltip:AddLine(L["把表格导出为文本。"], 1, 0.82, 0, true)
@@ -337,12 +355,11 @@ function BG.HistoryUI()
             end
             -- 删掉末尾的两个回车
             local text = BG.frameWenBen.edit:GetText()
-            local len = strlen(text)
-            text = strsub(text, 1, len - 2)
+            text = strsub(text, 1, -2)
             BG.frameWenBen.edit:SetText(text)
             BG.frameWenBen.edit:HighlightText()
             -- 设置滚动条到末尾
-            C_Timer.After(0.01, function()
+            C_Timer.After(0, function()
                 BG.SetScrollBottom(BG.frameWenBen.scroll, BG.frameWenBen.edit)
             end)
         end)
@@ -357,6 +374,7 @@ function BG.HistoryUI()
                     local DT = BiaoGe.HistoryList[FB][num][1]
                     for b = 1, Maxb[FB] + 2 do
                         for i = 1, Maxi[FB] do
+                            -- if b~=Maxb[FB] + 2 and i
                             if BG.Frame[FB]["boss" .. b]["zhuangbei" .. i] then
                                 BG.Frame[FB]["boss" .. b]["zhuangbei" .. i]:SetText(BiaoGe.History[FB][DT]["boss" .. b]["zhuangbei" .. i] or "")
                                 BG.Frame[FB]["boss" .. b]["maijia" .. i]:SetText(BiaoGe.History[FB][DT]["boss" .. b]["maijia" .. i] or "")
@@ -370,8 +388,10 @@ function BG.HistoryUI()
 
                                 BiaoGe[FB]["boss" .. b]["zhuangbei" .. i] = BiaoGe.History[FB][DT]["boss" .. b]["zhuangbei" .. i]
                                 BiaoGe[FB]["boss" .. b]["maijia" .. i] = BiaoGe.History[FB][DT]["boss" .. b]["maijia" .. i]
-                                BiaoGe[FB]["boss" .. b]["color" .. i] = BiaoGe.History[FB][DT]["boss" .. b]["color" .. i]
                                 BiaoGe[FB]["boss" .. b]["jine" .. i] = BiaoGe.History[FB][DT]["boss" .. b]["jine" .. i]
+                                for k, v in pairs(BG.playerClass) do
+                                    BiaoGe[FB]["boss" .. b][k .. i] = BiaoGe.History[FB][DT]["boss" .. b][k .. i]
+                                end
 
                                 if BiaoGe.History[FB][DT]["boss" .. b]["guanzhu" .. i] then
                                     BiaoGe[FB]["boss" .. b]["guanzhu" .. i] = true
@@ -399,10 +419,30 @@ function BG.HistoryUI()
                             BiaoGe[FB]["boss" .. b]["time"] = BiaoGe.History[FB][DT]["boss" .. b]["time"]
                         end
                     end
+                    BiaoGe[FB].tradeTbl = {}
+                    if type(BiaoGe.History[FB][DT].tradeTbl) == "table" then
+                        for i, v in ipairs(BiaoGe.History[FB][DT].tradeTbl) do
+                            BiaoGe[FB].tradeTbl[i] = v
+                        end
+                    end
+                    if type(BiaoGe.History[FB][DT].raidRoster) == "table" then
+                        BiaoGe[FB].raidRoster = {}
+                        for k, v in pairs(BiaoGe.History[FB][DT].raidRoster) do
+                            BiaoGe[FB].raidRoster[k] = v
+                        end
+                    end
+                    if type(BiaoGe.History[FB][DT].lockoutIDtbl) == "table" then
+                        BiaoGe[FB].lockoutIDtbl = {}
+                        for k, v in pairs(BiaoGe.History[FB][DT].lockoutIDtbl) do
+                            BiaoGe[FB].lockoutIDtbl[k] = v
+                        end
+                    end
+                    break
                 end
             end
             if BiaoGe.lastFrame == "FB" then
                 BG.FBMainFrame:Show()
+                BG.UpdateLockoutIDText()
             end
         end
 
@@ -412,13 +452,12 @@ function BG.HistoryUI()
         bt:SetDisabledFontObject(BG.FontDis15)
         bt:SetHighlightFontObject(BG.FontWhite15)
         bt:SetText(L["应用表格"])
-        bt:SetSize(bt:GetFontString():GetWidth(), 30)
+        bt:SetSize(bt:GetFontString():GetWidth(), 20)
         BG.SetTextHighlightTexture(bt)
         BG.History.YongButton = bt
 
         bt:SetScript("OnEnter", function(self)
-            GameTooltip:SetOwner(self, "ANCHOR_NONE")
-            GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
+            GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
             GameTooltip:ClearLines()
             GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
             GameTooltip:AddLine(L["把该历史表格复制粘贴到当前表格，这样你可以编辑内容。"], 1, 0.82, 0, true)
@@ -429,7 +468,7 @@ function BG.HistoryUI()
         end)
         bt:SetScript("OnClick", function(self)
             local FB = BG.FB1
-            if not BG.BiaoGeIsEmpty(FB) then
+            if BG.BiaoGeIsHavedItem(FB) then
                 StaticPopup_Show("YINGYONGBIAOGE")
                 return
             end
@@ -461,7 +500,7 @@ function BG.HistoryUI()
         bt:SetDisabledFontObject(BG.FontDis15)
         bt:SetHighlightFontObject(BG.FontWhite15)
         bt:SetText(L["返回表格"])
-        bt:SetSize(bt:GetFontString():GetWidth(), 30)
+        bt:SetSize(bt:GetFontString():GetWidth(), 20)
         BG.SetTextHighlightTexture(bt)
         BG.History.EscButton = bt
 
@@ -661,6 +700,8 @@ do
                             end
                         end
                         BG.History.Title:SetText(L["< 历史表格 > "])
+                        BG.TextLockoutID:SetText(L["团本锁定ID："] .. L["无"])
+                        BG.TextLockoutID:SetTextColor(0.5, 0.5, 0.5)
 
                         PlaySound(BG.sound1, "Master")
                         return
@@ -692,10 +733,10 @@ do
 
                 BG.History.chooseNum = i
 
+                local DT
                 for key, value in pairs(BiaoGe.History[FB]) do -- 显示历史表格具体数据
                     if tonumber(BiaoGe.HistoryList[FB][i][1]) == tonumber(key) then
-                        local DT = BiaoGe.HistoryList[FB][i][1]
-                        local FB = FB
+                        DT = BiaoGe.HistoryList[FB][i][1]
                         for b = 1, Maxb[FB] + 2 do
                             for i = 1, Maxi[FB] do
                                 if BG.HistoryFrame[FB]["boss" .. b]["zhuangbei" .. i] then
@@ -706,7 +747,6 @@ do
                                         BG.HistoryFrame[FB]["boss" .. b]["maijia" .. i]:SetTextColor(unpack(BiaoGe.History[FB][DT]["boss" .. b]["color" .. i]))
                                     end
                                     BG.HistoryFrame[FB]["boss" .. b]["jine" .. i]:SetText(BiaoGe.History[FB][DT]["boss" .. b]["jine" .. i] or "")
-
 
                                     if BiaoGe.History[FB][DT]["boss" .. b]["guanzhu" .. i] then
                                         BG.HistoryFrame[FB]["boss" .. b]["guanzhu" .. i]:Show()
@@ -730,6 +770,7 @@ do
                                 end
                             end
                         end
+                        break
                     end
                 end
                 BG.HistoryMainFrame:Show()
@@ -737,6 +778,8 @@ do
                 BG.History.Title:SetParent(BG["HistoryFrame" .. FB])
                 BG.History.Title:SetText(L["< 历史表格 > "] .. " " .. i)
                 BG.History.XianShiNum = i
+
+                BG.UpdateLockoutIDText(DT)
             end)
         end
     end

@@ -1,20 +1,20 @@
-local _, ADDONSELF = ...
+local _, ns = ...
 
-local LibBG = ADDONSELF.LibBG
-local L = ADDONSELF.L
+local LibBG = ns.LibBG
+local L = ns.L
 
-local RR = ADDONSELF.RR
-local NN = ADDONSELF.NN
-local RN = ADDONSELF.RN
-local Maxb = ADDONSELF.Maxb
-local Maxi = ADDONSELF.Maxi
-local HopeMaxn = ADDONSELF.HopeMaxn
-local HopeMaxb = ADDONSELF.HopeMaxb
-local HopeMaxi = ADDONSELF.HopeMaxi
-local Width = ADDONSELF.Width
-local Height = ADDONSELF.Height
-local RGB = ADDONSELF.RGB
-local BossNumtbl = ADDONSELF.BossNumtbl
+local RR = ns.RR
+local NN = ns.NN
+local RN = ns.RN
+local Maxb = ns.Maxb
+local Maxi = ns.Maxi
+local HopeMaxn = ns.HopeMaxn
+local HopeMaxb = ns.HopeMaxb
+local HopeMaxi = ns.HopeMaxi
+local Width = ns.Width
+local Height = ns.Height
+local RGB = ns.RGB
+local BossNumtbl = ns.BossNumtbl
 
 local pt = print
 local RealmId = GetRealmID()
@@ -26,7 +26,7 @@ local function Round(number, decimal_places)
     local mult = 10 ^ (decimal_places or 0)
     return math.floor(number * mult + 0.5) / mult
 end
-ADDONSELF.Round = Round
+ns.Round = Round
 
 ------------------函数：设置颜色（0-1代码变为16进制颜色）------------------
 local function RGB_16(name, r, g, b)
@@ -55,7 +55,7 @@ local function RGB_16(name, r, g, b)
         return c
     end
 end
-ADDONSELF.RGB_16 = RGB_16
+ns.RGB_16 = RGB_16
 
 -- 第几个BOSS
 local function BossNum(FB, b, t)
@@ -66,9 +66,20 @@ local function BossNum(FB, b, t)
     else
         bb = Maxb[FB] + 2 - tbl[t]
     end
-    return b + tbl[t], bb
+    return b + tbl[t], bb, t, b
 end
-ADDONSELF.BossNum = BossNum
+ns.BossNum = BossNum
+
+function BG.GetBossNumInfo(FB, bossNum)
+    local tbl = BossNumtbl[FB]
+    for i = 1, #tbl do
+        if (not tbl[i + 1]) or (tbl[i] < bossNum and tbl[i + 1] >= bossNum) then
+            local t = i
+            local b = bossNum - tbl[i]
+            return t, b
+        end
+    end
+end
 
 ------------------在文本里插入材质图标------------------
 local function AddTexture(Texture, y, coord)
@@ -103,7 +114,7 @@ local function AddTexture(Texture, y, coord)
     local t = "|T" .. tex .. ":0:0:" .. x .. ":" .. y .. coord .. "|t"
     return t
 end
-ADDONSELF.AddTexture = AddTexture
+ns.AddTexture = AddTexture
 
 function BG.CreateRoundTexture(tex, parent, w, h)
     local icon = CreateFrame("Frame", nil, parent or UIParent)
@@ -134,7 +145,7 @@ local function GetText_T(bt)
     local t = string.gsub(text, "|T.-|t", "")
     return t
 end
-ADDONSELF.GetText_T = GetText_T
+ns.GetText_T = GetText_T
 
 ------------------函数：获取名字的职业颜色RGB------------------
 local function GetClassRGB(name, player, Alpha)
@@ -150,7 +161,7 @@ local function GetClassRGB(name, player, Alpha)
     end
     return c1, c2, c3, Alpha
 end
-ADDONSELF.GetClassRGB = GetClassRGB
+ns.GetClassRGB = GetClassRGB
 
 ------------------函数：设置名字为职业颜色CFF代码（|cffFFFFFF名字|r）------------------
 local function SetClassCFF(name, player, type)
@@ -170,7 +181,7 @@ local function SetClassCFF(name, player, type)
         return name, ""
     end
 end
-ADDONSELF.SetClassCFF = SetClassCFF
+ns.SetClassCFF = SetClassCFF
 
 --[[ ------------------函数：删除颜色代码------------------
 function BG.RemoveColorCodes(str)
@@ -188,7 +199,7 @@ local function GetItemID(text)
     local item = tonumber(strmatch(text, h_item))
     return item
 end
-ADDONSELF.GetItemID = GetItemID
+ns.GetItemID = GetItemID
 
 ------------------清除输入框的焦点------------------
 function BG.ClearFocus()
@@ -236,8 +247,11 @@ local function FrameHide(num)
     if BG.frameImportHope then
         BG.frameImportHope:Hide()
     end
+    -- if BG.FrameNewBee then
+    --     BG.FrameNewBee:Hide()
+    -- end
 end
-ADDONSELF.FrameHide = FrameHide
+ns.FrameHide = FrameHide
 
 ------------------获取FBtable2数据内容------------------
 --[[
@@ -270,36 +284,38 @@ do
     end
 end ]]
 
-------------------当前表格是否空白------------------  -- true 是空白，false 不是空白
-function BG.BiaoGeIsEmpty(FB, _type)
-    local maxb = Maxb[FB] + 1
+------------------当前表格已经有东西了------------------
+function BG.BiaoGeIsHavedItem(FB, _type, instanceID)
+    local startB = 1
+    local endB = Maxb[FB] + 1
     if _type == "onlyboss" then
-        maxb = Maxb[FB] - 2
+        endB = Maxb[FB] - 2
+    elseif _type == "autoQingKong" then
+        startB = BG.bossPositionTbl[instanceID][1]
+        endB = BG.bossPositionTbl[instanceID][2]
     end
-    for b = 1, maxb do
+    for b = startB, endB do
         for i = 1, Maxi[FB] do
             if BG.Frame[FB]["boss" .. b]["zhuangbei" .. i] then
-                if b ~= Maxb[FB] + 1 then
-                    if BG.Frame[FB]["boss" .. b]["zhuangbei" .. i]:GetText() ~= "" then
-                        return false
-                    end
+                if b ~= Maxb[FB] + 1 and BG.Frame[FB]["boss" .. b]["zhuangbei" .. i]:GetText() ~= "" then
+                    return true
                 end
                 if BG.Frame[FB]["boss" .. b]["maijia" .. i]:GetText() ~= "" then
-                    return false
+                    return true
                 end
                 if BG.Frame[FB]["boss" .. b]["jine" .. i]:GetText() ~= "" then
-                    return false
+                    return true
                 end
                 if BiaoGe[FB]["boss" .. b]["guanzhu" .. i] then
-                    return false
+                    return true
                 end
                 if BiaoGe[FB]["boss" .. b]["qiankuan" .. i] then
-                    return false
+                    return true
                 end
             end
         end
     end
-    return true
+    return false
 end
 
 ------------------隐藏提示工具------------------
@@ -460,6 +476,13 @@ function BG.SetRaidTargetingIcons(type, name)
     end
 end
 
+function BG.GsubRaidTargetingIcons(text)
+    for k, v in pairs(RaidTargetingIcons) do
+        text = text:gsub("{rt" .. v.num .. "}", v.tex)
+    end
+    return text
+end
+
 ----------滚动到最末----------
 function BG.SetScrollBottom(scroll, child)
     local offset = child:GetHeight() - scroll:GetHeight()
@@ -481,8 +504,8 @@ function BG.SetTextHighlightTexture(bt)
     local tex = bt:CreateTexture()
     -- tex:SetPoint("CENTER")
     -- tex:SetSize(bt:GetWidth() + 15, bt:GetHeight() - 10)
-    tex:SetPoint("TOPLEFT", bt, "TOPLEFT", -8, -5)
-    tex:SetPoint("BOTTOMRIGHT", bt, "BOTTOMRIGHT", 8, 5)
+    tex:SetPoint("TOPLEFT", bt, "TOPLEFT", -8, 0)
+    tex:SetPoint("BOTTOMRIGHT", bt, "BOTTOMRIGHT", 8, 0)
     tex:SetTexture("Interface/PaperDollInfoFrame/UI-Character-Tab-Highlight")
     bt:SetHighlightTexture(tex)
 end
@@ -544,4 +567,8 @@ function BG.GetItemCount(_itemID)
         end
     end
     return GetItemCount(itemID, true)
+end
+
+function BG.SendSystemMessage(msg)
+    SendSystemMessage(BG.STC_b1("<BiaoGe>") .. " " .. msg)
 end
