@@ -1,5 +1,5 @@
-﻿--[[--
-	by ALA @ 163UI
+--[[--
+	by ALA 
 --]]--
 ----------------------------------------------------------------------------------------------------
 local __addon, __private = ...;
@@ -113,11 +113,11 @@ local DT = __private.DT;
 		MinorGlyphNodeSize = 36,
 
 		ControlButtonSize = 18,
-		SideButtonSize = 28,
+		SideButtonSize = 26,
 		SideButtonGap = 2,
 		EditBoxXSize = 240,
 		EditBoxYSize = 32,
-		CurClassIndicatorSize = 36,
+		CurClassIndicatorSize = 34,
 
 		TreeButtonXSize = 68,
 		TreeButtonYSize = 18,
@@ -354,14 +354,15 @@ MT.BuildEnv('UI');
 			if level == nil then
 				Frame.level = DT.MAX_LEVEL;
 				Frame.TotalUsedPoints = 0;
-				Frame.TotalAvailablePoints = MT.GetLevelAvailablePoints(DT.MAX_LEVEL);
+				Frame.TotalAvailablePoints = MT.GetLevelAvailablePoints(Frame.class, DT.MAX_LEVEL);
 			else
 				if type(level) == 'string' then
 					level = tonumber(level);
 				end
 				Frame.level = level;
-				Frame.TotalAvailablePoints = MT.GetLevelAvailablePoints(level);
+				Frame.TotalAvailablePoints = MT.GetLevelAvailablePoints(Frame.class, level);
 			end
+			MT.UI.FrameUpdateFooterText(Frame);
 		end
 		function MT.UI.FrameSetClass(Frame, class)				--	CLASS CHANGED HERE ONLY
 			if class == nil then
@@ -509,7 +510,8 @@ MT.BuildEnv('UI');
 					Frame.ApplyTalentsButton:Hide();
 				end
 
-				MT.UI.SpellListFrameUpdate(Frame.SpellListFrame, class, MT.GetPointsReqLevel(Frame.TotalUsedPoints));
+				MT.UI.SpellListFrameUpdate(Frame.SpellListFrame, class, MT.GetPointsReqLevel(class, Frame.TotalUsedPoints));
+				MT.UI.FrameUpdateFooterText(Frame);
 			end
 
 			return true;
@@ -1002,7 +1004,7 @@ MT.BuildEnv('UI');
 					end
 				end
 
-				MT.UI.SpellListFrameUpdate(Frame.SpellListFrame, Frame.class, MT.GetPointsReqLevel(Frame.TotalUsedPoints));
+				MT.UI.SpellListFrameUpdate(Frame.SpellListFrame, Frame.class, MT.GetPointsReqLevel(Frame.class, Frame.TotalUsedPoints));
 
 				local EditBox = Frame.EditBox;
 				if EditBox.type == "save" and not EditBox.charChanged then
@@ -1175,9 +1177,13 @@ MT.BuildEnv('UI');
 					end
 				end
 			end
+			MT.UI.FrameUpdateFooterText(Frame);
+		end
+		function MT.UI.FrameUpdateFooterText(Frame)
+			local objects = Frame.objects;
 			objects.CurPointsUsed:SetText(Frame.TotalUsedPoints);
-			objects.CurPointsReqLevel:SetText(MT.GetPointsReqLevel(Frame.TotalUsedPoints));
-			objects.CurPointsRemaining:SetText(MT.GetLevelAvailablePoints(Frame.level) - Frame.TotalUsedPoints);
+			objects.CurPointsReqLevel:SetText(MT.GetPointsReqLevel(Frame.class, Frame.TotalUsedPoints));
+			objects.CurPointsRemaining:SetText(MT.GetLevelAvailablePoints(Frame.class, Frame.level) - Frame.TotalUsedPoints);
 		end
 		function MT.UI.FrameSetStyle(Frame, style)
 			local TreeFrames = Frame.TreeFrames;
@@ -1806,7 +1812,7 @@ MT.BuildEnv('UI');
 				SideAnchorBottom:SetPoint("BOTTOMLEFT", Frame, "BOTTOMRIGHT", 2, 0);
 			else
 				SpellListFrameContainer:Show();
-				MT.UI.SpellListFrameUpdate(SpellListFrame, Frame.class, MT.GetPointsReqLevel(Frame.TotalUsedPoints));
+				MT.UI.SpellListFrameUpdate(SpellListFrame, Frame.class, MT.GetPointsReqLevel(Frame.class, Frame.TotalUsedPoints));
 				SideAnchorTop:ClearAllPoints();
 				SideAnchorTop:SetPoint("TOPLEFT", SpellListFrameContainer, "TOPRIGHT", 2, 0);
 				SideAnchorTop:SetPoint("BOTTOMLEFT", SpellListFrameContainer, "BOTTOMRIGHT", 2, 0);
@@ -2280,7 +2286,7 @@ MT.BuildEnv('UI');
 			SearchEdit:ClearFocus();
 		end
 		local function SearchEdit_OnTextChanged(SearchEdit, isUserInput)
-			MT.UI.SpellListFrameUpdate(SearchEdit.SpellListFrame, SearchEdit.SpellListFrame.Frame.class, MT.GetPointsReqLevel(SearchEdit.SpellListFrame.Frame.TotalUsedPoints));
+			MT.UI.SpellListFrameUpdate(SearchEdit.SpellListFrame, SearchEdit.SpellListFrame.Frame.class, MT.GetPointsReqLevel(SearchEdit.SpellListFrame.Frame.class, SearchEdit.SpellListFrame.Frame.TotalUsedPoints));
 			if not SearchEdit:HasFocus() and SearchEdit:GetText() == "" then
 				SearchEdit.Note:Show();
 			end
@@ -2299,7 +2305,7 @@ MT.BuildEnv('UI');
 			SearchEdit.OK:Disable();
 		end
 		local function ShowAllSpell_OnClick(ShowAllSpell)
-			MT.UI.SpellListFrameUpdate(ShowAllSpell.SpellListFrame, ShowAllSpell.SpellListFrame.Frame.class, MT.GetPointsReqLevel(ShowAllSpell.SpellListFrame.Frame.TotalUsedPoints));
+			MT.UI.SpellListFrameUpdate(ShowAllSpell.SpellListFrame, ShowAllSpell.SpellListFrame.Frame.class, MT.GetPointsReqLevel(ShowAllSpell.SpellListFrame.Frame.class, ShowAllSpell.SpellListFrame.Frame.TotalUsedPoints));
 		end
 		local function Close_OnClick(Close)
 			MT.UI.SpellListFrameToggle(Close.SpellListFrame.Frame);
@@ -2339,7 +2345,7 @@ MT.BuildEnv('UI');
 			SearchEditTexture:SetVertexColor(0.25, 0.25, 0.25);
 			SearchEdit.Texture = SearchEditTexture;
 			local SearchEditNote = SearchEdit:CreateFontString(nil, "OVERLAY");
-			SearchEditNote:SetFont(TUISTYLE.FrameFont, 12);
+			SearchEditNote:SetFont(TUISTYLE.FrameFont, 12, TUISTYLE.FrameFontOutline);
 			SearchEditNote:SetTextColor(1.0, 1.0, 1.0, 0.5);
 			SearchEditNote:SetPoint("LEFT", 4, 0);
 			SearchEditNote:SetText(l10n.Search);
@@ -2368,7 +2374,7 @@ MT.BuildEnv('UI');
 			SearchEditOKTexture:SetBlendMode("ADD");
 			SearchEditOK.Texture = SearchEditOKTexture;
 			local SearchEditOKText = SearchEditOK:CreateFontString(nil, "OVERLAY");
-			SearchEditOKText:SetFont(TUISTYLE.FrameFont, 12);
+			SearchEditOKText:SetFont(TUISTYLE.FrameFont, 12, TUISTYLE.FrameFontOutline);
 			SearchEditOKText:SetTextColor(1.0, 1.0, 1.0, 0.5);
 			SearchEditOKText:SetPoint("CENTER");
 			SearchEditOKText:SetText(l10n["OK"]);
@@ -2415,7 +2421,7 @@ MT.BuildEnv('UI');
 			CloseTexture:SetAlpha(0.75);
 			CloseTexture:SetBlendMode("ADD");
 			local CloseLabel = Close:CreateFontString(nil, "OVERLAY");
-			CloseLabel:SetFont(TUISTYLE.FrameFont, 12);
+			CloseLabel:SetFont(TUISTYLE.FrameFont, 12, TUISTYLE.FrameFontOutline);
 			CloseLabel:SetTextColor(1.0, 1.0, 1.0, 0.5);
 			CloseLabel:SetPoint("CENTER");
 			CloseLabel:SetText(l10n["Hide"]);
@@ -2549,15 +2555,15 @@ MT.BuildEnv('UI');
 				Node.ILvl = ILvl;
 
 				local Name = Node:CreateFontString(nil, "OVERLAY");
-				Name:SetFont(TUISTYLE.FrameFont, 13);
+				Name:SetFont(TUISTYLE.FrameFont, 13, TUISTYLE.FrameFontOutline);
 				Node.Name = Name;
 
 				local Ench = Node:CreateFontString(nil, "OVERLAY");
-				Ench:SetFont(TUISTYLE.FrameFont, 13);
+				Ench:SetFont(TUISTYLE.FrameFont, 13, TUISTYLE.FrameFontOutline);
 				Node.Ench = Ench;
 
 				local Gem = Node:CreateFontString(nil, "OVERLAY");
-				Gem:SetFont(TUISTYLE.FrameFont, 13);
+				Gem:SetFont(TUISTYLE.FrameFont, 13, TUISTYLE.FrameFontOutline);
 				Node.Gem = Gem;
 
 				Node.EquipmentContainer = EquipmentContainer;
@@ -2727,6 +2733,8 @@ MT.BuildEnv('UI');
 						Background:SetPoint("CENTER", 0, 0);
 						Background:SetTexture([[Interface\Spellbook\UI-GlyphFrame]]);
 						Background:SetTexCoord(0.78125, 0.91015625, 0.69921875, 0.828125);
+						Node.Setting = Setting;
+						Node.Background = Background;
 					end
 					local Highlight = Node:CreateTexture(nil, "BORDER");
 					if CT.BUILD == "WRATH" then
@@ -2765,8 +2773,6 @@ MT.BuildEnv('UI');
 					Node.Type = def[1];
 					Node.TypeText = def[1] == 1 and MAJOR_GLYPH or MINOR_GLYPH;
 					Node.ID = index;
-					Node.Setting = Setting;
-					Node.Background = Background;
 					Node.Highlight = Highlight;
 					Node.Glyph = Glyph;
 					Node.Ring = Ring;
@@ -3918,7 +3924,7 @@ MT.BuildEnv('UI');
 		end
 		local function Frame_OnShow(Frame)
 			Frame_OnSizeChanged(Frame, Frame:GetWidth(), Frame:GetHeight());
-			Frame.ApplyTalentsProgress:SetText(nil);
+			Frame.ApplyTalentsProgress:SetText("");
 		end
 		local function Frame_OnHide(Frame)
 			MT.UI.ReleaseFrame(Frame.id);
