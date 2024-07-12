@@ -1647,7 +1647,7 @@ MT.BuildEnv('METHOD');
 	end
 	function MT.GetLevelAvailablePoints(class, level)
 		-- return max(0, level - 9);
-		local ref = DT.LevelAvailablePointsTableClass[class] or DT.LevelAvailablePointsTable;
+		local ref = (DT.LevelAvailablePointsTableClass and DT.LevelAvailablePointsTableClass[class]) or DT.LevelAvailablePointsTable; -- 暫時修正
 		return ref[level] or 0;
 	end
 	function MT.CountTreePoints(data, class)
