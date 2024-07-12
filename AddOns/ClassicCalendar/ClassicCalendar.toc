@@ -1,0 +1,15 @@
+## Interface: 11502
+## Title: Classic Calendar
+## Version: 0.5.7beta
+## SavedVariables: CCConfig
+## X-Wago-ID: nKW1ZrNE
+## X-WoWI-ID: 26678
+## X-Curse-Project-ID: 960282
+
+locales\localization-world.lua
+ClassicCalendar_Options.lua
+HolidayData.lua
+Patches.lua
+Patches.xml
+ClassicCalendar.lua
+ClassicCalendar.xml
