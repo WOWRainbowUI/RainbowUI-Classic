@@ -1,8 +1,8 @@
-## Interface: 11502
+## Interface: 11503
 ## Title: Engraver
 ## Notes: One-click rune engraving for Season of Discovery.
 ## Author: Nastiku
-## Version: v1.14.7
+## Version: v1.15.0
 ## X-Curse-Project-ID: 947701
 ## SavedVariablesPerCharacter: EngraverOptions
 ## SavedVariables: EngraverFilters, EngraverSharedOptions
