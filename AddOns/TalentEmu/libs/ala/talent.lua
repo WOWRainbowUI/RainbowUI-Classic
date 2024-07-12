@@ -1,8 +1,8 @@
 --[[--
-	ALA@163UI
+	by ALA
 --]]--
 
-local __version = 240501.0;
+local __version = 240627-2.1;
 
 local _G = _G;
 _G.__ala_meta__ = _G.__ala_meta__ or {  };
@@ -53,7 +53,14 @@ end
 	local GetInventoryItemLink = GetInventoryItemLink;
 	local GetItemInfo = GetItemInfo;
 	local GetSpellInfo = GetSpellInfo;
-	local GetAddOnInfo, IsAddOnLoaded, GetAddOnEnableState = GetAddOnInfo, IsAddOnLoaded, GetAddOnEnableState;
+	local GetAddOnInfo, IsAddOnLoaded, GetAddOnEnableState;
+	local C_AddOns = C_AddOns;
+	local _GetAddOnEnableState = _G.GetAddOnEnableState;
+	if C_AddOns ~= nil then
+		GetAddOnInfo, IsAddOnLoaded, GetAddOnEnableState = C_AddOns.GetAddOnInfo or _G.GetAddOnInfo, C_AddOns.IsAddOnLoaded or _G.IsAddOnLoaded, C_AddOns.GetAddOnEnableState or function(addon, name) return _GetAddOnEnableState(name, addon) end;
+	else
+		GetAddOnInfo, IsAddOnLoaded, GetAddOnEnableState = _G.GetAddOnInfo, _G.IsAddOnLoaded, function(addon, name) return _GetAddOnEnableState(name, addon) end;
+	end
 	local Ambiguate = Ambiguate;
 	local _GetGlyphSocketInfo = __ala_meta__.TOC_VERSION < 40000 and GetGlyphSocketInfo or function(index, group)
 		local Enabled, GlyphType, GlyphTooltipIndex, GlyphSpell, Icon = GetGlyphSocketInfo(index, group);
@@ -987,15 +994,25 @@ end
 				_log_("_GlyphDataSubDecoder V2", "activeGroup == nil", __debase64[strsub(code, 2, 2)], code);
 				return nil;
 			end
+			local ofs = 3;
+			local len1;
+			local code1;
+			local c4_1 = strsub(code, ofs + 1, ofs + 1);
+			if c4_1 == "+" then
+				len1 = __debase64[strsub(code, ofs, ofs)];
+				code1 = strsub(code, ofs + 1, ofs + len1);
+				ofs = ofs + 1 + len1;
+			else
+				len1 = __debase64[strsub(code, ofs, ofs)] + __debase64[c4_1] * 64;
+				code1 = strsub(code, ofs + 2, ofs + len1 + 1);
+				ofs = ofs + 2 + len1;
+			end
 			if numGroup < 2 then
-				local len1 = __debase64[strsub(code, 3, 3)] + __debase64[strsub(code, 4, 4)] * 64;
-				local code1 = strsub(code, 5, len1 + 4);
 				return __emulib.DecodeGlyphBlock(code1, len1);
 			else
-				local len1 = __debase64[strsub(code, 3, 3)] + __debase64[strsub(code, 4, 4)] * 64;
-				local code1 = strsub(code, 5, len1 + 4);
-				local len2 = __debase64[strsub(code, len1 + 5, len1 + 5)] + __debase64[strsub(code, len1 + 6, len1 + 6)] * 64;
-				local code2 = strsub(code, len1 + 7, len1 + len2 + 6);
+				local c4_2 = strsub(code, ofs + 1, ofs + 1);
+				local len2 = __debase64[strsub(code, ofs, ofs)] + (c4_2 == "+" and 0 or __debase64[c4_2] * 64);
+				local code2 = c4_2 == "+" and strsub(code, ofs + 1, ofs + len2) or strsub(code, ofs + 2, ofs + len2 + 1);
 				return __emulib.DecodeGlyphBlock(code1, len1), __emulib.DecodeGlyphBlock(code2, len2);
 			end
 		end,
@@ -1185,7 +1202,7 @@ end
 				else
 					loaded = "~0";
 				end
-				local enabled = GetAddOnEnableState(nil, pack);
+				local enabled = GetAddOnEnableState(pack);
 				if enabled ~= nil and enabled > 0 then
 					enabled = "~1";
 				else
@@ -1203,7 +1220,7 @@ end
 			local pack = AddOnPackList[index];
 			if select(5, GetAddOnInfo(pack)) ~= "MISSING" then
 				local loaded, finished = IsAddOnLoaded(pack);
-				local enabled = GetAddOnEnableState(nil, pack);
+				local enabled = GetAddOnEnableState(pack);
 				msg = msg .. __base64[(loaded and 1 or 0) * 16 + (enabled and 1 or 0) * 32] .. __base64[index];
 			end
 		end

@@ -102,7 +102,7 @@ end
 
 local GetAddOnInfo = GetAddOnInfo;
 local IsAddOnLoaded = IsAddOnLoaded;
-local GetAddOnEnableState = GetAddOnEnableState;
+local GetAddOnMetadata = GetAddOnMetadata;
 local _AddOnList = {
 	"ElvUI",
 	"Tukui",
@@ -319,9 +319,9 @@ local function dev()
 			Cur = 0;
 			for index = 1, Cur do
 				local Line = Lines[index];
-				Line[1]:SetText(nil);
-				Line[2]:SetText(nil);
-				Line[3]:SetText(nil);
+				Line[1]:SetText("");
+				Line[2]:SetText("");
+				Line[3]:SetText("");
 			end
 		end
 		function DisplayPanel:Render()
@@ -343,12 +343,7 @@ local function dev()
 			if version ~= nil and version ~= "" then
 				DisplayPanel:AddDoubleLine(addon, "#|cffffff00" .. version .. "|r");
 			else
-				version = GetAddOnMetadata(addon, "X-163UI-Version");
-				if version ~= nil and version ~= "" then
-					DisplayPanel:AddDoubleLine(addon, "#|cffff7f00" .. version .. "|r");
-				else
-					DisplayPanel:AddLeftLine("|cffff0000" .. addon .. "|r");
-				end
+				DisplayPanel:AddLeftLine("|cffff0000" .. addon .. "|r");
 			end
 		end
 	end
