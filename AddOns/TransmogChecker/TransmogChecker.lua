@@ -26,11 +26,11 @@ f:SetScript("OnEvent", function(self, event, ...)
 end)
 
 local function isTransmogCollected(itemLink)
-    local _, _, _, _, _, _, _, _, itemEquipLoc, _, _, _, _, _, bindType = GetItemInfo(itemLink)
+    
+    local _, _, itemRarity, _, _, _, _, _, itemEquipLoc, _, _, _, _, _, bindType = GetItemInfo(itemLink)
 
     local isExactKnown = nil
-
-    if bindType and bindType > 0 and validEquipLocs[itemEquipLoc] then
+    if bindType and bindType > 0 and itemRarity > 1 and validEquipLocs[itemEquipLoc] then
         local appearanceID, sourceID = C_TransmogCollection.GetItemInfo(itemLink)
         if (appearanceID ~= nil) and (sourceID ~= nil) then
             
@@ -60,98 +60,96 @@ local applyTransmogFilter = false
 
 f:RegisterEvent("ADDON_LOADED")
 f:SetScript("OnEvent", function(self, event, addonName)
-    if event == "ADDON_LOADED" and addonName == "Blizzard_AuctionUI" then
-        self:UnregisterEvent("ADDON_LOADED") -- We don't need this event anymore
+    self:UnregisterEvent("ADDON_LOADED") -- We don't need this event anymore
 
-        orig_AuctionFrameBrowse_Update = AuctionFrameBrowse_Update
+    orig_AuctionFrameBrowse_Update = AuctionFrameBrowse_Update
 
-        local function NewAuctionFrameBrowse_Update()
-            orig_AuctionFrameBrowse_Update()
+    local function NewAuctionFrameBrowse_Update()
+        orig_AuctionFrameBrowse_Update()
+    
+        local offset = FauxScrollFrame_GetOffset(BrowseScrollFrame)
         
-            local offset = FauxScrollFrame_GetOffset(BrowseScrollFrame)
-            
-            if applyTransmogFilter then 
-                for i=1, NUM_BROWSE_TO_DISPLAY do
-                    local index = offset+i
-                    local button = _G["BrowseButton"..i.."Item"]
-                    if button then
-                        if not button.transmogOverlay then
-                            button.transmogOverlay = button:CreateTexture(nil, "OVERLAY")
-                            button.transmogOverlay:SetAllPoints(true)
-                        end
-            
-                        local itemLink = GetAuctionItemLink("list", index)
-                        if itemLink then
-                            local appearanceCollected, isExactKnown = isTransmogCollected(itemLink)
-            
-                            if appearanceCollected or isExactKnown then
-                                button.transmogOverlay:SetColorTexture(0, 1, 0, 0.3) -- Green for collected items
-                            elseif appearanceCollected == nil then
-                                button.transmogOverlay:SetColorTexture(1, 0, 0, 0.3) -- Red for not eligible items
-                            else
-                                button.transmogOverlay:SetColorTexture(1, 1, 1, 0) -- Transparent for uncollected items
-                            end
+        if applyTransmogFilter then 
+            for i=1, NUM_BROWSE_TO_DISPLAY do
+                local index = offset+i
+                local button = _G["BrowseButton"..i.."Item"]
+                if button then
+                    if not button.transmogOverlay then
+                        button.transmogOverlay = button:CreateTexture(nil, "OVERLAY")
+                        button.transmogOverlay:SetAllPoints(true)
+                    end
+        
+                    local itemLink = GetAuctionItemLink("list", index)
+                    if itemLink then
+                        local appearanceCollected, isExactKnown = isTransmogCollected(itemLink)
+        
+                        if appearanceCollected or isExactKnown then
+                            button.transmogOverlay:SetColorTexture(0, 1, 0, 0.3) -- Green for collected items
+                        elseif appearanceCollected == nil then
+                            button.transmogOverlay:SetColorTexture(1, 0, 0, 0.3) -- Red for not eligible items
+                        else
+                            button.transmogOverlay:SetColorTexture(1, 1, 1, 0) -- Transparent for uncollected items
                         end
                     end
                 end
-            else 
-                for i=1, NUM_BROWSE_TO_DISPLAY do
-                    local index = offset+i
-                    local button = _G["BrowseButton"..i.."Item"]
-                    if button and button.transmogOverlay then
-                        -- Reset to the default transparency (completely transparent)
-                        button.transmogOverlay:SetColorTexture(0, 0, 0, 0)
-                    end
+            end
+        else 
+            for i=1, NUM_BROWSE_TO_DISPLAY do
+                local index = offset+i
+                local button = _G["BrowseButton"..i.."Item"]
+                if button and button.transmogOverlay then
+                    -- Reset to the default transparency (completely transparent)
+                    button.transmogOverlay:SetColorTexture(0, 0, 0, 0)
                 end
             end
         end
-        
-        -- At load we keep both versions of the function, depending on needing filter or not.
-        AuctionFrameBrowse_Update = NewAuctionFrameBrowse_Update -- Your filter code is now always available
-    
-        local toggleButton = CreateFrame("CheckButton", nil, AuctionFrame, "ChatConfigCheckButtonTemplate")
-    
-        toggleButton:SetSize(24, 24)
-        toggleButton:SetPoint("TOPLEFT", AuctionFrame, "TOPLEFT", 540, -36)
-        toggleButton.tooltip = "隱藏已收集或無法使用的外觀"
-        
-        
-        -- Create the FontString
-        local checkboxText = toggleButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-        checkboxText:SetPoint("LEFT", toggleButton, "RIGHT", 5, 0)
-        checkboxText:SetText("尚未收集外觀")
-        -- Sets the text color to red
-        checkboxText:SetTextColor(1, 0, 0, 1) 
-        
-        -- Initially hide the toggleButton
-        toggleButton:Hide()
-
-        -- Add a script to the AuctionFrame to show and hide toggleButton as tabs are switched
-        AuctionFrame:HookScript("OnUpdate", function()
-            if PanelTemplates_GetSelectedTab(AuctionFrame) == 1 then
-            -- "Browse" tab is selected
-            toggleButton:Show()
-            else
-            -- any other tab is selected
-            toggleButton:Hide()
-            end
-        end)
-
-                
-        -- When the button is clicked or if state changes
-        toggleButton:SetScript("OnClick", function(self)
-            applyTransmogFilter = not applyTransmogFilter -- Toggle the flag's value when clicked
-            AuctionFrameBrowse_Update()
-        end)
     end
+    
+    -- At load we keep both versions of the function, depending on needing filter or not.
+    AuctionFrameBrowse_Update = NewAuctionFrameBrowse_Update -- Your filter code is now always available
+
+    local toggleButton = CreateFrame("CheckButton", nil, AuctionFrame, "ChatConfigCheckButtonTemplate")
+
+    toggleButton:SetSize(24, 24)
+    toggleButton:SetPoint("TOPLEFT", AuctionFrame, "TOPLEFT", 540, -36)
+    toggleButton.tooltip = "隱藏已收集或無法使用的外觀"
+    
+    
+    -- Create the FontString
+    local checkboxText = toggleButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+    checkboxText:SetPoint("LEFT", toggleButton, "RIGHT", 5, 0)
+    checkboxText:SetText("尚未收集外觀")
+    -- Sets the text color to red
+    checkboxText:SetTextColor(1, 0, 0, 1) 
+    
+    -- Initially hide the toggleButton
+    toggleButton:Hide()
+
+    -- Add a script to the AuctionFrame to show and hide toggleButton as tabs are switched
+    AuctionFrame:HookScript("OnUpdate", function()
+        if PanelTemplates_GetSelectedTab(AuctionFrame) == 1 then
+        -- "Browse" tab is selected
+        toggleButton:Show()
+        else
+        -- any other tab is selected
+        toggleButton:Hide()
+        end
+    end)
+
+            
+    -- When the button is clicked or if state changes
+    toggleButton:SetScript("OnClick", function(self)
+        applyTransmogFilter = not applyTransmogFilter -- Toggle the flag's value when clicked
+        AuctionFrameBrowse_Update()
+    end)
 end)
 
 GameTooltip:HookScript("OnTooltipSetItem", function(tooltip)
     local _, link = tooltip:GetItem()
 
     if link then
-        local _, _, _, _, _, _, _, _, itemEquipLoc, _, _, _, _, _, bindType = GetItemInfo(link)
-        if bindType and bindType > 0 and validEquipLocs[itemEquipLoc] then
+        local _, _, itemRarity, _, _, _, _, _, itemEquipLoc, _, _, _, _, _, bindType = GetItemInfo(link)
+        if bindType and bindType > 0 and itemRarity > 1 and validEquipLocs[itemEquipLoc] then
             local appearanceCollected, isExactKnown = isTransmogCollected(link)
             
             if appearanceCollected then
