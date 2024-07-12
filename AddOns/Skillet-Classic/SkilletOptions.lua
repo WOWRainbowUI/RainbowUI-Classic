@@ -385,6 +385,7 @@ Skillet.options =
 					width = 1.0,
 					order = 35
 				},
+--[[
 				use_higher_vellum = {
 					hidden = isClassic,
 					type = "toggle",
@@ -399,6 +400,7 @@ Skillet.options =
 					width = 1.0,
 					order = 36
 				},
+]]--
 				include_tradebuttons = {
 					type = "toggle",
 					name = L["TRADEBUTTONSNAME"],
@@ -622,8 +624,7 @@ Skillet.options =
 				if not (UnitAffectingCombat("player")) then
 					Skillet:ShowOptions()
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			guiHidden = true,
@@ -641,8 +642,7 @@ Skillet.options =
 						Skillet:DisplayShoppingList(false)
 					end
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 52
@@ -655,8 +655,7 @@ Skillet.options =
 				if not (UnitAffectingCombat("player")) then
 					Skillet:ClearShoppingList()
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 53
@@ -670,8 +669,7 @@ Skillet.options =
 					Skillet:FlushAllData()
 					Skillet:InitializeDatabase(UnitName("player"))
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 54
@@ -685,8 +683,7 @@ Skillet.options =
 					Skillet:FlushRecipeData()
 					Skillet:InitializeDatabase(UnitName("player"))
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 55
@@ -699,8 +696,7 @@ Skillet.options =
 				if not (UnitAffectingCombat("player")) then
 					Skillet:InitializeDatabase(UnitName("player"), true)
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 56
@@ -729,8 +725,7 @@ Skillet.options =
 				if not (UnitAffectingCombat("player")) then
 					Skillet:DisplayIgnoreList()
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 58
@@ -743,8 +738,7 @@ Skillet.options =
 				if not (UnitAffectingCombat("player")) then
 					Skillet:ClearIgnoreList()
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 59
@@ -786,8 +780,7 @@ Skillet.options =
 				if not (UnitAffectingCombat("player")) then
 					Skillet:ResetTradeSkillFilter()
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 62
@@ -801,8 +794,7 @@ Skillet.options =
 				if not (UnitAffectingCombat("player")) then
 					Skillet:PrintSaved()
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 63
@@ -815,8 +807,7 @@ Skillet.options =
 				if not (UnitAffectingCombat("player")) then
 					Skillet:PrintQueue()
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 64
@@ -832,8 +823,7 @@ Skillet.options =
 				if not (UnitAffectingCombat("player")) then
 					Skillet:PrintQueue(value)
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 65
@@ -846,8 +836,7 @@ Skillet.options =
 				if not (UnitAffectingCombat("player")) then
 					Skillet:ClearQueue()
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 66
@@ -860,8 +849,7 @@ Skillet.options =
 				if not (UnitAffectingCombat("player")) then
 					Skillet:PrintAuctionData()
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 67
@@ -973,8 +961,7 @@ Skillet.options =
 					Skillet:FlushCustomData()
 					Skillet:InitializeDatabase(UnitName("player"))
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 74
@@ -988,8 +975,7 @@ Skillet.options =
 					Skillet:FlushQueueData()
 					Skillet:InitializeDatabase(UnitName("player"))
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 75
@@ -1032,8 +1018,7 @@ Skillet.options =
 				if not (UnitAffectingCombat("player")) then
 					Skillet:PrintTradeSkillLevels(value)
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 77
@@ -1046,8 +1031,7 @@ Skillet.options =
 				if not (UnitAffectingCombat("player")) then
 					Skillet:InitializeSkillLevels()
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 78
@@ -1084,8 +1068,7 @@ Skillet.options =
 				if not (UnitAffectingCombat("player")) then
 					Skillet.NewsGUI:Toggle()
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 79
@@ -1485,8 +1468,7 @@ Skillet.options =
 						Skillet.db.global.customPrice[server][id] = { ["name"] = name, ["value"] = price }
 						end
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 105
@@ -1512,8 +1494,7 @@ Skillet.options =
 						Skillet.db.global.customPrice[server][id] = nil
 						end
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 106
@@ -1582,8 +1563,7 @@ Skillet.options =
 						windowManager.SavePosition(SkilletShoppingList)
 					end
 				else
-					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction." ..
-												  " Leave combat and try again.")
+					DA.DEBUG(0,"|cff8888ffSkillet|r: Combat lockdown restriction. Leave combat and try again.")
 				end
 			end,
 			order = 110
