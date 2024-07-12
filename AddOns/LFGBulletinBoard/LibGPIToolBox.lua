@@ -1,6 +1,10 @@
-local TOCNAME,Addon = ...
-Addon.Tool=Addon.Tool or {}
-local Tool=Addon.Tool
+local TOCNAME,
+	---@class Addon_Tool	
+	Addon = ...;
+
+---@class ToolBox
+local Tool = {}
+Addon.Tool = Tool
 
 Tool.IconClassTexture="Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES"
 Tool.IconClassTextureWithoutBorder="Interface\\WorldStateFrame\\ICONS-CLASSES"
@@ -64,31 +68,35 @@ for eng,name in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
 	Tool.NameToClass[name]=eng
 end
 
-local _tableAccents = {
-    ["�"] = "A", ["�"] = "A", ["�"] = "A", ["�"] = "A", ["�"] = "Ae", ["�"] = "A",
-	["�"] = "AE", ["�"] = "C", ["�"] = "E", ["�"] = "E", ["�"] = "E", ["�"] = "E", 
-	["�"] = "I", ["�"] = "I", ["�"] = "I", ["�"] = "I", ["�"] = "D", ["�"] = "N", 
-	["�"] = "O", ["�"] = "O", ["�"] = "O", ["�"] = "O", ["�"] = "Oe", ["�"] = "O", 
-	["�"] = "U", ["�"] = "U", ["�"] = "U", ["�"] = "Ue", ["�"] = "Y", ["�"] = "P", 
-	["�"] = "s", ["�"] = "a", ["�"] = "a", ["�"] = "a", ["�"] = "a", ["�"] = "ae", 
-	["�"] = "a", ["�"] = "ae", ["�"] = "c", ["�"] = "e", ["�"] = "e", ["�"] = "e", 
-	["�"] = "e", ["�"] = "i", ["�"] = "i", ["�"] = "i", ["�"] = "i", ["�"] = "eth", 
-	["�"] = "n", ["�"] = "o", ["�"] = "o", ["�"] = "o", ["�"] = "o", ["�"] = "oe", 
-	["�"] = "o", ["�"] = "u", ["�"] = "u", ["�"] = "u", ["�"] = "ue", ["�"] = "y", 
-	["�"] = "p", ["�"] = "y", ["�"] = "ss",
-	}
-
+local transliterations = {
+    ["À"] = "A", ["Á"] = "A", ["Â"] = "A", ["Ã"] = "A", ["Ä"] = "Ae", ["Å"] = "A",
+	["Æ"] = "AE", ["Ç"] = "C", ["È"] = "E", ["É"] = "E", ["Ê"] = "E", ["Ë"] = "E", 
+	["Ì"] = "I", ["Í"] = "I", ["Î"] = "I", ["Ï"] = "I", ["Ð"] = "D", ["Ñ"] = "N", 
+	["Ò"] = "O", ["Ó"] = "O", ["Ô"] = "O", ["Õ"] = "O", ["Ö"] = "Oe", ["Ø"] = "O", 
+	["Ù"] = "U", ["Ú"] = "U", ["Û"] = "U", ["Ü"] = "Ue", ["Ý"] = "Y", ["Þ"] = "P", 
+	["ẞ"] = "s", ["à"] = "a", ["á"] = "a", ["â"] = "a", ["ã"] = "a", ["ä"] = "ae", 
+	["å"] = "a", ["æ"] = "ae", ["ç"] = "c", ["è"] = "e", ["é"] = "e", ["ê"] = "e", 
+	["ë"] = "e", ["ì"] = "i", ["í"] = "i", ["î"] = "i", ["ï"] = "i", ["ð"] = "eth", 
+	["ñ"] = "n", ["ò"] = "o", ["ó"] = "o", ["ô"] = "o", ["õ"] = "o", ["ö"] = "oe", 
+	["ø"] = "o", ["ù"] = "u", ["ú"] = "u", ["û"] = "u", ["ü"] = "ue", ["ý"] = "y", 
+	["þ"] = "p", ["ÿ"] = "y", ["ß"] = "ss",
+}
 -- Hyperlink
 
 local function EnterHyperlink(self,link,text)
 	--print(link,text)
 	local part=Tool.Split(link,":")
-	if part[1]=="spell" or part[1]=="unit" or part[1]=="item" or part[1]=="enchant" or part[1]=="player" or part[1]=="quest" or part[1]=="trade"  then
-		GameTooltip_SetDefaultAnchor(GameTooltip,UIParent)
-		GameTooltip:SetOwner(UIParent,"ANCHOR_PRESERVE")
-		GameTooltip:ClearLines()
-		GameTooltip:SetHyperlink(link)
-		GameTooltip:Show()
+	if part[1]=="spell" or part[1]=="unit" 
+	or part[1]=="item" or part[1]=="enchant"
+	or part[1]=="player"or part[1]=="quest"
+	or part[1]=="trade"
+	then
+		local tooltip = ItemRefTooltip  -- or GameTooltip
+		GameTooltip_SetDefaultAnchor(tooltip, UIParent)
+		tooltip:SetOwner(UIParent,"ANCHOR_PRESERVE")
+		tooltip:ClearLines()
+		tooltip:SetHyperlink(link)
+		tooltip:Show()
 	end
 end
 local function LeaveHyperlink(self)
@@ -98,8 +106,8 @@ end
 
 function Tool.EnableHyperlink(frame)
 	frame:SetHyperlinksEnabled(true);
-	frame:SetScript("OnHyperlinkEnter",EnterHyperlink)
-	frame:SetScript("OnHyperlinkLeave",LeaveHyperlink)	
+	frame:SetScript("OnHyperlinkClick",EnterHyperlink)
+	-- frame:SetScript("OnHyperlinkLeave",LeaveHyperlink)	
 end
 	
 -- EventHandler
@@ -266,8 +274,11 @@ function Tool.iMerge(t1,...)
 	return t1
 end
 
+---Replaces special characters and characters with accents from a given string.
+---@param str string
+---@return string, number
 function Tool.stripChars(str)
-	return string.gsub(str,"[%z\1-\127\194-\244][\128-\191]*", _tableAccents)
+	return string.gsub(str,"[%z\1-\127\194-\244][\128-\191]*", transliterations)
 end
 
 function Tool.CreatePattern(pattern,maximize)		

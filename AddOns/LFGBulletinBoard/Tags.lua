@@ -3,8 +3,7 @@ local TOCNAME,
 	GBB = ...;
 
 local isClassicEra = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
-local isSoD = isClassicEra and C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfDiscovery
-
+local isSoD = isClassicEra and (C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfDiscovery)
 -- IMPORTANT, everything must be in low-case and with now space!
 ---@param source table<string, string>
 ---@return table<string, string[]>
@@ -34,6 +33,8 @@ local suffixTags = {
 	frFR = "groupe",
 	zhTW = "",
 	zhCN = "",
+	esES = "",
+	ptBR = ""
 }
 
 --- Search Tags: usually prepended to an looking for group chat message, ie the "lfg" in "lfg wailing caverns"
@@ -47,6 +48,8 @@ local searchTags = {
 
 	zhTW = "缺 來 找 徵 坦 補 DD 輸出 戰 聖 薩 獵 德 賊 法 牧 術",
 	zhCN = "= 缺 来 找 德 T N ND DZ FS SS SM",
+	esES = "buscando grupo bm bdg bg",
+	ptBR = "procurando grupo pm pg"
 }
 
 --- Bad Tags: for messages to ignore which may have matched a searchTag, like
@@ -58,6 +61,8 @@ local badTags = {
 	frFR = "",
 	zhTW = "影布 回流",
 	zhCN = "影布 回流",
+	esES = "",
+	ptBR = ""
 }
 
 --- Heroic Tags: for identifying dungeon/raid difficulties
@@ -68,6 +73,8 @@ local heroicTags = {
 	frFR = "h hc heroic hm hero heroique",
 	zhTW = "h 英雄",
 	zhCN = "h H 英雄",
+	esES = "h hc heroico heroica",
+	ptBR = "h hc heroico",
 }
 
 --- Dungeon Tags: for identifying dungeons related to messages.
@@ -79,6 +86,8 @@ local dungeonTags = {
 		frFR = nil,
 		zhTW = "RAQ AQ20 廢墟",
 		zhCN = "FX 废墟",
+		esES = "",
+		ptBR = ""
 	},
 	AQ40 = { -- Ahn'Qiraj Temple
 		enGB = "aq40",
@@ -598,7 +607,15 @@ local dungeonTags = {
 		frFR = nil,
 		zhTW = nil,
 		zhCN = nil,
-	},	
+	},
+	BFG = { -- The Battle for Gilneas
+		enGB = "bfg tbfg gilneas",
+		deDE = nil,
+		ruRU = nil,
+		frFR = nil,
+		zhTW = nil,
+		zhCN = nil,
+	},
 	BOT = { -- The Botanica
 		enGB = "botanica bot",
 		deDE = "bota botanika botanica",
@@ -607,7 +624,7 @@ local dungeonTags = {
 		zhTW = "波塔 波卡",
 		zhCN = "生态船",
 	},	
-	NULL = { -- The Crown Chemical Co. (Love is in the Air)
+	LOVE = { -- The Crown Chemical Co. (Love is in the Air)
 
 	},	
 	COS = { -- The Culling of Stratholme
@@ -642,7 +659,8 @@ local dungeonTags = {
 		zhTW = nil,
 		zhCN = "灵魂洪炉",
 	},	
-	NULL = { -- The Frost Lord Ahune (Midsummer)
+	SUMMER = { -- The Frost Lord Ahune (Midsummer)
+		enGB = "ahune",
 	},	
 	HOLLOW = { -- The Headless Horseman
 		enGB = "headless horseman hollow",
@@ -720,10 +738,10 @@ local dungeonTags = {
 		zhCN = nil,
 	},
 	TOFW = { -- Throne of the Four Winds
-		enGB = "totfw toftw tofw four winds tofw10 tofw25",
-		deDE = nil,
+		enGB = "totfw toftw tofw four winds tofw10 tofw25 tot4w to4w t4w",
+		deDE = "td4w t4w",
 		ruRU = nil,
-		frFR = nil,
+		frFR = "t4v t4w",
 		zhTW = nil,
 		zhCN = nil,
 	},	
@@ -734,7 +752,15 @@ local dungeonTags = {
 		frFR = nil,
 		zhTW = nil,
 		zhCN = nil,
-	},	
+	},
+	TB = { -- Tol Barad
+		enGB = "tb bftb barad",
+		deDE = nil,
+		ruRU = nil,
+		frFR = nil,
+		zhTW = nil,
+		zhCN = nil,
+	},
 	CHAMP = { -- Trial of the Champion
 		enGB = "champ toc champion",
 		deDE = nil,
@@ -750,6 +776,14 @@ local dungeonTags = {
 		frFR = "tc totc totc10 totc25 toc10 toc25 togc",
 		zhTW = nil,
 		zhCN = "十字军的试炼",
+	},
+	TP = { -- Twin Peaks
+		enGB = "tp peaks",
+		deDE = nil,
+		ruRU = nil,
+		frFR = nil,
+		zhTW = nil,
+		zhCN = nil,
 	},
 	ULD = { -- Uldaman
 		enGB = "uld ulda uldaman ulduman uldman uldama udaman",
@@ -944,8 +978,13 @@ local dungeonTags = {
 		zhTW = "暴風眼 暴風之眼",
 		zhCN = "风暴之眼",
 	},	
-	NULL = { -- Isle of Conquest
-
+	IOC = { -- Isle of Conquest
+		enGB = "ioc",
+		deDE = nil,
+		ruRU = nil,
+		frFR = nil,
+		zhTW = nil,
+		zhCN = nil,
 	},	
 	SOTA = { -- Strand of the Ancients
 		enGB = "sota strand ancient",
@@ -974,11 +1013,9 @@ local dungeonTags = {
 }
 dungeonTags["DEADMINES"] = { enGB = "dm" } -- should normalize "DM" to "DEADMINES" at somepoint.
 
---- Misc. Tags: 
--- id like to offload these to a seperate system at some point.
--- a more modular way of adding "categories" to the bulletin board
--- the tags and the key and the display name for the category would all be defined in the same place
-local otherTags = {
+--- Misc. categeories tags (these are core to the addon) 
+-- see `CustomCategories.lua` for additional user-editable categories/tags
+local miscTags = {
 	TRADE = { -- Trade Services
 	  enGB = "buy buying sell selling wts wtb hitem henchant htrade enchanter",
 	  deDE = "kaufe verkauf kauf verkaufe ah vk tg trinkgeld trinkgold vz schneider verzauberer verzaubere schliesskassetten schließkassetten kassetten schlossknacken schloßknacken alchimie",
@@ -995,26 +1032,6 @@ local otherTags = {
 	  zhTW = nil,
 	  zhCN = nil,
 	},
-	BLOOD = isSoD and { -- Bloodmoon Event
-	  enGB = "blood bloodmoon bm",
-	  deDE = nil,
-	  ruRU = nil,
-	  frFR = nil,
-	  zhTW = nil,
-	  zhCN = nil,
-	} or nil,
-	INCUR = isSoD and { -- Incursion Event
-	  enGB = "inc incur incursion incursions incurusions loops",
-	  deDE = nil,
-	  ruRU = nil,
-	  frFR = nil,
-	  zhTW = nil,
-	  zhCN = nil,
-	} or nil,
-	--- Random Dungeon Finder
-	RDF = not isClassicEra and {
-	  enGB = "rdf random dungeons spam heroics",
-	} or nil
 }
 
 --- Secondary Dungeon Tags: related to identifying dungeon or activity name from a message.
@@ -1030,7 +1047,7 @@ local dungeonSecondTags = {
 -- Comaptibility reformatting of data back to original shape.
 -- [locale] => [dungeonKey]=> Array<tag>
 local dungeonTagsLoc = {}
-for _, categoryTags in pairs({dungeonTags, otherTags}) do
+for _, categoryTags in pairs({dungeonTags, miscTags}) do
 	for dungeonKey, tagsByLocale in pairs(categoryTags) do
 		tagsByLocale = langSplit(tagsByLocale)
 		for locale, tags in pairs(tagsByLocale) do
@@ -1050,23 +1067,24 @@ GBB.badTagsLoc = langSplit(badTags)
 GBB.heroicTagsLoc = langSplit(heroicTags)
 
 -- Remove any unused dungeon tags based on game version
--- Get available dungeon tag keys up to current expansion
--- this includes raids/bgs/arenas/dungeons
+
+-- Passing no specific dungeonType or ExpansionID will yeild all available.
+-- This includes raids/bgs/arenas/dungeons from classic up to current expansion
 local validDungeonKeys = GBB.GetSortedDungeonKeys()
 local validGameVersionKeys = {}
 for _, key in ipairs(validDungeonKeys) do
 	validGameVersionKeys[key] = true
 end
+-- manually add MISC entries to validGameVersionKeys, this is kinda hacky atm.
 for _, key in ipairs(GBB.Misc) do	
 	validGameVersionKeys[key] = true
 end
-
 -- iterate over all locales and `nil` out any entries for dungeons not in current client
 for locale, dungeonTags in pairs(GBB.dungeonTagsLoc) do
 	for dungeonKey, _ in pairs(dungeonTags) do
 		if not (validGameVersionKeys[dungeonKey] 
 			or GBB.dungeonSecondTags[dungeonKey]
-			or otherTags[dungeonKey])
+			or miscTags[dungeonKey])
 		then
 			GBB.dungeonTagsLoc[locale][dungeonKey] = nil
 		end

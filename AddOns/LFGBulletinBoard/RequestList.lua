@@ -79,7 +79,7 @@ end)()
 -- this table is wiped on every `GBB.UpdateList` when the board is re-drawn
 local existingHeaders= {}
 
----@param yy integer The current bottom pos from the top of the scroll frame
+---@param scrollPos integer The current bottom pos from the top of the scroll frame
 ---@param dungeon string The dungeons "key" ie DM|MC|BWL|etc
 ---@return integer newScrollPos The updated bottom pos of the scroll frame after adding the header
 local function CreateHeader(scrollPos, dungeon)
@@ -177,14 +177,14 @@ end
 ---@param i integer request index
 ---@param scale number scale factor for the entry item
 ---@param req table? request info table
----@param forceHight number? force the height of the entry item
+---@param forceHeight number? force the height of the entry item
 ---@return number height The height of the entry item
-local function CreateItem(scrollPos,i,scale,req,forceHight)
+local function CreateItem(scrollPos,i,scale,req,forceHeight)
 	local AnchorTop="GroupBulletinBoardFrame_ScrollChildFrame"
 	local ItemFrameName="GBB.Item_"..i
 	local entry = GBB.FramesEntries[i]
 	-- space between inner-bottom of entry and outer-bottom of message
-	local bottomPadding = 2;
+	local bottomPadding = 4; 
 	
 	if GBB.FramesEntries[i]==nil then
 		---@class requestEntry : Frame
@@ -235,8 +235,10 @@ local function CreateItem(scrollPos,i,scale,req,forceHight)
 	-- request message
 	entry.Message:SetFontObject(GBB.DB.FontSize)
 	entry.Message:SetMaxLines(GBB.DB.DontTrunicate and 99 or 1)
-	entry.Message:SetJustifyV("TOP")
+	entry.Message:SetJustifyV("MIDDLE")
 	entry.Message:ClearAllPoints() -- incase swapped to 2-line mode
+	entry.Message:SetText(" ") 
+	local lineHeight = entry.Message:GetStringHeight() + 1 -- ui nit +1 offset
 	
 	if GBB.DontTrunicate then
 		-- make sure the initial size of the FontString object is big enough
@@ -286,7 +288,7 @@ local function CreateItem(scrollPos,i,scale,req,forceHight)
 				fmtTime=GBB.formatTime(now-req.last)
 			end
 		end
-		
+
 		local typePrefix = ""
 		if not isClassicEra then -- "heroic" is not a concept in classic era/sod
 			if req.IsHeroic == true then
@@ -335,9 +337,9 @@ local function CreateItem(scrollPos,i,scale,req,forceHight)
 	if scale < 1 then -- aka GBB.DB.CompactStyle
 		entry.Message:SetPoint("TOPLEFT",entry.Name, "BOTTOMLEFT", 0, -2)
 		entry.Message:SetPoint("RIGHT",entry.Time, "RIGHT", 0,0)
+		entry.Message:SetJustifyV("TOP")
 	else
-		entry.Message:SetPoint("LEFT",entry.Name, "RIGHT", 10)
-		entry.Message:SetPoint("TOP",entry, "TOP", 0, -1)
+		entry.Message:SetPoint("TOPLEFT",entry.Name, "TOPRIGHT", 10)
 		entry.Message:SetPoint("RIGHT",entry.Time, "LEFT", -10,0) 
 	end
 	if GBB.DB.ChatStyle then
@@ -366,26 +368,20 @@ local function CreateItem(scrollPos,i,scale,req,forceHight)
 	else
 		if scale < 1 then
 			projectedHeight = entry.Name:GetStringHeight() + entry.Message:GetStringHeight()
-		elseif GBB.DB.DontTrunicate then	
-			projectedHeight = math.max(
-				entry.Message:GetStringHeight(),
-				entry.Name:GetStringHeight()
-			)
 		else
-			projectedHeight = entry.Message:GetStringHeight();
+			projectedHeight = GBB.DB.DontTrunicate 
+				and entry.Message:GetStringHeight()
+				or lineHeight;
 		end
 	end
-	if not GBB.DB.DontTrunicate and forceHight then
-		projectedHeight=forceHight
+	if not GBB.DB.DontTrunicate and forceHeight then
+		projectedHeight=forceHeight
 	end
 	
 	-- finally set element heights and return container height
 	entry.Message:SetHeight(projectedHeight)
+	entry.Name:SetHeight(entry.Name:GetStringHeight())
 	entry:SetPoint("TOPLEFT",_G[AnchorTop], "TOPLEFT", 10,-scrollPos)
-	-- ui nit: add a padding for multi-line message to make the highlight bigger
-	if projectedHeight > entry.Name:GetStringHeight() then
-		bottomPadding = bottomPadding + 2
-	end
 	entry:SetHeight(projectedHeight + bottomPadding)
 	entry:SetShown(req ~= nil)
 
@@ -553,6 +549,7 @@ function GBB.UpdateList()
 				and (ownRequestDungeons[req.dungeon] == true  -- own request
 					-- dungeons set to show in options 
 					or GBB.FilterDungeon(req.dungeon, req.IsHeroic, req.IsRaid))
+				and doesRequestMatchResultsFilter(req.message) -- matches global results filter
 			then
 				count = count + 1
 				local requestDungeon = req.dungeon
@@ -569,9 +566,8 @@ function GBB.UpdateList()
 				if GBB.FoldedDungeons[requestDungeon] ~= true -- not folded
 					and (not GBB.DB.EnableShowOnly -- no limit
 						or itemsInCategory < GBB.DB.ShowOnlyNb) -- or limit not reached
-					and doesRequestMatchResultsFilter(req.message) -- matches global results filter
 				then
-					scrollHeight= scrollHeight + CreateItem(scrollHeight,requestIdx,itemScale,req,baseItemHeight) + 3 -- why add 3? 
+					scrollHeight= scrollHeight + CreateItem(scrollHeight,requestIdx,itemScale,req) + 3 -- why add 3? 
 					itemsInCategory = itemsInCategory + 1
 				end
 			end
