@@ -213,7 +213,7 @@ function EngraverOptionsFrameMixin:CreateSettingsInitializers()
 			local setting = AddEngraverOptionsSetting(self, "ShowFilterSelector", "顯示過濾方式", Settings.VarType.Boolean)
 			local initializer = Settings.CreateCheckBoxInitializer(setting, nil, "啟用時，拖曳標籤頁會顯示當前的過濾方式。\n標籤頁兩旁的箭頭可以用來切換過濾方式。")
 			initializer:SetParentInitializer(dragTabInitializer, function() return not dragTabSetting:GetValue() end)
-			initializer.IsParentInitializerInCurrentSettingsCategory = function() return true; end -- forces indent and small font
+			initializer.IsParentInitializerInLayout = function() return true; end -- forces indent and small font
 			AddInitializer(self, initializer)
 		end -- ShowFilterSelector
 	end -- HideDragTab
@@ -268,7 +268,7 @@ function EngraverOptionsFrameMixin:CreateSettingsInitializers()
 		{
 			name = "Community Discord",
 			tooltip = "If you have any questions, suggestions, or comments please post in the Community Discord.",
-			text = "https://discord.gg/87aFTrq6ea"
+			text = "https://discord.gg/QgDbJe5Nma"
 		})
 	end -- Discord
 	do -- Github
