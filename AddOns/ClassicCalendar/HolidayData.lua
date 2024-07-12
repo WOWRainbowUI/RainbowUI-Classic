@@ -480,7 +480,7 @@ local SoDEvents = {
 		ZIndex=ZIndexes.highest
 	},
 	{
-		name="Phase 4 Launch",
+		name="第 4 階段上線",
 		description="Season of Discovery Phase 4 officially arrives with level 60 and all original classic content, plus some new experiences unique to Season of Discovery! World bosses will arrive 1 week later, and initial level 60 raids 2 weeks later.",
 		startDate={ year=2024, month=7, day=11, hour=14, min=0 },
 		endDate={ year=2024, month=7, day=11, hour=14, min=0 },
@@ -490,7 +490,7 @@ local SoDEvents = {
 		ZIndex=ZIndexes.highest
 	},
 	{
-		name="World Bosses Launch",
+		name="世界王上線",
 		description="Lord Kazzak and Azuregos world bosses become available globally as instanced raids, resetting twice weekly on Tuesdays and Saturdays.",
 		startDate={ year=2024, month=7, day=18, hour=14, min=0 },
 		endDate={ year=2024, month=7, day=18, hour=14, min=0 },
@@ -500,7 +500,7 @@ local SoDEvents = {
 		ZIndex=ZIndexes.highest
 	},
 	{
-		name="Onyxia and Molten Core Launch",
+		name="奧妮克希亞和熔火之心上線",
 		description="Onyxia and Molten Core raids become available globally, resetting twice weekly on Tuesdays and Saturdays.",
 		startDate={ year=2024, month=7, day=25, hour=14, min=0 },
 		endDate={ year=2024, month=7, day=25, hour=14, min=0 },
