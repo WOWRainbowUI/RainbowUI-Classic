@@ -49,7 +49,8 @@ function SpellActivationOverlay_OnLoad(self)
 		end
 	else
 		local currentClass = tostring(select(1, UnitClass("player")));
-		SAO:Error(Module, "Class unknown or not converted yet:", currentClass);
+		SAO:Error(Module, SAO:unsupportedClass(), currentClass);
+		SAO.Shutdown:EnableCategory("UNSUPPORTED_CLASS");
 	end
 
 	if ( SAO.IsCata() ) then
@@ -61,16 +62,20 @@ function SpellActivationOverlay_OnLoad(self)
 --	self:RegisterUnitEvent("UNIT_AURA", "player");
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
-	self:RegisterEvent("SPELL_UPDATE_USABLE");
 	self:RegisterEvent("PLAYER_REGEN_ENABLED");
 	self:RegisterEvent("PLAYER_REGEN_DISABLED");
 	self:RegisterEvent("SPELLS_CHANGED");
 	self:RegisterEvent("LEARNED_SPELL_IN_TAB");
 	self:RegisterEvent("LOADING_SCREEN_DISABLED");
 	self:RegisterEvent("PLAYER_LOGIN");
-	self:RegisterEvent("PLAYER_TALENT_UPDATE");
-	if ( SAO.IsCata() and classFile == "PALADIN" ) then
-		self:RegisterEvent("UNIT_POWER_FREQUENT"); -- For Holy Power, introduced in Cataclysm
+	self:RegisterEvent("ADDON_LOADED");
+	for _, var in pairs(SAO.Variables) do
+		if type(var.event.isRequired) == 'function' and var.event.isRequired()
+		or type(var.event.isRequired) == 'boolean' and var.event.isRequired then
+			for _, eventName in ipairs(var.event.names) do
+				self:RegisterEvent(eventName);
+			end
+		end
 	end
 end
 
@@ -266,6 +271,9 @@ local complexLocationTable = {
 }
 
 function SpellActivationOverlay_ShowAllOverlays(self, spellID, texturePath, positions, scale, r, g, b, autoPulse, forcePulsePlay, endTime, combatOnly)
+	if SAO.Shutdown:IsAddonDisabled() then
+		return;
+	end
 	SAO:Trace(Module, "SpellActivationOverlay_ShowAllOverlays "..tostring(spellID));
 	positions = strupper(positions);
 	if ( complexLocationTable[positions] ) then

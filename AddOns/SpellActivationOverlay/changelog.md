@@ -1,5 +1,87 @@
 ## SpellActivationOverlay Changelog
 
+#### v2.2.0 (2024-06-17)
+
+Necrosis
+- Recently, Necrosis has started to include SpellActivationOverlay
+- There were issues when both SpellActivationOverlay and Necrosis are installed
+- Players who have not installed Necrosis were unaffected
+- Players who log in with a class other than Warlock were unaffected
+- Please update both SpellActivationOverlay and Necrosis to fix these issues
+
+Options Panel
+- A special mode "Disabled" has been introduced, blocking the options panel
+- On top of blocking the options panel, effects can no longer trigger
+- Players can opt in to disable SpellActivationOverlay when Necrosis is loaded
+- This option is available only for Warlocks who have installed Necrosis
+
+Bug Fixes
+- Lua errors caused by 'OverrideActionBarButton' should no longer happen
+- Lua errors caused by other action buttons should happen less often
+
+#### v2.1.1 (2024-06-10)
+
+New Spell Alert:
+- Death Knight's Dark Transformation (Cataclysm)
+
+New Glowing Button:
+- Death Knight's Dark Transformation (Cataclysm)
+
+Bug Fixes
+- Effects based on Holy Power can no longer trigger before level 9 (Cataclysm)
+- Mage's Arcane Missiles timer should now refresh correctly (Cataclysm)
+
+The Arcane Missiles issue is most likely a bug from the game client
+Until Blizzard fixes it, the addon exceptionally implements a local fix
+
+#### v2.1.0 (2024-06-03)
+
+Options Panel
+- A new option "responsive mode" is available in the options panel
+- In some cases, it detects procs slightly sooner
+- In most situations, it makes no difference
+- The option is disabled by default to favor performance
+
+Updated effects:
+- Death Knight's Bone Shield is now combat-only (Cataclysm)
+- Druid's Eclipses are now combat-only (Season of Discovery, Wrath, Cataclysm)
+- Paladin's Infusion of Light texture matches the reference client (Cataclysm)
+- Updated texture and size of Paladin's Charges of Holy Power (Cataclysm)
+- Paladin's Charges of Holy Power is no longer combat-only (Cataclysm)
+- Paladin's Daybreak is displayed only when Holy Shock is usable (Cataclysm)\*
+
+\* Exceptionally, this does not match the reference client, on purpose
+
+It felt weird to see Daybreak proc, try to cast Holy Shock but fail, due to CD
+
+New Spell Alert:
+- Warlock's Fel Spark, from tier 11 set bonus (Cataclysm)
+
+New Glowing Buttons:
+- Judgement when Judgements of the Pure buff is missing (Wrath, Cataclysm)
+- Priest's Inner Fire, when the buff is missing (Wrath, Cataclysm)\*\*
+- Priest's Shadowform, when not assuming the shadowform
+- Priest's Shadow Word: Death, when the enemy has low hp (Cataclysm)
+- Rogue's Backstab, with Murderous Intent when the enemy has low hp (Cataclysm)
+- Warlock's Fel Flame, during Fel Spark, from tier 11 set bonus (Cataclysm)
+- Warlock's Shadowburn, when the spell is usable (Cataclysm)\*\*\*
+
+\*\* Inner Fire existed before, but has become very important only since Wrath
+
+\*\*\* Shadowburn existed before, but costs no soul shards only since Cataclysm
+
+Bug Fixes
+- Effects gained or lost during a loading screen are correctly updated
+- Soul Preserver overlays are now slightly dimmer (Wrath)
+- Mage's Clearcasting overlay is now slightly dimmer
+- Mage's Finger of Frost overlay is now slightly dimmer (Cataclysm)
+- Mage's Missile Barrage overlay is now blue-ish (Season of Discovery)
+- Priest's Mind Spike overlay is now purple-ish (Season of Discovery)
+
+Known Issues
+- Druid's Eclipse buttons do not stop glowing after leaving combat (Cataclysm)
+- This issue was already there and has not been introduced with this release
+
 #### v2.0.0 (2024-05-27)
 
 This release marks a major overhaul of the effect system
@@ -179,6 +261,7 @@ Known issues
 #### v1.3.2 (2024-04-30)
 
 The Death Knight class experiments the upcoming rework for Cataclysm.
+
 Make sure to report issues you would encounter, thank you :)
 
 New effects:
@@ -210,9 +293,10 @@ New effects:
 - New GAB: Warrior's Colossus Smash, during Sudden Death (Cataclysm)
 - New GAB: Warrior's Shield Slam, during Sword and Board (Cataclysm)
 - New GAB: Warrior's Shield Slam, during Sword and Board (Season of Discovery)
-- New GAB: Warrior's Overpower, during Taste for Blood* (Season of Discovery)
+- New GAB: Warrior's Overpower, during Taste for Blood\* (Season of Discovery)
 
-* As in Wrath, there is no dedicated Taste for Blood option
+\* As in Wrath, there is no dedicated Taste for Blood option
+
 Taste for Blood shares its option with Overpower
 
 Updated effects:
@@ -448,6 +532,7 @@ List of spells that trigger the Frozen effect:
 - Taste for Blood is available on Wrath Classic only
 
 The bug that happened to druids may also happen to other classes
+
 Please report bugs to the addon's Discord, GitHub or CurseForge
 
 #### v0.9.2 (2023-06-21)
@@ -571,6 +656,7 @@ Shout-out to MartGon and xHashii for their contribution to the code. Thanks!
 #### v0.5.0-beta (2022-08-31)
 
 SpellActivationOverlay now has a Discord server!
+
 Make sure to check it out at https://discord.gg/xJmGfGcd4M
 
 Support for Glowing Action Buttons (GABs), making some actions glow, namely:

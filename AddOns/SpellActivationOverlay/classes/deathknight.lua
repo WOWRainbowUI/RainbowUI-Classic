@@ -2,6 +2,7 @@ local AddonName, SAO = ...
 
 local bloodBoil = 48721;
 local boneShield = 49222;
+local darkTransformation = 63560;
 local deathCoil = 47541;
 local frostStrike = 49143;
 local howlingBlast = 49184;
@@ -30,6 +31,7 @@ local function useBoneShield()
             talent = boneShield,
             requireTalent = true,
             actionUsable = true,
+            combatOnly = true,
             button = { stacks = -1, spellID = boneShield },
         }
     );
@@ -83,6 +85,19 @@ local function useCrimsonScourge()
     );
 end
 
+local function useDarkTransformation()
+    SAO:CreateEffect(
+        "dark_transformation",
+        SAO.CATA,
+        93426, -- Dark Transformation proc for Native SHOW event
+        "native",
+        {
+            overlay = { texture = "dark_transformation", position = "Top" },
+            button = darkTransformation,
+        }
+    );
+end
+
 local function useSuddenDoom()
     SAO:CreateEffect(
         "sudden_doom",
@@ -125,6 +140,7 @@ local function registerClass(self)
     useKillingMachine();
 
     -- Unholy
+    useDarkTransformation();
     useSuddenDoom();
 end
 

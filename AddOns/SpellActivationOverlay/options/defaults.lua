@@ -16,13 +16,16 @@ SAO.defaults = {
                 [81340] = { -- Sudden Doom (Cataclysm)
                     [0] = true,
                 },
+                [93426] = { -- Dark Transformation (not an actual buff) (Cataclysm)
+                    [0] = true,
+                },
                 [96171] = { -- Will of the Necropolis (Cataclysm)
                     [0] = true,
                 },
             },
             glow = {
                 [49222] = { -- Bone Shield (Cataclysm)
-                    [49222] = true, -- Bone Shield
+                    [49222] = false, -- Bone Shield
                 },
                 [56815] = { -- Rune Strike (Wrath)
                     [56815] = true, -- Rune Strike
@@ -42,6 +45,9 @@ SAO.defaults = {
                 },
                 [81340] = { -- Sudden Doom (Cataclysm)
                     [47541] = true, -- Death Coil
+                },
+                [93426] = { -- Dark Transformation (not an actual buff) (Cataclysm)
+                    [63560] = true, -- Dark Transformation
                 },
                 [96171] = { -- Will of the Necropolis (Cataclysm)
                     [48982] = true, -- Rune Tap
@@ -334,6 +340,11 @@ SAO.defaults = {
                 [53600] = { -- Shield of the Righteous (Cataclysm)
                     [53600] = true, -- Shield of the Righteous
                 },
+                [53671] = { -- Judgements of the Pure (Wrath+)
+                    [20271] = true, -- Judgement of Light (Wrath) / Judgement (Cata)
+                    [53408] = true, -- Judgement of Wisdom (Wrath only)
+                    [53407] = true, -- Judgement of Justice (Wrath only)
+                },
                 [407778] = { -- Divine Storm (Season of Discovery)
                     [407778]= true, -- Divine Storm (Season of Discovery)
                 },
@@ -408,6 +419,15 @@ SAO.defaults = {
                 },
             },
             glow = {
+                [588] = { -- Inner Fire (Wrath+)
+                    [588] = true, -- Inner Fire
+                },
+                [15473] = { -- Shadowform
+                    [15473] = true, -- Shadowform
+                },
+                [32379] = { -- Shadow Word: Death (Cataclysm)
+                    [32379] = true, -- Shadow Word: Death
+                },
                 [33151] = { -- Surge of Light (TBC - Wrath)
                     [585]  = true, -- Smite
                     [2061] = true, -- Flash Heal (not for TBC)
@@ -448,6 +468,9 @@ SAO.defaults = {
                 },
             },
             glow = {
+                [14158] = { -- Murderous Intent (not an actual buff) (Cataclysm)
+                    [53] = true, -- Backstab
+                },
                 [14251] = { -- Riposte (Era - Wrath)
                     [14251] = "cd:off", -- Riposte
                 },
@@ -552,10 +575,16 @@ SAO.defaults = {
                 [47283] = { -- Empowered Imp (Wrath+)
                     [0] = true,
                 },
+                [89937] = { -- Fel Spark (Cataclysm)
+                    [0] = true, -- any stacks
+                },
             },
             glow = {
                 [1120] = { -- Drain Soul (Wrath+)
                     [1120] = "spec:1", -- Drain Soul
+                },
+                [17877] = { -- Shadowburn
+                    [17877] = true, -- Shadowburn
                 },
                 [17941] = { -- Nightfall
                     [686] = true, -- Shadow Bolt
@@ -578,6 +607,9 @@ SAO.defaults = {
                 },
                 [47283] = { -- Empowered Imp (Cataclysm)
                     [6353]  = true, -- Soul Fire
+                },
+                [89937] = { -- Fel Spark (Cataclysm)
+                    [77799]  = true, -- Fel Flame
                 },
             },
         },

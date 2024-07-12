@@ -1,4 +1,5 @@
 local AddonName, SAO = ...
+local ShortAddonName = strlower(AddonName):sub(0,8) == "necrosis" and "Necrosis" or "SAO"
 
 -- This script file is not a 'component' per se, but its functions are used across components
 
@@ -24,15 +25,15 @@ local GetPlayerAuraBySpellID = C_UnitAuras and C_UnitAuras.GetPlayerAuraBySpellI
 ]]
 
 function SAO.Error(self, prefix, msg, ...)
-    print(WrapTextInColor("**SAO** -"..prefix.."- "..msg, RED_FONT_COLOR), ...);
+    print(WrapTextInColor("**"..ShortAddonName.."** -"..prefix.."- "..msg, RED_FONT_COLOR), ...);
 end
 
 function SAO.Warn(self, prefix, msg, ...)
-    print(WrapTextInColor("!SAO!  -"..prefix.."- "..msg, WARNING_FONT_COLOR), ...);
+    print(WrapTextInColor("!"..ShortAddonName.."!  -"..prefix.."- "..msg, WARNING_FONT_COLOR), ...);
 end
 
 function SAO.Info(self, prefix, msg, ...)
-    print(WrapTextInColor("SAO -"..prefix.."- "..msg, LIGHTBLUE_FONT_COLOR), ...);
+    print(WrapTextInColor(ShortAddonName.." -"..prefix.."- "..msg, LIGHTBLUE_FONT_COLOR), ...);
 end
 
 function SAO:HasDebug()
@@ -41,7 +42,7 @@ end
 
 function SAO.Debug(self, prefix, msg, ...)
     if SpellActivationOverlayDB and SpellActivationOverlayDB.debug then
-        print(WrapTextInColorCode("[SAO@"..GetTime().."] -"..prefix.."- "..msg, "FFFFFFAA"), ...);
+        print(WrapTextInColorCode("["..ShortAddonName.."@"..GetTime().."] -"..prefix.."- "..msg, "FFFFFFAA"), ...);
     end
 end
 
@@ -51,7 +52,7 @@ end
 
 function SAO.Trace(self, prefix, msg, ...)
     if SpellActivationOverlayDB and SpellActivationOverlayDB.trace and SpellActivationOverlayDB.trace[prefix] then
-        print(WrapTextInColorCode("{SAO@"..GetTime().."} -"..prefix.."- "..msg, "FFAAFFCC"), ...);
+        print(WrapTextInColorCode("{"..ShortAddonName.."@"..GetTime().."} -"..prefix.."- "..msg, "FFAAFFCC"), ...);
     end
 end
 
@@ -104,6 +105,11 @@ function SAO:RecentlyUpdated()
     return WrapTextInColor(KBASE_RECENTLY_UPDATED, GREEN_FONT_COLOR);
 end
 
+-- Execute text to tell enemy HP is below a certain threshold
+function SAO:ExecuteBelow(threshold)
+    return string.format(string.format(HEALTH_COST_PCT, "<%s%"), threshold);
+end
+
 local function tr(translations)
     local locale = GetLocale();
     return translations[locale] or translations[locale:sub(1,2)] or translations["en"];
@@ -140,6 +146,94 @@ function SAO:translateDebuff()
         ["zhTW"] = "減益",
     };
     return tr(debuffTranslations);
+end
+
+-- Get the "Responsive Mode" localized text
+function SAO:responsiveMode()
+    local responsiveTranslations = {
+        ["en"] = "Responsive mode (decreases performance)",
+        ["de"] = "Responsiver Modus (verringert die Leistung)",
+        ["fr"] = "Mode réactif (diminue les performances)",
+        ["es"] = "Modo de respuesta (disminuye el rendimiento)",
+        ["ru"] = "Отзывчивый режим (снижает производительность)",
+        ["it"] = "Modalità reattiva (riduce le prestazioni)",
+        ["pt"] = "Modo responsivo (diminui o desempenho)",
+        ["ko"] = "반응형 모드(성능 저하)",
+        ["zh"] = "响应模式（降低性能）",
+    };
+    return tr(responsiveTranslations);
+end
+
+-- Get the "Unsupported class" localized text
+function SAO:unsupportedClass()
+    local unsupportedClassTranslations = {
+        ["en"] = "Unsupported Class",
+        ["de"] = "Nicht unterstützte Klasse",
+        ["fr"] = "Classe non prise en charge",
+        ["es"] = "Clase no compatible",
+        ["ru"] = "Неподдерживаемый класс",
+        ["it"] = "Classe non supportata",
+        ["pt"] = "Classe sem suporte",
+        ["ko"] = "지원되지 않는 클래스",
+        ["zh"] = "不支持的类",
+    };
+    return tr(unsupportedClassTranslations);
+end
+
+-- Get the "because of {reason}" localized text
+function SAO:becauseOf(reason)
+    local becauseOfTranslations = {
+        ["en"] = "because of %s",
+        ["de"] = "wegen %s",
+        ["fr"] = "à cause de %s",
+        ["es"] = "por %s",
+        ["ru"] = "из-за %s",
+        ["it"] = "a causa di %s",
+        ["pt"] = "por causa de %s",
+        ["ko"] = "%s 때문에",
+        ["zh"] = "因为 %s",
+    };
+    return string.format(tr(becauseOfTranslations), reason);
+end
+
+-- Get the "Open {x}" localized text
+function SAO:openIt(x)
+    local openItTranslations = {
+        ["en"] = "Open %s",
+        ["de"] = "Öffnen %s",
+        ["fr"] = "Ouvrir %s",
+        ["es"] = "Abrir %s",
+        ["ru"] = "Открыть %s",
+        ["it"] = "Aprire %s",
+        ["pt"] = "Abrir %s",
+        ["ko"] = "열기 %s",
+        ["zh"] = "打开 %s",
+    };
+    return string.format(tr(openItTranslations), x);
+end
+
+-- Get the "Disabled when {addon} is installed" localized text
+function SAO:disableWhenInstalled(addon)
+    local disableWhenInstalledTranslations = {
+        ["en"] = "Disable when %s is installed",
+        ["de"] = "Deaktivieren, wenn %s installiert ist",
+        ["fr"] = "Désactiver lorsque %s est installé",
+        ["es"] = "Desactivar cuando %s está instalado",
+        ["ru"] = "Отключить при установке %s",
+        ["it"] = "Disattivare quando è installato %s",
+        ["pt"] = "Desativar quando %s estiver instalado",
+        ["ko"] = "%s가 설치되어 있으면 사용 안 함",
+        ["zh"] = "安装 %s 时禁用",
+    };
+    return string.format(tr(disableWhenInstalledTranslations), addon);
+end
+
+--[[
+    Addon mode
+]]
+
+function SAO:IsResponsiveMode()
+    return SpellActivationOverlayDB and SpellActivationOverlayDB.responsiveMode == true;
 end
 
 --[[
