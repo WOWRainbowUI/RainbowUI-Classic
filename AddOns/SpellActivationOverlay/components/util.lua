@@ -127,6 +127,7 @@ function SAO:translateHeatingUp()
         ["pt"] = "Aquecendo",
         ["ko"] = "열기",
         ["zh"] = "热力迸发",
+        ["zhTW"] = "熱力併發",
     };
     return tr(heatingUpTranslations);
 end
@@ -160,6 +161,7 @@ function SAO:responsiveMode()
         ["pt"] = "Modo responsivo (diminui o desempenho)",
         ["ko"] = "반응형 모드(성능 저하)",
         ["zh"] = "响应模式（降低性能）",
+        ["zhTW"] = "響應模式（降低性能）",
     };
     return tr(responsiveTranslations);
 end
@@ -176,6 +178,7 @@ function SAO:unsupportedClass()
         ["pt"] = "Classe sem suporte",
         ["ko"] = "지원되지 않는 클래스",
         ["zh"] = "不支持的类",
+        ["zhTW"] = "不支援的職業",
     };
     return tr(unsupportedClassTranslations);
 end
@@ -192,6 +195,7 @@ function SAO:becauseOf(reason)
         ["pt"] = "por causa de %s",
         ["ko"] = "%s 때문에",
         ["zh"] = "因为 %s",
+        ["zhTW"] = "因為 %s",
     };
     return string.format(tr(becauseOfTranslations), reason);
 end
@@ -208,6 +212,7 @@ function SAO:openIt(x)
         ["pt"] = "Abrir %s",
         ["ko"] = "열기 %s",
         ["zh"] = "打开 %s",
+        ["zhTW"] = "打開 %s",
     };
     return string.format(tr(openItTranslations), x);
 end
@@ -224,6 +229,7 @@ function SAO:disableWhenInstalled(addon)
         ["pt"] = "Desativar quando %s estiver instalado",
         ["ko"] = "%s가 설치되어 있으면 사용 안 함",
         ["zh"] = "安装 %s 时禁用",
+        ["zhTW"] = "安裝 %s 時停用",
     };
     return string.format(tr(disableWhenInstalledTranslations), addon);
 end
