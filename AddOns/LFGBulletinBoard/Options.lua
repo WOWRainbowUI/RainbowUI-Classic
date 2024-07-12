@@ -1,5 +1,5 @@
 local TOCNAME,
-	---@class Addon
+	---@class Addon_Options : Addon_Localization, Addon_CustomFilters, Addon_Dungeons, Addon_Tags, Addon_LibGPIOptions
 	GBB= ...;
 local ChannelIDs
 local ChkBox_FilterDungeon
@@ -14,7 +14,8 @@ local PROJECT_EXPANSION_ID = {
 	[WOW_PROJECT_CATACLYSM_CLASSIC or 0] = GBB.Enum.Expansions.Cataclysm,
 }
 local EXPANSION_PROJECT_ID = tInvert(PROJECT_EXPANSION_ID)
-
+---hack to remove "World of Warcraft: " from classic on esES/esMX clients
+local EXPANSION_NAME0 = EXPANSION_NAME0:gsub("World of Warcraft: ", "")
 local EXPANSION_FILTER_NAME = {
 	[GBB.Enum.Expansions.Classic] = SUBTITLE_FORMAT:format(FILTERS, EXPANSION_NAME0),
 	[GBB.Enum.Expansions.BurningCrusade] = SUBTITLE_FORMAT:format(FILTERS, EXPANSION_NAME1),
@@ -92,13 +93,7 @@ local function FixFilters()
 				end
 			end
 		end
-	end	
-
-	for eventName, eventData in pairs(GBB.Seasonal) do
-        if GBB.Tool.InDateRange(eventData.startDate, eventData.endDate) == false then
-			GBB.DBChar["FilterDungeon"..eventName]=false
-        end
-    end
+	end
 end
 
 local function ResetFilters()
@@ -169,7 +164,9 @@ end
 ---if the expansion is the current game client expansion, it will also include misc filters.
 ---@param expansionID ExpansionID
 local function GenerateExpansionPanel(expansionID)
-	GBB.Options.AddPanel(EXPANSION_FILTER_NAME[expansionID], false, true)
+	local panel = GBB.Options.AddPanel(EXPANSION_FILTER_NAME[expansionID], false, true)
+	-- hack: save changes anytime the panel is hidden (issues: 200, 147, 57)
+	panel:HookScript("OnHide", GBB.Options._DoOk)
 	
 	local isCurrentXpac = expansionID == PROJECT_EXPANSION_ID[WOW_PROJECT_ID];
 	local filters = {} ---@type CheckButton[]
@@ -220,8 +217,21 @@ local function GenerateExpansionPanel(expansionID)
 	-- dont include misc filters in the "select all" buttons
 	local resetLimitIdx = #filters 
 
-	-- Misc Categories (only show for current xpac)
+	-- Extra Categories (only show for current xpac)
 	if isCurrentXpac then
+		
+		-- Add any Custom user filters 
+		local customCategories = GBB.GetCustomFilterKeys()
+		if next(customCategories) then
+			GBB.Options.Indent(-10)
+			GBB.Options.AddCategory(ADDITIONAL_FILTERS)
+			GBB.Options.Indent(10)
+			for _, key in ipairs(customCategories) do
+				tinsert(filters, CheckBoxFilter(key, false))
+			end
+		end
+
+		-- Add `GBB.Misc` defined categories
 		GBB.Options.Indent(-10)
 		GBB.Options.AddCategory(OTHER)
 		GBB.Options.Indent(10)		
@@ -386,11 +396,19 @@ function GBB.OptionsInit ()
 	GenerateExpansionPanel(GBB.Enum.Expansions.Classic)
 		
 	----------------------------------------------------------
-	-- Tags
+	-- Custom Filters/Categories
+	----------------------------------------------------------
+	local customCategoriesFrame = GBB.Options.AddPanel(ADDITIONAL_FILTERS, false, true);
+	customCategoriesFrame:SetWidth(
+		InterfaceOptionsFramePanelContainer:GetWidth() - customCategoriesFrame:GetParent().ScrollBar:GetWidth()
+	);
+	-- defer Update call until after language "Tags" saved vars are initialized bellow
+	----------------------------------------------------------
+	-- Language Tags and Search Patterns
 	----------------------------------------------------------
 	GBB.Options.AddPanel(GBB.L["PanelTags"],false,true)
 	
-	GBB.Options.AddCategory(GBB.L["HeaderTags"])
+	GBB.Options.AddCategory(LANGUAGES_LABEL)
 	GBB.Options.Indent(10)
 	GBB.Options.InLine()
 	local locale = GetLocale()
@@ -400,7 +418,11 @@ function GBB.OptionsInit ()
 	CheckBox("TagsFrench", locale == "frFR")
 	CheckBox("TagsZhtw",locale == "zhTW" or locale == "zhCN")
 	CheckBox("TagsZhcn",locale == "zhCN" or locale == "zhTW")
-
+	GBB.Options.EndInLine()
+	GBB.Options.InLine()
+	-- hack: add ptBR, and esES/esMX checkboxes
+	CheckBox("TagsSpanish", locale == "esES" or locale == "esMX")
+	CheckBox("TagsPortuguese", locale == "ptBR")
 	CheckBox("TagsCustom",true)
 	GBB.Options.EndInLine()
 	GBB.Options.Indent(-10)
@@ -425,6 +447,7 @@ function GBB.OptionsInit ()
 	CreateEditBoxDungeon("DEADMINES","",445,200)
 	GBB.Options.Indent(-10)
 
+	GBB.UpdateAdditionalFiltersPanel(customCategoriesFrame); -- update the custom filters panel now.
 	----------------------------------------------------------	
 	-- localization
 	----------------------------------------------------------
@@ -433,11 +456,11 @@ function GBB.OptionsInit ()
 	GBB.Options.AddSpace()
 	local locales= GBB.locales.enGB
 	local t={}
-	for key,value in pairs(locales) do 
+	for key, _ in pairs(locales) do 
 		table.insert(t,key)
 	end
 	table.sort(t)
-	for i,key in ipairs(t) do 
+	for _,key in ipairs(t) do 
 		
 		local col=GBB.L[key]~=nil and "|cffffffff" or "|cffff4040"
 		local txt=GBB.L[key.."_org"]~="["..key.."_org]" and GBB.L[key.."_org"] or GBB.L[key]

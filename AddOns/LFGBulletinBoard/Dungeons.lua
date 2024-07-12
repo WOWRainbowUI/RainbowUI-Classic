@@ -111,8 +111,6 @@ function GBB.GetDungeonNames()
 		["BREW"] =  "Brewfest - Coren Direbrew",
 		["HOLLOW"] =  "Hallow's End - Headless Horseman",
     	["TRAVEL"] = "Travel services - Summons/Portals",
-		["BLOOD"] = "Bloodmoon",
-		["INCUR"] = "Incursions",
 		}
 
 	local dungeonNamesLocales={
@@ -485,6 +483,34 @@ function GBB.GetDungeonNames()
 			["SL"] = 	"暗影迷宮",
 			["SV"] = 	"蒸氣洞穴",
 			["ARC"] = 	"亞克崔茲",
+			--
+			["ANK"] =	"安卡罕特：古王國",
+			["AZN"] =	"阿茲歐-奈幽",
+			["DTK"] =	"德拉克薩隆要塞",
+			["GD"] =	"剛德拉克",
+			["HOL"] =	"電光大廳",
+			["HOS"] =	"石之大廳",
+			["COS"] =	"斯坦索姆的抉擇",
+			["NEX"] =	"奧核之心",
+			["OCC"] =	"奧核之眼",
+			["VH"] =	"紫羅蘭堡",
+			["UK"] =	"俄特加德要塞",
+			["UP"] =	"俄特加德之巔",
+			["CHAMP"] =	"勇士試煉",
+			["FOS"] =	"眾魂熔爐",
+			["POS"] =	"薩倫之淵",
+			["HOR"] =	"倒影大廳",
+			["VOA"] =	"亞夏梵穹殿",
+			["NAXX"] =	"納克薩瑪斯",
+			["EOE"] =	"奧核之心: 永恆之眼",
+			["OS"] =	"黑曜聖所",
+			["ULDAR"] =	"奧杜亞",
+			["TOTC"] =	"十字軍試煉",
+			["ICC"] =	"冰冠城塞",
+			["RS"] =	"晶紅聖所",
+			["BREW"] =  "啤酒節 - 柯林．烈酒",
+			["SOTA"] =  "遠古灘頭 (PvP)",
+			["WG"]  =   "冬握湖 (PvP)",							   
 			["KARA"] = 	"卡拉贊 (10)",
 			["GL"] = 	"戈魯爾之巢 (25)",
 			["MAG"] = 	"瑪瑟里頓的巢穴 (25)",
@@ -505,6 +531,7 @@ function GBB.GetDungeonNames()
 			["AB"] = 	"阿拉希盆地 (PvP)",
 			["AV"] = 	"奧特蘭克山谷 (PvP)",
 			["EOTS"] = 	"暴風之眼 (PvP)",
+			["ARENA"] = "競技場 (PvP)",
 			["MISC"] = 	"未分類",
 			["TRADE"] =	"交易",
 			["TRAVEL"] = "傳送服務",
@@ -625,7 +652,6 @@ function GBB.GetDungeonNames()
 	for _, key in ipairs(dungeonKeys) do
 		DefaultEnGB[key] = GBB.GetDungeonInfo(key).name or DefaultEnGB[key]
 	end
-	DefaultEnGB["RDF"] = LFG_TYPE_RANDOM_DUNGEON
 
 	setmetatable(dungeonNames, {__index = DefaultEnGB})
 
@@ -667,31 +693,18 @@ local tbcDungeonNames = GBB.GetSortedDungeonKeys(
 	{ GBB.Enum.DungeonType.Dungeon, GBB.Enum.DungeonType.Raid }
 );
 
-local pvpNames = GBB.GetSortedDungeonKeys(
-	-- not specificying an expansion id here-
-	-- gives **all** available dungeons **up to** current game xpac
-	nil,
-	GBB.Enum.DungeonType.Battleground
-);
+-- not specificying an expansion id gives **all** available dungeons **up to** current game xpac
+local pvpNames = GBB.GetSortedDungeonKeys(nil, GBB.Enum.DungeonType.Battleground);
 
--- hack: consider Bloodmoon event as a pvp event in config
-if isSoD then table.insert(pvpNames, "BLOOD") end
+local debugNames = {"DEBUG", "BAD", "NIL"}
 
-local debugNames = {
-	"DEBUG", "BAD", "NIL",
-}
-
-local raidNames = GBB.GetSortedDungeonKeys(
-	nil, -- all xpacs
-	GBB.Enum.DungeonType.Raid
-);
+local raidNames = GBB.GetSortedDungeonKeys(nil, GBB.Enum.DungeonType.Raid);
 
 -- Becasue theyre not actually dungeons and are not parsed by 
 -- `/data/dungeons/{version}.lua` we need to add them manually
 local miscCatergoriesLevels = {
-	["MISC"] =  {0,100}, ["TRAVEL"]={0,100}, ["INCUR"]={0,100},
-	["DEBUG"] = {0,100}, ["BAD"] =	{0,100}, ["TRADE"]=	{0,100},
-	["BLOOD"] = {0,100}, ["NIL"] = {0,100}, ["RDF"] = {0, 100},
+	["MISC"] = {0,100}, ["TRAVEL"] = {0,100}, ["DEBUG"] = {0,100},
+	["BAD"] = {0,100}, ["TRADE"] = {0,100}, ["NIL"] = {0,100},
 }
 
 -- Needed because Lua sucks, Blizzard switch to Python please
@@ -710,15 +723,6 @@ local function ConcatenateLists(Names)
 	end
 	return result, index
 end
-
-local function GetSize(list)
-	local size = 0
-	for _, _ in pairs(list) do
-		size = size + 1
-	end
-	return size
-end
-
 ----------------------------------------------
 -- Global functions/data
 ----------------------------------------------
@@ -741,20 +745,8 @@ GBB.VanillaDungeonKeys = GBB.GetSortedDungeonKeys(
 );
 
 
--- used in Tags.lua for determining which tags are safe for game version
-GBB.Misc = {
-	(isCata and "RDF" or nil), "MISC", "TRADE", "TRAVEL",
-	(isSoD and "INCUR" or nil)
-}
-
--- used to disable holiday specific filters when not in the correct date range
--- in FixFilters of Options.lua
-GBB.Seasonal = {
-    ["BREW"] = { startDate = "09/20", endDate = "10/06"},
-	["HOLLOW"] = { startDate = "10/18", endDate = "11/01"},
-	["LOVE"] = {startDate = "02/03", endDate = "02/17"},
-	["SUMMER"] = {startDate = "06/21", endDate = "07/05"},
-}
+-- table used in Tags.lua for determining which tags are safe for game version
+GBB.Misc = {"MISC", "TRADE", "TRAVEL"}
 
 -- clear unused dungeons in classic to not generate options/checkboxes with the-
 -- new data pipeline api these tables should already empty anyways when in classic client
@@ -763,21 +755,27 @@ if isClassicEra then
 	wotlkDungeonNames = {}
 end
 
-function GBB.GetDungeonSort()
-
-	-- at some point we should probably move this to the /dungeons/cata.lua file
-	-- when i add support for the newly added holiday dungeons.
-	for eventName, eventData in pairs(GBB.Seasonal) do
-        if GBB.Tool.InDateRange(eventData.startDate, eventData.endDate) then
-			table.insert(cataDungeonKeys, 1, eventName)
-		else
-			table.insert(debugNames, 1, eventName)
+---@param additonalCategories (string[]|string[][])?
+function GBB.GetDungeonSort(additonalCategories)
+	if additonalCategories then
+		if additonalCategories[1]  
+		and type(additonalCategories[1]) == "table"
+		then -- flatten if 2d array provided
+			---@cast additonalCategories string[][]
+			local seen = {}
+			for _, categoryTable in ipairs(additonalCategories) do
+				for _, category in ipairs(categoryTable) do
+					seen[category] = true
+				end
+			end
+			additonalCategories = GetKeysArray(seen) --[[@as string[] ]]
 		end
-    end
-
+	else
+		additonalCategories = {} --[[@as string[] ]]
+	end
 	local dungeonOrder = { 
 		GBB.VanillaDungeonKeys, tbcDungeonNames, wotlkDungeonNames, cataDungeonKeys, 
-		pvpNames, GBB.Misc, debugNames
+		pvpNames, additonalCategories, GBB.Misc, debugNames
 	}
 
 	local vanillaDungeonSize = #GBB.VanillaDungeonKeys

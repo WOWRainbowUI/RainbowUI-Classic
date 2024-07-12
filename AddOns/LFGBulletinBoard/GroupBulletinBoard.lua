@@ -1,4 +1,6 @@
-local TOCNAME,GBB=...
+local TOCNAME,
+	---@class Addon_GroupBulletinBoard : Addon_Localization, Addon_CustomFilters, Addon_Dungeons, Addon_Tags, Addon_Options, Addon_Tool
+	GBB = ...;
 
 GroupBulletinBoard_Addon=GBB
 
@@ -25,7 +27,7 @@ local PartyChangeEvent={ "GROUP_JOINED", "GROUP_ROSTER_UPDATE", "RAID_ROSTER_UPD
 -- GBB.RequestForPopup
 
 -- GBB.DataBrockerInitalized
-GBB.MSGPREFIX="GBB: "
+GBB.MSGPREFIX="LFG Bulletin Board: "
 GBB.TAGBAD="---"
 GBB.TAGSEARCH="+++"
 
@@ -41,6 +43,7 @@ GBB.COMBINEMSGTIMER=10
 GBB.MAXCOMPACTWIDTH=350
 GBB.ShouldReset = false
 
+local isClassicEra = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 -- Tools
 -------------------------------------------------------------------------------------
 
@@ -172,24 +175,91 @@ function GBB.PhraseChannelList(...)
 	return t
 end
 
+local addonLinkStub = "\124Haddon:%s:%s\124h[%s]\124h\124r"
+local gotoSettingsArg1 = "GBB_GOTO_CHAT_SETTINGS"
+local linkDisplayStr = (function() 
+	local str = { -- todo move to Localization.lua
+        ["enUS"] = "Click Here to Reorder Chat Channels!",
+        ["deDE"] = "Klicken Sie hier, um die Chat-Kanäle neu zu ordnen!",
+        ["esES"] = "¡Haz clic aquí para reordenar los canales del chat!",
+        ["esMX"] = "¡Haz clic aquí para reordenar los canales de chat!",
+        ["frFR"] = "Cliquez ici pour réorganiser les canaux de discussion !",
+        ["koKR"] = "여기를 클릭하여 채팅 채널을 재정렬하십시오!",
+        ["ptBR"] = "Clique aqui para reordenar os canais de bate-papo!",
+        ["ruRU"] = "Щелкните здесь, чтобы изменить порядок каналов чата!",
+        ["zhCN"] = "点击此处重新排序聊天频道！",
+        ["zhTW"] = "點擊這裡重新排序聊天頻道！",
+    }
+	return str[GetLocale()] or str["enUS"]
+end)()
 function GBB.JoinLFG()
-	if GBB.Initalized==true and GBB.LFG_Successfulljoined==false then 
-		if GBB.L["lfg_channel"]~=nil and GBB.L["lfg_channel"]~="" then 
-			local id,name=GetChannelName(GBB.L["lfg_channel"])
-			if  id~=nil and id >0  then 
-				--DEFAULT_CHAT_FRAME:AddMessage("Success join lfg-channel")
-				GBB.LFG_Successfulljoined=true
+	if GBB.Initalized and not GBB.LFG_Successfulljoined then 
+		if GBB.L["lfg_channel"] and GBB.L["lfg_channel"] ~= "" then
+			local id, _ = GetChannelName(GBB.L["lfg_channel"])
+			if id and id > 0 then
+				GBB.LFG_Successfulljoined = true
 			else
-				--DEFAULT_CHAT_FRAME:AddMessage("try join lfg-channel")
-				JoinChannelByName(GBB.L["lfg_channel"])
-			end	
+				-- related issue: #247, wait for player to join any game channel before joining lfg channel.
+				-- note: this will still join LFG in `/1` if the slot is empty. 
+				local general, localDefense = EnumerateServerChannels()
+				local generalID = general and GetChannelName(general)
+				local tradeOrDefenseID = localDefense and GetChannelName(localDefense) -- trade in main cities.
+				if (generalID and generalID > 0) or (tradeOrDefenseID and tradeOrDefenseID > 0) then
+					local numChannelsJoined = C_ChatInfo.GetNumActiveChannels() or 0
+					local nextAvailableChannelIndex = numChannelsJoined + 1
+					for i = 1, numChannelsJoined do
+						if not C_ChatInfo.GetChannelInfoFromIdentifier(i) then
+							nextAvailableChannelIndex = i
+							break
+						end
+					end
+					local _, name 
+					if nextAvailableChannelIndex > 1 then 
+						_, name = JoinPermanentChannel(GBB.L["lfg_channel"])
+					else
+						_, name = JoinTemporaryChannel(GBB.L["lfg_channel"]);
+					end
+					local info = C_ChatInfo.GetChannelInfoFromIdentifier(name or "")
+					if info then
+						-- notify user that the addon has joined the channel.
+						DEFAULT_CHAT_FRAME:AddMessage(
+							GBB.MSGPREFIX..CHAT_YOU_JOINED_NOTICE:format(
+								info.localID,
+								("%d. %s"):format(info.localID, info.name)
+							), Chat_GetChannelColor(ChatTypeInfo["CHANNEL"])
+						)
+					else
+						-- notify user that the addon failed to join the channel.
+						DEFAULT_CHAT_FRAME:AddMessage(
+							GBB.MSGPREFIX..CHAT_INVALID_NAME_NOTICE..": ".. GBB.L["lfg_channel"],
+							Chat_GetChannelColor(ChatTypeInfo["CHANNEL"])
+						)
+					end
+					if generalID ~= 1 then -- prompt user to reorder chat channels
+						local link = WrapTextInColorCode(
+							addonLinkStub:format(TOCNAME, gotoSettingsArg1, linkDisplayStr), 
+							CreateColor(Chat_GetChannelColor(ChatTypeInfo["SYSTEM"])):GenerateHexColor()
+						)
+						DEFAULT_CHAT_FRAME:AddMessage(GBB.MSGPREFIX..link)
+					end
+				end
+			end
 		else
-			-- missing localization
 			GBB.LFG_Successfulljoined=true
-			--DEFAULT_CHAT_FRAME:AddMessage("Channel not definied for "..GetLocale())
 		end
 	end
 end
+hooksecurefunc("SetItemRef", function(link)
+	local linkType, addon, arg1 = strsplit(":", link)
+	if linkType == "addon" and addon == TOCNAME then
+		if arg1 == gotoSettingsArg1 then
+			ShowUIPanel(ChatConfigFrame)
+			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION)
+			ChatConfigFrame.ChatTabManager:UpdateSelection(1); -- General tab
+			ChatConfigCategoryFrameButton3:Click() -- Channels category
+		end
+	end
+end)
 
 function GBB.BtnSelectChannel()
 	if UIDROPDOWNMENU_OPEN_MENU ~=  GBB.FramePullDownChannel then 
@@ -346,6 +416,12 @@ function GBB.CreateTagList ()
 	if GBB.DB.TagsZhcn then
 		GBB.CreateTagListLOC("zhCN")
 	end
+	if GBB.DB.TagsPortuguese then
+		GBB.CreateTagListLOC("ptBR")
+	end
+	if GBB.DB.TagsSpanish then
+		GBB.CreateTagListLOC("esES")
+	end
 	if GBB.DB.TagsCustom then
 		GBB.searchTagsLoc["custom"]=GBB.Split(GBB.DB.Custom.Search)
 		GBB.badTagsLoc["custom"]=GBB.Split(GBB.DB.Custom.Bad)
@@ -462,12 +538,23 @@ function GBB.Init()
 	GBB.DB.showminimapbutton=nil
 	GBB.DB.minimapPos=nil
 	
+	GBB.InitializeCustomFilters();
+	
 	-- Get localize and Dungeon-Information
 	GBB.L = GBB.LocalizationInit()	
 	GBB.dungeonNames = GBB.GetDungeonNames()
+	-- Add custom categories to `dungeonNames`
+	MergeTable(GBB.dungeonNames, GBB.GetCustomFilterNames());
+	-- add custom categories to levels table
+	MergeTable(GBB.dungeonLevel, GBB.GetAllCustomFilterLevels());
+	-- add custom categories to `dungeonSort` (adds internally)
+	local additionalCategories = GBB.GetCustomFilterKeys();
+	GBB.dungeonSort = GBB.GetDungeonSort(additionalCategories);
 	GBB.RaidList = GBB.GetRaids()
-	--GBB.dungeonLevel
-	GBB.dungeonSort = GBB.GetDungeonSort()	
+
+	-- Add tags for custom categories into `dungeonTagsLoc`. 
+	-- Must do before the call to `GBB.CreateTagList()` below
+	GBB.SyncCustomFilterTags(GBB.dungeonTagsLoc);
 
 	-- Reset Request-List
 	GBB.RequestList={}
@@ -627,29 +714,33 @@ function GBB.Init()
 	GBB.Initalized=true
 	
 	GBB.PopupDynamic=GBB.Tool.CreatePopup(GBB.OptionsUpdate)
-	-- Get build version to check against classic
-	local version, build, date, tocversion = GetBuildInfo()
-
 	GBB.InitGroupList()
-	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
-		GBB.Tool.AddTab(GroupBulletinBoardFrame,GBB.L.TabRequest,GroupBulletinBoardFrame_ScrollFrame)
-		GroupBulletinBoardFrame_LfgFrame:Hide()
+
+	if isClassicEra then
+		GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabRequest, GroupBulletinBoardFrame_ScrollFrame);
+		
+		-- GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabGroup, GroupBulletinBoardFrame_GroupFrame);
 		GroupBulletinBoardFrame_GroupFrame:Hide()
-	else
-		GBB.Tool.AddTab(GroupBulletinBoardFrame,GBB.L.TabRequest,GroupBulletinBoardFrame_ScrollFrame)
-		GBB.Tool.AddTab(GroupBulletinBoardFrame,GBB.L.TabLfg,GroupBulletinBoardFrame_LfgFrame);
-		(GroupBulletinBoardFrame.Tabs[2]--[[@as button]]):SetText(
-			WrapTextInColorCode(GroupBulletinBoardFrame.Tabs[2]:GetText(), "FF6D6D6D")
-		);
-		(GroupBulletinBoardFrame.Tabs[2]--[[@as button]]):EnableMouse(false);
-		-- GBB.Tool.AddTab(GroupBulletinBoardFrame,GBB.L.TabGroup,GroupBulletinBoardFrame_GroupFrame)
+		
+		-- Group Finder doesnt exist in classic era
+		GroupBulletinBoardFrame_LfgFrame:Hide()
+	else -- cata client
+		-- Hide all tabs except requests for the time being
+		
+		GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabRequest, GroupBulletinBoardFrame_ScrollFrame);
+
+		-- GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabGroup, GroupBulletinBoardFrame_GroupFrame);
+		GroupBulletinBoardFrame_GroupFrame:Hide()
+		
+		-- GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabLfg, GroupBulletinBoardFrame_LfgFrame);
+		GroupBulletinBoardFrame_LfgFrame:Hide()
 	end
 	GBB.Tool.SelectTab(GroupBulletinBoardFrame,1)
-	if GBB.DB.EnableGroup then
-		GBB.Tool.TabShow(GroupBulletinBoardFrame, 3)
-	else		
-		GBB.Tool.TabHide(GroupBulletinBoardFrame, 3)
-	end
+	-- if GBB.DB.EnableGroup then
+	-- 	GBB.Tool.TabShow(GroupBulletinBoardFrame, 3)
+	-- else		
+	-- 	GBB.Tool.TabHide(GroupBulletinBoardFrame, 3)
+	-- end
 	
 	GBB.Tool.TabOnSelect(GroupBulletinBoardFrame,3,GBB.UpdateGroupList)
 	GBB.Tool.TabOnSelect(GroupBulletinBoardFrame,2,GBB.UpdateLfgTool)
@@ -729,10 +820,9 @@ local function Event_CHAT_MSG_SYSTEM(arg1)
 		
 		if info~="" then
 			local txt
-			
 			if class and class~="" then 
 				txt="|Hplayer:"..name.."|h"
-					..(GBB.Tool.GetClassIcon(req.class) or "")
+					..(GBB.Tool.GetClassIcon(class) or "")
 					.."|c"..GBB.Tool.ClassColor[class].colorStr .. name.."|r"
 					..symbol.."|h";
 			else

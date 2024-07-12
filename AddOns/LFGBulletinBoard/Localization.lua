@@ -1,8 +1,82 @@
-local TOCNAME,GBB=...
+local TOCNAME,
+	---@class Addon_Localization
+	GBB=...;
 
+local isClassicEra = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+
+---Supports utf8 strings for non-english clients
+local initialChar = function(str)
+	---@cast str string
+	local initialByte = str:byte(1)
+	if initialByte <= 127 then
+		return string.char(str:byte(1))
+	elseif initialByte >= 192 and initialByte <= 223 then
+		return string.char(str:byte(1, 2))
+	elseif initialByte >= 224 and initialByte <= 239 then
+		return string.char(str:byte(1, 3))
+	end
+	return string.char(str:byte(1, 4))
+end
+
+-- Limited fallback localizations for missing locales, these are generated with FrameXML global strings
+-- or info from game API's that return already localized strings for the user client's locale
+local preLocalizedFallbacks = {
+	-- must be the default chat-name!
+	["lfg_channel"]= (function()
+		-- related issues: #207
+		-- client specific Id's here: https://wago.tools/db2/ChatChannels?build=4.4.0.54986
+		local lfgChannelID = isClassicEra and 24 or 26
+		local localizedName = C_ChatInfo.GetChannelShortcutForChannelID(lfgChannelID)
+		return localizedName
+	end)(),
+	["world_channel"] = CHANNEL_CATEGORY_WORLD,
+	["GuildChannel"] = GUILD_CHAT,
+	["msgLevelRange"] = LFD_LEVEL_FORMAT_RANGE:gsub("%(", ("(%s "):format(LEVEL)),
+	["msgLevelRangeShort"]= LFD_LEVEL_FORMAT_RANGE:gsub("%s", ""),
+	["msgAddNote"] = SET_FRIENDNOTE_LABEL,
+	["msgLocalRestart"] = REQUIRES_RELOAD,
+	["heroicAbr"] = initialChar(PLAYER_DIFFICULTY2),
+	["normalAbr"] = initialChar(PLAYER_DIFFICULTY1),
+	["raidAbr"] = initialChar(LFG_TYPE_RAID),
+	["msgFontSize"] = ("%s (%s)"):format(FONT_SIZE, REQUIRES_RELOAD),
+
+	-- option panel
+	["HeaderSettings"] = SETTINGS,
+	-- ["HeaderTags"]="Search patterns",
+	["HeaderTagsCustom"] = CHANNEL_CATEGORY_CUSTOM,
+	-- ["PanelTags"]="Search patterns",
+	["PanelLocales"] = BUG_CATEGORY15, -- "Language Translations"
+	["HeaderChannel"] = CHANNELS,
+	["PanelAbout"] = COMBAT_MISC_INFO, -- "Misc Info"
+	["HeaderSlashCommand"] = CHAT_HELP_TEXT_LINE1, -- "Chat Commands: "
+	-- ["HeaderCredits"] = CREDITS, -- DNE
+	["HeaderInfo"] = INFO,
+	["CboxTagsCustom"] = CUSTOM,
+	["CboxColorByClass"]= SHOW_CLASS_COLOR,
+
+	["EditCustom_Bad"] = IGNORED,
+	["EditCustom_Heroic"] = PLAYER_DIFFICULTY2,
+
+	["BtnUnselectAll"] = CLEAR_ALL,
+	["BtnSelectAll"] = CHECK_ALL,
+	["BtnWhisper"] = WHISPER.." %s",
+	["BtnInvite"] = INVITE.." %s",
+	["BtnWho"] = WHO.." %s",
+	["BtnIgnore"]= IGNORE_PLAYER.." %s",
+	["BtnCancel"]  = CANCEL,
+
+	["TabRequest"]= LFGUILD_TAB_REQUESTS_NONE, --"Requests"
+	["TabGroup"] = MEMBERS,
+
+	-- Language checkboxes 
+	["CboxTagsPortuguese"] = LFG_LIST_LANGUAGE_PTBR,
+	["CboxTagsSpanish"] = LFG_LIST_LANGUAGE_ESES,
+}
+
+---Localized addon strings, keyed by locale
 GBB.locales = {
 	enGB = {
-		["lfg_channel"]="LookingForGroup", -- must be the default chat-name!
+		["lfg_channel"] = preLocalizedFallbacks["lfg_channel"], -- may as well use the client generated string
 		["world_channel"]="World", -- must be the default chat-name!
 		["GuildChannel"]="Guild Channel",
 				
@@ -127,13 +201,14 @@ GBB.locales = {
 		["TabGroup"]="Members",
 		["TabLfg"]="Tool Requests",
 		
-		["AboutUsage"]="GBB searches the chat messages for dungeon requests in the background. To whisper a person, simply click on the entry with the left mouse button. For a '/who' a shift + left click is enough. The dungeon list can be filtered in the settings. You can also fold this by left-clicking on the dungeon name.|nOld entries are filtered out after 150 seconds.",
+		["AboutUsage"]="GBB searches the chat messages for dungeon requests in the background. To whisper a person, simply click on the entry with the left mouse button. For a '/who' a shift + left click is enough. The dungeon list can be filtered in the settings. You can also collapse this by left-clicking on the dungeon name.|nOld entries are filtered out after 150 seconds.",
 			
 		["AboutSlashCommand"]="<value> can be true, 1, enable, false, 0, disable. If <value> is omitted, the current status switches.",
 		
 		
 		["AboutInfo"]="GBB provides an overview of the endless requests in the chat channels. It detects all requests to the classic dungeons, sorts them and presents them clearly way. Numerous filtering options reduce the gigantic number to exactly the dungeons that interest you. And if that's not enough, GBB will let you know about any new request via a sound or chat notification. And finally, GBB can post your request repeatedly.",
 		["AboutCredits"]="Original by GPI / Erytheia-Razorfen",
+		["SAVE_ON_ENTER"] = ("Press \"%s\" to save changes."):format(KEY_ENTER),
 		
 		-- 自行加入
 		["Title"]="LFGBulletinBoard",
@@ -142,7 +217,7 @@ GBB.locales = {
 		
 	},
 	zhTW = {
-		["lfg_channel"]="尋求組隊", -- must be the default chat-name!
+		-- ["lfg_channel"]="尋求組隊", -- uses fallback
 		["world_channel"]="綜合", -- must be the default chat-name!
 		["GuildChannel"]="公會",
 		
@@ -274,6 +349,7 @@ GBB.locales = {
 		
 		["AboutInfo"]="組隊佈告欄為你分類各種聊天頻道的要求。他會分類各類訊息，然後以清晰的方式顯示給你。各種過濾選項可以讓你找到你想要找的隊伍。還可以通過聲音或聊天通知讓您知道新請求。",
 		["AboutCredits"]="作者: GPI / Erytheia-Razorfen，此為彩虹ui 優化翻譯的版本",
+		["SAVE_ON_ENTER"] = ("按下「%s」以儲存變更。"):format(KEY_ENTER),
 		
 		-- 自行加入
 		["Title"]="組隊佈告欄",
@@ -282,7 +358,7 @@ GBB.locales = {
 
 	},
 	zhCN = {
-		["lfg_channel"]="寻求组队", -- must be the default chat-name!
+		-- ["lfg_channel"]="寻求组队", -- uses fallback
 		["world_channel"]="综合", -- must be the default chat-name!
 		["GuildChannel"]="公会",
 
@@ -330,7 +406,7 @@ GBB.locales = {
 		["CboxNotifyChat"]="有新寻求组队时显示聊天通知",
 		["CboxNotifySound"]="有新寻求组队时进行声音提示",
 		["CboxFilterTravel"]="Filter travel requests",
-		["CboxRemoveRealm"]="始终删除服务器",
+		["CboxRemoveRealm"]="始终删除境界",
 		["CboxCharFilterLevel"]="过滤建议的等级区间",
 		["CboxColorOnLevel"]="强调地下城建议等级区间",
 		["CboxTagsEnglish"]="英文",
@@ -410,6 +486,7 @@ GBB.locales = {
 
 		["AboutInfo"]="GBB provides an overview of the endless requests in the chat channels. It detects all requests to the classic dungeons, sorts them and presents them clearly way. Numerous filtering options reduce the gigantic number to exactly the dungeons that interest you. And if that's not enough, GBB will let you know about any new request via a sound or chat notification. And finally, GBB can post your request repeatedly.",
 		["AboutCredits"]="Original by GPI / Erytheia-Razorfen",
+		["SAVE_ON_ENTER"] = ("按下\"%s\"以保存更改。"):format(KEY_ENTER),
 	},
 
 }
@@ -417,34 +494,41 @@ GBB.locales = {
 GBB.locales.esES=GBB.locales.esMX
 GBB.locales.enUS=GBB.locales.enGB
 
+---Returns localized addon display strings
+---@return table<string, string> L 
 function GBB.LocalizationInit()
 	local locale = GetLocale()
-	local l = GBB.locales[locale] or {}
-
-	if GroupBulletinBoardDB and GroupBulletinBoardDB.CustomLocales and type(GroupBulletinBoardDB.CustomLocales) == "table" then
-		for key,value in pairs(GroupBulletinBoardDB.CustomLocales) do
-			if value~=nil and value ~="" then
-				l[key.."_org"]=l[key] or GBB.locales.enGB[key]
-				l[key]=value
+	local localizedStrings = GBB.locales[locale] or {};
+	
+	if GroupBulletinBoardDB
+	and type(GroupBulletinBoardDB.CustomLocales) == "table"
+	then
+		-- insert any user set custom translations
+		for key, custom in pairs(GroupBulletinBoardDB.CustomLocales) do
+			if custom~=nil and custom ~="" then
+				-- save the original (set by us) 
+				localizedStrings[key.."_org"]=localizedStrings[key] or GBB.locales.enGB[key]
+				localizedStrings[key]=custom
 			end
 		end
+	end
+
+	-- Set fallback localizations for missing non-english locales
+	-- Check needed to not cause overflow when using english
+	if (locale ~= "enGB" and locale ~= "enUS") then
+		setmetatable(localizedStrings, {__index = function (self, key)
+			local englishStr = GBB.locales.enGB[key]
+			local clientStr = preLocalizedFallbacks[key]
+			return clientStr or englishStr or "["..key.."]"
+		end})
+	else -- insert new any *new* game translations to enUS/enGB
+		-- could also just manually insert them to the `GBB.locales.enGB` table
+		setmetatable(GBB.locales.enUS, {__index = preLocalizedFallbacks})
 	end
 	
 	-- 加入按鍵設定的翻譯
 	-- BINDING_HEADER_GBB = l["Title"]
-	BINDING_NAME_GBB_TOGGLE_UI = l["ToggleUI"]
+	BINDING_NAME_GBB_TOGGLE_UI = localizedStrings["ToggleUI"]
 
-	-- Needed to not cause overflow when using english
-	if (locale ~= "enGB" and locale ~= "enUS") then
-		setmetatable(l, {__index = function (t, k)
-			if GBB.l and GBB.l[k] then
-				return GBB.l[k]
-			elseif GBB.locales.enGB and GBB.locales.enGB[k] then
-				return GBB.locales.enGB[k]
-			else
-				return "["..k.."]"
-			end
-		end})
-	end
-	return l
+	return localizedStrings
 end
