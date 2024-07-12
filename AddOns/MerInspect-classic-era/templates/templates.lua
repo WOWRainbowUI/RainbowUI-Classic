@@ -1,3 +1,5 @@
+-- namespace and alias
+MerInsClaEra = MerInsClaEra or {}
 
 ------------------------------------------------
 -- @DepandsOn: LibStub, LibEvent, LibItemStats

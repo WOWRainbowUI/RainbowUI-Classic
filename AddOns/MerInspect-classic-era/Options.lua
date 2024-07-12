@@ -1,4 +1,6 @@
-
+-- namespace
+MerInsClaEra = MerInsClaEra or {}
+MerInsClaEra.Core = MerInsClaEra.Core or {}
 --------------
 -- 配置面板 --
 --------------
@@ -26,6 +28,10 @@ local DefaultDB = {
     ShowInspectItemSheet = true,            --顯示观察对象装备列表
         ShowOwnFrameWhenInspecting = false,  --觀察同時顯示自己裝備列表
         ShowItemStats = true,                --顯示裝備屬性統計
+        Debug = false,
+        DefaultPosition = false,
+        position = {"TOPLEFT", "CharacterFrame", "TOPRIGHT", 0, 0, 0} -- point, relativeTo, relativePoint, xOfs, yOfs, isPositioned (0/1)
+
 }
 
 local options = {
@@ -41,6 +47,7 @@ local options = {
             { key = "ShowItemStats" },
         }
     },
+    { key = "Debug" },
 }
 
 MerInspectDB = DefaultDB
@@ -210,10 +217,22 @@ LibEvent:attachEvent("VARIABLES_LOADED", function()
     InitCheckbox(frame)
 end)
 
+-- Reset frame position function
+local function ResetFramePosition()
+    -- Restore to default position
+    MerInspectDB.position = {"TOPLEFT", "CharacterFrame", "TOPRIGHT", 0, 0, 0}
+end
+
 InterfaceOptions_AddCategory(frame)
 SLASH_MerInspect1 = "/merinspect"
 SLASH_MerInspect2 = "/mi"
 function SlashCmdList.MerInspect(msg, editbox)
-    InterfaceOptionsFrame_OpenToCategory(frame)
-    InterfaceOptionsFrame_OpenToCategory(frame)
+    if msg == "reset" then
+        ResetFramePosition()
+        print("position has been reset to default.")
+    else
+        print("Usage: /mi reset or /merinspect reset")
+        InterfaceOptionsFrame_OpenToCategory(frame)
+        InterfaceOptionsFrame_OpenToCategory(frame)
+    end
 end

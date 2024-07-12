@@ -1,3 +1,5 @@
+-- namespace and alias
+MerInsClaEra = MerInsClaEra or {}
 
 -------------------------------------
 -- InspectCore Author: M
@@ -8,6 +10,57 @@ local LibSchedule = LibStub:GetLibrary("LibSchedule.7000")
 local LibItemInfo = LibStub:GetLibrary("LibItemInfo.1000")
 
 local guids, inspecting = {}, false
+
+-- check if the frame was moved
+function MerInsClaEra.Core.IsPositioned()
+    local isPositioned = false
+    if MerInspectDB and MerInspectDB.position then
+        local _point, _relativeToName, _relativePoint, xOfs, yOfs, _isPositioned = unpack(MerInspectDB.position)
+        if _isPositioned == 1 then
+            isPositioned = true
+        end
+    end
+    return isPositioned
+end
+
+-- Restore frame position from saved variables
+function MerInsClaEra.Core.RestorePosition(frame)
+    -- Clear all previous points to avoid conflicts
+    frame:ClearAllPoints()
+    if MerInspectDB and MerInspectDB.position then
+        local point, relativeToName, relativePoint, xOfs, yOfs, isPositioned = unpack(MerInspectDB.position)
+        if isPositioned == 1 then
+            frame:SetPoint(point, _G[relativeToName], relativePoint, xOfs, yOfs)
+            MerInsClaEra.Core.DebugPrintf("restorePosition")
+            MerInsClaEra.Core.DebugPrintf(point)
+            MerInsClaEra.Core.DebugPrintf(relativeToName)
+            MerInsClaEra.Core.DebugPrintf(relativePoint)
+            MerInsClaEra.Core.DebugPrintf(xOfs)
+            MerInsClaEra.Core.DebugPrintf(yOfs)
+        else 
+
+            -- Default position
+            frame:SetPoint("TOPLEFT", CharacterFrame, "TOPRIGHT", 10, 0)
+        end
+    else
+        -- Default position
+        frame:SetPoint("TOPLEFT", CharacterFrame, "TOPRIGHT", 10, 0)
+    end
+end
+
+function MerInsClaEra.Core.DebugPrintf(...)
+    if (MerInspectDB and MerInspectDB.Debug) then
+        local status, res = pcall(format, ...)
+        if status then
+            if DLAPI then 
+                DLAPI.DebugLog("MerInspect", res) 
+            else 
+                local msg = table.concat({...}, " ")
+                DEFAULT_CHAT_FRAME:AddMessage(msg)
+            end
+        end
+    end
+end
 
 -- Global API
 function GetInspectInfo(unit, timelimit, checkhp)

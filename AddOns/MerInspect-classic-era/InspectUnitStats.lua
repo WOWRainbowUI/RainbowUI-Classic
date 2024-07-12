@@ -1,3 +1,5 @@
+-- namespace and alias
+MerInsClaEra = MerInsClaEra or {}
 
 -------------------------------------
 -- 裝備屬性統計
