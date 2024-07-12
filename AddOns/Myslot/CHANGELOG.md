@@ -1,6 +1,6 @@
 # Myslot
 
-## [v5.14.0](https://github.com/tg123/myslot/tree/v5.14.0) (2024-03-03)
-[Full Changelog](https://github.com/tg123/myslot/commits/v5.14.0) 
+## [v5.17.2](https://github.com/tg123/myslot/tree/v5.17.2) (2024-07-02)
+[Full Changelog](https://github.com/tg123/myslot/commits/v5.17.2) 
 
-- Add ESCAPE key functionality to hide the GUI  
+- fix missing commits  
