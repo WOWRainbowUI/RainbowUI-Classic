@@ -235,6 +235,36 @@ function MinArch:IsRaceRelevant(raceID)
 	return false;
 end
 
+function MinArch:CanCast()
+    -- Prevent casting in combat
+    if (InCombatLockdown()) then
+        MinArch:DisplayStatusMessage('Can\'t cast: combat lockdown', MINARCH_MSG_DEBUG)
+        return false;
+    end
+
+    -- Check general conditions
+    if InCombatLockdown() or not CanScanResearchSite() or GetSpellCooldown(SURVEY_SPELL_ID) ~= 0 then
+        MinArch:DisplayStatusMessage('Can\'t cast: not in research site or spell on cooldown', MINARCH_MSG_DEBUG)
+        return false;
+    end
+
+    -- Check custom conditions (mounted, flying)
+    if IsMounted() and MinArch.db.profile.dblClick.disableMounted then
+        MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings - mounted', MINARCH_MSG_DEBUG)
+        return false;
+    end
+    if IsFlying() and MinArch.db.profile.dblClick.disableInFlight then
+        MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings - flying', MINARCH_MSG_DEBUG)
+        return false;
+    end
+	if GetNumLootItems() ~= 0 then
+		MinArch:DisplayStatusMessage('Can\'t cast while looting', MINARCH_MSG_DEBUG)
+		return false
+	end
+
+    return true;
+end
+
 function MinArch:LoadRaceInfo()
 	for i = 1, ARCHAEOLOGY_NUM_RACES do
 		local name, t = GetArchaeologyRaceInfo(i);
@@ -266,14 +296,14 @@ function MinArch:TestForMissingDigsites()
 		return;
 	end
 
-	for k, v in pairs(MinArch.DigsiteLocales.enGB) do
+	for k, v in pairs(MinArch.DigsiteLocales.enUS) do
 		if (MinArchDigsiteList[k] == nil) then
 			print("Missing race for: " .. k);
 		end
 	end
 
 	for k, v in pairs(MinArchDigsiteList) do
-		if (MinArch.DigsiteLocales.enGB[k] == nil) then
+		if (MinArch.DigsiteLocales.enUS[k] == nil) then
 			print("Missing translation for: " .. k);
 		end
 	end

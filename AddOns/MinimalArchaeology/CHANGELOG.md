@@ -1,6 +1,32 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 10.2.13
+
+- **New Feature: Taxi Service**: if enabled, waypoints will be created to the nearest flight master if the nearest digsite is farther than the user-configured distance. You can find the options in the Navigation section.
+- Added digsite icons on flight maps (indicated on the nearest known flight master)
+- History: artifact list is now grouped by progress (enabled by default)
+- Fix multiple issues with race icons on the map
+- Added HereBeDragons as a dependency, digsite distances are now returned in yards
+- **10.2.13.1** Fix issue with unwanted waypoints being generated
+- **10.2.13.2** Fix digsite related lua errors
+- **10.2.13.2** Fix issue with digsites being undetected
+- **10.2.13.2** Fix Main Window and Companion update issue in rare cases
+
+### 10.2.12
+
+- Companion: survey button now respects the same survey settings as double right click
+- Companion: show cooldown on Survey button
+- Extended priority list: you can now set an order for races instead of prioritizing one at a time
+- Experimental New Feature: Path optimization. Path optimization tries to reduce travel times on the long run by calculating the shortest path that touches all active digsites, also preferring sites that are closer to each other. You can enable it under developer settings, still testing, feedback is welcome!
+- Fix detecting nearest digsite on Outland
+- Create waypoint to digsites related to hidden races if nothing else is available
+- Updated the list of patrons, thank you for the support!
+- **10.2.12.1** Fix double right click surveying
+- **10.2.12.2** Fix survey button being disabled when double right click is disabled
+- **10.2.12.2** Fix path optimization calculation
+- **10.2.12.2** Add option to hide Companion when no digsites are available on the world
+
 ### 10.2.11
 
 - Companion: implement optional artifact progress bar with optional tooltip and solve on click (enabled by default)

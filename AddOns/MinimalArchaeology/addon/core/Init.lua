@@ -1,4 +1,5 @@
 local ADDON, MinArch = ...
+local isClassic = WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE
 
 function MinArch:InitHelperFrame()
     MinArch.HelperFrame = CreateFrame("Frame", "MinArchHelper");
@@ -18,18 +19,29 @@ function MinArch:InitHelperFrame()
 		MinArch:EventHelper(event, ...);
 	end)
 
-    local button = CreateFrame("Button", "MinArchHiddenSurveyButton", MinArchHelper, "SecureActionButtonTemplate");
-    button:RegisterForClicks("AnyUp", "AnyDown");
+    local button = CreateFrame("Button", "MinArchHiddenSurveyButton", nil, "SecureActionButtonTemplate");
+    button:RegisterForClicks("AnyDown", "AnyUp");
     button:SetAttribute("type", "spell");
     button:SetAttribute("spell", SURVEY_SPELL_ID);
-    button:Hide();
+    -- button:Hide();
 
-	button:SetScript("PostClick", function(self)
-        if (MinArch.clearBinding and not InCombatLockdown()) then
-			-- print('PostClick' .. tostring(clearBinding))
-            ClearOverrideBindings(self)
-        end
+	button:SetScript("PostClick", function(self, button, down)
+		MouselookStart()
+		if down then return end
+		MouselookStop()
     end)
+	SecureHandlerWrapScript(button, "PostClick", button, string.format([[
+      local isClassic = %s
+      if isClassic == true then
+        self:ClearBindings()
+      else
+        if not down then
+          self:ClearBindings()
+        end
+      end
+    ]], tostring(isClassic)))
+
+	MinArch.hiddenButton = button
 end
 
 function MinArch.Ace:OnInitialize ()
@@ -38,10 +50,10 @@ function MinArch.Ace:OnInitialize ()
 	MinArch:InitDatabase();
 	MinArch:MainEventAddonLoaded();
 
+	MinArch:InitHelperFrame();
 	MinArch:InitMain(MinArchMain);
 	MinArch:InitHist(MinArchHist);
 	MinArch:InitDigsites(MinArchDigsites);
-	MinArch:InitHelperFrame();
 
 	MinArch.Companion:Init();
 
@@ -170,5 +182,16 @@ function MinArch:UpgradeSettings()
         MinArch.db.profile.TomTom.enableTomTom = MinArch.db.profile.TomTom.enable;
 
         MinArch.db.profile.settingsVersion = 4;
+    end
+
+	-- Convert priority to the new multi-prio system
+	if (MinArch.db.profile.settingsVersion == 4) then
+		local raceID = MinArch.db.profile.TomTom.prioRace
+		if raceID then
+			MinArch.db.profile.raceOptions.priority[raceID] = 1
+		end
+		MinArch.db.profile.TomTom.prioRace = nil
+
+        MinArch.db.profile.settingsVersion = 5;
     end
 end

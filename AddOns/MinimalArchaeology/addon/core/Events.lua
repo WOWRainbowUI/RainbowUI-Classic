@@ -44,7 +44,7 @@ function MinArch:EventHelper(event, ...)
 			MinArch.Companion.showAfterCombat = false;
 		end
 	elseif (event == "GLOBAL_MOUSE_DOWN") then
-		MinArch:DoubleClickSurvey(event, ...);
+		-- MinArch:DoubleClickSurvey(event, ...);
     end
 end
 
@@ -94,7 +94,7 @@ function MinArch:EventMain(event, ...)
         MinArch.Companion:AutoToggle()
 	end
 
-	if (event == "PLAYER_LEAVE_COMBAT") then
+	if (event == "PLAYER_REGEN_ENABLED") then
 		C_Timer.NewTimer(0.3, function()
 			if (not InCombatLockdown()) then
 				ClearOverrideBindings(MinArchHiddenSurveyButton);
@@ -141,6 +141,8 @@ function MinArch:EventMain(event, ...)
 		if (changedCVAR == "SHOW_DIG_SITES") then
 			MinArch:ShowRaceIconsOnMap();
 		end
+		
+		return
 	end
 
     if (event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
@@ -268,6 +270,15 @@ function MinArch:EventDigsites(event, ...)
 			MinArch:SetWayToNearestDigsite();
 		end
 	end
+
+	if (event == "TAXIMAP_OPENED") then
+		MinArch:UpdateFlightMap()
+	end
+
+	if event == "PLAYER_CONTROL_GAINED" and MinArch.waypointOnLanding then
+		MinArch.waypointOnLanding = false
+		MinArch:SetWayToNearestDigsite(true)
+	end
 end
 
 function MinArch:MaineEventHideAfterDigsite()
@@ -343,12 +354,8 @@ end
 function MinArch:MapLayerChanged(self)
 	-- update the map when map layer has changed
 	if (self.mapID ~= nil) then
-		if (WorldMapFrame.isMaximized) then
-			C_Timer.After(0.11, function ()
-				MinArch:ShowRaceIconsOnMap();
-			end)
-		else
-			MinArch:ShowRaceIconsOnMap();
-		end
+		C_Timer.After(0.11, function ()
+			MinArch:ShowRaceIconsOnMap()
+		end)
 	end
 end
