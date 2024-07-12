@@ -1,3 +1,5 @@
+-- namespace and alias
+MerInsClaEra = MerInsClaEra or {}
 
 ---------------------------------
 -- 經典版物品屬性统计 Author: M

@@ -38,4 +38,5 @@ ns.L = {
     Loot                        = "拾取",
 	Title						= "装备观察",
 	OptionName					= "装备观察",
+	Debug						= "调试",
 }

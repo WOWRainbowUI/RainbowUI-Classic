@@ -42,6 +42,7 @@ ns.L = {
 	Title						= "裝備觀察",
 	OptionName					= "裝備-觀察",
 	NA							= "未知",
+	Debug						= "除錯",
 }
 
 BINDING_NAME_InspectRaidFrame = "顯示團隊觀察視窗"
