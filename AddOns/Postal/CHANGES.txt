@@ -1,30 +1,45 @@
 ------------------------------------------------------------------------
-r617 | Zimzarina | 2024-05-03 23:53:13 +0000 (Fri, 03 May 2024) | 1 line
+r626 | Zimzarina | 2024-06-21 03:56:05 +0000 (Fri, 21 Jun 2024) | 1 line
 Changed paths:
-   M /trunk/Modules/QuickAttach.lua
+   M /trunk/Modules/OpenAll.lua
+   M /trunk/Modules/Select.lua
 
-Added support for Cataclysm classic.
+Changed GetItemCount() to C_Item.GetItemCount().
 ------------------------------------------------------------------------
-r616 | Zimzarina | 2024-05-03 23:23:13 +0000 (Fri, 03 May 2024) | 1 line
+r625 | Zimzarina | 2024-06-19 16:49:25 +0000 (Wed, 19 Jun 2024) | 1 line
 Changed paths:
-   M /trunk/Postal_Vanilla.toc
-
-TOC update classic.
-------------------------------------------------------------------------
-r615 | Zimzarina | 2024-05-03 16:23:41 +0000 (Fri, 03 May 2024) | 1 line
-Changed paths:
-   M /trunk/Modules/BlackBook.lua
    M /trunk/Modules/Express.lua
    M /trunk/Modules/Forward.lua
+   M /trunk/Modules/OpenAll.lua
    M /trunk/Modules/QuickAttach.lua
+   M /trunk/Modules/Select.lua
+
+Changed GetItemInfo() to C_Item.GetItemInfo().
+------------------------------------------------------------------------
+r624 | Zimzarina | 2024-06-18 17:26:56 +0000 (Tue, 18 Jun 2024) | 1 line
+Changed paths:
+   M /trunk/Modules/QuickAttach.lua
+
+Removed GetSpellTexture() usage in QuickAttach.lua module for retail. Needed for TWW compatibility.
+------------------------------------------------------------------------
+r623 | Zimzarina | 2024-06-17 17:42:17 +0000 (Mon, 17 Jun 2024) | 1 line
+Changed paths:
    M /trunk/Postal.lua
 
-Added support for Cataclysm.
+Changed GetAddOnMetadata to C_AddOns.GetAddOnMetadata
 ------------------------------------------------------------------------
-r614 | Zimzarina | 2024-05-03 15:35:50 +0000 (Fri, 03 May 2024) | 1 line
+r622 | Zimzarina | 2024-06-15 15:34:45 +0000 (Sat, 15 Jun 2024) | 1 line
 Changed paths:
-   A /trunk/Postal_Cata.toc
+   M /trunk/Modules/CarbonCopy.lua
 
-Added new TOC file for Cataclysm.
+TWW compatibility update for CarbonCopy module.
+------------------------------------------------------------------------
+r621 | Zimzarina | 2024-06-14 18:03:08 +0000 (Fri, 14 Jun 2024) | 1 line
+Changed paths:
+   M /trunk/Modules/TradeBlock.lua
+   M /trunk/Postal.lua
+   M /trunk/Postal.toc
+
+Updates to make Postal compatible with TWW.
 ------------------------------------------------------------------------
 
