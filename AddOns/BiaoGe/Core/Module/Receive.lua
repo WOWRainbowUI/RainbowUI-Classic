@@ -1,23 +1,23 @@
-local _, ADDONSELF = ...
+local _, ns = ...
 
-local LibBG = ADDONSELF.LibBG
-local L = ADDONSELF.L
+local LibBG = ns.LibBG
+local L = ns.L
 
-local RR = ADDONSELF.RR
-local NN = ADDONSELF.NN
-local RN = ADDONSELF.RN
-local Size = ADDONSELF.Size
-local RGB = ADDONSELF.RGB
-local GetClassRGB = ADDONSELF.GetClassRGB
-local SetClassCFF = ADDONSELF.SetClassCFF
-local Width = ADDONSELF.Width
-local Height = ADDONSELF.Height
-local Maxb = ADDONSELF.Maxb
-local Maxi = ADDONSELF.Maxi
-local HopeMaxn = ADDONSELF.HopeMaxn
-local HopeMaxb = ADDONSELF.HopeMaxb
-local HopeMaxi = ADDONSELF.HopeMaxi
-local FrameHide = ADDONSELF.FrameHide
+local RR = ns.RR
+local NN = ns.NN
+local RN = ns.RN
+local Size = ns.Size
+local RGB = ns.RGB
+local GetClassRGB = ns.GetClassRGB
+local SetClassCFF = ns.SetClassCFF
+local Width = ns.Width
+local Height = ns.Height
+local Maxb = ns.Maxb
+local Maxi = ns.Maxi
+local HopeMaxn = ns.HopeMaxn
+local HopeMaxb = ns.HopeMaxb
+local HopeMaxi = ns.HopeMaxi
+local FrameHide = ns.FrameHide
 
 
 local pt = print
@@ -95,9 +95,6 @@ function BG.ReceiveUI()
                         BG.ReceiveBiaoGe["boss" .. b]["jine" .. i] = ""
                     end
                 end
-                if BG.Frame[FB]["boss" .. b]["time"] then
-                    BG.ReceiveBiaoGe["boss" .. b]["time"] = ""
-                end
             end
 
             playername = playername .. "-" .. servername
@@ -156,8 +153,8 @@ function BG.ReceiveUI()
                             BG.SendBiaoGe["boss" .. b]["jine" .. i] = BG.Frame[FB]["boss" .. b]["jine" .. i]:GetText()
                         end
                     end
-                    if BG.Frame[FB]["boss" .. b]["time"] then
-                        BG.SendBiaoGe["boss" .. b]["time"] = BG.Frame[FB]["boss" .. b]["time"]:GetText()
+                    if BiaoGe[FB]["boss" .. b]["time"] then
+                        BG.SendBiaoGe["boss" .. b]["time"] = BiaoGe[FB]["boss" .. b]["time"]
                     end
                 end
             elseif BG.FindTableString(type, historyTbl) and historyname then
@@ -248,7 +245,7 @@ function BG.ReceiveUI()
                         end
                     end
                 end
-                if BG.SendBiaoGe["boss" .. b]["time"] ~= "" then
+                if BG.SendBiaoGe["boss" .. b]["time"] then
                     local t = { text, "-", "b", b, "tm", ":", BG.SendBiaoGe["boss" .. b]["time"] }
                     local tt = table.concat(t, "") -- BG-b1tm:2分10秒
                     if strlen(tt) >= 255 then
@@ -335,8 +332,8 @@ function BG.ReceiveUI()
                                 BG.ReceiveFrame[FB]["boss" .. b]["jine" .. i]:SetText(BG.ReceiveBiaoGe["boss" .. b]["jine" .. i] or "")
                             end
                         end
-                        if BG.ReceiveFrame[FB]["boss" .. b]["time"] then
-                            BG.ReceiveFrame[FB]["boss" .. b]["time"]:SetText(BG.ReceiveBiaoGe["boss" .. b]["time"] or "")
+                        if BG.ReceiveBiaoGe["boss" .. b]["time"] then
+                            BG.ReceiveFrame[FB]["boss" .. b]["time"]:SetText(L["击杀用时"] .. " " .. BG.ReceiveBiaoGe["boss" .. b]["time"])
                         end
                     end
 

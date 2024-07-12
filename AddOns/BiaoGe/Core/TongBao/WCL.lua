@@ -1,17 +1,17 @@
-local AddonName, ADDONSELF = ...
+local AddonName, ns = ...
 
-local LibBG = ADDONSELF.LibBG
-local L = ADDONSELF.L
+local LibBG = ns.LibBG
+local L = ns.L
 
-local RR = ADDONSELF.RR
-local NN = ADDONSELF.NN
-local RN = ADDONSELF.RN
-local FrameHide = ADDONSELF.FrameHide
-local Maxb = ADDONSELF.Maxb
-local Maxi = ADDONSELF.Maxi
-local HopeMaxn = ADDONSELF.HopeMaxn
-local HopeMaxb = ADDONSELF.HopeMaxb
-local HopeMaxi = ADDONSELF.HopeMaxi
+local RR = ns.RR
+local NN = ns.NN
+local RN = ns.RN
+local FrameHide = ns.FrameHide
+local Maxb = ns.Maxb
+local Maxi = ns.Maxi
+local HopeMaxn = ns.HopeMaxn
+local HopeMaxb = ns.HopeMaxb
+local HopeMaxi = ns.HopeMaxi
 
 local pt = print
 
@@ -205,12 +205,13 @@ end
 
 
 function BG.WCLUI(lastbt)
-    local bt = CreateFrame("Button", nil, BG.FBMainFrame, "UIPanelButtonTemplate")
+    local bt = CreateFrame("Button", nil, BG.ButtonZhangDan, "UIPanelButtonTemplate")
     bt:SetSize(90, BG.ButtonZhangDan:GetHeight())
     bt:SetPoint("LEFT", lastbt, "RIGHT", 10, 0)
     bt:SetText(L["通报WCL"])
     BG.ButtonWCL = bt
-    if BG.IsVanilla() then bt:Hide() end
+    tinsert(BG.TongBaoButtons, bt)
+    bt:Hide()
 
     local groupchange = true
     local f = CreateFrame("Frame")
@@ -237,7 +238,7 @@ function BG.WCLUI(lastbt)
                 end
                 for i = 1, num do
                     if wclname5[i] and wclfenshu6[i] then
-                        text = text .. i .. "、" .. wclname5[i] .. "：" .. wclfenshu6[i] .. "\n"
+                        text = text .. i .. "、" .. wclname5[i] .. L["："] .. wclfenshu6[i] .. "\n"
                     end
                 end
                 text = text .. updatetime
@@ -247,9 +248,11 @@ function BG.WCLUI(lastbt)
         GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
         GameTooltip:ClearLines()
         GameTooltip:SetText(text)
+        GameTooltip:SetClampedToScreen(false)
     end)
     bt:SetScript("OnLeave", function(self)
         GameTooltip:Hide()
+        GameTooltip:SetClampedToScreen(true)
     end)
     -- 点击通报WCL分数
     bt:SetScript("OnClick", function(self)
@@ -270,10 +273,14 @@ function BG.WCLUI(lastbt)
             local text = ""
             local num = GetNumGroupMembers()
             SendChatMessage(L["———通报WCL分数———"], "RAID")
+            local t = 0
             for i = 1, num do
                 if wclname4[i] and wclfenshu4[i] and wclfenshu5[i] then
-                    text = WCLcolor(wclfenshu4[i]) .. i .. "、" .. wclname4[i] .. "：" .. wclfenshu5[i] .. "\n"
+                    -- BG.After(t, function()
+                    text = WCLcolor(wclfenshu4[i]) .. i .. "、" .. wclname4[i] .. L["："] .. wclfenshu5[i] .. "\n"
                     SendChatMessage(text, "RAID")
+                    -- end)
+                    -- t = t + BG.tongBaoSendCD
                 end
             end
             text = updatetime

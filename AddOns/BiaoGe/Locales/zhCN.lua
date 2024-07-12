@@ -1,19 +1,18 @@
-local AddonName, ADDONSELF = ...
+local AddonName, ns = ...
 
-local ver = select(4, GetBuildInfo())
--- if ver > 20000 then
---     ADDONSELF.ver = "v1.8.6"
--- else
-ADDONSELF.ver = "v1.9.1"
--- end
+ns.ver = "v1.10.1"
+-- ns.ver = "v1.9.6 Alpha3"
+
+local c1 = "|cff" .. "ffff66"
+ns.c1 = c1
 
 if (GetLocale() == "zhTW") then return end
 
 local update = ""
 do --简体说明书
     local text
-    text = "|cff00BFFF< 我是说明书 >|r\n\n"
-    text = text .. "|cffFFFFFF-打开命令：|r/BiaoGe或/GBG，或游戏设置里绑定按键。小地图图标：" .. "|TInterface\\AddOns\\BiaoGe\\Media\\icon\\icon:0|t" .. "\n"
+    text = "|cff00BFFF< 我是说明书 >（本插件支持CTM、WLK、探索赛季、60服）|r\n\n"
+    text = text .. "|cffFFFFFF-打开命令：|r/BiaoGe或/GBG，或游戏设置里绑定按键。小地图图标：" .. "|TInterface\\AddOns\\BiaoGe\\Media\\icon\\icon:0|t" .. "|r\n"
     text = text .. "|cffFFFFFF-快捷操作：|r点空白处取消光标，右键输入框清除内容\n"
     text = text .. "|cffFFFFFF-跳转光标：|r按Tab、方向键跳转光标，ALT/CTRL/SHIFT+方向键跳转至下个BOSS\n"
     text = text .. "|cffFFFFFF-添加装备：|r从装备下拉列表里选择；或者从背包把装备拖进表格\n"
@@ -27,54 +26,61 @@ do --简体说明书
     text = text .. "|cffFFFFFF-更多功能介绍可在设置里查看|r\n\n"
     text = text .. "-BUG反馈：邮箱buick_hbj@163.com，Q群322785325\n\n"
 
-    -- update = update .. "|cff00FF00" .. "" .. "|r\n"
-    -- update = update .. [[]] .. "\n"
-    -- update = update .. [[]] .. "\n\n"
+    update = update .. "|cff00FF00" .. "7月12日更新v1.10.1" .. "|r\n"
+    update = update .. c1 .. [[-拍卖WA更新为v1.4：增加一个开始拍卖时的动画效果]] .. "|r\n"
+    update = update .. [[-高亮背包装备：现在也支持Bagnon背包]] .. "|r\n"
+    update = update .. [[-<WLK>角色总览：增加阿尔法日常。更新英雄日常ID]] .. "|r\n"
+    update = update .. c1 .. [[-<赛季服>增加表格：黑石塔上层]] .. "|r\n"
+    update = update .. c1 .. [[-<赛季服>装备库：添加部分P4装备]] .. "|r\n\n"
 
-    update = update .. "|cff00FF00" .. "5月24日更新v1.9.1" .. "|r\n"
-    update = update .. [[-装备库：增加[获取途径过滤] ]] .. "\n"
-    update = update .. [[-<CTM>装备库：增加荣誉点数、专业制造、世界掉落、暗月马戏团装备]] .. "\n"
-    update = update .. [[-<CTM>装备过滤：增加词缀"韧性"]] .. "\n\n"
+    update = update .. "|cff00FF00" .. "7月6日更新v1.10.0b" .. "|r\n"
+    update = update .. [[-<WLK/CTM>增加一键指定节日副本]] .. "|r\n"
+    update = update .. [[-修复插件错误]] .. "|r\n\n"
 
-    update = update .. "|cff00FF00" .. "5月21日更新v1.9.0b" .. "|r\n"
-    update = update .. [[-<60/plus>修复了装备自动记录失效的问题]] .. "\n\n"
+    update = update .. "|cff00FF00" .. "7月5日更新v1.10.0" .. "|r\n"
+    update = update .. c1 .. [[-<WLK/60服>表格还原之前的合并状态，不再拆分多本。优化了进本自动清空表格的逻辑，不会再出现刚打完NAXX，然后进黑曜石本就清空的情况]] .. "|r\n"
+    update = update .. [[-<WLK>角色总览：恢复英雄日常]] .. "|r\n"
+    update = update .. c1 .. [[-<CTM>P1三本合并为一个表格]] .. "|r\n"
+    update = update .. c1 .. [[-<赛季服>增加P4表格（P4装备库晚点再更新）]] .. "|r\n"
+    update = update .. [[-<60服>表格：BOSS模型变得小一点]] .. "|r\n"
+    update = update .. [[-删除多本账单按钮、团本锁定ID]] .. "|r\n\n"
 
-    update = update .. "|cff00FF00" .. "5月20日更新v1.9.0" .. "|r\n"
-    update = update .. [[-角色配置文件：增加删除某角色全部配置文件的按钮]] .. "\n"
-    update = update .. [[-<CTM>更新CTM P1表格、装备库、角色总览等]] .. "\n"
-    update = update .. [[-<WLK>装备库：套装和牌子装备现在显示更全面]] .. "\n\n"
-
-    update = update .. "|cff00FF00" .. "5月5日更新v1.8.7" .. "|r\n"
-    update = update .. [[-设置：增加角色配置文件管理（帮你解决在角色改名或转服时，该角色的某些数据（例如心愿清单）丢失的问题）]] .. "\n"
-    update = update .. [[-现在不会再提示"BOSS战开始，当前装备自动记录位置：XXX"等类似的消息]] .. "\n"
-    update = update .. [[-<CTM前夕>修复了由于CTM的Boss战ID变动导致的表格自动记录失效的问题]] .. "\n\n"
+    update = update .. "|cff00FF00" .. "7月2日更新v1.9.9" .. "|r\n"
+    update = update .. c1 .. [[-拍卖WA更新为v1.3：修复有部分玩家不显示拍卖界面的问题；当你是出价最高者时的高亮效果更加显眼]] .. "|r\n"
+    update = update .. [[-一键分配：背包类型的物品不会再被一键分配]] .. "|r\n"
+    update = update .. [[-金额自动加零：现在不会对分钱人数生效]] .. "|r\n"
+    update = update .. c1 .. [[-<WLK>一键举报：在战场里，右键点击世界地图上的玩家圆点时，增加一键全部举报的按钮]] .. "|r\n"
+    update = update .. [[-<WLK/CTM>装备库：修复了牌子装所需的货币数量不显示的问题]] .. "|r\n\n"
 
     text = text .. update
     text = text .. "|cff00FF00按住ALT显示更多更新记录|r"
 
-    ADDONSELF.instructionsText = text
+    ns.instructionsText = text
 end
 do --简体更新内容
     local update = "|cff00BFFF< 主要更新记录 >|r\n\n" .. update
 
-    update = update .. "|cff00FF00" .. "5月2日更新v1.8.6" .. "|r\n"
-    update = update .. [[-<CTM前夕>角色总览：增加正义点数，删除寒冰纹章、凯旋纹章等]] .. "\n"
-    update = update .. [[-<CTM前夕>装备过滤：增加精通词缀，删除护甲穿透词缀]] .. "\n\n"
+    update = update .. "|cff00FF00" .. "6月29日更新v1.9.8" .. "|r\n"
+    update = update .. c1 .. [[-新增：通报多本总览账单（按钮在通报账单旁边）]] .. "|r\n"
+    update = update .. [[-修复了快速记账、高亮打包交易装备在涉及跨副本时出现的一些错误]] .. "|r\n\n"
 
-    update = update .. "|cff00FF00" .. "5月1日更新v1.8.5" .. "|r\n"
-    update = update .. [[-通报账单：增加仅通报支出]] .. "\n"
-    update = update .. [[-修复了对账单的漏记装备处会错误地显示罚款内容的问题]] .. "\n\n"
+    update = update .. "|cff00FF00" .. "6月28日更新v1.9.7" .. "|r\n"
+    update = update .. [[-拍卖聊天框：现在小退/重载后依然会显示之前的聊天记录]] .. "|r\n"
+    update = update .. c1 .. [[-快速记账：增加记账效果预览框]] .. "|r\n"
+    update = update .. [[-修复了切换表格副本时和清空表格时，团本锁定ID没正确更新的问题]] .. "|r\n"
+    update = update .. [[-修复了金额自动加零的功能没有对快速记账框生效的问题]] .. "|r\n\n"
 
-    update = update .. "|cff00FF00" .. "4月25日更新v1.8.4" .. "|r\n"
-    update = update .. [[-新增功能：装备过期提醒（当你是团长或物品分配者，且装备剩余可交易时间低于30分钟时，会有提醒）]] .. "\n\n"
+    update = update .. "|cff00FF00" .. "6月27日更新v1.9.6" .. "|r\n"
+    update = update .. [[-通报账单：优化通报次序（在国服发消息的次序是乱的，需要加点延迟）]] .. "|r\n"
+    update = update .. [[-表格：修改支出项的默认名称（因为"坦克"和"tank"在国服发不出来）。不再自动记录"埃霍恩的冰霜之镰"]] .. "|r\n"
+    update = update .. [[-增加显示团本锁定ID]] .. "|r\n"
+    update = update .. [[-删除通报WCL按钮]] .. "|r\n"
+    update = update .. [[-<WLK>删除[查看在线玩家]功能（因为国服把上限值锁为501，导致该功能已经没意义了）]] .. "|r\n"
+    update = update .. [[-<WLK>角色总览：删除伽马日常、英雄日常]] .. "|r\n"
+    update = update .. c1 .. [[-<CTM>角色总览：增加巴拉丁监狱]] .. "|r\n"
+    update = update .. [[-<60服>MC表格布局优化]] .. "|r\n\n"
 
-    update = update .. "|cff00FF00" .. "4月21日更新v1.8.3" .. "|r\n"
-    update = update .. [[-其他设置：增加[自动点击一键分配]（该选项默认关闭）]] .. "\n"
-    update = update .. [[-交易金额超上限提醒：提醒上限修改为99.9999万]] .. "\n"
-    update = update .. [[-增加显示公会成员插件版本]] .. "\n"
-    update = update .. [[-重做通报用时]] .. "\n\n"
-
-    ADDONSELF.updateText = update
+    ns.updateText = update
 end
 
 local L = setmetatable({}, {
@@ -83,10 +89,66 @@ local L = setmetatable({}, {
     end
 })
 
-ADDONSELF.L = L
+ns.L = L
 
 local L = {}
 do
+    L["节日副本和"] = true
+    L["节日副本"] = true
+    L["插件加载出现错误，请把报错发给作者，谢谢。（邮箱buick_hbj@163.com，Q群322785325）"] = true
+    L["东"] = true
+    L["西"] = true
+    L["北"] = true
+    L["下层"] = true
+    L["不在团本中，不能使用"] = true
+    L["阿尔法"] = true
+    L["v1.4：增加一个开始拍卖时的动画效果"] = true
+
+
+    L["一键全部举报挂机"] = true
+    L["一键全部举报脚本"] = true
+
+
+    L["|cff00BFFF< 快速记账成功 >|r\n|cffFFFFFF装备：%s\n买家：%s\n金额：%s%s\n表格：%s\nBoss：%s"] = true
+    L["< 交易记账成功 >|r\n装备：%s\n买家：%s\n金额：%s%d|rg%s\n表格：%s\nBoss：%s%s|r"] = true
+    L["——通报多本总览账单——"] = true
+    L["通报多本总览账单"] = true
+    L["|cffFFFFFF点击：|r显示选项面板。"] = true
+    L["请选择需要通报哪些总览账单？"] = true
+    L["通报"] = true
+    L["请选择一个账单。"] = true
+
+
+    L["拍卖WA"] = true
+    L["团本锁定ID："] = true
+    L["T补贴"] = true
+    L["N补贴"] = true
+    L["Dps补贴"] = true
+    L["快速记账的时候，可以预览这次的记账效果。"] = true
+
+
+    L["更新记录："] = true
+    L["v1.2：现在物品分配者也可以开始拍卖装备了"] = true
+    L["装备总收入"] = true
+    L["，"] = true
+    L["："] = true
+    L["账单识别错误或超时！"] = true
+    L["点击：对账"] = true
+    L["账单聊天记录"] = true
+    L["确定清空表格？"] = true
+    L["确定清空心愿？"] = true
+    L["删除打包交易记录"] = true
+    L["删除后不再高亮绿色框。请放心，该按钮不会删除表格内容。"] = true
+    L["（剩余装备记录为打包交易）"] = true
+
+
+    L["读取中..."] = true
+    L["你未加入%s，无法获取在线人数。"] = true
+    L["其他选项"] = true
+    L["该副本没有团本攻略。目前只有ICC有团本攻略"] = true
+    L["<说明书>"] = true
+
+
     L["获取途径过滤"] = true
     L["团本"] = true
     L["5人本"] = true
@@ -134,7 +196,7 @@ do
 
     L["没有支出"] = true
     L["———通报支出———"] = true
-    L["(长按CTRL：仅通报支出)"] = true
+    L["长按CTRL：仅通报支出"] = true
     L["没有消费记录"] = true
 
 
@@ -556,7 +618,7 @@ do
     L["当鼠标悬停在表格装备时，高亮背包里对应的装备。"] = true
     L["当鼠标悬停在背包装备时，高亮表格里对应的装备。"] = true
     L["当鼠标悬停在聊天框装备时，高亮表格和背包里对应的装备。"] = true
-    L["（背包系统支持原生背包、NDui背包、ElvUI背包、大脚背包）"] = true
+    L["（背包系统支持原生背包、NDui背包、ElvUI背包、大脚背包、Bagnon）"] = true
     L["退队/入队玩家上色"] = true
     L["在退队/入队的系统消息里，给该玩家名字加上职业色并设置为链接。"] = true
     L["一键指定%s"] = true
@@ -607,8 +669,8 @@ do
     L["< 支 %s 出 >"] = true
     L["< 总 %s 览 >"] = true
     L["< 工 %s 资 >"] = true
-    L["(长按ALT：仅通报总览)"] = true
-    L["(长按SHITF：仅通报罚款)"] = true
+    L["长按ALT：仅通报总览"] = true
+    L["长按SHITF：仅通报罚款"] = true
     L["———通报总览———"] = true
     L["< 总 %s 览 >"] = true
     L["< 工 %s 资 >"] = true
@@ -1160,8 +1222,8 @@ do
     L["装等"] = true
     L["分钟"] = true
     L["时间"] = true
-    L["已清空表格< %s >，分钱人数已改为%s人"] = true
-    L["已清空表格< %s >"] = true
+    L["已清空表格< %s >，分钱人数已改为%s人。"] = true
+    L["已清空表格< %s >。"] = true
     L["已清空心愿< %s >"] = true
     L["确认清空表格< %s >？"] = true
     L["高亮该天赋的装备"] = true
@@ -1635,7 +1697,7 @@ do
         L["鲁维罗什"] = true
         L["艾隆纳亚"] = true
         L["石头看守者"] = true
-        -- new
+
         L["阿\n塔\n拉\n利\n恩"] = true
         L["腐\n溃\n烂\n泥"] = true
         L["阿\n塔\n莱\n防\n御\n者"] = true
@@ -1644,7 +1706,22 @@ do
         L["迦\n玛\n兰\n和\n奥\n戈\n姆"] = true
         L["摩\n弗\n拉\n斯"] = true
         L["哈\n扎\n斯"] = true
-        L["伊\n兰\n尼\n库\n斯\n的\n阴\n影"] = true
+        L["伊\n兰\n尼\n库\n斯"] = true
+
+        L["烈\n焰\n卫\n士"] = true
+        L["索\n拉\n卡\n·\n火\n冠"] = true
+        L["杰\n德"] = true
+        L["古\n拉\n鲁\n克"] = true
+        L["雷\n德\n·\n黑\n手"] = true
+        L["比\n斯\n巨\n兽"] = true
+        L["达\n基\n萨\n斯\n将\n军"] = true
+        L["瓦\n塔\n拉\n克\n公\n爵"] = true
+
+        L["熔\n火\n之\n心"] = true
+        L["艾\n索\n雷\n葛\n斯"] = true
+        L["卡\n扎\n克"] = true
+
+
 
         L["加加恩·火锤"] = true
         L["格瑞姆洛克"] = true

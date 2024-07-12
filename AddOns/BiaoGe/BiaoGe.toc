@@ -1,8 +1,8 @@
-## Interface: 11503, 40400
+## Interface: 11503, 30403, 40400
 ## Title: <BiaoGe> |cff00BFFF金团表格|r
 ## Notes: 插件命令：/BiaoGe 或 /GBG
 ## Author: 苍穹之霜
-## Version: 1.9.1
+## Version: 1.10.1
 ## SavedVariables: BiaoGe
 
 ## Title-zhTW: |cffFF7F00[團隊]|r 金團表格
