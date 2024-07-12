@@ -1,20 +1,16 @@
-lightweight tag 89c6b51da4ac58ecd52534eb0d2a64d636f52e17 0.0.7
-Author:	GitHub <noreply@github.com>
-Date:	Wed May 29 01:00:29 2024 -0700
+lightweight tag 772336ce5907903f577b7321887da8d9b50eeaca 0.0.8
+Author:	DelaneDiamon <diamon33@gmail.com>
+Date:	Tue Jun 4 14:52:37 2024 -0700
 
-commit 2de5607ba3c36bc0d79ba170e880f30acb2be5fa
-Author: Björn Böing <b.boeing@online.de>
-Date:   Wed May 29 09:55:57 2024 +0200
+commit 772336ce5907903f577b7321887da8d9b50eeaca
+Author: DelaneDiamon <diamon33@gmail.com>
+Date:   Tue Jun 4 14:52:37 2024 -0700
 
-    Fix potential error when hovering items
-    
-    Fixes #4
+    Consider AuctionUI as always loaded
 
-commit 2de5607ba3c36bc0d79ba170e880f30acb2be5fa
-Author: Björn Böing <b.boeing@online.de>
-Date:   Wed May 29 09:55:57 2024 +0200
+commit 2a6e682c9383d0079885229702d8e670457130d0
+Author: DelaneDiamon <diamon33@gmail.com>
+Date:   Tue Jun 4 14:11:08 2024 -0700
 
-    Fix potential error when hovering items
-    
-    Fixes #4
+    exclude grey and white items from tooltip
 
