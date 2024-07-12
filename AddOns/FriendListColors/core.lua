@@ -1,3 +1,5 @@
+local GetAddOnMetadata = GetAddOnMetadata or C_AddOns.GetAddOnMetadata ---@diagnostic disable-line: deprecated
+
 local GameTooltip = _G.GameTooltip ---@diagnostic disable-line: undefined-field
 local InterfaceOptions_AddCategory = _G.InterfaceOptions_AddCategory ---@diagnostic disable-line: undefined-field
 local InterfaceOptionsFramePanelContainer = _G.InterfaceOptionsFramePanelContainer or _G.SettingsPanel ---@diagnostic disable-line: undefined-field
@@ -7,6 +9,10 @@ local FRIENDS_BUTTON_TYPE_WOW = _G.FRIENDS_BUTTON_TYPE_WOW ---@diagnostic disabl
 
 local addonName = ... ---@type string
 
+local TIMERUNNING_MARKUP = CreateAtlasMarkup and CreateAtlasMarkup("timerunning-glues-icon-small", 9, 12)
+
+---@alias ChatTypeExtended ChatType|"BN_WHISPER"
+
 local Color do
 
 	---@param r number|ColorMixin
@@ -15,7 +21,7 @@ local Color do
 	local function ColorToHex(r, g, b)
 		if type(r) == "table" then
 			if r.r then
-				r, g, b = r.r, r.g, r.b
+				r, g, b = r.r, r.g, r.b ---@diagnostic disable-line: need-check-nil, undefined-field
 			else
 				r, g, b = unpack(r)
 			end
@@ -333,6 +339,13 @@ local Friends do
 	---@class BNetAccountInfoExtended : BNetGameAccountInfo, BNetAccountInfo
 	---@field bnet boolean
 	---@field isBNet boolean
+	---@field class number
+	---@field className string
+	---@field race number
+	---@field raceName string
+	---@field faction number
+	---@field timerunner number
+	---@field timerunnerIcon string
 
 	Friends = {}
 
@@ -426,6 +439,8 @@ local Friends do
 		data.mobile, data.isWowMobile = first("isWowMobile", "mobile") ---@diagnostic disable-line: assign-type-mismatch
 		data.afk, data.isAFK, data.isGameAFK = first("isGameAFK", "isAFK", "afk") ---@diagnostic disable-line: assign-type-mismatch
 		data.dnd, data.isDND, data.isGameBusy = first("isGameBusy", "isDND", "dnd") ---@diagnostic disable-line: assign-type-mismatch
+		data.timerunner = first("timerunningSeasonID") ---@diagnostic disable-line: assign-type-mismatch
+		data.timerunnerIcon = data.timerunner and TIMERUNNING_MARKUP
 	end
 
 	---@alias FriendType number `2`=`FRIENDS_BUTTON_TYPE_BNET` and `3`=`FRIENDS_BUTTON_TYPE_WOW`
@@ -456,7 +471,7 @@ local Friends do
 		return temp
 	end
 
-	---@param chatType ChatType
+	---@param chatType ChatTypeExtended
 	---@param name string
 	---@param lineID? number
 	function Friends.GetAlias(chatType, name, lineID)
@@ -583,7 +598,12 @@ local Init do
 					return
 				end
 
-				local header = _G[format("%sHeader", editBox:GetName())] ---@type Button
+				local editBoxName = editBox:GetName() ---@type string?
+				if not editBoxName then
+					return
+				end
+
+				local header = _G[format("%sHeader", editBoxName)] ---@type Button?
 				if not header then
 					return
 				end
@@ -595,7 +615,7 @@ local Init do
 				end
 
 				local newName = Friends.GetAlias(chatType, name)
-				header:SetFormattedText(_G[format("CHAT_%s_SEND", chatType)], newName)
+				header:SetFormattedText(_G[format("CHAT_%s_SEND", chatType)], newName) ---@diagnostic disable-line: redundant-parameter
 
 				local headerSuffix = _G[format("%sHeaderSuffix", editBox:GetName())] ---@type Frame
 				local headerWidth = (header:GetRight() or 0) - (header:GetLeft() or 0)
@@ -622,7 +642,7 @@ local Init do
 			---@param name string
 			---@param ... any
 			local function ChatFilter_AddMessage(self, event, text, name, ...)
-				local chatType ---@type ChatType
+				local chatType ---@type ChatTypeExtended
 				if event == "CHAT_MSG_AFK" or event == "CHAT_MSG_DND" or event == "CHAT_MSG_WHISPER" or event == "CHAT_MSG_WHISPER_INFORM" then
 					chatType = "WHISPER"
 				elseif event == "CHAT_MSG_BN_WHISPER" or event == "CHAT_MSG_BN_WHISPER_INFORM" then
@@ -816,10 +836,12 @@ local Init do
 		---@param format string
 		---@param isBNet? boolean
 		local function ExampleFriend(format, isBNet)
+			---@diagnostic disable-next-line: missing-fields
 			local friendWrapper = {} ---@type FriendWrapper
 			local maxLevel = GetMaxLevelForExpansionLevel(GetExpansionLevel())
 			if isBNet then
 				---@type BNetAccountInfoExtended
+				---@diagnostic disable-next-line: missing-fields
 				local data = {
 					accountName = "戰網名稱",
 					appearOffline = false,
@@ -858,6 +880,7 @@ local Init do
 					regionID = 1,
 					richPresence = "Oribos - TarrenMill",
 					wowProjectID = _G.WOW_PROJECT_MAINLINE,
+					timerunningSeasonID = 1,
 				}
 				friendWrapper.type = FRIENDS_BUTTON_TYPE_BNET ---@diagnostic disable-line: undefined-field
 				friendWrapper.data = data
@@ -921,6 +944,8 @@ local Init do
 			"isWowMobile",
 			"isGameAFK/isAFK/afk",
 			"isGameBusy/isDND/dnd",
+			"timerunner",
+			"timerunnerIcon",
 		}
 
 		local varNamesWoW = {
@@ -943,6 +968,23 @@ local Init do
   [color=level][=level][/color]
 ]]
 
+		---@class FriendsListColorsInterfaceOptionItem
+		---@field public label string
+		---@field public description string
+		---@field public key? string
+		---@field public text? boolean
+		---@field public paragraph? boolean
+		---@field public reminder? boolean
+		---@field public example1? boolean
+		---@field public example2? boolean
+		---@field public widget? PanelWidget
+
+		---@class FriendsListColorsInterfaceOption
+		---@field public label string
+		---@field public description string
+		---@field public options FriendsListColorsInterfaceOptionItem[]
+
+		---@type FriendsListColorsInterfaceOption[]
 		local optionGroups = {
 			{
 				label = "格式",
@@ -1040,11 +1082,11 @@ local Init do
 						self:SetText(temp)
 					end,
 					focusGain = function(self)
-						optionGroups[1].options[4].widget:SetText("\r\n|cffFFFF00請記得按 Enter 鍵儲存變更!|r")
+						optionGroups[1].options[4].widget:SetText("\r\n|cffFFFF00請記得按 Enter 鍵儲存變更!|r") ---@diagnostic disable-line: undefined-field
 						self.backup = Config.format
 					end,
 					focusLost = function(self, cancel)
-						optionGroups[1].options[4].widget:SetText("")
+						optionGroups[1].options[4].widget:SetText("") ---@diagnostic disable-line: undefined-field
 						if not cancel then return end
 						Config.format = self.backup
 						handlers.option.text.update(optionGroups[1].options[1].widget)
@@ -1061,6 +1103,8 @@ local Init do
 		}
 
 		---@class PanelWidget : Frame
+		---@field public option FriendsListColorsInterfaceOptionItem
+		---@field public refresh? fun(self: PanelWidget)
 
 		---@class PanelTitle : PanelWidget
 
@@ -1069,8 +1113,7 @@ local Init do
 		---@param version? string
 		local function CreateTitle(panel, name, version)
 
-			---@type PanelTitle
-			local title = CreateFrame("Frame", "$parentTitle" .. unique, panel) ---@diagnostic disable-line: assign-type-mismatch
+			local title = CreateFrame("Frame", "$parentTitle" .. unique, panel) ---@class PanelTitle : Frame
 			unique = unique + 1
 			title:SetPoint("TOPLEFT", panel, "TOPLEFT")
 			title:SetPoint("TOPRIGHT", panel, "TOPRIGHT")
@@ -1097,8 +1140,7 @@ local Init do
 		---@param text string
 		local function CreateHeader(panel, anchor, text)
 
-			---@type PanelHeader
-			local header = CreateFrame("Frame", "$parentHeader" .. unique, anchor:GetParent() or anchor) ---@diagnostic disable-line: assign-type-mismatch
+			local header = CreateFrame("Frame", "$parentHeader" .. unique, anchor:GetParent() or anchor) ---@class PanelHeader : Frame
 			unique = unique + 1
 			header:SetHeight(18)
 
@@ -1142,8 +1184,7 @@ local Init do
 
 			local MAX_HEIGHT = 255
 
-			---@type PanelParagraph
-			local header = CreateFrame("Frame", "$parentParagraph" .. unique, anchor:GetParent() or anchor) ---@diagnostic disable-line: assign-type-mismatch
+			local header = CreateFrame("Frame", "$parentParagraph" .. unique, anchor:GetParent() or anchor) ---@class PanelParagraph : Frame
 			unique = unique + 1
 			header:SetHeight(MAX_HEIGHT)
 
@@ -1199,8 +1240,7 @@ local Init do
 		---@param tooltip? string
 		local function CreateInput(anchor, kind, text, tooltip)
 
-			---@type PanelEditBox
-			local editbox = CreateFrame("EditBox", "$parentEditBox" .. unique, anchor:GetParent() or anchor, "InputBoxTemplate") ---@diagnostic disable-line: assign-type-mismatch
+			local editbox = CreateFrame("EditBox", "$parentEditBox" .. unique, anchor:GetParent() or anchor, "InputBoxTemplate") ---@class PanelEditBox : EditBox
 			unique = unique + 1
 			editbox:SetFontObject("GameFontHighlight")
 			editbox:SetSize(160, 22)
@@ -1214,14 +1254,14 @@ local Init do
 			if kind == "number" then
 				editbox:SetMaxLetters(4)
 				editbox:SetNumeric(true)
-				editbox:SetNumber(text)
+				editbox:SetNumber(text) ---@diagnostic disable-line: param-type-mismatch
 			else
-				editbox:SetText(text)
+				editbox:SetText(text) ---@diagnostic disable-line: param-type-mismatch
 			end
 
-			editbox:SetScript("OnEscapePressed", function() editbox:ClearFocus() end)
-			editbox:SetScript("OnEnterPressed", function() editbox:ClearFocus() end)
-			editbox:SetScript("OnEditFocusLost", handlers.panel.refresh)
+			editbox:SetScript("OnEscapePressed", function() editbox:ClearFocus() end) ---@diagnostic disable-line: param-type-mismatch
+			editbox:SetScript("OnEnterPressed", function() editbox:ClearFocus() end) ---@diagnostic disable-line: param-type-mismatch
+			editbox:SetScript("OnEditFocusLost", handlers.panel.refresh) ---@diagnostic disable-line: param-type-mismatch
 
 			editbox:SetScript("OnEnter", function() if editbox.tooltipText then GameTooltip:SetOwner(editbox, "ANCHOR_RIGHT") GameTooltip:SetText(editbox.tooltipText, nil, nil, nil, nil, true) GameTooltip:Show() end end)
 			editbox:SetScript("OnLeave", function() GameTooltip:Hide() end)
@@ -1267,7 +1307,7 @@ local Init do
 
 		local function CreatePanel()
 
-			local panel = CreateFrame("Frame", addonName .. "Panel" .. unique, InterfaceOptionsFramePanelContainer)
+			local panel = CreateFrame("Frame", addonName .. "Panel" .. unique, InterfaceOptionsFramePanelContainer) ---@class FriendsListColorsInterfaceOptionsPanel : Frame
 			unique = unique + 1
 			panel.widgets = {} ---@type PanelWidget[]
 			panel.name = addonName
@@ -1282,11 +1322,11 @@ local Init do
 
 				local PANEL_SCROLL_HEIGHT = 0 -- TODO: dynamic max?
 
-				panel.scroll = CreateFrame("ScrollFrame", nil, panel)
+				panel.scroll = CreateFrame("ScrollFrame", nil, panel) ---@class FriendsListColorsInterfaceOptionsPanelScroll : ScrollFrame
 				panel.scroll:SetPoint("TOPLEFT", 10, -10)
 				panel.scroll:SetPoint("BOTTOMRIGHT", -26, 10)
 
-				panel.scroll.bar = CreateFrame("Slider", nil, panel.scroll, "UIPanelScrollBarTemplate")
+				panel.scroll.bar = CreateFrame("Slider", nil, panel.scroll, "UIPanelScrollBarTemplate") ---@class FriendsListColorsInterfaceOptionsPanelScrollBar : Slider
 				panel.scroll.bar.scrollStep = 50
 				panel.scroll.bar:SetPoint("TOPLEFT", panel, "TOPRIGHT", -22, -26)
 				panel.scroll.bar:SetPoint("BOTTOMLEFT", panel, "BOTTOMRIGHT", 22, 26)
@@ -1341,10 +1381,10 @@ local Init do
 								option.widget = last
 								last.option = option
 								last.refresh = handlers.option.text.update
-								last:HookScript("OnEditFocusGained", function(self) handlers.option.text.focusGain(self) end)
-								last:HookScript("OnEditFocusLost", function(self) handlers.option.text.focusLost(self) end)
-								last:HookScript("OnEscapePressed", function(self) handlers.option.text.focusLost(self, true) end)
-								last:SetScript("OnEnterPressed", function(self, ...) handlers.option.text.save(self, ...) self:ClearFocus() end)
+								last:HookScript("OnEditFocusGained", function(self) handlers.option.text.focusGain(self) end) ---@diagnostic disable-line: param-type-mismatch
+								last:HookScript("OnEditFocusLost", function(self) handlers.option.text.focusLost(self) end) ---@diagnostic disable-line: param-type-mismatch
+								last:HookScript("OnEscapePressed", function(self) handlers.option.text.focusLost(self, true) end) ---@diagnostic disable-line: param-type-mismatch
+								last:SetScript("OnEnterPressed", function(self) handlers.option.text.save(self) self:ClearFocus() end) ---@diagnostic disable-line: param-type-mismatch
 								last:SetScale(1.5)
 								table.insert(panel.widgets, last)
 
@@ -1394,7 +1434,7 @@ local Frame do
 
 	---@class AddOnFrame : Frame
 
-	Frame = CreateFrame("Frame") ---@type AddOnFrame
+	Frame = CreateFrame("Frame") ---@class AddOnFrame
 	Frame:SetScript("OnEvent", function(self, event, ...) self[event](self, event, ...) end)
 
 	local loaded = false
