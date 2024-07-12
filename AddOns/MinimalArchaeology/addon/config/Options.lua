@@ -5,6 +5,26 @@ MinArch.Options = MinArch.Ace:NewModule("Options");
 local Options = MinArch.Options;
 local parent = MinArch;
 
+local ArchRaceGroupText = {
+	"Kul Tiras, Zuldazar",
+	"Broken Isles",
+	"Draenor",
+	"Pandaria",
+	"Northrend",
+	"Outland",
+	"Eastern Kingdoms, Kalimdor"
+};
+
+local ArchRaceGroups = {
+	{ARCHAEOLOGY_RACE_DRUSTVARI, ARCHAEOLOGY_RACE_ZANDALARI},
+	{ARCHAEOLOGY_RACE_DEMONIC, ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, ARCHAEOLOGY_RACE_HIGHBORNE},
+	{ARCHAEOLOGY_RACE_OGRE, ARCHAEOLOGY_RACE_DRAENOR, ARCHAEOLOGY_RACE_ARAKKOA},
+	{ARCHAEOLOGY_RACE_MOGU, ARCHAEOLOGY_RACE_PANDAREN, ARCHAEOLOGY_RACE_MANTID},
+	{ARCHAEOLOGY_RACE_VRYKUL, ARCHAEOLOGY_RACE_NERUBIAN},
+	{ARCHAEOLOGY_RACE_ORC, ARCHAEOLOGY_RACE_DRAENEI},
+	{ARCHAEOLOGY_RACE_TOLVIR, ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DWARF, ARCHAEOLOGY_RACE_NERUBIAN}
+};
+
 local function updateOrdering(frame, newValue)
     local oldValue = MinArch.db.profile.companion.features[frame].order;
 
@@ -18,8 +38,61 @@ local function updateOrdering(frame, newValue)
     MinArch.Companion:Update();
 end
 
+
+local function updatePrioOrdering(group, currentRace, newValue, ignoreCrossCheck)
+	local oldValue = MinArch.db.profile.raceOptions.priority[currentRace]
+
+	if not oldValue or oldValue > newValue then
+		for _, race in pairs(ArchRaceGroups[group]) do
+			local currentVal = MinArch.db.profile.raceOptions.priority[race]
+			if race ~= currentRace and currentVal and currentVal >= newValue then
+				MinArch.db.profile.raceOptions.priority[race] = currentVal + 1
+			end
+		end
+	elseif oldValue and oldValue < newValue then
+		for _, race in pairs(ArchRaceGroups[group]) do
+			local currentVal = MinArch.db.profile.raceOptions.priority[race]
+			if currentVal == newValue then
+				MinArch.db.profile.raceOptions.priority[race] = oldValue
+			end
+		end
+	end
+
+	MinArch.db.profile.raceOptions.priority[currentRace] = newValue
+
+	-- fix duplicates / non-numerical order
+	local tmp = {}
+	for idx, race in pairs(ArchRaceGroups[group]) do
+		tmp[idx] = {
+			order = MinArch.db.profile.raceOptions.priority[race] or 0,
+			race = race
+		}
+	end
+	table.sort(tmp, function(a, b)
+		return (tonumber(a.order) or 0) < (tonumber(b.order) or 0)
+	end)
+
+	local i = 1
+	for _, val in pairs(tmp) do
+		if val.order > 0 then
+			if group ~= 5 or val.race ~= ARCHAEOLOGY_RACE_NERUBIAN or MinArch.db.profile.raceOptions.priority[ARCHAEOLOGY_RACE_NERUBIAN] <= 2 then
+				MinArch.db.profile.raceOptions.priority[val.race] = i
+			end
+			i = i + 1
+		end
+	end
+
+	if not ignoreCrossCheck and (group == 5 or group == 7) and MinArch.db.profile.raceOptions.priority[ARCHAEOLOGY_RACE_NERUBIAN] then
+		if group == 5 then
+			updatePrioOrdering(7, ARCHAEOLOGY_RACE_NERUBIAN, MinArch.db.profile.raceOptions.priority[ARCHAEOLOGY_RACE_NERUBIAN], true)
+		else
+			updatePrioOrdering(5, ARCHAEOLOGY_RACE_NERUBIAN, MinArch.db.profile.raceOptions.priority[ARCHAEOLOGY_RACE_NERUBIAN], true)
+		end
+	end
+end
+
 local home = {
-	name = "Minimal Archaeology v" .. GetAddOnMetadata("MinimalArchaeology", "Version"),
+	name = "Minimal Archaeology v" .. C_AddOns.GetAddOnMetadata("MinimalArchaeology", "Version"),
 	handler = MinArch,
 	type = "group",
 	args = {
@@ -230,7 +303,7 @@ local general = {
 						MinArch.db.profile.showWorldMapOverlay = newValue;
 						MinArch:ShowRaceIconsOnMap();
 					end,
-				
+
 					width = "double",
 					order = 5,
 				},
@@ -248,7 +321,7 @@ local general = {
 					disabled = function () return not MinArch.db.profile.showWorldMapOverlay end,
 					order = 6,
 				},
-				
+
 			}
         },
         startup = {
@@ -416,6 +489,17 @@ local general = {
 					end,
 					order = 2,
 				},
+				groupByProgress = {
+					type = "toggle",
+					name = "Group by progress",
+					desc = "If enabled, artifacts will be grouped by progress: current > incomplete > completed.",
+					get = function () return MinArch.db.profile.history.groupByProgress end,
+					set = function (_, newValue)
+                        MinArch.db.profile.history.groupByProgress = newValue;
+                        MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
+					end,
+					order = 3,
+				},
             }
         },
 	}
@@ -571,6 +655,32 @@ local raceSettings = {
 				},
 			}
 		},
+		priority = {
+			type = "group",
+			name = "Priority",
+			order = 5,
+			inline = false,
+			args = {
+				message = {
+					type = "description",
+					name = "Priority currently only applies to waypoint generation order. Automatic waypoints will point to the prioritized races before pointing to other (otherwise closer) digsites. Smaller number means higher priority.",
+					fontSize = "medium",
+					width = "full",
+					order = 1,
+				},
+				reset = {
+					type = "execute",
+					name = "Reset All",
+					order = 2,
+					func = function ()
+						for i=1, ARCHAEOLOGY_NUM_RACES do
+							MinArch.db.profile.raceOptions.priority[i] = nil
+						end
+						MinArch:UpdateMain();
+					end,
+				}
+			}
+		},
 	}
 }
 
@@ -621,6 +731,18 @@ local companionSettings = {
                     get = function () return MinArch.db.profile.companion.hideInCombat end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.hideInCombat = newValue;
+                        MinArch.Companion:AutoToggle()
+                    end,
+                    disabled = function () return (MinArch.db.profile.companion.enable == false) end,
+                    order = 3,
+                },
+				hideWhenUnavailable = {
+                    type = "toggle",
+                    name = "Hide when unavailable",
+                    desc = "Enable to hide when there are no digsites available on the world map.",
+                    get = function () return MinArch.db.profile.companion.hideWhenUnavailable end,
+                    set = function (_, newValue)
+                        MinArch.db.profile.companion.hideWhenUnavailable = newValue;
                         MinArch.Companion:AutoToggle()
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
@@ -1124,26 +1246,6 @@ local companionSettings = {
     }
 }
 
-local ArchRaceGroupText = {
-	"Kul Tiras, Zuldazar",
-	"Broken Isles",
-	"Draenor",
-	"Pandaria",
-	"Northrend",
-	"Outland",
-	"Eastern Kingdoms, Kalimdor"
-};
-
-local ArchRaceGroups = {
-	{ARCHAEOLOGY_RACE_DRUSTVARI, ARCHAEOLOGY_RACE_ZANDALARI},
-	{ARCHAEOLOGY_RACE_DEMONIC, ARCHAEOLOGY_RACE_HIGHMOUNTAIN_TAUREN, ARCHAEOLOGY_RACE_HIGHBORNE},
-	{ARCHAEOLOGY_RACE_OGRE, ARCHAEOLOGY_RACE_DRAENOR, ARCHAEOLOGY_RACE_ARAKKOA},
-	{ARCHAEOLOGY_RACE_MOGU, ARCHAEOLOGY_RACE_PANDAREN, ARCHAEOLOGY_RACE_MANTID},
-	{ARCHAEOLOGY_RACE_VRYKUL, ARCHAEOLOGY_RACE_NERUBIAN},
-	{ARCHAEOLOGY_RACE_ORC, ARCHAEOLOGY_RACE_DRAENEI},
-	{ARCHAEOLOGY_RACE_TOLVIR, ARCHAEOLOGY_RACE_TROLL, ARCHAEOLOGY_RACE_NIGHTELF, ARCHAEOLOGY_RACE_FOSSIL, ARCHAEOLOGY_RACE_DWARF}
-};
-
 local devSettings = {
 	name = "Tester/Developer Settings",
 	handler = MinArch,
@@ -1175,6 +1277,45 @@ local devSettings = {
 					end,
 					order = 2,
 				}
+			}
+		},
+		message = {
+            type = "description",
+            name = "Experimental Features are placed here, because they're in a beta state, and might need additional work and feedback. Experimental features can be used without debug messages enabled, but I might ask for them in some cases if there are any issues.",
+            fontSize = "normal",
+            width = "full",
+            order = 1,
+        },
+		experimental = {
+			type = 'group',
+			name = 'Experimental Features',
+			inline = true,
+			order = 2,
+			args = {
+				optimizePath = {
+                    type = "toggle",
+					name = "Optimize Path",
+                    desc = "The waypoint will not always point to the nearest site, but tries to optimize travel times on the long run.",
+                    get = function () return MinArch.db.profile.TomTom.optimizePath end,
+                    set = function (_, newValue)
+						MinArch.db.profile.TomTom.optimizePath = newValue;
+					end,
+                    order = 1,
+                },
+				optimizeModifier = {
+					type = "range",
+					name = "Optimization Modifier",
+					desc = "Sets the optimization modifier to a custom value.",
+					min = 1,
+					max = 5,
+					step = 0.05,
+					get = function () return MinArch.db.profile.TomTom.optimizationModifier end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.optimizationModifier = newValue;
+						MinArch:SetWayToNearestDigsite()
+					end,
+					order = 2,
+				},
 			}
 		}
 	}
@@ -1302,26 +1443,6 @@ local TomTomSettings = {
 					disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
 					order = 2,
                 },
-                prioRace = {
-                    type = "select",
-                    values = function ()
-                        local raceSelectTable = {}
-                        raceSelectTable[-1] = 'Do not Prioritize';
-                        for i=1,ARCHAEOLOGY_NUM_RACES do
-                            raceSelectTable[i] = GetArchaeologyRaceInfo(i);
-                        end
-
-                        return raceSelectTable
-                    end,
-					name = "Prioritize a Race",
-                    desc = "Select a race to prioritize, even if there are closer digsites with different races.",
-                    get = function () return MinArch.db.profile.TomTom.prioRace end,
-                    set = function (_, newValue)
-						MinArch.db.profile.TomTom.prioRace = newValue;
-					end,
-                    disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
-                    order = 3,
-                },
 				ignoreHidden = {
 					type = "toggle",
 					name = "Ignore hidden races",
@@ -1333,8 +1454,90 @@ local TomTomSettings = {
                     disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
 					order = 4,
                 },
+				message = {
+					type = "description",
+					name = "Note: Priority options have been moved to the Race Settings section",
+					fontSize = "normal",
+					width = "full",
+					order = 5,
+				},
 			},
 		},
+		taxi = {
+			type = 'group',
+			name = 'Taxi Options',
+			inline = true,
+			order = 4,
+			args = {
+				enable = {
+					type = "toggle",
+					name = "Navigate to nearest Flight Master",
+					desc = "Enable to set the waypoint to the nearest flight master, if the nearest digsite is farther than the configured distance limit.",
+					get = function () return MinArch.db.profile.TomTom.taxi.enabled end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.taxi.enabled = newValue;
+						if not newValue then
+							MinArch.db.profile.TomTom.taxi.archMode = false
+						end
+					end,
+					width = 1.5,
+					order = 1,
+				},
+				distance = {
+					type = "range",
+					name = "Distance limit",
+					desc = "If enabled, waypoints will be created to the nearest flight master, if the nearest digsite is farther than the configured distance limit.",
+					min = 2000,
+					max = 10000,
+					step = 100,
+					get = function () return MinArch.db.profile.TomTom.taxi.distance end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.taxi.distance = newValue;
+					end,
+					order = 2,
+				},
+				spacer = {
+					fontSize = "normal",
+					type = "description",
+					name = "",
+					width = "full",
+					order = 3,
+				},
+				pinAlpha = {
+					type = "range",
+					name = "Pin Opacity",
+					desc = "Set the opacity of unrelated taxi nodes on the flight map",
+					min = 0,
+					max = 100,
+					step = 5,
+					get = function () return MinArch.db.profile.TomTom.taxi.alpha end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.taxi.alpha = newValue;
+					end,
+					order = 4,
+				},
+				autoToggle = {
+					type = "toggle",
+					name = "Auto Enable",
+					desc = "Automatically enable Archeology Mode on flight maps when a waypoint is created by MinArch",
+					get = function () return MinArch.db.profile.TomTom.taxi.autoEnableArchMode end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.taxi.autoEnableArchMode = newValue;
+					end,
+					order = 5,
+				},
+				disableOnLogin = {
+					type = "toggle",
+					name = "Auto-Disable",
+					desc = "Automatically disable Archaeology Mode on flight maps when there are no digsites on the world map and upon login",
+					get = function () return MinArch.db.profile.TomTom.taxi.autoDisableArchMode end,
+					set = function (_, newValue)
+						MinArch.db.profile.TomTom.taxi.autoDisableArchMode = newValue;
+					end,
+					order = 6,
+				},				
+			}
+		}
 	}
 }
 
@@ -1358,8 +1561,8 @@ local PatronSettings = {
 			args = {
 				message = {
 					type = "description",
-					name = "Patrons will be listed here.",
-					fontSize = "normal",
+					name = "Ice Reaper",
+					fontSize = "medium",
 					width = "full",
 					order = 1,
 				},
@@ -1398,6 +1601,19 @@ function Options:OnInitialize()
                 args = {
                 }
             };
+			raceSettings.args.priority.args[groupkey] = {
+                type = 'group',
+                name = ArchRaceGroupText[group],
+                order = count + 2,
+                inline = true,
+                args = {
+                }
+            };
+			local values = {}
+			values[0] = 'No priority'
+			for idx=1, #races do
+				values[idx] = tostring(idx)
+			end
             for idx=1, #races do
                 local i = races[idx];
                 if i > 0 then
@@ -1445,6 +1661,34 @@ function Options:OnInitialize()
                             MinArch:UpdateMain();
                         end,
                         disabled = (i == ARCHAEOLOGY_RACE_FOSSIL)
+                    };
+					raceSettings.args.priority.args[groupkey].args['race' .. tostring(i)] = {
+                        type = "select",
+						values = values,
+                        name = function ()
+							local suffix = ''
+							if i == ARCHAEOLOGY_RACE_NERUBIAN then
+								suffix = ' (affects both Northrend and Eastern Kingdom)'
+							end
+							return MinArch['artifacts'][i]['race'] .. suffix
+						end,
+                        desc = function ()
+                            local RaceName = MinArch['artifacts'][i]['race'];
+
+                            if (RuneName ~= nil and RaceName ~= nil) then
+                                return "Set " .. RaceName .. " pirority";
+                            end
+                        end,
+                        order = i,
+                        get = function () return MinArch.db.profile.raceOptions.priority[i] or 0 end,
+                        set = function (_, newValue)
+							if (newValue == 0) then
+								MinArch.db.profile.raceOptions.priority[i] = 0
+							else
+								updatePrioOrdering(group, i, newValue)
+							end
+                            MinArch:UpdateMain();
+                        end,
                     };
                 end
             end

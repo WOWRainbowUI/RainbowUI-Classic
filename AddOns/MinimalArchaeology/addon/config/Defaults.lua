@@ -36,7 +36,7 @@ MinArch.defaults = {
         surveyOnDoubleClick = true,
         dblClick = {
             disableMounted = false,
-            disableInFlight = false,
+            disableInFlight = true,
         },
 		relevancy = {
 			relevantOnly = false,
@@ -58,15 +58,27 @@ MinArch.defaults = {
 			persistent = false,
 			autoWayOnMove = false,
             autoWayOnComplete = true,
-            prioRace = -1,
+            prioRace = true, -- Removed in 10.2.12
             ignoreHidden = false,
+            optimizePath = false,
+            optimizationModifier = 2,
+            taxi = {
+                enabled = true,
+                archMode = false,
+                autoEnableArchMode = false,
+                autoDisableArchMode = false,
+                distance = 4000,
+                alpha = 50,
+                zoneCheck = false
+            }
 		},
 
 		-- dynamic options
 		raceOptions = {
 			hide = {},
 			cap = {},
-			keystone = {}
+			keystone = {},
+            priority = {}
         },
 
         ProgressBar = {
@@ -79,6 +91,7 @@ MinArch.defaults = {
             enable = true,
             alwaysShow = true,
             hideInCombat = true,
+            hideWhenUnavailable = false,
             frameScale = 100,
             savePos = true,
             point = "CENTER",
@@ -110,6 +123,7 @@ MinArch.defaults = {
         history = {
             autoResize = true,
             showStats = true,
+            groupByProgress = true,
         },
 
 		-- deprecated, left for compatibility

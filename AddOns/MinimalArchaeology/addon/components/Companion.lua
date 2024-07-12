@@ -9,6 +9,7 @@ Companion.initialized = false;
 local cx, cy, cInstance;
 local timer;
 local baseHeight = 31;
+local updateTimer
 
 if HelpPlate_TooltipHide == nil then
     HelpPlate_TooltipHide = function ()
@@ -155,6 +156,9 @@ function Companion:RegisterEvents()
     Companion:RegisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED")
     Companion:RegisterEvent("SPELL_UPDATE_USABLE")
     Companion:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+    Companion:RegisterEvent("BAG_UPDATE_COOLDOWN")
+    Companion:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
+    Companion:RegisterEvent("GLOBAL_MOUSE_DOWN")
 end
 
 function Companion:UnregisterEvents()
@@ -165,36 +169,65 @@ function Companion:UnregisterEvents()
     Companion:UnregisterEvent("RESEARCH_ARTIFACT_DIG_SITE_UPDATED")
     Companion:UnregisterEvent("SPELL_UPDATE_USABLE")
     Companion:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
+    Companion:UnregisterEvent("BAG_UPDATE_COOLDOWN")
+    Companion:UnregisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
+    Companion:UnregisterEvent("GLOBAL_MOUSE_DOWN")
+end
+
+function Companion:UpdateSurveyButton()
+    if Companion.surveyButton:IsVisible() then
+        local canCast = MinArch:CanCast()
+        Companion.surveyButton:GetNormalTexture():SetDesaturated(not canCast)
+        if canCast then
+            Companion.surveyButton:SetAttribute("spell", SURVEY_SPELL_ID);
+        else
+            Companion.surveyButton:SetAttribute("spell", nil);
+        end
+    end
 end
 
 local function InitSurveyButton()
     -- Survey button
     local surveyButton = CreateFrame("Button", "$parentSurveyButton", Companion, "InSecureActionButtonTemplate");
-    surveyButton:RegisterForClicks("AnyUp", "AnyDown");
-    surveyButton:SetAttribute("type", "spell");
-    surveyButton:SetAttribute("spell", SURVEY_SPELL_ID);
-    surveyButton:SetPoint("LEFT", 44, 0);
-    surveyButton:SetWidth(28);
-    surveyButton:SetHeight(28);
+    surveyButton:RegisterForClicks("AnyDown")
+    surveyButton:SetAttribute("type", "spell")
+    surveyButton:SetAttribute("spell", SURVEY_SPELL_ID)
+    surveyButton:SetPoint("LEFT", 44, 0)
+    surveyButton:SetWidth(28)
+    surveyButton:SetHeight(28)
+
+    local cd = CreateFrame("Cooldown", "$parentCooldown", surveyButton, "CooldownFrameTemplate")
+    cd:SetAllPoints(surveyButton)
+    cd:SetSwipeColor(1, 1, 1)
+    surveyButton.cd = cd
 
     surveyButton:SetNormalTexture("Interface/Icons/inv_misc_shovel_01")
     surveyButton:SetHighlightTexture("Interface/Icons/inv_misc_shovel_01")
     surveyButton:SetPushedTexture("Interface/Icons/inv_misc_shovel_01")
 
     surveyButton:SetScript("OnEnter", function(self)
+        Companion:UpdateSurveyButton()
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
         GameTooltip:SetSpellByID(SURVEY_SPELL_ID);
 
-		GameTooltip:Show();
+        if not MinArch:CanCast() then
+            GameTooltip:AddLine("Can't be casted right now")
+        end
+
+		GameTooltip:Show()
     end)
 
 	surveyButton:SetScript("OnLeave", function()
-		GameTooltip:Hide();
+		GameTooltip:Hide()
     end)
 
-    RegisterForDrag(surveyButton);
+    -- surveyButton:SetScript("OnClick", function ()
+    --     Companion:UpdateSurveyButton()
+    -- end)
 
-    Companion.surveyButton = surveyButton;
+    RegisterForDrag(surveyButton)
+
+    Companion.surveyButton = surveyButton
 end
 
 local function InitProjectFrame()
@@ -211,7 +244,7 @@ local function InitProjectFrame()
     keystoneButton:SetWidth(20);
     keystoneButton:SetHeight(20);
     keystoneButton:RegisterForClicks("LeftButtonUp","RightButtonUp");
-    
+
     keystoneButton.text:SetFontObject(NumberFontNormal)
 
     keystoneButton:SetScript("OnLeave", function ()
@@ -275,7 +308,7 @@ local function InitSkillBar()
     skillBar:SetPoint(anchorPoint, 0, 5 * posMod)
     skillBar:SetWidth(Companion:GetWidth())
     skillBar:SetHeight(5)
-    
+
     local tex = skillBar:CreateTexture(nil, "BACKGROUND")
     tex:SetAllPoints()
     tex:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
@@ -381,7 +414,7 @@ local function UpdateProgressBar(raceID)
                 local pct = 0
                 if total > 0 then
                     pct = progress / total
-                end 
+                end
 
                 if pct >= 1 then
                     Companion.progressBar.progressBarFrame.texture:SetColorTexture(0, 1, 0.5, 0.5)
@@ -395,7 +428,6 @@ local function UpdateProgressBar(raceID)
                 Companion.progressBar.fontString:SetText(progress .. '/' .. total)
                 Companion.progressBar:Show()
 
-                -- TODO: if tooltip enabled
                 UpdateSolveButtonScripts(Companion.progressBar, artifact, raceID, MinArch.db.profile.companion.features.progressBar.solveOnClick, MinArch.db.profile.companion.features.progressBar.showTooltip)
             end
         else
@@ -413,7 +445,7 @@ local function InitProgressBar()
     progressBar:SetPoint(anchorPoint, 0, 5 * posMod)
     progressBar:SetWidth(Companion:GetWidth())
     progressBar:SetHeight(5)
-    
+
     local tex = progressBar:CreateTexture(nil, "BACKGROUND")
     tex:SetAllPoints()
     tex:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
@@ -498,8 +530,10 @@ function Companion.events:PLAYER_STARTED_MOVING(...)
 end
 
 function Companion.events:ARCHAEOLOGY_SURVEY_CAST(...)
+    Companion.surveyButton.cd:SetCooldown(GetTime(), 3)
     cx, cy, _, cInstance = UnitPosition("player")
     Companion:UpdateDistance();
+
 end
 
 function Companion.events:PLAYER_STOPPED_MOVING(...)
@@ -517,6 +551,15 @@ function Companion.events:SPELL_UPDATE_COOLDOWN(...)
 end
 function Companion.events:SPELL_UPDATE_USABLE(...)
     MinArch.Companion:Update()
+end
+function Companion.events:BAG_UPDATE_COOLDOWN(...)
+    Companion:UpdateSurveyButton()
+end
+function Companion.events:ACTIONBAR_UPDATE_COOLDOWN(...)
+    Companion:UpdateSurveyButton()
+end
+function Companion.events:GLOBAL_MOUSE_DOWN(...)
+    Companion:UpdateSurveyButton()
 end
 
 function Companion:UpdateDistance()
@@ -592,6 +635,13 @@ function Companion:AutoToggle()
 
     if not MinArch.db.profile.companion.alwaysShow and not MinArch:IsNearDigSite() then
         Companion:HideFrame()
+        return
+    end
+
+    local digSite = MinArch:GetNearestDigsite();
+    if not digSite and MinArch.db.profile.companion.hideWhenUnavailable then
+        Companion:HideFrame()
+        return
     end
 end
 
@@ -824,13 +874,7 @@ function Companion:Update()
         Companion.skillBar:Hide()
     end
 
-    if Companion.surveyButton:IsVisible() then
-        local canCast = true;
-        if InCombatLockdown() or not CanScanResearchSite() or GetSpellCooldown(SURVEY_SPELL_ID) ~= 0 then
-            canCast = false;
-        end
-        Companion.surveyButton:GetNormalTexture():SetDesaturated(not canCast);
-    end
+    Companion:UpdateSurveyButton()
 
     Companion.texture:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
     Companion.skillBar.texture:SetColorTexture(MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b, MinArch.db.profile.companion.bg.a)
@@ -849,9 +893,9 @@ function Companion:Update()
         end
     end
 
-    
+
+    local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
     for i = 1, ARCHAEOLOGY_NUM_RACES do
-        local digSite, distance, digSiteData = MinArch:GetNearestDigsite();
 
         if digSiteData then
             local text = digSiteData.race;
