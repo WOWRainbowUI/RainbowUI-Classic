@@ -1,0 +1,20 @@
+lightweight tag 89c6b51da4ac58ecd52534eb0d2a64d636f52e17 0.0.7
+Author:	GitHub <noreply@github.com>
+Date:	Wed May 29 01:00:29 2024 -0700
+
+commit 2de5607ba3c36bc0d79ba170e880f30acb2be5fa
+Author: Björn Böing <b.boeing@online.de>
+Date:   Wed May 29 09:55:57 2024 +0200
+
+    Fix potential error when hovering items
+    
+    Fixes #4
+
+commit 2de5607ba3c36bc0d79ba170e880f30acb2be5fa
+Author: Björn Böing <b.boeing@online.de>
+Date:   Wed May 29 09:55:57 2024 +0200
+
+    Fix potential error when hovering items
+    
+    Fixes #4
+
