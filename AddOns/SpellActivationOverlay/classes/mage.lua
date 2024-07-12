@@ -13,6 +13,7 @@ local UnitHealth = UnitHealth
 
 local clearcastingVariants; -- Lazy init in lazyCreateClearcastingVariants()
 
+local arcaneMissiles = 5143;
 local pyroblast = 11366; -- Pyroblast, the base Pyro spell
 local pyroblastBang = 92315; -- Pyroblast!, a specific spell for instant Pyro introduced in Cataclysm
 
@@ -499,6 +500,12 @@ local function unitHealth(self, unitID)
     end
 end
 
+local function unitHealthFrequent(self, unitID)
+    if self:IsResponsiveMode() then
+        unitHealth(self, unitID);
+    end
+end
+
 local function lazyCreateClearcastingVariants(self)
     if (clearcastingVariants) then
         return;
@@ -519,6 +526,32 @@ local function lazyCreateClearcastingVariants(self)
         self:TextureVariantValue(textureVariant1, false, weakText),
         self:TextureVariantValue(textureVariant2, false, strongText),
     });
+end
+
+local function useArcaneMissiles()
+    local arcaneMissilesBuff = 79683; -- Cataclysm requires a buff before casting Arcane Missiles
+
+    SAO:CreateEffect(
+        "arcane_missiles",
+        SAO.CATA,
+        arcaneMissilesBuff,
+        "aura",
+        {
+            overlay = { texture = "arcane_missiles", position = "Left + Right (Flipped)", scale = 0.6 }, -- Smaller, to avoid overlap with Arcane Potency
+            button = arcaneMissiles,
+        }
+    );
+
+    -- Special case for Arcane Missiles: the game client does not send SPELL_AURA_REFRESH when it should
+    -- We need to force the refresh whenever appropriate
+    C_Timer.NewTicker(1, function()
+        local arcaneMissilesBucket = SAO:GetBucketBySpellID(arcaneMissilesBuff);
+        if arcaneMissilesBucket then
+            -- We can call refresh() on the bucket even if the effect is not active display
+            -- The bucket will send refresh to displays if and only if there is an active display
+            arcaneMissilesBucket:refresh();
+        end
+    end);
 end
 
 local function registerClass(self)
@@ -580,8 +613,7 @@ local function registerClass(self)
     elseif self.IsWrath() then
         self:RegisterAura("missile_barrage", 0, 44401, "arcane_missiles", "Left + Right (Flipped)", 1, 255, 255, 255, true, { (GetSpellInfo(5143)) });
     elseif self.IsCata() then
-        -- Smaller, to avoid overlap with Arcane Potency
-        self:RegisterAura("arcane_missiles", 0, 79683, "arcane_missiles", "Left + Right (Flipped)", 0.6, 255, 255, 255, true, { (GetSpellInfo(5143)) });
+        useArcaneMissiles();
     end
     if self.IsCata() then
         local arcanePotency1 = 57529;
@@ -624,8 +656,6 @@ local function loadOptions(self)
     local clearcastingTalent = 12536; -- Use buff instead of talent because everyone knows the buff name
     local clearcastingBuff = 12536;
 
-    local arcaneMissilesBuff = 79683; -- Cataclysm requires a buff before casting Arcane Missiles
-
     local missileBarrageBuff = 44401;
     local missileBarrageTalent = 44404;
 
@@ -660,7 +690,6 @@ local function loadOptions(self)
     local missileBarrageSoDRune = 400588;
     local missileBarrageSoDBuff = 400589;
 
-    local arcaneMissiles = 5143;
     local arcaneExplosion = 1449;
     local flamestrike = 2120;
     local fireBlast = 2136;
@@ -689,9 +718,6 @@ local function loadOptions(self)
     lazyCreateClearcastingVariants(self);
 
     self:AddOverlayOption(clearcastingTalent, clearcastingBuff, 0, nil, clearcastingVariants);
-    if self.IsCata() then
-        self:AddOverlayOption(arcaneMissilesBuff, arcaneMissilesBuff);
-    end
     if self.IsSoD() then
         self:AddOverlayOption(missileBarrageSoDRune, missileBarrageSoDBuff);
     elseif self.IsWrath() then
@@ -729,9 +755,6 @@ local function loadOptions(self)
         self:AddOverlayOption(brainFreezeTalent, brainFreezeBuff);
     end
 
-    if self.IsCata() then
-        self:AddGlowingOption(arcaneMissilesBuff, arcaneMissilesBuff, arcaneMissiles);
-    end
     if self.IsSoD() then
         self:AddGlowingOption(missileBarrageSoDRune, missileBarrageSoDBuff, arcaneMissiles);
     elseif self.IsWrath() then
@@ -788,6 +811,7 @@ SAO.Class["MAGE"] = {
     ["CHARACTER_POINTS_CHANGED"] = recheckTalents,
     ["PLAYER_TARGET_CHANGED"] = retarget,
     ["UNIT_HEALTH"] = unitHealth,
+    ["UNIT_HEALTH_FREQUENT"] = unitHealthFrequent,
     [SAO.IsWrath() and "PLAYER_TALENT_UPDATE" or "CHARACTER_POINTS_CHANGED"] = recheckTalents, -- Event changed in Wrath
     ["RUNE_UPDATED"] = SAO.IsSoD() and recheckTalents or nil,
 }
