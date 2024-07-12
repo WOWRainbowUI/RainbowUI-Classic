@@ -1,4 +1,4 @@
-## Interface: 11502, 40400, 100207
+## Interface: 11503, 40400, 100207
 ## Title: LiteButtonAuras
 ## Version: 10.2.7-2
 ## Author: Xodiv-Nagrand

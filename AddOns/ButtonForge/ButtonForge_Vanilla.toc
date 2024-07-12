@@ -1,4 +1,4 @@
-## Interface: 11502
+## Interface: 11503
 ## Title: Button Forge |cff69ccf0(Classic-Era)|r
 ## Version: 1.0.21-classic-era
 ## Author: Massiner of Nathrezim, Albirew

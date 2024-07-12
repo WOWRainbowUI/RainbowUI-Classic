@@ -1,4 +1,4 @@
-## Interface: 11502
+## Interface: 11503
 ## Title: Spellbook Abridged
 ## Notes: A Spellbook Filter to reduce clutter from multiple ranks of the same spell.
 ## Author: LBXZero, Artscout375

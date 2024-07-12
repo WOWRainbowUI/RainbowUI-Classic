@@ -1,4 +1,4 @@
-## Interface: 11502
+## Interface: 11503
 ## Title: TinyChat
 ## Notes: TinyChat
 ## Title-zhTW: |cffFF9999[聊天]|r 按鈕和功能增強

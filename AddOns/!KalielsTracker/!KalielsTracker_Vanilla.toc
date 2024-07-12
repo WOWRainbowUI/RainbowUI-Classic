@@ -1,4 +1,4 @@
-## Interface: 11502
+## Interface: 11503
 ## Title: Kaliel's Tracker
 ## Notes: Classic Era Objective Tracker
 ## Version: 4.0.2 Fix2

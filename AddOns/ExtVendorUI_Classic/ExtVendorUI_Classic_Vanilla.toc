@@ -1,4 +1,4 @@
-## Interface: 11502
+## Interface: 11503
 ## Title: Extended Vendor UI |cffa335ee[Classic Edition]|r |cffffffffv1.0.5
 ## Notes: Extends the merchant interface for easier browsing.
 ## Title-zhTW: |cffFFFF99[商人]|r 介面增強

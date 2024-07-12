@@ -1,4 +1,4 @@
-## Interface: 11502
+## Interface: 11503
 ## Title: NugComboBarGUI
 ## Notes: NugComboBar Configuration Panel
 ## Version: 10.2.5

@@ -1,5 +1,5 @@
 ## Title: Easy Frames
-## Interface: 11502
+## Interface: 11503
 ## Notes: Make your unit frames colored and glorious.
 ## Version: 1.4.0-classic
 ## Author: Usoltsev

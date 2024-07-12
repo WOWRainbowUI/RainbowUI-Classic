@@ -1,4 +1,4 @@
-## Interface: 11502
+## Interface: 11503
 ## Author: cocovanana
 ## Title: aBlueShaman |cff1a9fc0Classic|r
 ## Notes: Makes Shamans' color blue!
