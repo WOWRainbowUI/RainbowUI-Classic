@@ -105,7 +105,7 @@ local home = {
         },
 		info = {
             type = "description",
-            name = "如需配置選項，請展開左側的 Minimal Archaeology 部分。以下是插件和設置的概述：",  --  翻譯 X 部分
+            name = "如需配置選項，請展開左側的專業-考古選項。以下是插件和設置的概述：",  --  翻譯 X 部分
             fontSize = "small",
             width = "full",
             order = 2,
@@ -172,7 +172,7 @@ local home = {
 			args = {
 				message = {
 					type = "description",
-					name = "種族相關選項：|cFFF96854隱藏|r 或 |cFFF96854優先|r 種族，設定 |cFFF96854農夫模式|r 或啟用 |cFFF96854自動鑰石|r 應用。",
+					name = "種族相關選項：|cFFF96854隱藏|r 或 |cFFF96854優先|r 種族，設定 |cFFF96854農夫模式|r 或啟用 |cFFF96854自動石板|r 應用。",
 					fontSize = "small",
 					width = "full",
 					order = 1,
@@ -490,8 +490,8 @@ local general = {
 				},
 				groupByProgress = {
 					type = "toggle",
-					name = "Group by progress",
-					desc = "If enabled, artifacts will be grouped by progress: current > incomplete > completed.",
+					name = "按進度分組",
+					desc = "如果啟用，文物將按進度分組：當前 > 未完成 > 已完成。",
 					get = function () return MinArch.db.profile.history.groupByProgress end,
 					set = function (_, newValue)
                         MinArch.db.profile.history.groupByProgress = newValue;
@@ -601,8 +601,8 @@ local raceSettings = {
 				},
 				wpIgnoreHidden = {
 					type = "toggle",
-					name = "Ignore hidden races when creating waypoints",
-					desc = "Enable this to also ignore hidden races when creating waypoints.",
+					name = "創建路點時忽略隱藏種族",
+					desc = "啟用此選項可讓創建路點時忽略隱藏種族。",
 					get = function () return MinArch.db.profile.TomTom.ignoreHidden end,
                     set = function (_, newValue)
 						MinArch.db.profile.TomTom.ignoreHidden = newValue;
@@ -641,13 +641,13 @@ local raceSettings = {
 		},
 		keystone = {
 			type = "group",
-			name = "自動鑰石", -- Auto-keystone 
+			name = "自動石板", -- Auto-keystone 
 			order = 4,
 			inline = false,
 			args = {
 				message = {
 					type = "description",
-					name = "自動為勾選的種族應用鑰石（不常見的碎片）。",
+					name = "自動為勾選的種族應用石板（不常見的碎片）。",
 					fontSize = "medium",
 					width = "full",
 					order = 1,
@@ -737,8 +737,8 @@ local companionSettings = {
                 },
 				hideWhenUnavailable = {
                     type = "toggle",
-                    name = "Hide when unavailable",
-                    desc = "Enable to hide when there are no digsites available on the world map.",
+                    name = "無可用地點時隱藏",
+                    desc = "啟用後，當世界地圖上沒有挖掘地點時隱藏。",
                     get = function () return MinArch.db.profile.companion.hideWhenUnavailable end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.hideWhenUnavailable = newValue;
@@ -1097,8 +1097,8 @@ local companionSettings = {
                         },
 						keystone = {
                             type = "toggle",
-                            name = "Show keystones",
-                            desc = "Enable to displays keystones on the solve button if available for the current solve. Also allows you to and apply/remove keystones (if auto-apply is not set)",
+                            name = "顯示石板",
+                            desc = "啟用此功能可以在解決按鈕上顯示石板（如果當前解決方案可用）。此外，還可以讓你應用/移除石板（如果未設定自動應用）。",
                             get = function () return MinArch.db.profile.companion.features.solveButton.keystone end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.solveButton.keystone = newValue;
@@ -1175,14 +1175,14 @@ local companionSettings = {
                 },
 				skillBar = {
                     type = "group",
-                    name = "Skill bar settings",
+                    name = "技能條設定",
                     order = 6,
                     inline = true,
                     args = {
                         toggleMountButton = {
                             type = "toggle",
-                            name = "Show skill bar",
-                            desc = "Display the skill progress bar on the Companion frame",
+							name = "顯示技能條",
+                            desc = "在夥伴框架上顯示技能進度條",
                             get = function () return MinArch.db.profile.companion.features.skillBar.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.skillBar.enabled = newValue;
@@ -1195,14 +1195,14 @@ local companionSettings = {
                 },
 				progressBar = {
                     type = "group",
-                    name = "Progress bar settings",
+                    name = "進度條設定",
                     order = 8,
                     inline = true,
                     args = {
                         toggleMountButton = {
                             type = "toggle",
-                            name = "Show progress bar",
-                            desc = "Display the artifact progress progress bar on the Companion frame",
+                            name = "顯示進度條",
+                            desc = "在夥伴框架上顯示文物進度條",
                             get = function () return MinArch.db.profile.companion.features.progressBar.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.progressBar.enabled = newValue;
@@ -1213,8 +1213,8 @@ local companionSettings = {
                         },
 						showTooltip = {
                             type = "toggle",
-                            name = "Show tooltip",
-                            desc = "Display the artifact tooltip when hovering over the progress bar",
+                            name = "顯示提示",
+                            desc = "在滑鼠懸停在進度條上時顯示文物提示",
                             get = function () return MinArch.db.profile.companion.features.progressBar.showTooltip end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.progressBar.showTooltip = newValue;
@@ -1225,8 +1225,8 @@ local companionSettings = {
                         },
 						solveOnClick = {
                             type = "toggle",
-                            name = "Solve on click",
-                            desc = "Solve the currently activate artifact when clicking the progress bar",
+                            name = "點擊解決",
+                            desc = "點擊進度條時解決當前激活的文物",
                             get = function () return MinArch.db.profile.companion.features.progressBar.solveOnClick end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.progressBar.solveOnClick = newValue;
@@ -1279,21 +1279,20 @@ local devSettings = {
 		},
 		message = {
             type = "description",
-            name = "Experimental Features are placed here, because they're in a beta state, and might need additional work and feedback. Experimental features can be used without debug messages enabled, but I might ask for them in some cases if there are any issues.",
-            fontSize = "normal",
+            name = "實驗性功能放在這裡，因為它們處於測試階段，可能需要額外的開發和回饋。實驗性功能可以在不啟用除錯訊息的情況下使用，但在某些情況下，如果出現問題，我可能會要求提供這些訊息。",            fontSize = "normal",
             width = "full",
             order = 1,
         },
 		experimental = {
 			type = 'group',
-			name = 'Experimental Features',
+			name = '實驗性功能',
 			inline = true,
 			order = 2,
 			args = {
 				optimizePath = {
                     type = "toggle",
-					name = "Optimize Path",
-                    desc = "The waypoint will not always point to the nearest site, but tries to optimize travel times on the long run.",
+					name = "優化路徑",
+                    desc = "路點並非總是指向最近的場地，而是試圖優化長途旅行的時間。",
                     get = function () return MinArch.db.profile.TomTom.optimizePath end,
                     set = function (_, newValue)
 						MinArch.db.profile.TomTom.optimizePath = newValue;
@@ -1302,8 +1301,8 @@ local devSettings = {
                 },
 				optimizeModifier = {
 					type = "range",
-					name = "Optimization Modifier",
-					desc = "Sets the optimization modifier to a custom value.",
+					name = "優化修飾符",
+					desc = "將優化修飾符設定為自訂值。",
 					min = 1,
 					max = 5,
 					step = 0.05,
@@ -1454,7 +1453,7 @@ local TomTomSettings = {
                 },
 				message = {
 					type = "description",
-					name = "Note: Priority options have been moved to the Race Settings section",
+					name = "注意：優先級選項已移至種族設定區",
 					fontSize = "normal",
 					width = "full",
 					order = 5,
@@ -1463,14 +1462,14 @@ local TomTomSettings = {
 		},
 		taxi = {
 			type = 'group',
-			name = 'Taxi Options',
+			name = '飛行坐騎選項',
 			inline = true,
 			order = 4,
 			args = {
 				enable = {
 					type = "toggle",
-					name = "Navigate to nearest Flight Master",
-					desc = "Enable to set the waypoint to the nearest flight master, if the nearest digsite is farther than the configured distance limit.",
+					name = "導航至最近的飛行大師",
+					desc = "啟用此功能，如果最近的挖掘地點距離超過配置的距離限制，則將路點設定為最近的飛行大師。",
 					get = function () return MinArch.db.profile.TomTom.taxi.enabled end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.taxi.enabled = newValue;
@@ -1483,7 +1482,7 @@ local TomTomSettings = {
 				},
 				distance = {
 					type = "range",
-					name = "Distance limit",
+					name = "距離限制",
 					desc = "If enabled, waypoints will be created to the nearest flight master, if the nearest digsite is farther than the configured distance limit.",
 					min = 2000,
 					max = 10000,
@@ -1503,7 +1502,7 @@ local TomTomSettings = {
 				},
 				pinAlpha = {
 					type = "range",
-					name = "Pin Opacity",
+					name = "圖釘透明度",
 					desc = "Set the opacity of unrelated taxi nodes on the flight map",
 					min = 0,
 					max = 100,
@@ -1516,8 +1515,8 @@ local TomTomSettings = {
 				},
 				autoToggle = {
 					type = "toggle",
-					name = "Auto Enable",
-					desc = "Automatically enable Archeology Mode on flight maps when a waypoint is created by MinArch",
+					name = "自動啟用",
+					desc = "當 MinArch 創建路點時，在飛行地圖上自動啟用考古模式",
 					get = function () return MinArch.db.profile.TomTom.taxi.autoEnableArchMode end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.taxi.autoEnableArchMode = newValue;
@@ -1526,8 +1525,8 @@ local TomTomSettings = {
 				},
 				disableOnLogin = {
 					type = "toggle",
-					name = "Auto-Disable",
-					desc = "Automatically disable Archaeology Mode on flight maps when there are no digsites on the world map and upon login",
+					name = "自動停用",
+					desc = "當世界地圖上沒有挖掘地點以及登入時，自動在飛行地圖上停用考古模式",
 					get = function () return MinArch.db.profile.TomTom.taxi.autoDisableArchMode end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.taxi.autoDisableArchMode = newValue;
@@ -1546,7 +1545,7 @@ local PatronSettings = {
 	args = {
 		message = {
             type = "description",
-            name = "感謝您使用 Minimal Archaeology。如果您喜歡這個插件，請考慮通過 |cFFF96854patreon.com/minarch|r 成為贊助者來支持開發。",
+            name = "感謝您使用考古小幫手。如果您喜歡這個插件，請考慮通過 |cFFF96854patreon.com/minarch|r 成為贊助者來支持開發。",
             fontSize = "normal",
             width = "full",
             order = 1,
@@ -1619,7 +1618,7 @@ function Options:OnInitialize()
                         type = "toggle",
                         name = function () return GetArchaeologyRaceInfo(i) end,
                         desc = function ()
-                            return "Hide the "..MinArch['artifacts'][i]['race'].." artifact bar even if it has been discovered."
+                            return "隱藏 "..MinArch['artifacts'][i]['race'].." 文物欄，即使它已被發現。"
                         end,
                         order = i,
                         get = function () return MinArch.db.profile.raceOptions.hide[i] end,
@@ -1632,7 +1631,7 @@ function Options:OnInitialize()
                         type = "toggle",
                         name = function () return GetArchaeologyRaceInfo(i) end,
                         desc = function ()
-                            return "Use the fragment cap for the "..MinArch['artifacts'][i]['race'].." artifact bar."
+                            return "使用"..MinArch['artifacts'][i]['race'].."文物欄的碎片上限。"
                         end,
                         order = i,
                         get = function () return MinArch.db.profile.raceOptions.cap[i] end,
@@ -1649,7 +1648,7 @@ function Options:OnInitialize()
                             local RaceName = MinArch['artifacts'][i]['race'];
 
                             if (RuneName ~= nil and RaceName ~= nil) then
-                                return "Always use all available "..RuneName.."s to solve "..RaceName.." artifacts.";
+                                return "始終使用所有可用的 "..RuneName.." 來解決 "..RaceName.." 文物。";
                             end
                         end,
                         order = i,

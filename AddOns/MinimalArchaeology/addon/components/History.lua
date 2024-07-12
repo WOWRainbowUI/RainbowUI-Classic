@@ -120,9 +120,9 @@ local function CreateHeightToggle(parent, x, y)
 	end);
     button:SetScript("OnEnter", function()
         if MinArch.db.profile.history.autoResize then
-            MinArch:ShowWindowButtonTooltip(button, "Click to set the height of the History window to a fixed size|r");
+            MinArch:ShowWindowButtonTooltip(button, "點擊設定歷史記錄視窗的高度為固定大小|r");
         else
-            MinArch:ShowWindowButtonTooltip(button, "Click to enable automatic resizing for the History window");
+            MinArch:ShowWindowButtonTooltip(button, "點擊啟用歷史記錄視窗的自動調整大小");
         end
     end)
 	button:SetScript("OnLeave", function()
@@ -869,7 +869,7 @@ function MinArch:CreateHistoryList(RaceID, caller)
     end
 
     sumTotalSoldPrice = math.floor(sumTotalSoldPrice / 10000)
-    MinArchHist.statsFrame.text:SetText('Progress: ' .. sumComplete .. '/' .. count .. ' - Total: ' .. sumTotalComplete .. ' (' .. sumTotalSoldPrice .. 'g)')
+    MinArchHist.statsFrame.text:SetText('進度: ' .. sumComplete .. '/' .. count .. ' - 總和: ' .. sumTotalComplete .. ' (' .. sumTotalSoldPrice .. 'g)')
 
     -- Set the size of the scroll child
     if height > 2 then

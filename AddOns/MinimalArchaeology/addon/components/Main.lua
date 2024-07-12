@@ -539,8 +539,8 @@ function MinArch:KeystoneTooltip(self, raceID)
 	GameTooltip:AddLine(" ");
 	GameTooltip:AddLine("您背包中有 "..artifact['heldKeystones'].." "..tostring(name)..plural .. "。", GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
 	GameTooltip:AddLine(" ");
-	GameTooltip:AddLine("左鍵點擊應用鑰匙石");
-	GameTooltip:AddLine("右鍵點擊移除鑰匙石");
+	GameTooltip:AddLine("左鍵點擊應用石板");
+	GameTooltip:AddLine("右鍵點擊移除石板");
 	GameTooltip:Show();
 end
 

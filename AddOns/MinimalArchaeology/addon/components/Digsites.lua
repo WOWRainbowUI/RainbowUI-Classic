@@ -996,11 +996,11 @@ function MinArch:DigsiteTooltip(self, name, digsite, tooltip, taxiNode)
 	end
 
 	if (MinArch:IsNavigationEnabled() and not taxiNode) then
-		tooltip:AddLine("Hint: Left-Click to create waypoint here.", 0, 1, 0)
+		tooltip:AddLine("提示：左鍵點擊在此處建立路點。", 0, 1, 0)
 	end
 
 	if taxiNode then
-		tooltip:AddLine("Hint: Left-Click to travel here.", 0, 1, 0)
+		tooltip:AddLine("提示：左鍵點擊前往此處。", 0, 1, 0)
 	end
 
 	tooltip:Show();
