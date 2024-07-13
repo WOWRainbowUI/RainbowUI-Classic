@@ -1,0 +1,41 @@
+## Interface: 40400, 100207
+## Title: BetterBags - Archaeology
+## Notes: Adds Archaeology items to BetterBags virtual groups
+## Notes-ruRU: L["Adds Archaeology items to BetterBags virtual groups"] = "Добавляет предметы археологии в виртуальные группы BetterBags"
+
+## Notes-deDE: L["Adds Archaeology items to BetterBags virtual groups"] = "Fügt Archäologie-Gegenstände zu BetterBags virtuellen Gruppen hinzu"
+
+## Notes-koKR: L["Adds Archaeology items to BetterBags virtual groups"] = "BetterBags 가상 그룹에 고고학 항목 추가"
+
+## Notes-esMX: L["Adds Archaeology items to BetterBags virtual groups"] = "Agrega elementos de Arqueología a grupos virtuales BetterBags"
+
+## Notes-esES: L["Adds Archaeology items to BetterBags virtual groups"] = "Agrega elementos de Arqueología a grupos virtuales BetterBags"
+
+## Notes-ptBR: L["Adds Archaeology items to BetterBags virtual groups"] = "Adiciona itens de Arqueologia aos grupos virtuais BetterBags"
+
+## Notes-zhCN: L["Adds Archaeology items to BetterBags virtual groups"] = "将考古项目添加到BetterBags虚拟组"
+
+## Notes-zhTW: L["Adds Archaeology items to BetterBags virtual groups"] = "將考古項目添加到BetterBags虛擬組"
+
+## Notes-itIT: L["Adds Archaeology items to BetterBags virtual groups"] = "Aggiunge elementi di archeologia ai gruppi virtuali di BetterBags"
+
+## Notes-frFR: L["Adds Archaeology items to BetterBags virtual groups"] = "Ajoute des éléments d'archéologie aux groupes virtuels BetterBags"
+
+## IconTexture: Interface\ICONS\Inv_misc_shovel_01
+
+## Version: 1.05
+## Author: Sygon of Lightbringer-US (Crimson Embers, Alliance)
+## X-Date: 2024-06-09T07:13:26Z
+## X-License: Copyright (c) 2024 Paul Vandersypen. All Rights Reserved
+## X-Category: Bags & Inventory
+## Dependencies: BetterBags
+## X-Curse-Project-ID: 973935
+## X-WoWI-ID: 26692
+## X-Wago-ID: j6jzag6R
+
+## Title-zhTW: |cffB973CC[背包]|r 掰特包分類-考古學
+## Notes-zhTW: BetterBags - Archaeology |n|n將考古學的物品放在一個分類中。
+## X-Category-zhTW: 物品
+
+Database.lua
+Core.lua
