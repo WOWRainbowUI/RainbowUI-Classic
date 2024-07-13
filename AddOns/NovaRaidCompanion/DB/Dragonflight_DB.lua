@@ -4616,6 +4616,11 @@ NRC.resurrectionSpells = {
 	},
 };
 
+--Can stay empty here, just used for tracking bres count per boss fight in cata+.
+NRC.battleResSpells = {
+
+};
+
 NRC.magePortals = {
 	[11417] = {
 		name = "Portal: Orgrimmar",

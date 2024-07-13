@@ -1,8 +1,8 @@
-## Interface: 40400
+## Interface: 11502, 40400
 ## Notes: Raid and combat helpers, raid wide cooldown tracking.
 ## Title: Nova Raid Companion
 ## Author: Novaspark-Arugal OCE
-## Version: 1.43
+## Version: 1.49
 ## SavedVariables: NRCdatabase
 
 embeds.xml

@@ -430,7 +430,8 @@ function NRC:createListFrame(name, width, height, x, y, desc, isSubFrame, label)
 	frame.displayTab:SetScript("OnHide", function(self)
 		frame.OnHideFunc(self);
 	end)
-	frame.displayTab.top = CreateFrame("Frame", "$ParentTop", frame, "BackdropTemplate");
+	frame.displayTab.top = NRC:createMoveMeFrame(frame, 140, 32);
+	--[[frame.displayTab.top = CreateFrame("Frame", "$ParentTop", frame, "BackdropTemplate");
 	frame.displayTab.top:SetSize(width - 50, 20);
 	frame.displayTab.top:SetPoint("BOTTOM", frame.displayTab, "TOP", 0, -4);
 	frame.displayTab.top:SetBackdrop({
@@ -471,7 +472,7 @@ function NRC:createListFrame(name, width, height, x, y, desc, isSubFrame, label)
 		NRC.config.lockAllFrames = true;
 		NRC:updateFrameLocks(true);
 	end)
-	frame.displayTab.top.button:SetScale(0.84);
+	frame.displayTab.top.button:SetScale(0.84);]]
 	frame.displayTab:Hide();
 	frame.displayTab.top:Hide();
 	--frame.displayTab.fs:SetJustifyH("LEFT");
@@ -790,12 +791,17 @@ function NRC:createTimerBar(width, height, duration, label)
 	return bar;
 end
 
-function NRC:createCooldownFrame(name, width, height, x, y, desc)
+function NRC:createCooldownFrame(name, width, height, borderSpacing)
 	local frame = CreateFrame("Cooldown", name, UIParent, "CooldownFrameTemplate");
-end
-
-function NRC:startCooldownFrame()
-
+	frame:SetSize(width, height);
+	if (borderSpacing) then
+		frame.borderFrame = CreateFrame("Frame", "$parentBorderFrame", frame, "BackdropTemplate");
+		frame.borderFrame:SetPoint("TOP", 0, borderSpacing);
+		frame.borderFrame:SetPoint("BOTTOM", 0, -borderSpacing);
+		frame.borderFrame:SetPoint("LEFT", -borderSpacing, 0);
+		frame.borderFrame:SetPoint("RIGHT", borderSpacing, 0);
+	end
+	return frame;
 end
 
 --If borderSpacing is specified it's because we want to add a border.
@@ -3490,7 +3496,8 @@ function NRC:createAutoScrollingFrame(name, width, height, x, y, lineFrameHeight
 	frame.displayTab:SetScript("OnHide", function(self)
 		frame.OnHideFunc(self);
 	end)
-	frame.displayTab.top = CreateFrame("Frame", "$ParentTop", frame, "BackdropTemplate");
+	frame.displayTab.top = NRC:createMoveMeFrame(frame, 140, 32);
+	--[[frame.displayTab.top = CreateFrame("Frame", "$ParentTop", frame, "BackdropTemplate");
 	frame.displayTab.top:SetSize(width - 50, 20);
 	frame.displayTab.top:SetPoint("BOTTOM", frame.displayTab, "TOP", 0, -4);
 	frame.displayTab.top:SetBackdrop({
@@ -3531,7 +3538,7 @@ function NRC:createAutoScrollingFrame(name, width, height, x, y, lineFrameHeight
 		NRC.config.lockAllFrames = true;
 		NRC:updateFrameLocks(true);
 	end)
-	frame.displayTab.top.button:SetScale(0.84);
+	frame.displayTab.top.button:SetScale(0.84);]]
 	frame.displayTab:Hide();
 	frame.displayTab.top:Hide();
 	NRC.framePool[name] = frame;
@@ -3629,7 +3636,7 @@ function NRC:createRaidDataFrame(name, width, height, x, y)
 			frame.showTooltip();
 		end
 		if (not frame.firstRun) then
-			frame.fs:SetText(label or "");
+			frame.fs:SetText("");
 		end
 	end)
 	frame:SetScript("OnLeave", function(self)
@@ -4000,7 +4007,8 @@ function NRC:createRaidDataFrame(name, width, height, x, y)
 	frame.displayTab:SetScript("OnHide", function(self)
 		frame.OnHideFunc(self);
 	end)
-	frame.displayTab.top = CreateFrame("Frame", "$ParentTop", frame, "BackdropTemplate");
+	frame.displayTab.top = NRC:createMoveMeFrame(frame, 140, 32);
+	--[[frame.displayTab.top = CreateFrame("Frame", "$ParentTop", frame, "BackdropTemplate");
 	frame.displayTab.top:SetSize(width - 50, 20);
 	frame.displayTab.top:SetPoint("BOTTOM", frame.displayTab, "TOP", 0, -4);
 	frame.displayTab.top:SetBackdrop({
@@ -4041,7 +4049,7 @@ function NRC:createRaidDataFrame(name, width, height, x, y)
 		NRC.config.lockAllFrames = true;
 		NRC:updateFrameLocks(true);
 	end)
-	frame.displayTab.top.button:SetScale(0.84);
+	frame.displayTab.top.button:SetScale(0.84);]]
 	frame.displayTab:Hide();
 	frame.displayTab.top:Hide();
 	--frame.displayTab.fs:SetJustifyH("LEFT");
@@ -4443,5 +4451,94 @@ function NRC:createStaticPopupAttachment(name, width, height, x, y, notSpecialFr
 	frame.fs2:SetFont(NRC.regionFont, 13);
 	
 	frame:Hide();
+	return frame;
+end
+
+function NRC:createMoveMeFrame(parent, width, height)
+	local frame = CreateFrame("Frame", "$ParentMoveMeFrame", parent, "BackdropTemplate");
+	frame:SetSize(width, height);
+	frame:SetPoint("BOTTOM", frame.displayTab, "TOP", 0, -4);
+	frame:SetBackdrop({
+		bgFile = "Interface\\Buttons\\WHITE8x8",
+		edgeFile = "Interface\\Addons\\NovaRaidCompanion\\Media\\UI-Tooltip-Border-NoBottom",
+		tileEdge = true,
+		edgeSize = 16,
+		insets = {top = 5, left = 2, bottom = 5, right = 2},
+	});
+	frame:SetBackdropColor(0, 0, 0, 0.8);
+	frame:SetBackdropBorderColor(1, 1, 1, 0.8);
+	frame:SetFrameStrata("HIGH");
+	frame.fs = frame:CreateFontString("$parentFS", "ARTWORK");
+	frame.fs:SetPoint("TOP", frame, "TOP", -4, -2);
+	frame.fs:SetFont(NRC.regionFont, 12);
+	frame.fs2 = frame:CreateFontString("$parentFS", "ARTWORK");
+	frame.fs2:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 4, 4);
+	frame.fs2:SetFont(NRC.regionFont, 12);
+	frame.fs2:SetText("|cFF9CD6DE" .. L["Drag Me"] .. "|r");
+	frame:SetMovable(true);
+	frame:EnableMouse(true);
+	frame:SetUserPlaced(false);
+	frame:SetScript("OnMouseDown", function(self, button)
+		parent.OnMouseDownFunc(parent, button);
+	end)
+	frame:SetScript("OnMouseUp", function(self, button)
+		parent.OnMouseUpFunc(parent, button);
+	end)
+	frame:SetScript("OnHide", function(self)
+		parent.OnHideFunc(parent);
+	end)
+	frame.button = CreateFrame("Button", "$parentButton", frame, "UIPanelButtonTemplate");
+	frame.button:SetFrameLevel(15);
+	frame.button:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -4, 4);
+	frame.button:SetWidth(50);
+	frame.button:SetHeight(14);
+	frame.button:SetText(L["Lock"]);
+	frame.button:SetScript("OnClick", function(self, arg)
+		NRC.config.lockAllFrames = true;
+		NRC:updateFrameLocks(true);
+	end)
+	frame.button:SetScale(0.84);
+	frame.button2 = CreateFrame("Button", "$parentButton2", frame, "UIPanelButtonTemplate");
+	frame.button2:SetFrameLevel(15);
+	frame.button2:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -55, 4);
+	frame.button2:SetWidth(50);
+	frame.button2:SetHeight(14);
+	frame.button2:SetText(L["Test"]);
+	frame.button2:SetScript("OnClick", function(self, arg)
+		if (NRC:getRaidCooldownsTestState()) then
+			NRC:stopTestAllFrames();
+		else
+			NRC:startTestAllFrames();
+		end
+	end)
+	frame.button2:SetScale(0.84);
+	frame.tooltip = CreateFrame("Frame", frame:GetName() .. "Tooltip", frame, "TooltipBorderedFrameTemplate");
+	frame.tooltip:SetPoint("BOTTOM", frame, "TOP", 0, 2);
+	frame.tooltip:SetFrameStrata("TOOLTIP");
+	frame.tooltip:SetFrameLevel(9);
+	frame.tooltip.fs = frame.tooltip:CreateFontString(frame:GetName() .. "NRCTooltipFS", "ARTWORK");
+	frame.tooltip.fs:SetPoint("CENTER", 0, 0);
+	frame.tooltip.fs:SetFont(NRC.regionFont, 12);
+	frame.tooltip.fs:SetJustifyH("LEFT");
+	frame.tooltip:Hide();
+	frame.updateTooltip = function(text)
+		frame.tooltip.fs:SetText(text);
+		frame.tooltip:SetWidth(frame.tooltip.fs:GetStringWidth() + 14);
+		frame.tooltip:SetHeight(frame.tooltip.fs:GetStringHeight() + 12);
+	end
+	frame:SetScript("OnEnter", function(self)
+		frame.tooltip:Show();
+	end)
+	frame:SetScript("OnLeave", function(self)
+		frame.tooltip:Hide();
+	end)
+	frame.configButton = CreateFrame("Button", "$parentConfigButton", frame, "UIPanelButtonTemplate");
+	frame.configButton:SetPoint("TOPRIGHT", -2, -2);
+	frame.configButton:SetWidth(17);
+	frame.configButton:SetHeight(14);
+	frame.configButton:SetText("|TInterface\\Buttons\\UI-OptionsButton:10|t");
+	frame.configButton:SetScript("OnClick", function(self, arg)
+		NRC:openConfig();
+	end)
 	return frame;
 end

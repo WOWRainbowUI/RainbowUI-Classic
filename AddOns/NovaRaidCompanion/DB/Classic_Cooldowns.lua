@@ -359,6 +359,8 @@ NRC.cooldowns = {
 --No min level or class detection required for castDetect but minLevel still needs to exist as 1 to not caus errors.
 
 if (not NRC.isSOD) then
+	--Just track dwarf fear ward in era, in sod I think all races are getting access to it.
+	NRC.cooldowns["Fear Ward"].race = "Dwarf";
 	return;
 end
 

@@ -141,6 +141,7 @@ L["Bottom"] = "Bottom";
 L["Top"] = "Top";
 L["Start Test Cooldowns"] = "Start Cooldowns Test";
 L["Stop Test"] = "Stop Test";
+L["Test"] = "Test";
 L["Crits"] = "Crits"; --Used to show plural of critical hits in aoe etc like (5 Crits).
 L["came online"] = "came online";
 L["went offline"] = "went offline";
@@ -168,7 +169,7 @@ L["addedCustomScrollingSpell"] = "Added custom scrolling spell: %s %s";
 L["removedScrollingCustomSpellID"] = "Removed ID%s %s%s from custom scrolling spells.";
 L["has died"] = "has died";
 L["Threat"] = "Threat";
-L["Drag Me"] = "Drag Me";
+L["Drag Me"] = "Move Me";
 L["Multiple Boss Drop"] = "Multiple Boss Drop";
 L["All Players"] = "All Players";
 
@@ -331,7 +332,7 @@ L["showMobSpawnedTimeTitle"] = "Mob Spawned Time";
 L["showMobSpawnedTimeDesc"] = "Show how long ago a mob spawned when you target it? (More of a novelty feature, but can be interesting for certain things)";
 
 --Raid cooldowns.
-L["raidCooldownsMainTextDesc"] = "Scroll Down.";
+L["raidCooldownsMainTextDesc"] = "Scroll Down to pick what spells to show.";
 
 L["raidCooldownRebirthTitle"] = "Rebirth";
 L["raidCooldownRebirthDesc"] = "Show Rebirth raid cooldowns?";
@@ -431,6 +432,9 @@ L["raidCooldownLastStandDesc"] = "Show Last Stand raid cooldowns?";
 
 L["raidCooldownsSoulstonesTitle"] = "Active Soulstones";
 L["raidCooldownsSoulstonesDesc"] = "Show extra frames to show who has a soulstone active on them?";
+
+L["raidCooldownsBresCountTitle"] = "Bres Count";
+L["raidCooldownsBresCountDesc"] = "Show extra frames to show how many bres are remaining during a boss fight?";
 
 L["raidCooldownNeckBuffsTitle"] = "Neck Buffs";
 L["raidCooldownNeckBuffsDesc"] = "Show jewelcrafting neck buff cooldowns? This will show all players in your party no matter what class.";
@@ -644,10 +648,13 @@ L["raidCooldownsScaleTitle"] = "Scale";
 L["raidCooldownsScaleDesc"] = "How big do you want the cooldown list to be?";
 
 L["raidCooldownsBorderTypeTitle"] = "Border Type";
-L["raidCooldownsBorderTypeDesc"] = "What type of border do you want around the frames?"
+L["raidCooldownsBorderTypeDesc"] = "What type of border do you want around the frames?";
 
 L["raidCooldownsSoulstonesPositionTitle"] = "Soulstones position";
-L["raidCooldownsSoulstonesPositionDesc"] = "Where do you want active soulstones to show?"
+L["raidCooldownsSoulstonesPositionDesc"] = "What cooldown group do you want the soulstone bars to attach to?";
+
+L["raidCooldownsBresCountPositionTitle"] = "Bres Count position";
+L["raidCooldownsBresCountPositionDesc"] = "What cooldown group do you want the bres count to attach to?"
 
 L["meTransferedThreatMD"] = "%s threat misdirected to %s."; --These are a little different for different places.
 L["otherTransferedThreatMD"] = "%s misdirected %s threat to %s."; --These are a little different for different places.
@@ -1225,3 +1232,7 @@ L["raidCooldownUniversalCastDetectDesc"] = "Show %s raid cooldowns? (This cooldo
 
 L["raidStatusWorldBuffsTitle"]= "World Buffs";
 L["raidStatusWorldBuffsDesc"]= "Display a World Buffs column on the Raid Status tracker? This can be much wider than other columns to fit world buffs.";
+
+L["raidCooldownsMoveMeTooltip"] = "|cFFFF6900[NRC]|r |cFF9CD6DE|cFF33FF33Raid wise cooldowns tracking.|r\nYou can choose which spells for each class to display in |cFFFFFF00/nrc config|r.\nYou can also enable more of these lists (up to 5 max)\nand assign each cooldown to show on a separate list.";
+L["raidManaMoveMeTooltip"] = "|cFFFF6900[NRC]|r |cFF9CD6DE|cFF33FF33Group mana tracker.|r\nDisplays mana percentages for your healers\nor any class you choose in |cFFFFFF00/nrc config|r.";
+L["raidScrollingMoveMeTooltip"] = "|cFFFF6900[NRC]|r |cFF9CD6DE|cFF33FF33Scrolling raid events.|r\nDisplays many different type of events during your raid.\nCooldowns/Interrupts/Dispels/MD/Tricks/Ressurections/Portals/Feasts etc and more.\nSelect which events to show in |cFFFFFF00/nrc config|r.";

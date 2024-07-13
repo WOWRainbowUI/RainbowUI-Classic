@@ -36,6 +36,20 @@ local function setCooldownSoulstonesPositionOption(values)
 	return t;
 end
 
+local function setCooldownBresCountPositionOption(values)
+	local t = {};
+	local count = 0;
+	for i = 1, NRC.maxCooldownFrameCount do
+		count = count + 1;
+		if (values) then
+			t[count] = L["List"] .. " " .. tostring(i);
+		else
+			t[count] = count;
+		end
+	end;
+	return t;
+end
+
 local function updateSreOptions()
 	if (not NRC.config) then
 		--No need to display the text before it needs to be viewed.
@@ -515,7 +529,7 @@ NRC.options = {
 						[1] = 1,
 						[2] = 2,
 					},
-					order = 33,
+					order = 29,
 					get = "getRaidCooldownsNumType",
 					set = "setRaidCooldownsNumType",
 				},
@@ -531,19 +545,9 @@ NRC.options = {
 						[1] = 1,
 						[2] = 2,
 					},
-					order = 33,
+					order = 30,
 					get = "getRaidCooldownsBorderType",
 					set = "setRaidCooldownsBorderType",
-				},
-				raidCooldownsSoulstonesPosition = {
-					type = "select",
-					name = L["raidCooldownsSoulstonesPositionTitle"],
-					desc = L["raidCooldownsSoulstonesPositionDesc"],
-					values = setCooldownSoulstonesPositionOption(true),
-					sorting = setCooldownSoulstonesPositionOption(),
-					order = 33,
-					get = "getRaidCooldownsSoulstonesPosition",
-					set = "setRaidCooldownsSoulstonesPosition",
 				},
 				raidCooldownsSortOrder = {
 					type = "select",
@@ -565,9 +569,19 @@ NRC.options = {
 						[5] = 5,
 						[6] = 6,
 					},
-					order = 34,
+					order = 32,
 					get = "getRaidCooldownsSortOrder",
 					set = "setRaidCooldownsSortOrder",
+				},
+				raidCooldownsSoulstonesPosition = {
+					type = "select",
+					name = L["raidCooldownsSoulstonesPositionTitle"],
+					desc = L["raidCooldownsSoulstonesPositionDesc"],
+					values = setCooldownSoulstonesPositionOption(true),
+					sorting = setCooldownSoulstonesPositionOption(),
+					order = 33,
+					get = "getRaidCooldownsSoulstonesPosition",
+					set = "setRaidCooldownsSoulstonesPosition",
 				},
 				raidCooldownsFont = {
 					type = "select",
@@ -2131,14 +2145,14 @@ NRC.options = {
 					get = "getRaidStatusFort",
 					set = "setRaidStatusFort",
 				},
-				raidStatusSpirit = {
+				--[[raidStatusSpirit = {
 					type = "toggle",
 					name = L["raidStatusSpiritTitle"],
 					desc = L["raidStatusSpiritDesc"],
 					order = 27,
 					get = "getRaidStatusSpirit",
 					set = "setRaidStatusSpirit",
-				},
+				},]]
 				raidStatusShadow = {
 					type = "toggle",
 					name = L["raidStatusShadowTitle"],
@@ -4583,6 +4597,36 @@ function NRC:loadExtraOptions()
 			set = function(info, value) NRC.config.raidCooldownDispersionFrame = value; NRC:reloadRaidCooldowns(); end,
 		};
 	end]]
+	if (NRC.expansionNum < 4) then
+		NRC.options.args.raidStatus.args.raidStatusSpirit = {
+			type = "toggle",
+			name = L["raidStatusSpiritTitle"],
+			desc = L["raidStatusSpiritDesc"],
+			order = 27,
+			get = "getRaidStatusSpirit",
+			set = "setRaidStatusSpirit",
+		};
+	end
+	if (NRC.expansionNum > 3) then
+		NRC.options.args.raidCooldowns.args.raidCooldownsBresCount = {
+			type = "toggle",
+			name = L["raidCooldownsBresCountTitle"],
+			desc = L["raidCooldownsBresCountDesc"],
+			order = 14,
+			get = "getRaidCooldownsBresCount",
+			set = "setRaidCooldownsBresCount",
+		};
+		NRC.options.args.raidCooldowns.args.raidCooldownsBresCountPosition = {
+			type = "select",
+			name = L["raidCooldownsBresCountPositionTitle"],
+			desc = L["raidCooldownsBresCountPositionDesc"],
+			values = setCooldownBresCountPositionOption(true),
+			sorting = setCooldownBresCountPositionOption(),
+			order = 34,
+			get = "getRaidCooldownsBresCountPosition",
+			set = "setRaidCooldownsBresCountPosition",
+		};
+	end
 end
 
 		--[[NRC.options.args.raidCooldowns.args.raidCooldownRebirth = {
@@ -4792,6 +4836,7 @@ NRC.optionDefaults = {
 		showRaidCooldownsInBG = false,
 		--mergeRaidCooldowns = true,
 		raidCooldownsSoulstones = true,
+		raidCooldownsBresCount = true,
 		ktNoWeaponsWarning = true,
 		showMobSpawnedTime = false,
 		acidGeyserWarning = true,
@@ -4814,6 +4859,7 @@ NRC.optionDefaults = {
 		showInspectTalents = true,
 		cooldownFrameCount = 1,
 		raidCooldownsSoulstonesPosition = 1,
+		raidCooldownsBresCountPosition = 1,
 		autoCombatLog = false,
 		cauldronMsg = true,
 		sreEnabled = true,
@@ -5437,13 +5483,15 @@ local function loadNewVersionFrame()
 	frame.scrollChild.fs:SetText("|cFFFFFF00Nova Raid Companion");
 	frame.scrollChild.fs2:SetText("|cFFFFFF00New in version|r |cFFFF6900" .. string.format("%.2f", NRC.version));
 	frame:Hide();
-	linesVersion = 1.37;
+	linesVersion = 1.48;
 	local lines = {
-		"|cFF00FF00[General Changes]|r",
-		"Added a world buffs column to the raid status window in era/sod (left click minimap button), it also shows stored chronoboon buffs for the entire raid.",
-		"Left click minimap button raid status now shows your own char even if not in a group.",
-		"Lots of cata updates and bug fixes.",
-		"The addon is now also using cata databases (cooldowns/talents/consumes) so current wrath consumes with show as \"not max rank\" for the next few weeks until cata launches and we're using the new consumes.",
+		--"|cFF00FF00[General Changes]|r",
+		"|cFF33FF33In Testing:|r Added a new Battle Res counter during cata raid bosses to show you how many remaining can be cast (3 for 25m bosses and 1 for 10m bosses), this attaches to the top of cooldowns frame and appears when a boss fight starts. Can be changed to different cooldown lists in config. The ingame Blizzard API to track battle res doesn't seem to work properly in cata so a custom system had to be made, please let me know of any bugs or wrong bres counts.",
+		"Fixed players in raid that swap specs still showing talent only cooldowns like PI, also fixed removing non-healer spec swaps from healer mana display.",
+		"Cleaned up the test mode and dragging of the frames, new test/config buttons added.",
+		"Fixed a bug where you couldn't hide the raid mana frame if you left it in the default position middle of the screen.",
+		"Added max rank flag to +90 expertise food.",
+		"Removed spirit buff column as an option in cata as the buff no longer exists.",
 	};
 	local text = "";
 	--Seperator lines couldn't be used because the wow client won't render 1 pixel frames if they are in certain posotions.
@@ -5481,7 +5529,9 @@ function NRC:checkNewVersion()
 	--loadNewVersionFrame();
 	if (NRC.version and NRC.version ~= 9999) then
 		if (not NRC.db.global.versions[NRC.version]) then
-			loadNewVersionFrame();
+			if (NRC.isCata) then
+				loadNewVersionFrame();
+			end
 			--NRC:setLockAllFrames(nil, false);
 			--Wipe old data.
 			NRC.db.global.versions = {};
@@ -5674,6 +5724,16 @@ function NRC:getRaidCooldownsSoulstonesPosition(info)
 	return self.config.raidCooldownsSoulstonesPosition;
 end
 
+--Raid cooldown bres count position.
+function NRC:setRaidCooldownsBresCountPosition(info, value)
+	self.config.raidCooldownsBresCountPosition = value;
+	NRC:updateBresFramePosition();
+end
+
+function NRC:getRaidCooldownsBresCountPosition(info)
+	return self.config.raidCooldownsBresCountPosition;
+end
+
 --Raid cooldown scale.
 function NRC:setRaidCooldownsScale(info, value)
 	self.db.global.raidCooldownsScale = value;
@@ -5712,6 +5772,16 @@ end
 
 function NRC:getRaidCooldownsSoulstones(info)
 	return self.config.raidCooldownsSoulstones;
+end
+
+--Show bres count.
+function NRC:setRaidCooldownsBresCount(info, value)
+	self.config.raidCooldownsBresCount = value;
+	NRC:updateBresFramePosition();
+end
+
+function NRC:getRaidCooldownsBresCount(info)
+	return self.config.raidCooldownsBresCount;
 end
 
 --Show neck buffs in raid only.

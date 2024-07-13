@@ -58,10 +58,12 @@ function NRC:loadRaidManaFrame(loadOnly)
 	end
 	if (not loadOnly) then
 		NRC:updateRaidManaFramesLayout();
-		if (not firstLoad) then
-			NRC:raidManaUpdateFrameLocks();
-		end
+		--if (not firstLoad) then
+		--	NRC:raidManaUpdateFrameLocks();
+		--end
 	end
+	NRC:updateRaidManaState();
+	NRC:raidManaUpdateFrameLocks();
 end
 
 function NRC:updateRaidManaState(func)
@@ -158,7 +160,8 @@ function NRC:updateRaidManaFramesLayout()
 	raidManaFrame.displayTab:SetAlpha(0.3);
 	raidManaFrame.displayTab.top.fs:SetText("|cFFDEDE42Healer Mana|r");
 	raidManaFrame.displayTab.top.fs2:SetText("|cFF9CD6DE" .. L["Drag Me"] .. "|r");
-	raidManaFrame.displayTab.top:SetSize(100, 30);
+	--raidManaFrame.displayTab.top:SetSize(100, 30);
+	raidManaFrame.displayTab.top.updateTooltip(L["raidManaMoveMeTooltip"]);
 	updateInterval = NRC.db.global.raidManaUpdateInterval;
 	raidManaFrame:SetScript("OnUpdate", function(self)
 		if (GetTime() - raidManaFrame.lastUpdate > updateInterval) then
@@ -300,7 +303,7 @@ function NRC:loadTrackedManaChars(func)
 			end
 			if (#trackedChars > 0) then
 				raidManaFrame:Show();
-			elseif (not testRunning and not raidManaFrame.firstRun and raidManaFrame.locked) then
+			elseif (raidManaFrame.locked and not testRunning and not raidManaFrame.firstRun) then
 				raidManaFrame:Hide();
 			end
 			NRC:updateManaFrame();
@@ -332,6 +335,7 @@ function NRC:updateTrackedManaCharTalents(name)
 					v.specName = specName;
 					v.specIcon = specIcon;
 				end
+				return;
 			end
 		end
 	end
@@ -751,16 +755,19 @@ function NRC:raidManaUpdateFrameLocks()
 end
 	
 function NRC:raidManaUpdateFrameLocksLayout()
+	NRC:updateRaidManaState();
 	if (raidManaFrame) then
-		if (raidManaFrame.locked and not raidManaFrame.firstRun) then
+		--if (raidManaFrame.locked and not raidManaFrame.firstRun) then
+		if (raidManaFrame.locked) then
 			raidManaFrame.displayTab:Hide();
 			raidManaFrame.displayTab.top:Hide();
+			--raidManaFrame:EnableMouse(false);
 		else
-			local text = "|cFFDEDE42Healer Mana|r\n"
-				.. "|cFF9CD6DE" .. L["Drag Me"] .. "|r";
+			--local text = "|cFFDEDE42Healer Mana|r\n"
+			--	.. "|cFF9CD6DE" .. L["Drag Me"] .. "|r";
 			raidManaFrame.displayTab:SetAlpha(0.3);
-			raidManaFrame.displayTab.top.fs:SetText(text);
-			raidManaFrame.displayTab.top:SetSize(100, 30);
+			--raidManaFrame.displayTab.top.fs:SetText(text);
+			--raidManaFrame.displayTab.top:SetSize(100, 30);
 			raidManaFrame.displayTab:Show();
 			raidManaFrame.displayTab.top:Show();
 		end

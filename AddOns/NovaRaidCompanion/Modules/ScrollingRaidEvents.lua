@@ -55,6 +55,13 @@ function NRC:loadScrollingRaidEventsFrames()
 		lineFrameHeight = NRC.config.sreLineFrameHeight;
 		scrollingRaidEventsFrame.lineFrameHeight = NRC.config.sreLineFrameHeight;
 		scrollingRaidEventsFrame:SetBackdropColor(0, 0, 0, 0);
+		local point, _, relativePoint, x, y = scrollingRaidEventsFrame:GetPoint();
+		if (point == "CENTER" and x == scrollingRaidEventsFrame.defaultX and y == scrollingRaidEventsFrame.defaultY) then
+			scrollingRaidEventsFrame.firstRun = true;
+			NRC:sreUnlockFrames();
+		else
+			NRC:sreUpdateFrameLocks();
+		end
 	end
 	NRC:updateSreState();
 	NRC:sreUpdateSettings();
@@ -213,7 +220,7 @@ function NRC:updateSreState()
 	if (NRC.config.sreEnabledPvp and NRC:isPvp()) then
 		enabled = true;
 	end
-	if (testRunning or scrollingRaidEventsFrame.firstRun) then
+	if (testRunning or scrollingRaidEventsFrame.firstRun or not scrollingRaidEventsFrame.locked) then
 		enabled = true;
 	end
 	if (enabled) then
@@ -951,13 +958,15 @@ function NRC:sreUpdateFrameLocksLayout()
 				});
 				frame.displayTab.top:SetBackdropColor(0, 0, 0, 0.8);
 				frame.displayTab:SetAlpha(0.3);
-				frame.displayTab.top.fs:SetText("|cFFDEDE42NRC Scrolling Events|r");
+				frame.displayTab.top.fs:SetText("|cFFDEDE42Scrolling Raid Events|r");
 				frame.displayTab.top.fs2:SetText("|cFF9CD6DE" .. L["Drag Me"] .. "|r");
-				frame.displayTab.top:SetSize(120, 30);
+				frame.displayTab.top.updateTooltip(L["raidScrollingMoveMeTooltip"]);
+				--frame.displayTab.top:SetSize(120, 30);
 				--raidCooldowns:EnableMouse(true);
 				frame.displayTab:Show();
 				frame.displayTab.top:Show();
 				frame:EnableMouse(true);
+				--frame:Show();
 			end
 		end
 	end

@@ -1012,7 +1012,12 @@ function NRC:checkMyRes(setDataOnly)
 		--Resistances have changed, swapped items or received buff.
 		--NRC:debug("resistances changed");
 		myRes = temp;
-		NRC:sendRes();
+		if (NRC.expansionNum < 4) then
+			NRC:sendRes();
+		else
+			--In cata paladin aura in dungs dropping/reapplying.
+			NRC:throddleEventByFunc("ResUpdate", 5, "sendRes");
+		end
 	else
 		myRes = temp;
 		if (IsInGroup()) then
