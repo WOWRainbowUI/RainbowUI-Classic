@@ -136,7 +136,7 @@ local trackerUILocales = {
         ["esMX"] = true,
         ["enUS"] = true,
         ["zhCN"] = true,
-        ["zhTW"] = true,
+        ["zhTW"] = "文字轉語音",
         ["esES"] = true,
         ["frFR"] = true,
     },
@@ -412,6 +412,18 @@ local trackerUILocales = {
         ["zhTW"] = "戰鬥中無法打開任務日誌。",
         ["esES"] = "No se puede abrir el registro de misiones durante el combate. Ábrelo manualmente.",
         ["frFR"] = "Impossible d'ouvrir le journal des quêtes en combat. Ouvrez-le manuellement.",
+    },
+    ["Maximize Quest"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = "最大化任務",
+        ["esES"] = false,
+        ["frFR"] = false,
     },
 }
 
