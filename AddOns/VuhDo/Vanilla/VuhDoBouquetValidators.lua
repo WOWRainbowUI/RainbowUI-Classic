@@ -293,7 +293,7 @@ local tDebuffInfo;
 local function VUHDO_debuffMagicValidator(anInfo, _)
 	tDebuffInfo = VUHDO_getUnitDebuffSchoolInfos(anInfo["unit"], VUHDO_DEBUFF_TYPE_MAGIC);
 	if tDebuffInfo[2] then
-		return true, tDebuffInfo[1], tDebuffInfo[2], tDebuffInfo[3], tDebuffInfo[4];
+		return true, tDebuffInfo[1], floor(tDebuffInfo[2] - GetTime()), tDebuffInfo[3], tDebuffInfo[4];
 	else
 		return false, nil, -1, -1, -1;
 	end
@@ -306,7 +306,7 @@ local tDebuffInfo;
 local function VUHDO_debuffDiseaseValidator(anInfo, _)
 	tDebuffInfo = VUHDO_getUnitDebuffSchoolInfos(anInfo["unit"], VUHDO_DEBUFF_TYPE_DISEASE);
 	if tDebuffInfo[2] then
-		return true, tDebuffInfo[1], tDebuffInfo[2], tDebuffInfo[3], tDebuffInfo[4];
+		return true, tDebuffInfo[1], floor(tDebuffInfo[2] - GetTime()), tDebuffInfo[3], tDebuffInfo[4];
 	else
 		return false, nil, -1, -1, -1;
 	end
@@ -319,7 +319,7 @@ local tDebuffInfo;
 local function VUHDO_debuffPoisonValidator(anInfo, _)
 	tDebuffInfo = VUHDO_getUnitDebuffSchoolInfos(anInfo["unit"], VUHDO_DEBUFF_TYPE_POISON);
 	if tDebuffInfo[2] then
-		return true, tDebuffInfo[1], tDebuffInfo[2], tDebuffInfo[3], tDebuffInfo[4];
+		return true, tDebuffInfo[1], floor(tDebuffInfo[2] - GetTime()), tDebuffInfo[3], tDebuffInfo[4];
 	else
 		return false, nil, -1, -1, -1;
 	end
@@ -332,7 +332,7 @@ local tDebuffInfo;
 local function VUHDO_debuffCurseValidator(anInfo, _)
 	tDebuffInfo = VUHDO_getUnitDebuffSchoolInfos(anInfo["unit"], VUHDO_DEBUFF_TYPE_CURSE);
 	if tDebuffInfo[2] then
-		return true, tDebuffInfo[1], tDebuffInfo[2], tDebuffInfo[3], tDebuffInfo[4];
+		return true, tDebuffInfo[1], floor(tDebuffInfo[2] - GetTime()), tDebuffInfo[3], tDebuffInfo[4];
 	else
 		return false, nil, -1, -1, -1;
 	end
@@ -346,7 +346,7 @@ local function VUHDO_debuffBarColorValidator(anInfo, _)
 		return true, nil, -1, -1, -1, VUHDO_getDebuffColor(anInfo);
 	elseif anInfo["debuff"] and anInfo["debuff"] > 0 then -- VUHDO_DEBUFF_TYPE_NONE
 		tDebuffInfo = VUHDO_getChosenDebuffInfo(anInfo["unit"]);
-		return true, tDebuffInfo[1], -1, tDebuffInfo[2], -1, VUHDO_getDebuffColor(anInfo);
+		return true, tDebuffInfo[1], -1, tDebuffInfo[3], -1, VUHDO_getDebuffColor(anInfo);
 	else
 		return false, nil, -1, -1, -1;
 	end

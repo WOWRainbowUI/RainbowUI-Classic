@@ -77,15 +77,19 @@ local VUHDO_RUNE_INVENTORY_SLOTS = {
 	[INVSLOT_WAIST] = true,
 	[INVSLOT_FEET] = true,
 	[INVSLOT_WRIST] = true,
+	[INVSLOT_SHOULDER] = true,
+	[INVSLOT_BACK] = true,
 };
 
-local VUHDO_ACTION_HEAD_RUNE = "head rune ability";
-local VUHDO_ACTION_CHEST_RUNE = "chest rune ability";
-local VUHDO_ACTION_LEGS_RUNE = "legs rune ability";
-local VUHDO_ACTION_HANDS_RUNE = "hands rune ability";
-local VUHDO_ACTION_WAIST_RUNE = "waist rune ability";
-local VUHDO_ACTION_FEET_RUNE = "feet rune ability";
-local VUHDO_ACTION_WRIST_RUNE = "wrist rune ability";
+local VUHDO_ACTION_HELM_RUNE = strlower(VUHDO_SPELL_ID.HELM_RUNE_ABILITY);
+local VUHDO_ACTION_CHEST_RUNE = strlower(VUHDO_SPELL_ID.CHEST_RUNE_ABILITY);
+local VUHDO_ACTION_LEGS_RUNE = strlower(VUHDO_SPELL_ID.LEGS_RUNE_ABILITY);
+local VUHDO_ACTION_HANDS_RUNE = strlower(VUHDO_SPELL_ID.HANDS_RUNE_ABILITY);
+local VUHDO_ACTION_WAIST_RUNE = strlower(VUHDO_SPELL_ID.WAIST_RUNE_ABILITY);
+local VUHDO_ACTION_FEET_RUNE = strlower(VUHDO_SPELL_ID.FEET_RUNE_ABILITY);
+local VUHDO_ACTION_BRACER_RUNE = strlower(VUHDO_SPELL_ID.BRACER_RUNE_ABILITY);
+local VUHDO_ACTION_SHOULDER_RUNE = strlower(VUHDO_SPELL_ID.SHOULDER_RUNE_ABILITY);
+local VUHDO_ACTION_CLOAK_RUNE = strlower(VUHDO_SPELL_ID.CLOAK_RUNE_ABILITY);
 
 local sEmpty = { };
 setmetatable(sEmpty, { __newindex = function(aTable, aKey, aValue) VUHDO_xMsg("WARNING: newindex on dummy array: ", aKey, aValue); end });
@@ -1683,13 +1687,15 @@ local function VUHDO_isRuneSlotAction(anActionName)
 	if anActionName then
 		tActionLowerName = strlower(anActionName);
 
-		if tActionLowerName == VUHDO_ACTION_HEAD_RUNE
+		if tActionLowerName == VUHDO_ACTION_HELM_RUNE
 			or tActionLowerName == VUHDO_ACTION_CHEST_RUNE
 			or tActionLowerName == VUHDO_ACTION_LEGS_RUNE
 			or tActionLowerName == VUHDO_ACTION_HANDS_RUNE
 			or tActionLowerName == VUHDO_ACTION_WAIST_RUNE
 			or tActionLowerName == VUHDO_ACTION_FEET_RUNE
-			or tActionLowerName == VUHDO_ACTION_WRIST_RUNE then
+			or tActionLowerName == VUHDO_ACTION_BRACER_RUNE
+			or tActionLowerName == VUHDO_ACTION_SHOULDER_RUNE
+			or tActionLowerName == VUHDO_ACTION_CLOAK_RUNE then
 			return true;
 		end
 	else
