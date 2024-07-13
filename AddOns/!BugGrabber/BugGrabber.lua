@@ -258,7 +258,8 @@ do
 	local lastWarningTime = 0
 	function grabError(errorMessage, isSimple)
 		-- 不顯示暴雪專業和觀察視窗未翻譯錯誤
-		if tostring(errorMessage):find("UI/Localization.lua", nil, true) then return end
+		if tostring(errorMessage):find("Localization.lua", nil, true) then return end
+		if tostring(errorMessage):find("MoneyFrame.lua", nil, true) then return end
 
 		-- Flood protection --
 		msgsAllowed = msgsAllowed + (GetTime()-msgsAllowedLastTime)*BUGGRABBER_ERRORS_PER_SEC_BEFORE_THROTTLE
