@@ -36,8 +36,14 @@ local L =  addon:GetModule('Localization')
 ---@class Question: AceModule
 local question = addon:GetModule('Question')
 
+---@class Themes: AceModule
+local themes = addon:GetModule('Themes')
+
 ---@class SectionItemList: AceModule
 local sectionItemList = addon:GetModule('SectionItemList')
+
+---@class Fonts: AceModule
+local fonts = addon:GetModule('Fonts')
 
 ---@class SectionConfig: AceModule
 local sectionConfig = addon:NewModule('SectionConfig')
@@ -46,6 +52,13 @@ local sectionConfig = addon:NewModule('SectionConfig')
 ---@field title string
 ---@field header? boolean
 ---@field index? number
+
+---@class BetterBagsSectionConfigListButton: Button
+---@field Expand Button
+---@field Category FontString
+---@field Note FontString
+---@field Visible Button
+---@field Init boolean
 
 ---@class SectionConfigItem
 ---@field frame Frame
@@ -87,6 +100,11 @@ function sectionConfigFrame:initSectionItem(button, elementData)
     button.Category = button:CreateFontString(nil, "OVERLAY")
     button.Category:SetHeight(30)
     button.Category:SetPoint("LEFT", button.Expand, "RIGHT", 5, 0)
+    button.Note = button:CreateFontString(nil, "OVERLAY")
+    button.Note:SetHeight(30)
+    button.Note:SetPoint("RIGHT", button, "RIGHT", -10, 0)
+    button.Note:SetTextColor(0.8, 0.8, 0.8, 1)
+    button.Note:SetFontObject(fonts.UnitFrame12White)
     button:SetBackdrop({
       bgFile = "Interface/Tooltips/UI-Tooltip-Background",
       insets = { left = 0, right = 0, top = 0, bottom = 0 },
@@ -99,12 +117,10 @@ function sectionConfigFrame:initSectionItem(button, elementData)
 
   -- Set the category font info for the button depending on if it's a header or not.
   if elementData.header then
-    button.Category:SetFontObject("GameFontNormal")
-    button.Category:SetTextColor(1, .81960791349411, 0, 1)
+    button.Category:SetFontObject(fonts.UnitFrame12Yellow)
     button.Expand:Hide()
   else
-    button.Category:SetFontObject("Game12Font")
-    button.Category:SetTextColor(1, 1, 1)
+    button.Category:SetFontObject(fonts.UnitFrame12White)
     button.Expand:SetScript("OnClick", function()
       self.itemList:ShowCategory(elementData.title)
     end)
@@ -116,17 +132,21 @@ function sectionConfigFrame:initSectionItem(button, elementData)
       button.Expand:Enable()
       button.Expand:GetNormalTexture():SetDesaturated(false)
     end
+
+    if categories:IsCategoryShown(elementData.title) then
+      button.Note:SetText("")
+    else
+      button.Note:SetText(L:G("(hidden)"))
+    end
   end
 
   -- Set the backdrop initial state.
-  if categories:IsCategoryEnabled(self.kind, elementData.title) then
+  if not elementData.header and (categories:IsCategoryEnabled(self.kind, elementData.title) or not categories:DoesCategoryExist(elementData.title)) then
     button:SetBackdropColor(1, 1, 0, .2)
+  elseif elementData.header then
+    button:SetBackdropColor(0, 0, 0, .3)
   else
-    if elementData.header then
-      button:SetBackdropColor(0, 0, 0, .3)
-    else
-      button:SetBackdropColor(0, 0, 0, 0)
-    end
+    button:SetBackdropColor(0, 0, 0, 0)
   end
 
   if not elementData.header then
@@ -151,14 +171,13 @@ function sectionConfigFrame:initSectionItem(button, elementData)
         GameTooltip:AddDoubleLine(L:G("Left Click"), L:G("Enable or Disable Category"))
         GameTooltip:AddDoubleLine(L:G("Shift Left Click"), format(L:G("Move %s to the top of your bags"), elementData.title))
         GameTooltip:AddDoubleLine(L:G("Right Click"), L:G("Open Menu"))
-        --GameTooltip:AddDoubleLine("Right Click", "Hide or Show Category")
       else
         GameTooltip:AddLine(L:G([[
           Dynamic categories can't be enabled or disabled (yet).
           Drag this category to Pinned to keep it at the top of your bags, or to Automatically Sorted to have it sorted with the rest of your items.]]), 1, 1, 1, true)
           GameTooltip:AddLine("\n", 1, 1, 1, true)
           GameTooltip:AddDoubleLine(L:G("Shift Left Click"), format(L:G("Move %s to the top of your bags"), elementData.title))
-          --GameTooltip:AddDoubleLine("Right Click", "Hide or Show Category")
+          GameTooltip:AddDoubleLine(L:G("Right Click"), L:G("Open Menu"))
       end
       GameTooltip:Show()
     end)
@@ -172,15 +191,33 @@ function sectionConfigFrame:initSectionItem(button, elementData)
   -- Set the text and icon for the button.
   button.Category:SetText(elementData.title)
 
-  if categories:DoesCategoryExist(elementData.title) then
-    button:SetScript("OnMouseDown", function(_, b)
-      if b == "LeftButton" then
-        return
+  button:SetScript("OnMouseDown", function(_, b)
+    if b ~= "RightButton" or IsShiftKeyDown() then
+      return
+    end
+    if elementData.header then
+      return
+    end
+    ---@type MenuList[]
+    local menuOptions = {}
+    table.insert(menuOptions, {
+      text = L:G("Hide Category"),
+      hasArrow = false,
+      checked = function()
+        return not categories:IsCategoryShown(elementData.title)
+      end,
+      func = function()
+        categories:ToggleCategoryShown(elementData.title)
+        if categories:IsCategoryShown(elementData.title) then
+          button.Note:SetText("")
+        else
+          button.Note:SetText(L:G("(hidden)"))
+        end
       end
-      if elementData.header then
-        return
-      end
-      contextMenu:Show({{
+    })
+    if categories:DoesCategoryExist(elementData.title) then
+      contextMenu:AddDivider(menuOptions)
+      table.insert(menuOptions,{
         text = L:G("Delete Category"),
         notCheckable = true,
         hasArrow = false,
@@ -198,9 +235,12 @@ function sectionConfigFrame:initSectionItem(button, elementData)
           end, function()
           end)
         end
-      }})
-    end)
+      })
+    end
+    contextMenu:Show(menuOptions)
+  end)
 
+  if categories:DoesCategoryExist(elementData.title) then
     -- Script handler for dropping items into a category.
     button:SetScript("OnReceiveDrag", function()
       if elementData.header then
@@ -208,34 +248,33 @@ function sectionConfigFrame:initSectionItem(button, elementData)
       end
       self:OnReceiveDrag(elementData.title)
     end)
+  end
+  button:SetScript("OnMouseUp", function(_, key)
+    -- Headers can't be clicked.
+    if elementData.header then
+      return
+    end
 
-    button:SetScript("OnMouseUp", function(_, key)
-      -- Headers can't be clicked.
-      if elementData.header then
+    -- Toggle the category from containing items.
+    if key == "LeftButton" then
+      if self:OnReceiveDrag(elementData.title) then
         return
       end
-
-      -- Toggle the category from containing items.
-      if key == "LeftButton" then
-        if self:OnReceiveDrag(elementData.title) then
-          return
+      if IsShiftKeyDown() then
+        self.content.provider:MoveElementDataToIndex(elementData, 2)
+        self:UpdatePinnedItems()
+      elseif categories:DoesCategoryExist(elementData.title) then
+        if categories:IsCategoryEnabled(self.kind, elementData.title) then
+          categories:DisableCategory(self.kind, elementData.title)
+          button:SetBackdropColor(0, 0, 0, 0)
+        else
+          categories:EnableCategory(self.kind, elementData.title)
+          button:SetBackdropColor(1, 1, 0, .2)
         end
-        if IsShiftKeyDown() then
-          self.content.provider:MoveElementDataToIndex(elementData, 2)
-          self:UpdatePinnedItems()
-        elseif categories:DoesCategoryExist(elementData.title) then
-          if categories:IsCategoryEnabled(self.kind, elementData.title) then
-            categories:DisableCategory(self.kind, elementData.title)
-            button:SetBackdropColor(0, 0, 0, 0)
-          else
-            categories:EnableCategory(self.kind, elementData.title)
-            button:SetBackdropColor(1, 1, 0, .2)
-          end
-        end
-        events:SendMessage('bags/FullRefreshAll')
       end
-    end)
-  end
+      events:SendMessage('bags/FullRefreshAll')
+    end
+  end)
 end
 
 ---@param button BetterBagsSectionConfigListButton
@@ -322,11 +361,10 @@ end
 ---@return SectionConfigFrame
 function sectionConfig:Create(kind, parent)
   local sc = setmetatable({}, { __index = sectionConfigFrame })
-  sc.frame = CreateFrame("Frame", nil, parent, "DefaultPanelTemplate") --[[@as Frame]]
+  sc.frame = CreateFrame("Frame", parent:GetName().."SectionConfig", parent) --[[@as Frame]]
   sc.frame:SetPoint('BOTTOMRIGHT', parent, 'BOTTOMLEFT', -10, 0)
   sc.frame:SetPoint('TOPRIGHT', parent, 'TOPLEFT', -10, 0)
   sc.frame:SetWidth(300)
-  sc.frame:SetTitle(L:G("Configure Categories"))
   sc.frame:SetIgnoreParentScale(true)
   sc.frame:SetScale(UIParent:GetScale())
   sc.frame:Hide()
@@ -335,6 +373,7 @@ function sectionConfig:Create(kind, parent)
   sc.content = list:Create(sc.frame)
   sc.content.frame:SetAllPoints()
 
+  themes:RegisterSimpleWindow(sc.frame, L:G("Configure Categories"))
   -- Setup the create and destroy functions for items on the list.
   sc.content:SetupDataSource("BetterBagsSectionConfigListButton", function(f, data)
     ---@cast f BetterBagsSectionConfigListButton

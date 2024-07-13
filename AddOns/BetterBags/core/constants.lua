@@ -110,6 +110,14 @@ const.ITEM_BAG_FAMILY = {
   [1024] = L:G("Mining Bag"),
 }
 
+---@enum WindowKind
+const.WINDOW_KIND = {
+  UNDEFINED = 0,
+  PORTRAIT = 1,
+  SIMPLE = 2,
+  FLAT = 3,
+}
+
 ---@enum BagView
 const.BAG_VIEW = {
   UNDEFINED = 0,
@@ -154,6 +162,13 @@ const.EXPANSION_TYPE = {
 }
 
 const.OFFSETS = {
+  -- The left inset for the search box.
+  SEARCH_LEFT_INSET = 46,
+  -- The right inset for the search box.
+  SEARCH_RIGHT_INSET = -46,
+  -- The top inset for the search box.
+  SEARCH_TOP_INSET = -30,
+
   -- This is the offset from the top of the bag window to the start of the
   -- content frame.
   BAG_TOP_INSET = -42,
@@ -321,6 +336,17 @@ const.EQUIPMENT_SLOTS = {
 ---@field itemList table<number, boolean>
 ---@field readOnly boolean
 
+---@class SizeInfo
+---@field columnCount number
+---@field itemsPerRow number
+---@field scale number
+---@field width number
+---@field height number
+---@field opacity number
+
+---@class (exact) CategoryOptions
+---@field shown boolean
+
 ---@class databaseOptions
 const.DATABASE_DEFAULTS = {
   profile = {
@@ -328,8 +354,9 @@ const.DATABASE_DEFAULTS = {
     enabled = true,
     showBagButton = true,
     debug = false,
-    inBagSearch = false,
+    inBagSearch = true,
     showKeybindWarning = true,
+    theme = 'Default',
     showFullSectionNames = {
       [const.BAG_KIND.BACKPACK] = false,
       [const.BAG_KIND.BANK] = false,
@@ -413,6 +440,7 @@ const.DATABASE_DEFAULTS = {
       [const.BAG_KIND.BANK] = {},
     },
     size = {
+      ---@type SizeInfo[]
       [const.BAG_VIEW.ONE_BAG] = {
         [const.BAG_KIND.BACKPACK] = {
           columnCount = 15,
@@ -433,16 +461,16 @@ const.DATABASE_DEFAULTS = {
       },
       [const.BAG_VIEW.SECTION_GRID] = {
         [const.BAG_KIND.BACKPACK] = {
-          columnCount = 1,
-          itemsPerRow = 15,
+          columnCount = 2,
+          itemsPerRow = 7,
           scale = 100,
           width = 700,
           height = 500,
           opacity = 89,
         },
         [const.BAG_KIND.BANK] = {
-          columnCount = 1,
-          itemsPerRow = 15,
+          columnCount = 2,
+          itemsPerRow = 7,
           scale = 100,
           width = 700,
           height = 500,
@@ -494,6 +522,8 @@ const.DATABASE_DEFAULTS = {
       [const.BAG_KIND.BACKPACK] = const.BAG_VIEW.SECTION_GRID,
       [const.BAG_KIND.BANK] = const.BAG_VIEW.SECTION_GRID,
     },
+    ---@type table<string, CategoryOptions>
+    categoryOptions = {},
     ---@type table<string, CustomCategoryFilter>
     customCategoryFilters = {},
     ---@type table<string, CustomCategoryFilter>

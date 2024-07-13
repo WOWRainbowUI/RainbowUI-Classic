@@ -66,6 +66,12 @@ local refresh = addon:GetModule('Refresh')
 ---@class SectionConfig: AceModule
 local sectionConfig = addon:GetModule('SectionConfig')
 
+---@class Themes: AceModule
+local themes = addon:GetModule('Themes')
+
+---@class Views: AceModule
+local views = addon:GetModule('Views')
+
 ---@class Debug: AceModule
 local debug = addon:GetModule('Debug')
 
@@ -196,17 +202,21 @@ function addon:UpdateButtonHighlight()
 end
 
 local function applyCompat()
-  if not addon.isCata then return end
-  -- No compats right now :) 
+  C_Timer.After(5, function()
+    if C_AddOns.IsAddOnLoaded("BetterBagsElvUISkin") then
+      question:Alert("Disable ElvUI Plugin", "The ElvUI BetterBags plugin you have installed is not compatible with BetterBags. It has been disabled -- please reload your UI to apply the changes.")
+      C_AddOns.DisableAddOn("BetterBagsElvUISkin")
+    end
+  end)
 end
 
 -- OnEnable is called when the addon is enabled.
 function addon:OnEnable()
-  -- Hackfix for Cata
   applyCompat()
+  debug:Enable()
+  masque:Enable()
   itemFrame:Enable()
   sectionFrame:Enable()
-  masque:Enable()
   simpleItemLevel:Enable()
   contextMenu:Enable()
   items:Enable()
@@ -217,10 +227,16 @@ function addon:OnEnable()
   pawn:Enable()
   question:Enable()
   refresh:Enable()
+  views:Enable()
 
   self:HideBlizzardBags()
   addon.Bags.Backpack = BagFrame:Create(const.BAG_KIND.BACKPACK)
   addon.Bags.Bank = BagFrame:Create(const.BAG_KIND.BANK)
+
+  -- Apply themes globally -- do not instantiate new windows after this call.
+  themes:Enable()
+
+  addon.Bags.Backpack:SetTitle(L:G("Backpack"))
 
   table.insert(UISpecialFrames, addon.Bags.Backpack:GetName())
   table.insert(UISpecialFrames, addon.Bags.Bank:GetName())

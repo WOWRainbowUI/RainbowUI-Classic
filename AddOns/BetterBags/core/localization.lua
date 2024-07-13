@@ -18,8 +18,7 @@ if GetLocale() == "zhTW" then
 	-- bagslots.lua
 	L.data["Equipped Bags"] = "已裝備的背包"
 	
-	-- context.lua
-	L.data["BetterBags Menu"] = "BetterBags"
+	-- frames\contextmenu.lua
 	L.data["View"] = "檢視"
 	L.data["One Bag"] = "合併背包"
 	L.data["This view will display all items in a single bag, regardless of category."] = "將所有物品放在單一背包中，不分類。"
@@ -34,6 +33,8 @@ if GetLocale() == "zhTW" then
 	L.data["Cannot toggle bag slots in combat."] = "戰鬥中無法顯示裝備背包的欄位。"
 	L.data["Show Currencies"] = "顯示兌換通貨"
 	L.data["Click to toggle the display of the currencies side panel."] = "點一下切換顯示兌換通貨的面板。"
+	L.data["Themes"] = "背包外觀主題"
+	L.data["Click to toggle the display of the theme configuration side panel."] = "點一下切換顯示背包外觀主題的設定面板。"
 	L.data["Configure Categories"] = "設定分類"
 	L.data["Click to toggle the display of the category configuration side panel."] = "點一下切換顯示分類的設定面板。"
 	L.data["Show Bag Button"] = "顯示背包按鈕"
@@ -53,6 +54,7 @@ if GetLocale() == "zhTW" then
 	L.data["Gear: "] = "裝備: "
 	L.data["Everything"] = "全部"
 	L.data["Junk"] = "垃圾"
+	L.data["Free Slots"] = "空格"
 
 	-- section.lua
 	L.data["Item Count: "] = "物品數: " 
@@ -241,6 +243,7 @@ if GetLocale() == "zhTW" then
 	
 	-- frames\currency.lua
 	L.data["Click to add or remove this currency to and from your backpack."] = "點一下將此貨幣加入背包或從背包中移除。"
+	L.data["Currencies"] = "兌換通貨"
 	
 	-- frames\search.lua
 	L.data["Start typing to search your bags..."] = "輸入文字來搜尋背包中的物品..."
@@ -261,7 +264,12 @@ if GetLocale() == "zhTW" then
 	L.data["Shift Left Click"] = "Shift+左鍵"
 	L.data["Move %s to the top of your bags"] = "將 %s 移動到背包的最前面"
 	L.data["Right Click"] = "右鍵"
-	L.data["Open Menu"] = "打開選單"
+	L.data["Shift Right Click"] = "Shift+右鍵"
+	L.data["Hide or Show Category"] = "隱藏或顯示分類"
+	L.data["Show or hide this category in the bags."] = "在背包中顯示或隱藏此分類"
+	L.data["Hide Category"] = "隱藏分類"
+	L.data["(hidden)"] = "(已隱藏)"
+	-- L.data["Open Menu"] = "打開選單" -- 前面已有
 	L.data[ [[
           Dynamic categories can't be enabled or disabled (yet).
           Drag this category to Pinned to keep it at the top of your bags, or to Automatically Sorted to have it sorted with the rest of your items.]] ] = [[
@@ -269,6 +277,15 @@ if GetLocale() == "zhTW" then
         將分類拖曳到置頂，保持在背包的最前面，
         或拖曳到自動排序與其他分類一起排序。]]
 	L.data["Are you sure you want to delete the category %s?"] = "是否確定要刪除分類 %s?"
+	
+	-- frames\themeconfig.lua
+	L.data["Theme Configuration"] = "選擇背包外觀主題"
+	
+	-- themes\default.lua
+	L.data["Default"] = "預設"
+
+	-- themes\simpledark.lua
+	L.data["Simple Dark"] = "就是黑"
 	
 	-- util\sort.lua
 	L.data["Free Space"] = "空格"
@@ -278,8 +295,11 @@ if GetLocale() == "zhTW" then
 	
 	-- BetterBags-Appearances
 	L.data["Appearances"] = "外觀"
-	L.data["Subdivide by category"] = "依物品類型再分類"
-	L.data["This will also split items into categories based on their type."] = "依據物品類型，分別放置到不同的子分類中。"
+	L.data["Item Splitting Options"] = "物品子分類選項"
+	L.data["Split by Item Type"] = "依物品類型拆開"
+	L.data["This will split tradable items into categories based on their type."] = "依據物品類型，將可交易的物品分別放置到不同的子分類中。"
+	L.data["Split by Item Location"] = "依物品部位拆開"
+	L.data["This will split tradable items into categories based on their equip slot."] = "依據物品裝備的部位，將可交易的物品分別放置到不同的子分類中。"
 	L.data["Mog - Learnable"] = "外觀 (可學習)"
 	L.data["Mog - Tradable"] = "外觀 (可交易)"
 	L.data["Mog - Tradable - "] = "外觀 (可交易): "
@@ -342,8 +362,7 @@ if GetLocale() == "zhTW" then
 	L.data["Sort by Item Level"] = "依物品等級排序"
 	L.data["Sort Items by Item Level."] = "依照物品等級來排列物品。"
 	L.data["Ignore New Item Tag"] = "忽略新物品標籤"
-	L.data["If enbaled, Blizzard \"New Item Tag\" will be ignored. This makes new items strictly rely on \"New Item Duration\" setting."] = "啟用時，會忽略遊戲內建的 \"新物品標籤\"，這會讓新物品完全遵照 \"新物品持續時間\" 的設定。"
-	
+	L.data["If enbaled, Blizzard \"New Item Tag\" will be ignored. This makes new items strictly rely on \"New Item Duration\" setting."] = "啟用時，會忽略遊戲內建的 \"新物品標籤\"，這會讓新物品完全遵照 \"新物品持續時間\" 的設定。"	
 	
 end
 

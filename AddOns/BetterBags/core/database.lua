@@ -95,7 +95,7 @@ end
 
 ---@param kind BagKind
 ---@param view BagView
----@return table 
+---@return SizeInfo
 function DB:GetBagSizeInfo(kind, view)
   return DB.data.profile.size[view][kind]
 end
@@ -135,18 +135,6 @@ end
 function DB:SetBagViewFrameSize(kind, view, width, height)
   DB.data.profile.size[view][kind].width = width
   DB.data.profile.size[view][kind].height = height
-end
-
----@param kind BagKind
----@return GridCompactStyle
-function DB:GetBagCompaction(kind)
-  return DB.data.profile.compaction[kind]
-end
-
----@param kind BagKind
----@param style GridCompactStyle
-function DB:SetBagCompaction(kind, style)
-  DB.data.profile.compaction[kind] = style
 end
 
 function DB:GetItemLevelOptions(kind)
@@ -310,6 +298,19 @@ function DB:CreateEpemeralCategory(category)
   }
 end
 
+---@param category string
+---@return CategoryOptions
+function DB:GetCategoryOptions(category)
+  local options = DB.data.profile.categoryOptions[category]
+  if not options then
+    options = {
+      shown = true,
+    }
+    DB.data.profile.categoryOptions[category] = options
+  end
+  return options
+end
+
 ---@param kind BagKind
 function DB:ClearCustomSectionSort(kind)
   DB.data.profile.customSectionSort[kind] = {}
@@ -414,6 +415,16 @@ function DB:SetShowFullSectionNames(kind, value)
   DB.data.profile.showFullSectionNames[kind] = value
 end
 
+---@param key string
+function DB:SetTheme(key)
+  DB.data.profile.theme = key
+end
+
+---@return string
+function DB:GetTheme()
+  return DB.data.profile.theme
+end
+
 function DB:Migrate()
   --[[
     Migration of the custom category filters from single filter to per-bag filter.
@@ -426,6 +437,21 @@ function DB:Migrate()
         [const.BAG_KIND.BACKPACK] = value,
         [const.BAG_KIND.BANK] = value
       }
+    end
+  end
+
+  -- Fix the column count and items per row values from a previous bug.
+  -- Do not remove before Q1'25.
+  for _, bagView in pairs(const.BAG_VIEW) do
+    for _, bagKind in pairs(const.BAG_KIND) do
+      if DB.data.profile.size[bagView] then
+        local t = DB.data.profile.size[bagView][bagKind]
+        if t then
+          if t.itemsPerRow ~= nil and t.itemsPerRow > 30 or t.itemsPerRow < 1 then
+            t.itemsPerRow = 7
+          end
+        end
+      end
     end
   end
 end

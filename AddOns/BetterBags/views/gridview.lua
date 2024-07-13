@@ -28,6 +28,9 @@ local sort = addon:GetModule('Sort')
 ---@class Localization: AceModule
 local L =  addon:GetModule('Localization')
 
+---@class Categories: AceModule
+local categories = addon:GetModule('Categories')
+
 ---@class Debug : AceModule
 local debug = addon:GetModule('Debug')
 
@@ -48,9 +51,6 @@ local function Wipe(view)
     section:ReleaseAllCells()
     section:Release()
   end
-  for _, item in pairs(view.itemsByBagAndSlot) do
-    --item:Release()
-  end
   wipe(view.sections)
   wipe(view.itemsByBagAndSlot)
 end
@@ -62,7 +62,9 @@ end
 local function ClearButton(view, item)
   local cell = view.itemsByBagAndSlot[item.slotkey]
   local bagid, slotid = view:ParseSlotKey(item.slotkey)
-  cell:SetFreeSlots(bagid, slotid, -1, "Recently Deleted")
+  if cell then
+    cell:SetFreeSlots(bagid, slotid, -1, "Recently Deleted")
+  end
   view:AddDeferredItem(item.slotkey)
   local section = view:GetSlotSection(item.slotkey)
   if section then
@@ -139,7 +141,6 @@ local function GridView(view, ctx, bag, slotInfo)
     view.fullRefresh = false
   end
   local sizeInfo = database:GetBagSizeInfo(bag.kind, database:GetBagView(bag.kind))
-  view.content.compactStyle = database:GetBagCompaction(bag.kind)
 
   local added, removed, changed = slotInfo:GetChangeset()
 
@@ -191,6 +192,8 @@ local function GridView(view, ctx, bag, slotInfo)
     view:ClearDeferredItems()
   end
 
+  ---@type Cell[]
+  local hiddenCells = {}
   debug:StartProfile('Section Draw Stage')
   if not slotInfo.deferDelete then
     local dirtySections = view:GetDirtySections()
@@ -217,6 +220,11 @@ local function GridView(view, ctx, bag, slotInfo)
     end
     view:ClearDirtySections()
   end
+  for sectionName, section in pairs(view:GetAllSections()) do
+    if categories:IsCategoryShown(sectionName) == false then
+      table.insert(hiddenCells, section)
+    end
+  end
   debug:EndProfile('Section Draw Stage')
 
   -- Get the free slots section and add the free slots to it.
@@ -241,7 +249,13 @@ local function GridView(view, ctx, bag, slotInfo)
 
   if not slotInfo.deferDelete then
     debug:StartProfile('Content Draw Stage')
-    local w, h = view.content:Draw()
+    local w, h = view.content:Draw({
+      cells = view.content.cells,
+      maxWidthPerRow = ((37 + 4) * sizeInfo.itemsPerRow) + 16,
+      columns = sizeInfo.columnCount,
+      header = view:RemoveSectionFromGrid(L:G("Recent Items")),
+      mask = hiddenCells,
+    })
     for _, section in pairs(view.sections) do
       debug:WalkAndFixAnchorGraph(section.frame)
     end
