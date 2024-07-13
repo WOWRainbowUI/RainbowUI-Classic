@@ -1432,4 +1432,6 @@ L["Cannot be used with Easy Frames"] = "此功能無法與 '暴雪頭像' 插件
 L["Manage vehicle"] = "管理坐騎座位"
 L["Mute custom sounds"] = "自訂音效靜音"
 L["Keep audio synced"] = "使用系統音效裝置"
+L["Enhance flight map"] = "增強鳥點地圖"
+
 end
