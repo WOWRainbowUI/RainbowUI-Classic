@@ -663,11 +663,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [8488] = {
-            [questKeys.triggerEnd] = {"Protect Apprentice Mirveda", {[zoneIDs.EVERSONG_WOODS]={{54.3,71.02}}}},
+            [questKeys.objectives] = {{{15402,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [8490] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Infused Crystal and protect it from the Scourge for 1 minute"), 0, {{"object", 181164}}}},
+            [questKeys.objectives] = {{{16364,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [8548] = {
             [questKeys.specialFlags] = 1,
@@ -867,18 +868,21 @@ function QuestieTBCQuestFixes:Load()
         [8883] = {
             [questKeys.questLevel] = -1,
         },
-        [8888] = {
-            [questKeys.exclusiveTo] = {8889,8890,9394,},
+        [8887] = {
+            [questKeys.startedBy] = {{15668,15669,15670,15950},nil,{21776}},
         },
         [8894] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [9066] = {
+            [questKeys.objectives] = {{{15945,nil,Questie.ICON_TYPE_INTERACT},{15941,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9130] = {
             [questKeys.requiredMinRep] = {},
         },
         [9144] = {
             [questKeys.requiredLevel] = 10,
-            [questKeys.exclusiveTo] = {9147},
+            [questKeys.nextQuestInChain] = 9147,
         },
         [9147] = {
             [questKeys.preQuestSingle] = {},
@@ -895,13 +899,20 @@ function QuestieTBCQuestFixes:Load()
         [9161] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9164] = {
+            [questKeys.objectives] = {{{16208,nil,Questie.ICON_TYPE_INTERACT},{16206,nil,Questie.ICON_TYPE_INTERACT},{16209,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [9174] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Bundle of Medallions"), 0, {{"object", 181157}}}},
         },
         [9177] = {
+            [questKeys.startedBy] = {{16252},nil},
             [questKeys.finishedBy] = {{10181},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE - raceIDs.BLOOD_ELF, -- 9180 is the blood elf version of this quest
             [questKeys.preQuestSingle] = {9175},
+        },
+        [9180] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9181] = {
             [questKeys.specialFlags] = 1,
@@ -955,7 +966,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {9280},
         },
         [9303] = {
-            [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated"}},nil,nil,nil},
+            [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated",Questie.ICON_TYPE_INTERACT}}},
+        },
+        [9339] = {
+            [questKeys.objectivesText] = nil,
         },
         [9355] = {
             [questKeys.preQuestSingle] = {10143,10483},
@@ -965,6 +979,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9360] = {
             [questKeys.startedBy] = {{15407},nil,{23249}},
+        },
+        [9365] = {
+            [questKeys.objectivesText] = nil,
         },
         [9370] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Signaling Gem"), 0, {{"object", 181449}}}},
@@ -1291,6 +1308,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9798] = {
             [questKeys.startedBy] = {{16522},nil,{24414}},
+            [questKeys.preQuestSingle] = {9309},
         },
         [9802] = {
             [questKeys.requiredMaxRep] = {},
@@ -3946,6 +3964,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{26221},nil},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = 0,
+            [questKeys.requiredMaxLevel] = 28,
         },
         [11922] = {
             [questKeys.startedBy] = {{26113},nil,nil},
@@ -4032,21 +4051,25 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{26221},nil},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = 0,
+            [questKeys.requiredMaxLevel] = 38,
         },
         [11948] = {
             [questKeys.finishedBy] = {{26221},nil},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = 0,
+            [questKeys.requiredMaxLevel] = 48,
         },
         [11952] = {
             [questKeys.finishedBy] = {{26221},nil},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = 0,
+            [questKeys.requiredMaxLevel] = 55,
         },
         [11953] = {
             [questKeys.finishedBy] = {{26221},nil},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = 0,
+            [questKeys.requiredMaxLevel] = 63,
         },
         [11954] = {
             [questKeys.startedBy] = {{26221},nil,nil},

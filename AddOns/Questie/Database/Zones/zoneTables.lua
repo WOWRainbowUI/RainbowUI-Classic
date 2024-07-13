@@ -800,7 +800,7 @@ ZoneDB.private.dungeonLocations = {
     [4950] = {{4922, 19.2, 54.0}}, -- Grim Batol, Dungeon
     [4945] = {{5034, 71.6, 52.2}}, -- Halls of Origination, Dungeon
     [4987] = {{65, 59.6, 51.1}}, -- The Ruby Sanctum
-    [5004] = {{5146, 49.1, 42.4}, {5145, 70.8, 29.0}}, -- Throne of the Tides, Dungeon
+    [5004] = {{5145, 70.8, 29.0}}, -- Throne of the Tides, Dungeon
     [5035] = {{5034, 76.7, 84.4}}, -- The Vortex Pinnacle, Dungeon
     [5088] = {{5042, 47.6, 52.0}}, -- The Stonecore, Dungeon
     [5094] = {{46, 23.0, 26.6}}, -- Blackwing Descent, Raid
@@ -812,6 +812,7 @@ ZoneDB.private.dungeonLocations = {
     [5788] = {Questie.IsCata and {440, 64.8, 50}}, -- Well of Eternity, Dungeon
     [5789] = {Questie.IsCata and {440, 64.8, 50}}, -- End Time, Dungeon
     [5844] = {Questie.IsCata and {440, 64.8, 50}}, -- Hour of Twilight, Dungeon
+    [5861] = {{12, 41.79, 69.52},{215, 36.85, 35.86}}, -- Darkmoon Faire Island (coords are object 210177)
     [5892] = {Questie.IsCata and {440, 64.8, 50}}, -- Dragon Soul, Raid
     [7307] = {(Questie.IsCata and {51, 34.9, 83.9}) or {51, 34.8, 85.3}, (Questie.IsCata and {46, 21, 37.9}) or {46, 29.4, 38.3}}, -- Upper Blackrock Spire
 }
@@ -3075,6 +3076,7 @@ ZoneDB.private.zoneIDs = {
     GNOMEREGAN = 721,
     RAZORFEN_DOWNS = 722,
     SCARLET_MONASTERY = 796,
+    CHILL_BREEZE_VALLEY = 801,
     ZUL_FARRAK = 1176,
     ULDAMAN = 1337,
     SILITHUS = 1377,
@@ -3237,10 +3239,12 @@ ZoneDB.private.zoneIDs = {
     BLACKROCK_CAVERNS = 4926,
     ULDUM = 5034,
     DEEPHOLM = 5042,
-    TOL_BARAD = 5095,
+    TOL_BARAD = 5095, -- the southern isle
     SHIMMERING_EXPANSE = 5144, -- Vashj'ir sub zone
     ABYSSAL_DEPTHS = 5145, -- Vashj'ir sub zone
     THE_CAPE_OF_STRANGLETHORN = 5287,
+    TOL_BARAD_PENINSULA = 5389, -- the northern isle
+    DARKMOON_FAIRE_ISLAND = 5861,
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic
