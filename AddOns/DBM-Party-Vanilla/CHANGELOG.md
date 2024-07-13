@@ -1,12 +1,8 @@
-# DBM - Dungeons
+# DBM - Dungeons, Delves, & Events
 
-## [r130](https://github.com/DeadlyBossMods/DBM-Dungeons/tree/r130) (2024-05-21)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Dungeons/compare/r129...r130) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Dungeons/releases)
+## [r137](https://github.com/DeadlyBossMods/DBM-Dungeons/tree/r137) (2024-07-09)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Dungeons/compare/r136...r137) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Dungeons/releases)
 
-- Add test for Uldaman/Lost Dwarves (#207)  
-- Oops, that one should be count generic  
-- Change these to generic objects  
-- Added user requestd nameplate timers for hidous cackle and necrotic Breath  
-- Some notes  
-- Couple minor mist of pandaria dungeon fixes  
-- Adjust several mod import usages  
+- Fix load errors on era  
+- toc tweaks  
+- Fix icon and yell clearning for Burning ricochet  

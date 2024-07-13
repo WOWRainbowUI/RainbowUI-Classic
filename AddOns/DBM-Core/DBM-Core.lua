@@ -75,16 +75,16 @@ end
 ---@class DBM
 local DBM = private:GetPrototype("DBM")
 _G.DBM = DBM
-DBM.Revision = parseCurseDate("20240529003752")
+DBM.Revision = parseCurseDate("20240711100522")
 
-local fakeBWVersion, fakeBWHash = 330, "8c25119"--330.1
+local fakeBWVersion, fakeBWHash = 341, "51c5bf8"--341.1
 local bwVersionResponseString = "V^%d^%s"
 local PForceDisable
 -- The string that is shown as version
-DBM.DisplayVersion = "10.2.45"--Core version
+DBM.DisplayVersion = "10.2.53"--Core version
 DBM.classicSubVersion = 0
-DBM.ReleaseRevision = releaseDate(2024, 5, 28) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
-PForceDisable = private.isCata and 11 or 10--When this is incremented, trigger force disable regardless of major patch
+DBM.ReleaseRevision = releaseDate(2024, 7, 11) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
+PForceDisable = (private.isWrath or private.isClassic) and 13 or 12--When this is incremented, trigger force disable regardless of major patch
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
 -- support for github downloads, which doesn't support curse keyword expansion
@@ -131,7 +131,7 @@ DBM.DefaultOptions = {
 	CountdownVoice = "Genji",
 	CountdownVoice2 = "DVa",
 	CountdownVoice3 = "Overwatch",
-	PullVoice = "Meicn",
+	PullVoice = "Corsica",
 	ChosenVoicePack2 = (GetLocale() == "enUS" or GetLocale() == "enGB") and "VEM" or "SahaJh",
 	VPReplacesAnnounce = true,
 	VPReplacesSA1 = true,
@@ -577,12 +577,47 @@ private.IsEncounterInProgress = IsEncounterInProgress
 
 local RAID_CLASS_COLORS = _G["CUSTOM_CLASS_COLORS"] or RAID_CLASS_COLORS-- for Phanx' Class Colors
 
+-- Polyfill for C_AddOns, Cata, Era and Retail have the fully featured table, Wrath has only Metadata (as of Jun 6th 2024)
+local C_AddOns
+do
+	local cachedAddOns = nil
+	C_AddOns = {
+		GetAddOnMetadata = _G.C_AddOns.GetAddOnMetadata,
+		GetNumAddOns = _G.C_AddOns.GetNumAddOns or GetNumAddOns, ---@diagnostic disable-line:deprecated
+		GetAddOnInfo = _G.C_AddOns.GetAddOnInfo or GetAddOnInfo, ---@diagnostic disable-line:deprecated
+		LoadAddOn = _G.C_AddOns.LoadAddOn or LoadAddOn, ---@diagnostic disable-line:deprecated
+		IsAddOnLoaded = _G.C_AddOns.IsAddOnLoaded or IsAddOnLoaded, ---@diagnostic disable-line:deprecated
+		EnableAddOn = _G.C_AddOns.EnableAddOn or EnableAddOn, ---@diagnostic disable-line:deprecated
+		GetAddOnEnableState = _G.C_AddOns.GetAddOnEnableState or function(addon, character)
+			return GetAddOnEnableState(character, addon) ---@diagnostic disable-line:deprecated
+		end,
+		DoesAddOnExist = _G.C_AddOns.DoesAddOnExist or function(addon)
+			if not cachedAddOns then
+				cachedAddOns = {}
+				for i = 1, GetNumAddOns() do ---@diagnostic disable-line:deprecated
+					cachedAddOns[GetAddOnInfo(i)] = true ---@diagnostic disable-line:deprecated
+				end
+			end
+			return cachedAddOns[addon]
+		end,
+	}
+end
+
+-- this is not technically a lib and instead a standalone addon but the api is available via LibStub
+local CustomNames = C_AddOns.IsAddOnLoaded("CustomNames") and LibStub and LibStub("CustomNames")
+
 ---------------------------------
 --  General (local) functions  --
 ---------------------------------
 local checkEntry, removeEntry = tableUtils.checkEntry, tableUtils.removeEntry
 
---Whisper/Whisper Sync filter function
+---Whisper/Whisper Sync filter function
+---@param sender any string for non realId and number for realId. Pass to true for realID
+---@param checkFriends boolean? checks sender against friends list
+---@param checkGuild boolean? checks sender against guild roster
+---@param filterRaid boolean? checks sender against group members of your raid
+---@param isRealIdMessage boolean? set true if this is a RealID whisper/comm
+---@return boolean
 local function checkForSafeSender(sender, checkFriends, checkGuild, filterRaid, isRealIdMessage)
 	if checkFriends then
 		--Check Battle.net friends
@@ -646,13 +681,15 @@ local function sendSync(protocol, prefix, msg)
 		msg = msg or ""
 		local fullname = playerName .. "-" .. normalizedPlayerRealm
 		local sendChannel = "SOLO"
-		if IsInGroup(2) and IsInInstance() then--For BGs, LFR and LFG (we also check IsInInstance() so if you're in queue but fighting something outside like a world boss, it'll sync in "RAID" instead)
-			sendChannel = "INSTANCE_CHAT"
-		else
-			if IsInRaid() then
-				sendChannel = "RAID"
-			elseif IsInGroup(1) then
-				sendChannel = "PARTY"
+		if not IsTrialAccount() then
+			if IsInGroup(2) and IsInInstance() then--For BGs, LFR and LFG (we also check IsInInstance() so if you're in queue but fighting something outside like a world boss, it'll sync in "RAID" instead)
+				sendChannel = "INSTANCE_CHAT"
+			else
+				if IsInRaid() then
+					sendChannel = "RAID"
+				elseif IsInGroup(1) then
+					sendChannel = "PARTY"
+				end
 			end
 		end
 		if sendChannel == "SOLO" then
@@ -695,13 +732,15 @@ local function sendLoggedSync(protocol, prefix, msg)
 		msg = msg or ""
 		local fullname = playerName .. "-" .. normalizedPlayerRealm
 		local sendChannel = "SOLO"
-		if IsInGroup(2) and IsInInstance() then--For BGs, LFR and LFG (we also check IsInInstance() so if you're in queue but fighting something outside like a world boss, it'll sync in "RAID" instead)
-			sendChannel = "INSTANCE_CHAT"
-		else
-			if IsInRaid() then
-				sendChannel = "RAID"
-			elseif IsInGroup(1) then
-				sendChannel = "PARTY"
+		if not IsTrialAccount() then
+			if IsInGroup(2) and IsInInstance() then--For BGs, LFR and LFG (we also check IsInInstance() so if you're in queue but fighting something outside like a world boss, it'll sync in "RAID" instead)
+				sendChannel = "INSTANCE_CHAT"
+			else
+				if IsInRaid() then
+					sendChannel = "RAID"
+				elseif IsInGroup(1) then
+					sendChannel = "PARTY"
+				end
 			end
 		end
 		if sendChannel == "SOLO" then
@@ -726,13 +765,15 @@ local function SendWorldSync(self, protocol, prefix, msg, noBNet)
 	DBM:Debug("SendWorldSync running for " .. prefix)
 	local fullname = playerName .. "-" .. normalizedPlayerRealm
 	local sendChannel = "SOLO"
-	if IsInGroup(2) and IsInInstance() then--For BGs, LFR and LFG (we also check IsInInstance() so if you're in queue but fighting something outside like a world boss, it'll sync in "RAID" instead)
-		sendChannel = "INSTANCE_CHAT"
-	else
-		if IsInRaid() then
-			sendChannel = "RAID"
-		elseif IsInGroup(1) then
-			sendChannel = "PARTY"
+	if not IsTrialAccount() then
+		if IsInGroup(2) and IsInInstance() then--For BGs, LFR and LFG (we also check IsInInstance() so if you're in queue but fighting something outside like a world boss, it'll sync in "RAID" instead)
+			sendChannel = "INSTANCE_CHAT"
+		else
+			if IsInRaid() then
+				sendChannel = "RAID"
+			elseif IsInGroup(1) then
+				sendChannel = "PARTY"
+			end
 		end
 	end
 	if sendChannel == "SOLO" then
@@ -743,7 +784,7 @@ local function SendWorldSync(self, protocol, prefix, msg, noBNet)
 			DBM:Debug("|cffff0000SendWorldSync failed with a result of " ..result.. " for prefix |r" .. prefix)
 		end
 	end
-	if IsInGuild() then
+	if IsInGuild() and sendChannel ~= "SOLO" then
 		SendAddonMessage(DBMPrefix, fullname .. "\t" .. (protocol or DBMSyncProtocol) .. "\t" .. prefix .. "\t" .. msg, "GUILD")--Even guild syncs send realm so we can keep antispam the same across realid as well.
 	end
 	if self.Options.EnableWBSharing and not noBNet then
@@ -780,6 +821,7 @@ end
 -- sends a whisper to a player by their character name or BNet presence id
 -- returns true if the message was sent, nil otherwise
 local function sendWhisper(target, msg)
+	if IsTrialAccount() then return end
 	if type(target) == "number" then
 		if not BNIsSelf(target) then -- Never send BNet whispers to ourselves
 			BNSendWhisper(target, msg)
@@ -1067,12 +1109,12 @@ do
 
 		function registerSpellId(event, spellId)
 			if type(spellId) == "string" then--Something is screwed up, like SPELL_AURA_APPLIED DOSE
-				DBM:Debug("DBM RegisterEvents Warning: " .. spellId .. " is not a number!")
+				DBM:Debug("|cffff0000DBM RegisterEvents Warning: " .. spellId .. " is not a number!|r")
 				return
 			end
 			local spellName = DBM:GetSpellName(spellId)
 			if spellId and not spellName then
-				DBM:Debug("DBM RegisterEvents Warning: " .. spellId .. " spell id does not exist!")
+				DBM:Debug("|cffff0000DBM RegisterEvents Warning: " .. spellId .. " id does not exist!|r")
 				return
 			end
 			if not registeredSpellIds[event] then
@@ -1091,7 +1133,7 @@ do
 			if not registeredSpellIds[event] then return end
 			local spellName = DBM:GetSpellName(spellId)
 			if spellId and not spellName then
-				DBM:Debug("DBM unregisterSpellId Warning: " .. spellId .. " spell id does not exist!")
+				DBM:Debug("|cffff0000DBM unregisterSpellId Warning: " .. spellId .. " id does not exist!|r")
 				return
 			end
 			--local regName = isClassic and spellName or spellId
@@ -1309,7 +1351,7 @@ do
 
 	---@param self DBMModOrDBM
 	function DBM:UnregisterShortTermEvents()
-		DBM:Debug("UnregisterShortTermEvents fired", 2)
+		DBM:Debug("UnregisterShortTermEvents fired", 3)
 		if self.shortTermRegisterEvents then
 			DBM:Debug("UnregisterShortTermEvents found registered shortTermRegisterEvents", 2)
 			for event, mods in pairs(registeredEvents) do
@@ -1442,11 +1484,13 @@ do
 	local isLoaded = false
 	local onLoadCallbacks, disabledMods = {}, {}
 
+	---@param self DBM
 	local function infiniteLoopNotice(self, message)
 		AddMsg(self, message)
 		self:Schedule(30, infiniteLoopNotice, self, message)
 	end
 
+	---@param self DBM
 	local function runDelayedFunctions(self)
 		--Check if voice pack missing
 		local activeVP = self.Options.ChosenVoicePack2
@@ -1819,6 +1863,11 @@ do
 					"CANCEL_PLAYER_COUNTDOWN"
 				)
 			end
+			if private.wowTOC >= 110000 then
+				self:RegisterEvents(
+					"PLAYER_MAP_CHANGED"
+				)
+			end
 			if not private.isClassic then -- Retail, WoTLKC, and BCC
 				self:RegisterEvents(
 					"LFG_PROPOSAL_FAILED",
@@ -1915,6 +1964,8 @@ do
 		end
 	end
 
+	---@param event string
+	---@param ... any?
 	function DBM:FireEvent(event, ...)
 		fireEvent(event, ...)
 	end
@@ -2173,7 +2224,7 @@ do
 			DBT:CancelBar(text)
 			fireEvent("DBM_TimerStop", "DBMPizzaTimer")
 			-- Fire cancelation of pizza timer
-			if broadcast then
+			if broadcast and not IsTrialAccount() then
 				text = text:sub(1, 16)
 				text = text:gsub("%%t", UnitName("target") or "<no target>")
 				if whisperTarget then
@@ -2336,7 +2387,7 @@ do
 				twipe(forceDisablePerson)
 				inRaid = true
 				sendSync(DBMSyncProtocol, "H")
-				if dbmIsEnabled then
+				if dbmIsEnabled and not IsTrialAccount() then
 					SendAddonMessage("BigWigs", bwVersionQueryString:format(0, fakeBWHash), IsInGroup(2) and "INSTANCE_CHAT" or "RAID")
 				end
 				if private.isRetail or private.isCata then
@@ -2425,7 +2476,7 @@ do
 				twipe(forceDisablePerson)
 				inRaid = true
 				sendSync(DBMSyncProtocol, "H")
-				if dbmIsEnabled then
+				if dbmIsEnabled and not IsTrialAccount() then
 					SendAddonMessage("BigWigs", bwVersionQueryString:format(0, fakeBWHash), IsInGroup(2) and "INSTANCE_CHAT" or "PARTY")
 				end
 				if private.isRetail or private.isCata then
@@ -2749,14 +2800,18 @@ do
 	---Shortens name but custom so we add * to off realmers instead of stripping it entirely like Ambiguate does
 	---<br>Technically GetUnitName without "true" can be used to shorten name to "name (*)" but "name*" is even shorter which is why we do this
 	function DBM:GetShortServerName(name)
-		if not self.Options.StripServerName then return name end--If strip is disabled, just return name
-		local shortName, serverName = string.split("-", name)
-		if serverName and serverName ~= playerRealm and serverName ~= normalizedPlayerRealm then
-			return shortName .. "*"
-		else
-			return name
-		end
-	end
+        if not self.Options.StripServerName then return name end--If strip is disabled, just return name
+        if CustomNames then
+			---@diagnostic disable-next-line: undefined-field
+            name = CustomNames.Get(name)
+        end
+        local shortName, serverName = string.split("-", name)
+        if serverName and serverName ~= playerRealm and serverName ~= normalizedPlayerRealm then
+            return shortName .. "*"
+        else
+            return name
+        end
+    end
 
 	---@param guid string
 	function DBM:GetFullPlayerNameByGUID(guid)
@@ -3177,7 +3232,7 @@ end
 function DBM:PLAYER_LEVEL_CHANGED()
 	private.playerLevel = UnitLevel("player")
 	if private.playerLevel < 15 and private.playerLevel > 9 then
-		self:PLAYER_SPECIALIZATION_CHANGED() -- Classic this is "CHARACTER_POINTS_CHANGED", but we just use this function anyway
+		self:PLAYER_SPECIALIZATION_CHANGED("player") -- Classic this is "CHARACTER_POINTS_CHANGED", but we just use this function anyway
 	end
 end
 
@@ -3590,9 +3645,11 @@ do
 	end
 
 	--Retail API doesn't need throttle
-	function DBM:PLAYER_SPECIALIZATION_CHANGED()
-		self:Unschedule(throttledTalentCheck)
-		throttledTalentCheck(self)
+	function DBM:PLAYER_SPECIALIZATION_CHANGED(unit)
+		if unit == "player" then
+			self:Unschedule(throttledTalentCheck)
+			throttledTalentCheck(self)
+		end
 	end
 	--Throttle checks on talent point updates so that if multiple CHARACTER_POINTS_CHANGED fire in succession
 	--It doesnt spam DBMs code and cause performance lag
@@ -3747,10 +3804,10 @@ do
 		end
 	end
 
-	---@param force boolean?
-	---@param cleanup boolean?
+	---@param force boolean? Only used when /dbm musicstart is used directly by user
+	---@param cleanup boolean? Runs on zone change/cinematic Start (first load delay) and combat end
 	function DBM:TransitionToDungeonBGM(force, cleanup)
-		if cleanup then--Runs on zone change/cinematic Start (first load delay) and combat end
+		if cleanup then
 			self:Unschedule(self.TransitionToDungeonBGM)
 			if self.Options.RestoreSettingCustomMusic then
 				SetCVar("Sound_EnableMusic", self.Options.RestoreSettingCustomMusic)
@@ -3801,21 +3858,16 @@ do
 		local _, instanceType, difficulty, _, _, _, _, mapID, instanceGroupSize = private.GetInstanceInfo()
 		difficulties:RefreshCache(true)
 		LastGroupSize = instanceGroupSize
-		self:Debug("Instance Check fired with mapID " .. mapID .. " and difficulty " .. difficulty, 2)
-		-- Auto Logging for entire zone if record only bosses is off
-		-- This Bypasses Same ID check because we still need to recheck this on keystone difficulty check
-		if not self.Options.RecordOnlyBosses then
-			if LastInstanceType == "raid" or LastInstanceType == "party" then
-				self:StartLogging(0)
-			else
-				self:StopLogging()
-			end
-		end
-		if LastInstanceMapID == mapID then
+		self:Debug("Instance Check fired with mapID " .. mapID .. " and difficulty " .. difficulty .. " and delay " .. (delay or 0), 2)
+		-- Difficulty index also checked because in challenge modes and M+, difficulty changes with no ID change
+		-- if ID changes we need to execute updated autologging and checkavailable mods checks
+		-- ID and difficulty hasn't changed, don't waste cpu doing anything else (example situation, porting into garrosh stage 4 is a loading screen)
+		if LastInstanceMapID == mapID and difficulties.difficultyIndex == difficulty then
 			self:TransitionToDungeonBGM()
-			self:Debug("No action taken because mapID hasn't changed since last check", 2)
+			self:Debug("|c00F2F200No action taken because mapID and difficultyID hasn't changed since last check |r", 2)
 			return
-		end--ID hasn't changed, don't waste cpu doing anything else (example situation, porting into garrosh stage 4 is a loading screen)
+		end
+		self:Debug("|c0069CCF0mapID or difficulty has changed, updating LastInstanceMapID to |r" .. mapID, 2)
 		LastInstanceMapID = mapID
 		DBMScheduler:UpdateZone()--Also update zone in scheduler
 		fireEvent("DBM_UpdateZone", mapID)
@@ -3837,6 +3889,14 @@ do
 				end
 			end
 		end
+		-- Auto Logging for entire zone if record only bosses is off
+		if not self.Options.RecordOnlyBosses then
+			if LastInstanceType == "raid" or LastInstanceType == "party" then
+				self:StartLogging(0)
+			else
+				self:StopLogging()
+			end
+		end
 		-- LoadMod
 		self:LoadModsOnDemand("mapId", mapID, delay or 0)
 		self:CheckAvailableMods()
@@ -3851,12 +3911,14 @@ do
 
 	--Faster and more accurate loading for instances, but useless outside of them
 	function DBM:LOADING_SCREEN_DISABLED(delayedCheck)
-		if private.isRetail then
+		--Extra stuff we want to clean up after loading screens only
+		if not private.isClassic and not private.isBCC then
 			DBT:CancelBar(L.LFG_INVITE)--Disable bar here since LFG_PROPOSAL_SUCCEEDED seems broken right now
 		end
 		fireEvent("DBM_TimerStop", "DBMLFGTimer")
 		timerRequestInProgress = false
-		self:Debug("LOADING_SCREEN_DISABLED fired")
+		--Regular load zone code beyond this point
+		self:Debug("LOADING_SCREEN_DISABLED fired", 2)
 		self:Unschedule(SecondaryLoadCheck)
 		--SecondaryLoadCheck(self)
 		--In instance tranfers with no loading screen, InstanceInfo can actually return nil for first few seconds
@@ -3879,9 +3941,9 @@ do
 		[2454] = true,--Zaralek Caverns
 		[2574] = true,--Dragon Isles
 		[2444] = true,--Dragon Isles
-		[2601] = true,--Khaz Algar (Underground)
-		[2774] = true,--Khaz Algar (Underground)
-		[2552] = true,--Khaz Algar (Surface)
+--		[2601] = true,--Khaz Algar (Underground)
+--		[2774] = true,--Khaz Algar (Underground)
+--		[2552] = true,--Khaz Algar (Surface)
 	}
 
 	-- Load based on MapIDs
@@ -3891,14 +3953,40 @@ do
 			self:LoadModsOnDemand("mapId", "m" .. mapID)
 		end
 		DBM:CheckAvailableModsByMap()
-		--if a special zone or delve, we need to force update LastInstanceMapID and run zone change functions without loading screen
-		if specialZoneIDs[LastInstanceMapID] or difficulties:InstanceType(LastInstanceMapID) == 4 then
+		--if a special zone, we need to force update LastInstanceMapID and run zone change functions without loading screen
+		--This hack and table can go away in TWW pre patch when we gain access to PLAYER_MAP_CHANGED
+		if private.wowTOC < 110000 and specialZoneIDs[LastInstanceMapID] then--or difficulties:InstanceType(LastInstanceMapID) == 4
 			DBM:Debug("Forcing LOADING_SCREEN_DISABLED", 2)
 			self:LOADING_SCREEN_DISABLED(true)
 		end
 	end
 
+	---Special event that fires when changing zones in TWW
+	---@param oldZone number if oldZone is -1, it means it's a loading screen
+	---@param newZone number
+	function DBM:PLAYER_MAP_CHANGED(oldZone, newZone)
+		self:Debug("PLAYER_MAP_CHANGED fired with oldZone " .. oldZone .. " and newZone " .. newZone, 2)
+		if oldZone == -1 then return end--Let legacy LOADING_SCREEN_DISABLED handle it for now. In future, PLAYER_MAP_CHANGED may replace LSD if classic gets it
+		if LastInstanceMapID ~= newZone then
+			self:Debug("Zone changed, firing secondary load check", 2)
+			--Different ID than cached, run secondary load checks
+			--Delay is still needed due to GetInstanceInfo not returning new information yet instantly on PLAYER_MAP_CHANGED
+			self:TransitionToDungeonBGM(false, true)
+			self:Unschedule(SecondaryLoadCheck)
+			self:Schedule(1, SecondaryLoadCheck, self, 1)
+			self:Schedule(5, SecondaryLoadCheck, self, 5)
+			if self:HasMapRestrictions() then
+				self.Arrow:Hide()
+				self.HudMap:Disable()
+				if (private.isRetail and self.RangeCheck:IsShown()) or self.RangeCheck:IsRadarShown() then
+					self.RangeCheck:Hide(true)
+				end
+			end
+		end
+	end
+
 	function DBM:CHALLENGE_MODE_RESET()
+		--TODO, if blizzard ever removes loading screen from challenge modes start, then we need to run additional stuff from SecondaryLoadCheck here
 		difficulties.difficultyIndex = 8
 		self:CheckAvailableMods()
 		if not self.Options.RecordOnlyBosses then
@@ -4253,7 +4341,12 @@ do
 
 	local dummyMod -- dummy mod for the pull timer
 
+	---@param self DBM
+	---@param sender string
+	---@param timer any string or number only, but luaLS bitches if I actually tell it that
+	---@param blizzardTimer boolean?
 	local function pullTimerStart(self, sender, timer, blizzardTimer)
+		if not timer then return end
 		if private.newShit and not blizzardTimer then return end--Ignore old DBM version comms
 		local unitId
 		if sender then--Blizzard cancel events triggered by system (such as encounter start) have no sender
@@ -4435,7 +4528,7 @@ do
 			end
 			return
 		end
-		if DBM.Options.FakeBWVersion and not dbmIsEnabled then
+		if DBM.Options.FakeBWVersion and not dbmIsEnabled and not IsTrialAccount() then
 			SendAddonMessage("BigWigs", bwVersionResponseString:format(fakeBWVersion, fakeBWHash), IsInGroup(2) and "INSTANCE_CHAT" or IsInRaid() and "RAID" or "PARTY")
 			return
 		end
@@ -4754,12 +4847,10 @@ do
 	end
 
 	guildSyncHandlers["WBA"] = function(sender, protocol, bossName, faction, spellId, time) -- Classic only
-		DBM:Debug("WBA sync recieved")
 		if not protocol or protocol ~= 4 or private.isRetail then return end--Ignore old versions
 		if lastBossEngage[bossName .. faction] and (GetTime() - lastBossEngage[bossName .. faction] < 30) then return end--We recently got a sync about this buff on this realm, so do nothing.
 		lastBossEngage[bossName .. faction] = GetTime()
 		if DBM.Options.WorldBuffAlert and #inCombat == 0 then
-			DBM:Debug("WBA sync processing")
 			local factionText = faction == "Alliance" and FACTION_ALLIANCE or faction == "Horde" and FACTION_HORDE or CL.BOTH
 			local buffName, _, buffIcon = DBM:GetSpellInfo(tonumber(spellId) or 0)
 			DBM:AddMsg(L.WORLDBUFF_STARTED:format(buffName or CL.UNKNOWN, factionText, sender))
@@ -4798,12 +4889,10 @@ do
 	end
 
 	whisperSyncHandlers["WBA"] = function(sender, protocol, bossName, faction, spellId, time) -- Classic only
-		DBM:Debug("WBA sync recieved")
 		if not protocol or protocol ~= 4 or private.isRetail then return end--Ignore old versions
 		if lastBossEngage[bossName .. faction] and (GetTime() - lastBossEngage[bossName .. faction] < 30) then return end--We recently got a sync about this buff on this realm, so do nothing.
 		lastBossEngage[bossName .. faction] = GetTime()
 		if DBM.Options.WorldBuffAlert and #inCombat == 0 then
-			DBM:Debug("WBA sync processing")
 			local factionText = faction == "Alliance" and FACTION_ALLIANCE or faction == "Horde" and FACTION_HORDE or CL.BOTH
 			local buffName, _, buffIcon = DBM:GetSpellInfo(tonumber(spellId) or 0)
 			DBM:AddMsg(L.WORLDBUFF_STARTED:format(buffName or CL.UNKNOWN, factionText, sender))
@@ -4969,20 +5058,22 @@ do
 		end
 	end
 
-	function DBM:START_PLAYER_COUNTDOWN(initiatedBy, timeSeconds)--totalTime
+	function DBM:START_PLAYER_COUNTDOWN(initiatedByGuid, timeSeconds, _, _, initiatedByName)--totalTime, informChat
 		--Ignore this event in combat
 		if #inCombat > 0 then return end
 --		if timeSeconds > 60 then--treat as a break timer
 --			breakTimerStart(self, timeSeconds, initiatedBy, true)
 --		else--Treat as a pull timer
-			pullTimerStart(self, initiatedBy, timeSeconds, true)
+			--In TWW, initiatedByName is in a diff place. We solve this by simply checking new location cause that'll be nil on live
+			pullTimerStart(self, initiatedByName or initiatedByGuid, timeSeconds, true)
 --		end
 	end
 
-	function DBM:CANCEL_PLAYER_COUNTDOWN(initiatedBy)
+	function DBM:CANCEL_PLAYER_COUNTDOWN(initiatedByGuid, _, initiatedByName)--informChat
 		--when CANCEL_PLAYER_COUNTDOWN is called by ENCOUNTER_START, sender is nil
 --		breakTimerStart(self, 0, initiatedBy, true)
-		pullTimerStart(self, initiatedBy, 0, true)
+		--In TWW, initiatedByName is in a diff place. We solve this by simply checking new location cause that'll be nil on live
+		pullTimerStart(self, initiatedByName or initiatedByGuid, 0, true)
 	end
 end
 
@@ -5265,31 +5356,23 @@ do
 		if not private.isRetail and not IsInInstance() then
 			if msg:find(L.WORLD_BUFFS.hordeOny) then
 				SendWorldSync(self, 4, "WBA", "Onyxia\tHorde\t22888\t15\t4")
-				DBM:Debug("L.WORLD_BUFFS.hordeOny detected")
 			elseif msg:find(L.WORLD_BUFFS.allianceOny) then
 				SendWorldSync(self, 4, "WBA", "Onyxia\tAlliance\t22888\t15\t4")
-				DBM:Debug("L.WORLD_BUFFS.allianceOny detected")
 			elseif msg:find(L.WORLD_BUFFS.hordeNef) then
 				SendWorldSync(self, 4, "WBA", "Nefarian\tHorde\t22888\t16\t4")
-				DBM:Debug("L.WORLD_BUFFS.hordeNef detected")
 			elseif msg:find(L.WORLD_BUFFS.allianceNef) then
 				SendWorldSync(self, 4, "WBA", "Nefarian\tAlliance\t22888\t16\t4")
-				DBM:Debug("L.WORLD_BUFFS.allianceNef detected")
 			elseif msg:find(L.WORLD_BUFFS.rendHead) then
 				SendWorldSync(self, 4, "WBA", "rendBlackhand\tHorde\t16609\t7\t4")
-				DBM:Debug("L.WORLD_BUFFS.rendHead detected")
 			elseif msg:find(L.WORLD_BUFFS.zgHeartYojamba) then
 				-- zg buff transcripts https://gist.github.com/venuatu/18174f0e98759f83b9834574371b8d20
 				-- 28.58, 28.67, 27.77, 29.39, 28.67, 29.03, 28.12, 28.19, 29.61
 				SendWorldSync(self, 4, "WBA", "Zandalar\tBoth\t24425\t28\t4")
-				DBM:Debug("L.WORLD_BUFFS.zgHeartYojamba detected")
 			elseif msg:find(L.WORLD_BUFFS.zgHeartBooty) then
 				-- 48.7, 49.76, 50.64, 49.42, 49.8, 50.67, 50.94, 51.06
 				SendWorldSync(self, 4, "WBA", "Zandalar\tBoth\t24425\t49\t4")
-				DBM:Debug("L.WORLD_BUFFS.zgHeartBooty detected")
 			elseif msg:find(L.WORLD_BUFFS.blackfathomBoon) then
 				--SendWorldSync(self, 4, "WBA", "Blackfathom\tBoth\t430947\t6\t4")
-				DBM:Debug("L.WORLD_BUFFS.blackfathomBoon detected")
 			end
 		end
 		return onMonsterMessage(self, "yell", msg)
@@ -5320,7 +5403,7 @@ do
 	function DBM:RAID_BOSS_WHISPER(msg)
 		--Make it easier for devs to detect whispers they are unable to see
 		--TINTERFACE\\ICONS\\ability_socererking_arcanewrath.blp:20|t You have been branded by |cFFF00000|Hspell:156238|h[Arcane Wrath]|h|r!"
-		if msg and msg ~= "" and IsInGroup() and not _G["BigWigs"] then
+		if msg and msg ~= "" and IsInGroup() and not _G["BigWigs"] and not IsTrialAccount() then
 			SendAddonMessage("Transcriptor", msg, IsInGroup(2) and "INSTANCE_CHAT" or IsInRaid() and "RAID" or "PARTY")--Send any emote to transcriptor, even if no spellid
 		end
 	end
@@ -5443,7 +5526,7 @@ do
 	end
 
 	local tooltipsHidden = false
-	--Delayed Guild Combat sync object so we allow time for RL to disable them
+	---Delayed Guild Combat sync object so we allow time for RL to disable them
 	local function delayedGCSync(modId, difficultyIndex, difficultyModifier, name, thisTime, wipeHP)
 		if not dbmIsEnabled then return end
 		if not private.statusGuildDisabled and updateNotificationDisplayed == 0 then
@@ -6236,7 +6319,7 @@ do
 		["PALADIN"] = 855,--Ret Paladin
 		["WARRIOR"] = 746,--Arms Warrior
 		["DRUID"] = 752,--Balance druid
-		["DEATHKNIGHT"] = 251,--Frost DK
+		["DEATHKNIGHT"] = 399,--Frost DK
 		["HUNTER"] = 811,--Beastmaster Hunter
 		["PRIEST"] = 795,--Shadow Priest
 		["ROGUE"] = 182,--Assassination Rogue
@@ -6269,9 +6352,10 @@ do
 			if MAX_TALENT_TABS then
 				for i = 1, MAX_TALENT_TABS do
 					if i <= numTabs then
-						local pointsSpent = private.isCata and select(5, GetTalentTabInfo(i)) or select(3, GetTalentTabInfo(i))
-						if pointsSpent > highestPointsSpent then
-							highestPointsSpent = pointsSpent
+						local _, _, wrathPointsSpent, _, pointsSpent = GetTalentTabInfo(i)--specID, specName will be used in next update once era spec table rebuilt
+						local usedPoints = private.isWrath and wrathPointsSpent or pointsSpent
+						if usedPoints > highestPointsSpent then
+							highestPointsSpent = usedPoints
 							currentSpecGroup = i
 							currentSpecID = playerClass .. tostring(i)--Associate specID with class name and tabnumber (class is used because spec name is shared in some spots like "holy")
 							currentSpecName = currentSpecID
@@ -6427,7 +6511,7 @@ end
 ---Future proofing EJ_GetSectionInfo compat layer to make it easier updatable.
 function DBM:EJ_GetSectionInfo(sectionID)--Should be number, but accepts string too since Blizzards api converts strings to number.
 	if not sectionID then return end
-	if not private.isRetail then
+	if private.isClassic or private.isBCC or private.isWrath then
 		return "EJ_GetSectionInfo not supported on Classic, please report this message and boss"
 	end
 	--Built in wow api extension doesn't know EJ_GetSectionInfo can accept strings
@@ -6525,6 +6609,7 @@ do
 	---Wrapper for Blizzard GetSpellCooldown global that converts new table returns to old arg returns
 	---<br>This avoids having to significantly update nearly 20 years of boss mods.
 	---@param spellId string|number --Should be number, but accepts string too since Blizzards api converts strings to number.
+	---@return number, number, number
 	function DBM:GetSpellCooldown(spellId)
 		local start, duration, enable
 		if newPath then
@@ -6714,7 +6799,7 @@ do
 			tinsert(sortMe, v)
 		end
 		tsort(sortMe, sort)
-		self:Debug("RequestTimers Running", 2)
+		self:Debug("RequestTimers Running", 3)
 		local selectedClient
 		local listNum = 0
 		for _, v in ipairs(sortMe) do
@@ -6782,7 +6867,7 @@ end
 do
 	local spamProtection = {}
 	function DBM:SendTimers(target)
-		if not dbmIsEnabled then return end
+		if not dbmIsEnabled or IsTrialAccount() then return end
 		self:Debug("SendTimers requested by " .. target, 2)
 		local spamForTarget = spamProtection[target] or 0
 		-- just try to clean up the table, that should keep the hash table at max. 4 entries or something :)
@@ -6837,13 +6922,13 @@ end
 
 ---@param mod DBMMod
 function DBM:SendCombatInfo(mod, target)
-	if not dbmIsEnabled then return end
+	if not dbmIsEnabled or IsTrialAccount() then return end
 	return SendAddonMessage(DBMPrefix, (DBMSyncProtocol .. "\tCI\t%s\t%s"):format(mod.id, GetTime() - mod.combatInfo.pull), "WHISPER", target)
 end
 
 ---@param mod DBMMod
 function DBM:SendTimerInfo(mod, target)
-	if not dbmIsEnabled then return end
+	if not dbmIsEnabled or IsTrialAccount() then return end
 	for _, v in ipairs(mod.timers) do
 		--Pass on any timer that has no type, or has one that isn't an ai timer
 		if not v.type or v.type and v.type ~= "ai" then
@@ -6865,7 +6950,7 @@ end
 
 ---@param mod DBMMod
 function DBM:SendVariableInfo(mod, target)
-	if not dbmIsEnabled then return end
+	if not dbmIsEnabled or IsTrialAccount() then return end
 	for vname, v in pairs(mod.vb) do
 		local v2 = tostring(v)
 		if v2 then
@@ -6893,7 +6978,6 @@ do
 		return alive
 	end
 
-	--Cleanup in 8.x with C_Map.GetMapGroupMembersInfo
 	local function getNumRealAlivePlayers()
 		local alive = 0
 		local isInInstance = IsInInstance()
@@ -7044,6 +7128,10 @@ end
 do
 	local forceDisabled = false
 	function DBM:Disable(forceDisable)
+		for _, mod in ipairs(inCombat) do
+			-- force combat end if anything is active because :Unschedule below breaks wipe detection leaving you in a weird state
+			DBM:EndCombat(mod, true, true, "DBM:Disable() called")
+		end
 		DBMScheduler:Unschedule()
 		dbmIsEnabled = false
 		forceDisabled = forceDisable
@@ -7277,6 +7365,7 @@ do
 	local requiresRecentKill = {
 		[2238] = 2519--Fyrakk in Amirdrassil
 	}
+	---@param self DBM
 	local function checkOptions(self, id, mapID)
 		--First, check if this specific cut scene should be blocked at all via the 3 primary rules
 		local allowBlock = false
@@ -7661,6 +7750,7 @@ do
 	end
 end
 
+---@param uId string? Used for querying external unit. If nil, queries "player"
 function bossModPrototype:UnitClass(uId)
 	if uId then--Return unit requested
 		local _, class = UnitClass(uId)
@@ -7693,6 +7783,8 @@ do
 	end
 end
 
+---@param uId string? Used for querying external unit. If nil, queries "player"
+---@return boolean
 function bossModPrototype:IsDps(uId)
 	if uId then--External unit call.
 		--no SpecID checks because SpecID is only availalbe with DBM/Bigwigs, but both DBM/Bigwigs auto set DAMAGER/HEALER/TANK roles anyways so it'd be redundant
@@ -7709,6 +7801,8 @@ function bossModPrototype:IsDps(uId)
 end
 
 ---@param self DBMModOrDBM
+---@param uId string? Used for querying external unit. If nil, queries "player"
+---@return boolean
 function DBM:IsHealer(uId)
 	if uId then--External unit call.
 		if not private.isRetail then
@@ -7744,6 +7838,7 @@ bossModPrototype.IsHealer = DBM.IsHealer
 ---@param enemyGUID string? guid of tanked unit we're checking. This or enemyUnitID must be provided
 ---@param includeTarget boolean? set to true to allow bosses target to be good enough if threat check fails
 ---@param onlyS3 boolean? true for tight threat check (status 3 securly tanked required). loose threat otherwise
+---@return boolean
 function DBM:IsTanking(playerUnitID, enemyUnitID, isName, onlyRequested, enemyGUID, includeTarget, onlyS3)
 	--Didn't have playerUnitID so combat log name was passed
 	if isName then
@@ -7826,8 +7921,10 @@ end
 do
 	local bossNames, bossIcons = {}, {}
 
-	--This accepts both CID and GUID which makes switching to UnitPercentHealthFromGUID and UnitTokenFromGUID not as cut and dry
+	---This accepts both CID and GUID which makes switching to UnitPercentHealthFromGUID and UnitTokenFromGUID not as cut and dry
 	---@param self DBMModOrDBM
+	---@param cIdOrGUID number|string
+	---@param onlyHighest boolean?
 	function DBM:GetBossHP(cIdOrGUID, onlyHighest)
 		local uId = bossHealthuIdCache[cIdOrGUID] or "target"
 		local guid = UnitGUID(uId)
@@ -7973,8 +8070,16 @@ end
 ---------------
 --  Options  --
 ---------------
+---@param name any Option name must be string, but language server gets confused if it's not set to any
 ---@param default SpecFlags|boolean?
-function bossModPrototype:AddBoolOption(name, default, cat, func, extraOption, extraOptionTwo, spellId, optionType, waCustomName)
+---@param cat string? category type: ie "timer", "announce", "misc", "sound", etc
+---@param func any? Custom function to call when option is changed
+---@param extraOption string|number? Used for attached options such as timer color or special warning sound
+---@param extraOptionTwo string|number? Used for attached options such as countdown voice or special warning note
+---@param spellId any? spellId to group with other options for same spell
+---@param optionSubType string? ie "gtfo", "adds", "achievement", "stage", etc
+---@param waCustomName string? used to inject custom weak aura spellId key text
+function bossModPrototype:AddBoolOption(name, default, cat, func, extraOption, extraOptionTwo, spellId, optionSubType, waCustomName)
 	if checkDuplicateObjects[name] and name ~= "timer_berserk" then
 		DBM:Debug("|cffff0000Option already exists for: |r" .. name)
 	else
@@ -7998,22 +8103,29 @@ function bossModPrototype:AddBoolOption(name, default, cat, func, extraOption, e
 		if waCustomName then--Do custom shit for options using invalid spellIds as weak auras keys
 			self:GroupWASpells(waCustomName, spellId, name)
 		else
-			if optionType and optionType == "achievement" then
+			if optionSubType and optionSubType == "achievement" then
 				spellId = "at" .. spellId--"at" for achievement timer
 			end
-			local optionTypeMatch = optionType or ""
+			local optionTypeMatch = optionSubType or ""
 			if not optionTypeMatch:find("stage") then
 				self:GroupSpells(spellId, name)
 			end
 		end
 	end
-	self:SetOptionCategory(name, cat, optionType, waCustomName)
+	self:SetOptionCategory(name, cat, optionSubType, waCustomName)
 	if func then
 		self.optionFuncs = self.optionFuncs or {}
 		self.optionFuncs[name] = func
 	end
 end
 
+---@param name any
+---@param default SpecFlags|boolean?
+---@param defaultSound number|string? Can be number for built in spec warn sound 1-4 or string for custom sound path
+---@param cat string? category type: ie "timer", "announce", "misc", "sound", etc
+---@param spellId any? spellId to group with other options for same spell
+---@param optionType string?
+---@param waCustomName string? used to inject custom weak aura spellId key text
 function bossModPrototype:AddSpecialWarningOption(name, default, defaultSound, cat, spellId, optionType, waCustomName)
 	if checkDuplicateObjects[name] then
 		DBM:Debug("|cffff0000Option already exists for: |r" .. name)
@@ -8249,6 +8361,34 @@ function bossModPrototype:AddInfoFrameOption(spellId, default, optionVersion, op
 	self:SetOptionCategory("InfoFrame" .. oVersion, "misc")
 end
 
+
+---@meta
+---@alias gossipTypes
+---|"Action": Auto select gossip choice(s) to perform actions (such as using transports)
+---|"Encounter": Auto select gossip choice to start encounter
+---|"Buff": Auto select gossip choice(s) for npc or profession buffs
+---@param default SpecFlags|boolean?
+---@param gossipType gossipTypes|string
+function bossModPrototype:AddGossipOption(default, gossipType, optionVersion)
+	local oVersion = ""
+	if optionVersion then
+		oVersion = tostring(optionVersion)
+	end
+	self.DefaultOptions["AutoGossip" .. gossipType .. oVersion] = (default == nil) or default
+	if type(default) == "string" then
+		default = self:GetRoleFlagValue(default)
+	end
+	self.Options["AutoGossipAction" .. gossipType .. oVersion] = (default == nil) or default
+	if gossipType == "Action" then
+		self.localization.options["AutoGossip" .. gossipType .. oVersion] = L.AUTO_GOSSIP_PERFORM_ACTION
+	elseif gossipType == "Encounter" then
+		self.localization.options["AutoGossip" .. gossipType .. oVersion] = L.AUTO_GOSSIP_START_ENCOUNTER
+	else--Type 1 most common so the default fallback if left blank
+		self.localization.options["AutoGossip" .. gossipType .. oVersion] = L.AUTO_GOSSIP_BUFFS
+	end
+	self:SetOptionCategory("AutoGossip" .. gossipType .. oVersion, "misc")
+end
+
 ---@param default SpecFlags|boolean?
 ---@param maxLevel number? set max level if you want to disable this readycheck from firing at a certain point
 function bossModPrototype:AddReadyCheckOption(questId, default, maxLevel)
@@ -8373,6 +8513,7 @@ end
 
 ---Custom function for handling group spells where we want to group by ID, but not use that IDs name (basically a fake Id for purpose of a unified WA key)
 ---This lets us group options up that aren't using valid IDs, and show the ID it is using for WA in the gui next to custom name
+---@param customName string? Used to inject custom weak aura spellId key text
 function bossModPrototype:GroupWASpells(customName, ...)
 	local spells = {...}
 	local catSpell = tostring(tremove(spells, 1))
@@ -8439,12 +8580,17 @@ function bossModPrototype:GroupSpells(...)
 	end
 end
 
-function bossModPrototype:SetOptionCategory(name, cat, optionType, waCustomName, hasPrivate)
-	optionType = optionType or ""
+---@param name any
+---@param cat string category type: ie "timer", "announce", "misc", "sound", etc
+---@param optionSubType string? ie "gtfo", "adds", "achievement", "stage", etc
+---@param waCustomName string? used to inject custom weak aura spellId key text
+---@param hasPrivate boolean? used to mark option as private aura option so it displays PA icon in GUI
+function bossModPrototype:SetOptionCategory(name, cat, optionSubType, waCustomName, hasPrivate)
+	optionSubType = optionSubType or ""
 	for _, options in pairs(self.optionCategories) do
 		removeEntry(options, name)
 	end
-	if self.addon and self.groupSpells[name] and not (optionType == "gtfo" or optionType == "adds" or optionType == "addscount" or optionType == "addscustom" or optionType:find("stage") or cat == "icon" and DBM.Options.GroupOptionsExcludeIcon) then
+	if self.addon and self.groupSpells[name] and not (optionSubType == "gtfo" or optionSubType == "adds" or optionSubType == "addscount" or optionSubType == "addscustom" or optionSubType:find("stage") or cat == "icon" and DBM.Options.GroupOptionsExcludeIcon) then
 		local sSpell = self.groupSpells[name]
 		if not self.groupOptions[sSpell] then
 			self.groupOptions[sSpell] = {}
@@ -8468,6 +8614,23 @@ end
 --------------
 --  Combat  --
 --------------
+---@meta
+---@alias combatTypes
+---|"combat": Default Option. Triggers Combat on ENCOUNTER_START, INSTANCE_ENCOUNTER_ENGAGE_UNIT, UNIT_HEALTH, PLAYER_REGEN_DISABLED
+---|"yell": Triggers Combat on CHAT_MSG_MONSTER_YELL
+---|"say": Triggers Combat on CHAT_MSG_SAY or CHAT_MSG_MONSTER_SAY
+---|"emote": Triggers Combat on CHAT_MSG_EMOTE or CHAT_MSG_MONSTER_EMOTE
+---|"yell_regex": Triggers Combat on CHAT_MSG_MONSTER_YELL using regex matching
+---|"say_regex": Triggers Combat on CHAT_MSG_SAY or CHAT_MSG_MONSTER_SAY using regex matching
+---|"emote_regex": Triggers Combat on CHAT_MSG_EMOTE or CHAT_MSG_MONSTER_EMOTE using regex matching
+---|"combat_yell": Same as combat, but also uses CHAT_MSG_MONSTER_YELL exact matching
+---|"combat_say": Same as combat, but also uses CHAT_MSG_SAY or CHAT_MSG_MONSTER_SAY exact matching
+---|"combat_emote": Same as combat, but also uses CHAT_MSG_EMOTE or CHAT_MSG_MONSTER_EMOTE exact matching
+---|"combat_yellfind": Same as combat, but also uses CHAT_MSG_MONSTER_YELL loose matching
+---|"combat_sayfind": Same as combat, but also uses CHAT_MSG_SAY or CHAT_MSG_MONSTER_SAY loose matching
+---|"combat_emotefind": Same as combat, but also uses CHAT_MSG_EMOTE or CHAT_MSG_MONSTER_EMOTE loose matching
+---|"scenario": Tells mod to treat an entire scenario as combat
+---@param cType combatTypes
 function bossModPrototype:RegisterCombat(cType, ...)
 	if cType then
 		cType = cType:lower()
@@ -8565,6 +8728,7 @@ function bossModPrototype:SetDetectCombatInVehicle(flag)
 	combatInfo.noCombatInVehicle = not flag
 end
 
+---Used to set creature IDs this mod will scan for Boss Health and legacy or backup combat detection methods
 function bossModPrototype:SetCreatureID(...)
 	self.creatureId = ...
 	if select("#", ...) > 1 then
@@ -8592,6 +8756,7 @@ function bossModPrototype:SetCreatureID(...)
 	end
 end
 
+---Used to set Encounter IDs this mod will pass to ENCOUNTER_START/ENCOUNTER_END/BOSS_KILL
 function bossModPrototype:SetEncounterID(...)
 	self.encounterId = ...
 	if select("#", ...) > 1 then
@@ -8746,6 +8911,7 @@ end
 --  Synchronization  --
 -----------------------
 do
+	---@param self DBMMod
 	local function prepareSync(self, event, ...)
 		event = event or ""
 		local arg = select("#", ...) > 0 and strjoin("\t", tostringall(...)) or ""
@@ -8779,7 +8945,7 @@ do
 end
 
 function bossModPrototype:SendBigWigsSync(msg, extra)
-	if not dbmIsEnabled then return end
+	if not dbmIsEnabled or IsTrialAccount() then return end
 	msg = "B^" .. msg
 	if extra then
 		msg = msg .. "^" .. extra
@@ -8809,6 +8975,7 @@ function bossModPrototype:ReceiveSync(event, sender, revision, ...)
 	end
 end
 
+---@param revision number|string Either a number in the format "202101010000" (year, month, day, hour, minute) or string "20240711100522" to be auto set by packager
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
 	if not revision or type(revision) == "string" then
@@ -8879,6 +9046,12 @@ end)
 test:RegisterLocalHook("UnitAffectingCombat", function(val)
 	local old = UnitAffectingCombat
 	UnitAffectingCombat = val
+	return old
+end)
+
+test:RegisterLocalHook("UnitGUID", function(val)
+	local old = UnitGUID
+	UnitGUID = val
 	return old
 end)
 
