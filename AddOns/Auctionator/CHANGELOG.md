@@ -1,6 +1,6 @@
 # Auctionator
 
-## [10.2.46](https://github.com/Auctionator/Auctionator/tree/10.2.46) (2024-05-28)
-[Full Changelog](https://github.com/Auctionator/Auctionator/compare/10.2.45...10.2.46) 
+## [10.2.50](https://github.com/Auctionator/Auctionator/tree/10.2.50) (2024-07-12)
+[Full Changelog](https://github.com/Auctionator/Auctionator/compare/10.2.49...10.2.50) 
 
-- Vanilla: Fix selling bag not populating  
+- Update toc for 1.15.3  
