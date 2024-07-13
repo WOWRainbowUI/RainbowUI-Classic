@@ -6,7 +6,7 @@
 ## Notes: Quality of life addon.
 ## Notes-zhCN: 哆啦A梦的百宝袋
 
-## Version: 4.0.09
+## Version: 4.0.15
 ## Author: Leatrix
 ## SavedVariables: LeaPlusDB
 
