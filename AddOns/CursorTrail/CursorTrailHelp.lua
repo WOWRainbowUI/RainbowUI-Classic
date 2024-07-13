@@ -59,13 +59,13 @@ kHelpText_Options = [[
 ]]
 
 kHelpText_Tips = [[
-- The mouse wheel can be used to change the option under the mouse.
+- 滑鼠滾輪可以用來更改滑鼠指向的選項。
 
-- The Up/Down arrow keys can be used to change the option that has focus.
+- 上/下箭頭鍵可以用來更改焦點所在的選項。
 
-- Right-clicking the profile name is a quick way to save it.
+- 右鍵點擊設定檔名稱是一種快速保存的方法。
 
-- Right-clicking most options sets them to their default value.
+- 右鍵點擊大多數選項會設為預設值。
 ]]
 
 kHelpText_SlashCommands = [[
@@ -167,7 +167,7 @@ function CursorTrail_ShowHelp(parent, scrollToTopic)
 
         -- TIPS:
         HelpFrame.topicOffsets["TIPS"] = HelpFrame:GetNextVerticalPosition() -12
-        HelpFrame:AddText(ORANGE.."Tips", 0, 0, bigFont)
+        HelpFrame:AddText(ORANGE.."小提示", 0, 0, bigFont)
         HelpFrame:AddText(kHelpText_Tips, 0, lineSpacing, smallFont)
         HelpFrame:AddText(" ", 0, lineSpacing, smallFont)
 
