@@ -54,6 +54,7 @@ local GENERAL_CONTENT = data:AddContentType(GENERAL, ATLASLOOT_RAID40_COLOR)
 local HORDE, ALLIANCE, RANK_FORMAT = "Horde", "Alliance", AL["|cff33ff99Rank:|r %s"]
 local BLIZZARD_NYI = " |cff00ccff<NYI |T130946:12:20:0:0:32:16:4:28:0:16|t>|r"
 
+--[[
 local _DUMMY_SET = {
     name = AL["Sets"],
     TableType = SET_ITTYPE,
@@ -109,6 +110,7 @@ local _DUMMY_SET = {
     {27, 3002766} -- Paladin / DD
     }
 }
+--]]
 
 data["PvPMountsWrath"] = {
     name = ALIL["Mounts"],
@@ -150,7 +152,8 @@ data["ArenaS5PvP"] = {
     items = {{
         name = AL["Sets"],
         TableType = SET_ITTYPE,
-        [SET1_DIFF] = {{1, 3000780}, -- Warlock
+        [SET1_DIFF] = {
+        {1, 3000780}, -- Warlock
         {3, 3000777}, -- Priest / Heal
         {4, 3000778}, -- Priest / Shadow
         {6, 3000776}, -- Rogue
@@ -167,7 +170,8 @@ data["ArenaS5PvP"] = {
         {26, 3000767}, -- Paladin / Heal
         {27, 3000766} -- Paladin / DD
         },
-        [SET2_DIFF] = {{1, 3001780}, -- Warlock
+        [SET2_DIFF] = {
+        {1, 3001780}, -- Warlock
         {3, 3001777}, -- Priest / Heal
         {4, 3001778}, -- Priest / Shadow
         {6, 3001776}, -- Rogue
@@ -184,7 +188,8 @@ data["ArenaS5PvP"] = {
         {26, 3001767}, -- Paladin / Heal
         {27, 3001766} -- Paladin / DD
         },
-        [SET3_DIFF] = {{1, 3002780}, -- Warlock
+        [SET3_DIFF] = {
+        {1, 3002780}, -- Warlock
         {3, 3002777}, -- Priest / Heal
         {4, 3002778}, -- Priest / Shadow
         {6, 3002776}, -- Rogue
@@ -1270,7 +1275,7 @@ data["Wintergrasp"] = {
         {9, 44100}, -- Pristine Lightforge Spaulders
         {10, 44099}, -- Strengthened Stockade Pauldrons
         {12, AtlasLoot:GetRetByFaction(44097, 44098)}, -- Inherited Insignia of the Horde / Inherited Insignia of the Alliance
-                         {14, 44115}, -- Wintergrasp Commendation
+        {14, 44115}, -- Wintergrasp Commendation
         {16, 44091}, -- Sharpened Scarlet Kris
         {17, 44096}, -- Battleworn Thrash Blade
         {18, 44092}, -- Reforged Truesilver Champion

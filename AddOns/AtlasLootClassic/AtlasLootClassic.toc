@@ -1,17 +1,18 @@
 ## Interface: 40400
 ## Author: Snowflame0
-## Version: v4.0.0-alpha10
+## Version: v4.0.1-beta2
 ## SavedVariables: AtlasLootClassicDB
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibDBIcon-1.0, LibDataBroker-1.1
+## DefaultState: disabled
 ## LoadOnDemand: 0
 
 ## Title: AtlasLootClassic |cFFFF5733Cata|r |cFF22B14C[Core]|r
+## Notes: Displays loot tables from various aspects of the game
 ## Title-zhCN: AtlasLoot经典版 |cFF22B14C[主程序]|r
 ## Title-zhTW: |cffB973FF[裝備]|r 副本戰利品查詢
-## Notes: Shows the possible loot from the bosses
 ## Notes-zhCN: 显示首领可能的掉落物品
 ## Notes-zhTW: AtlasLoot Classic |n顯示首領與小怪可能掉落的物品，並可查詢各陣營與戰場的獎勵物品、套裝物品等資訊。|n|cffffd200使用方法：|r點小地圖按鈕。
-## DefaultState: Enabled
+
 
 ## X-Credits: Daviesh, Lag, Arith, Cellelach, Asurn, Pernicus, Dynaletik, Snowflame0, VJKokusho and many others
 ## X-Category: Map
@@ -42,7 +43,6 @@ Core\ItemQuery.lua
 Core\ItemString.lua
 Core\TargetScan.lua
 
-
 MiniMapButton.lua
 
 Data\Token.lua
@@ -69,6 +69,7 @@ Button\Faction_type.lua
 Button\Set_type.lua
 Button\Extra_Price_type.lua
 #Button\Extra_Quest_type.lua
+Button\Achievement_type.lua
 
 GUI\GUI.xml
 GUI\GUI.lua

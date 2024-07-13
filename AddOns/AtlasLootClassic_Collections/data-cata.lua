@@ -27,6 +27,7 @@ local ALIL = AtlasLoot.IngameLocales
 
 local GetForVersion = AtlasLoot.ReturnForGameVersion
 
+local LFR_DIFF = data:AddDifficulty("LFR", nil, nil, nil, true)
 local NORMAL_DIFF = data:AddDifficulty("NORMAL", nil, nil, nil, true)
 local HEROIC_DIFF = data:AddDifficulty("HEROIC", nil, nil, nil, true)
 
@@ -66,7 +67,7 @@ local PURPLE = "|cff9900ff%s|r"
 -- local WHIT = "|cffffffff%s|r"
 
 data["JusticePoints"] = {
-    name = format(AL["%s Vendor"], AL["Justice Points"]),
+    name = format(AL["'%s' Vendor"], AL["Justice Points"]),
     ContentType = VENDOR_CONTENT,
     TableType = NORMAL_ITTYPE,
     gameVersion = AtlasLoot.CATA_VERSION_NUM,
@@ -195,7 +196,7 @@ data["JusticePoints"] = {
 }
 
 data["ValorPoints"] = {
-    name = format(AL["%s Vendor"], AL["Valor Points"]),
+    name = format(AL["'%s' Vendor"], AL["Valor Points"]),
     ContentType = VENDOR_CONTENT,
     TableType = NORMAL_ITTYPE,
     gameVersion = AtlasLoot.CATA_VERSION_NUM,
@@ -395,7 +396,7 @@ data["MountsCata"] = {
     }, {
         name = AL["Crafting"],
         [NORMAL_DIFF] = {{1, 65891}, -- Vial of the Sands
-                        {2, 41508}, -- Mechano-Hog
+                        { 16, [ATLASLOOT_IT_ALLIANCE] = 44413, [ATLASLOOT_IT_HORDE] = 41508 }, -- Mekgineer's Chopper / Mechano-hog
                         {3, 34061}, -- Turbo-Charged Flying Machine
                         {4, 44558}, -- Magnificent Flying Carpet
                         {5, 54797}, -- Frosty Flying Carpet
@@ -511,7 +512,7 @@ data["LegendarysCata"] = {
     gameVersion = AtlasLoot.CATA_VERSION_NUM,
     CorrespondingFields = private.LEGENDARYS,
     items = {{
-        name = AL["Lengendaries"],
+        name = AL["Legendaries"],
         [NORMAL_ITTYPE] = {{1, 71086, "ac5839"}, -- Dragonwrath, Tarecgosa's Rest
         {16, 77949, "ac6181"}, -- Golad, Twilight of Aspects
         {17, 77950, "ac6181"} -- 	Tiriosh, Nightmare of Ages

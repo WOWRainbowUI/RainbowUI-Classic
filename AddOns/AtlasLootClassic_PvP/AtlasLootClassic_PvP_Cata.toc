@@ -1,6 +1,6 @@
 ## Interface: 40400
 ## Author: Snowflame0
-## Version: v4.0.0-alpha10
+## Version: v4.0.1-beta2
 ## Dependencies: AtlasLootClassic
 ## LoadOnDemand: 1
 
