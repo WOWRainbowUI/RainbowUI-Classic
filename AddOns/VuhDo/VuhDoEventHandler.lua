@@ -384,6 +384,7 @@ end
 --
 local tLevel = 0;
 local function VUHDO_init()
+
 	if tLevel == 0 or VUHDO_VARIABLES_LOADED then
 		tLevel = 1;
 		return;
@@ -438,6 +439,7 @@ local function VUHDO_init()
 		VUHDO_loadDefaultProfile();
 		VUHDO_loadDefaultLayout();
 	end
+
 end
 
 
@@ -637,8 +639,8 @@ function VUHDO_OnEvent(_, anEvent, anArg1, anArg2, anArg3, anArg4, anArg5, anArg
 					VUHDO_setHealth("focus", 1); -- VUHDO_UPDATE_ALL
 				else
 					VUHDO_removeHots("focus");
-					VUHDO_resetDebuffsFor("focus");
 					VUHDO_removeAllDebuffIcons("focus");
+					VUHDO_resetDebuffsFor("focus");
 
 					if VUHDO_RAID["focus"] then
 						table.wipe(VUHDO_RAID["focus"]);
@@ -677,7 +679,7 @@ function VUHDO_OnEvent(_, anEvent, anArg1, anArg2, anArg3, anArg4, anArg5, anArg
 			VUHDO_updateBouquetsForEvent(anArg1, 30); -- VUHDO_UPDATE_ALT_POWER
 		end
 
-	elseif "LEARNED_SPELL_IN_TAB" == anEvent or "TRAIT_CONFIG_UPDATED" == anEvent then
+	elseif "LEARNED_SPELL_IN_TAB" == anEvent or "TRAIT_CONFIG_UPDATED" == anEvent or "SPELLS_CHANGED" == anEvent then
 		if VUHDO_VARIABLES_LOADED then
 			VUHDO_initFromSpellbook();
 			VUHDO_registerAllBouquets(false);
@@ -687,6 +689,11 @@ function VUHDO_OnEvent(_, anEvent, anArg1, anArg2, anArg3, anArg4, anArg5, anArg
 			if not InCombatLockdown() then
 				VUHDO_initKeyboardMacros();
 				VUHDO_timeReloadUI(1);
+			end
+
+			if "SPELLS_CHANGED" == anEvent then
+				-- workaround slow clients where partial spellbook is available on SPELLS_CHANGED
+				C_Timer.After(3, VUHDO_initBuffs);
 			end
 		end
 
@@ -1633,7 +1640,7 @@ end
 
 
 local VUHDO_ALL_EVENTS = {
-	"VARIABLES_LOADED", "PLAYER_ENTERING_WORLD",
+	"VARIABLES_LOADED", "PLAYER_ENTERING_WORLD", "SPELLS_CHANGED",
 	"UNIT_MAXHEALTH", "UNIT_HEALTH", "UNIT_HEALTH_FREQUENT", 
 	"UNIT_AURA",
 	"UNIT_TARGET",
