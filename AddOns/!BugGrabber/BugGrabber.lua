@@ -259,6 +259,7 @@ do
 	function grabError(errorMessage, isSimple)
 		-- 不顯示暴雪專業和觀察視窗未翻譯錯誤
 		if tostring(errorMessage):find("Localization.lua", nil, true) then return end
+		-- 不顯示拍賣場瀏覽複數物品的錯誤
 		if tostring(errorMessage):find("MoneyFrame.lua", nil, true) then return end
 
 		-- Flood protection --
