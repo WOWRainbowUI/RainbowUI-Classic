@@ -306,11 +306,14 @@ local cauldrons = {
 	[41497] = 32851,
 	[41494] = 133779,
 	[41495] = 32850,
+	[92649] = 461808, --Cauldron of Battle
+    [92712] = 461809, --Big Cauldron of Battle
 };
 local feasts = {
 	--Feasts.
 	[57301] = 132184,
 	[57426] = 237303,
+	[87644] = 134040, --Seafood Magnifique Feast
 };
 local repairBots = {
 	--Repair bots.
@@ -407,6 +410,9 @@ local function combatLogEventUnfiltered(...)
 			end
 		end
 		if (feasts[spellID]) then
+			if (not NRC:inOurGroup(sourceName)) then
+				return;
+			end
 			local mapID = C_Map.GetBestMapForUnit("player");
 			if (mapID == 125 or mapID == 126) then
 				--Not in dal.
@@ -420,6 +426,9 @@ local function combatLogEventUnfiltered(...)
 			end
 		end
 		if (repairBots[spellID]) then
+			if (not NRC:inOurGroup(sourceName)) then
+				return;
+			end
 			local mapID = C_Map.GetBestMapForUnit("player");
 			if (mapID == 125 or mapID == 126) then
 				--Not in dal.
@@ -433,6 +442,9 @@ local function combatLogEventUnfiltered(...)
 			end
 		end
 		if (portals[spellID]) then
+			if (not NRC:inOurGroup(sourceName)) then
+				return;
+			end
 			local mapID = C_Map.GetBestMapForUnit("player");
 			if (mapID == 125 or mapID == 126) then
 				--Not in dal.

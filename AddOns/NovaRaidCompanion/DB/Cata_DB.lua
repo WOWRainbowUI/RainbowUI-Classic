@@ -2871,12 +2871,30 @@ NRC.flasks = {
 		desc = "+300 Spirit",
 		maxRank = true,
 	},
-	--[[[92679] = { --Probably just grants one of the other flask buffs?
-		name = "Flask of Battle",
-		icon = 134735,
-		desc = "Grants the effect of a flask based on your class and talents.",
+	[92730] = { --Couldrons flasks from Flask of Battle.
+		name = "Flask of the Draconic Mind",
+		icon = 463930,
+		desc = "+300 Intellect",
 		maxRank = true,
-	},]]
+	},
+	[92725] = {
+		name = "Flask of the Winds",
+		icon = 463927,
+		desc = "+300 Agility",
+		maxRank = true,
+	},
+	[92731] = {
+		name = "Flask of Titanic Strength",
+		icon = 463931,
+		desc = "+300 Strength",
+		maxRank = true,
+	},
+	[92729] = {
+		name = "Flask of Steelskin",
+		icon = 463926,
+		desc = "+450 Stamina",
+		maxRank = true,
+	},
 };
 
 NRC.battleElixirs = {
@@ -3414,6 +3432,12 @@ NRC.foods = {
 		icon = 136000,
 		desc = "+60 Expertise, +60 Stamina",
 	},
+	[87635] = {
+		name = "Well Fed",
+		icon = 136000,
+		desc = "+90 Expertise, +90 Stamina",
+		maxRank = true,
+	},
 	[87559] = {
 		name = "Well Fed",
 		icon = 136000,
@@ -3463,16 +3487,19 @@ NRC.foods = {
 		name = "Well Fed",
 		icon = 136000,
 		desc = "+90 Agility, +90 Stamina",
+		maxRank = true,
 	},
 	[87547] = {
 		name = "Well Fed",
 		icon = 136000,
 		desc = "+90 Int, +90 Stamina",
+		maxRank = true,
 	},
 	[87550] = {
 		name = "Well Fed",
 		icon = 136000,
 		desc = "+90 Hit, +90 Stamina",
+		maxRank = true,
 	},
 };
 
@@ -3543,6 +3570,8 @@ NRC.eating = {
 	[87573] = "Food",
 	[87567] = "Food",
 	[87566] = "Food",
+	[80168] = "Food", --Goblin Barbecue and Broiled Dragon Feast.
+	[80169] = "Food", --Seafood Magnifique Feast.
 };
 
 --Scrolls get overridden by dk buffs in wrath.
@@ -4235,6 +4264,14 @@ NRC.trackedConsumes = {
 		icon = 134804,
 		desc = "Restores 22500 to 27500 health.",
 		itemID = 63300,
+		quality = 1,
+	},
+	--Couldron flask item so it gets tracked even though this isn't the buff it gives, just track the cast.
+	[92679] = {
+		name = "Flask of Battle",
+		icon = 134735,
+		desc = "Grants the effect of a flask based on your class and talents.",
+		itemID = 65455,
 		quality = 1,
 	},
 }
@@ -9754,6 +9791,20 @@ NRC.resurrectionSpells = {
 		name = "Rebirth", --Rank 1.
 		icon = 136080,
 	},
+	[61999] = {
+		name = "Raise Ally", --Rank 1.
+		icon = 136143,
+	},
+	[20707] = {
+		name = "Soulstone", --Rank 1.
+		icon = 136210, --Only during combat this actually counts as a res, have to write some stuff seperately for it for cata+.
+	},
+};
+
+NRC.battleResSpells = {
+	[20484] = "Rebirth",
+	[61999] = "Raise Ally",
+	[20707] = "Soulstone",
 };
 
 NRC.magePortals = {
@@ -10141,6 +10192,20 @@ NRC.int = {
 		maxRank = true,
 	},
 	[79058] = {
+		name = "Arcane Brilliance",
+		icon = 135932,
+		desc = "+6% Spell Power, +Mana",
+		rank = 1,
+		maxRank = true,
+	},
+	[79038] = { --Dalaran version.
+		name = "Arcane Brilliance",
+		icon = 135932,
+		desc = "+6% Spell Power, +Mana",
+		rank = 1,
+		maxRank = true,
+	},
+	[79039] = { --Dalaran version.
 		name = "Arcane Brilliance",
 		icon = 135932,
 		desc = "+6% Spell Power, +Mana",

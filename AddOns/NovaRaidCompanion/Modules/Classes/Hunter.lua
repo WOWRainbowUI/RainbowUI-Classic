@@ -82,6 +82,9 @@ local function tallyMisdirection(name)
 	if (unit and UnitIsUnit(unit, "player")) then
 		isMe = true;
 	end
+	if (not NRC:inOurGroup(name)) then
+		return;
+	end
 	if (not unit) then
 		NRC:debug("No unit attached to misdirection calc.");
 		hits[name] = nil;

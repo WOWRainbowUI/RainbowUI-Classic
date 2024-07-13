@@ -314,7 +314,7 @@ NRC.cooldowns = {
 	["Power Infusion"] = {
 		class = "PRIEST",
 		icon = "Interface\\Icons\\spell_holy_powerinfusion",
-		cooldown = 180,
+		cooldown = 120,
 		minLevel = 27,
 		talentOnly = {
 			tabIndex = 1,
@@ -376,6 +376,20 @@ NRC.cooldowns = {
 		minLevel = 85,
 		spellIDs = {
 			[73325] = "Leap of Faith", --Rank 1.
+		},
+	},
+	["Power Word: Barrier"] = {
+		class = "PRIEST",
+		icon = "Interface\\Icons\\spell_holy_powerwordbarrier",
+		cooldown = 180,
+		minLevel = 67,
+		title = "PW: Barrier",
+		talentOnly = {
+			tabIndex = 1,
+			talentIndex = 21,
+		},
+		spellIDs = {
+			[62618] = "Power Word: Barrier", --Rank 1.
 		},
 	},
 	--Rogue.
@@ -526,6 +540,19 @@ NRC.cooldowns = {
 			[79206] = "Spiritwalker's Grace", --Rank 1.
 		},
 	},
+	["Spirit Link"] = {
+		class = "SHAMAN",
+		icon = "Interface\\Icons\\spell_shaman_spiritlink",
+		cooldown = 180,
+		minLevel = 47,
+		talentOnly = {
+			tabIndex = 3,
+			talentIndex = 17,
+		},
+		spellIDs = {
+			[98008] = "Spirit Link", --Rank 1.
+		},
+	},
 	--Warlock.
 	["Soulstone"] = { --No cooldown in wrath?
 		class = "WARLOCK",
@@ -646,6 +673,15 @@ NRC.cooldowns = {
 		},
 		spellIDs = {
 			[12975] = "Last Stand", --Rank 1.
+		},
+	},
+	["Rallying Cry"] = {
+		class = "WARRIOR",
+		icon = "Interface\\Icons\\ability_toughness",
+		cooldown = 180,
+		minLevel = 83,
+		spellIDs = {
+			[97462] = "Rallying Cry", --Rank 1.
 		},
 	},
 	--Death Knight.

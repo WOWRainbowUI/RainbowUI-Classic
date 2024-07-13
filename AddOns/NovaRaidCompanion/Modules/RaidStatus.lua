@@ -2386,7 +2386,7 @@ function NRC:createRaidStatusData(updateLayout)
 			spiritSlot = slot;
 			slotCount = slotCount + 1;
 		end
-		if (NRC.config.raidStatusShadow) then
+		if (NRC.config.raidStatusShadow and NRC.expansionNum < 4) then --No spirit buff in cata.
 			local slot = #data.columns + 1;
 			data.columns[slot] = {
 				name = L["Shadow"],

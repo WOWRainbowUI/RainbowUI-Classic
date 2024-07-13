@@ -38,6 +38,20 @@ if (NRC.expansionNum > 2) then
 end
 local isSOD = NRC.isSOD;
 NRC.cooldownList = {};
+local bresPendingTime = 360;
+if (NRC.expansionNum > 3) then
+	bresPendingTime = 120;
+end
+local bresCountFrame;
+local bresRefreshTime = 0; --How long it takes to gain a new bres during boss fights, in cata it's just 3 per fight no refresh time it's set to 0.
+local bresCastAllowance25 = 3; --3 per boss in cata (25m).
+local bresCastAllowance10 = 1; --3 per boss in cata (10m).
+local bresCastAllowance = bresCastAllowance25;
+local bresLastCast = 0;
+local bresCastCount = 0;
+local battleResSpells = NRC.battleResSpells;
+local bresPending = {};
+local raidEncounterActive;
 
 function NRC:updateRaidCooldownsShowDead()
 	showDead = NRC.config.raidCooldownsShowDead;
@@ -74,7 +88,7 @@ function NRC:loadRaidCooldownFrames()
 	local defaultFrameCoords = {
 		[1] = {
 			x = 0,
-			y = 80,
+			y = 150,
 		},
 		[2] = {
 			x = -180,
@@ -321,7 +335,8 @@ function NRC:updateRaidCooldownFramesLayout()
 			frame.displayTab:SetAlpha(0.4);
 			frame.displayTab.top.fs:SetText(L["|cFFDEDE42Cooldown List "] .. i .. "|r");
 			frame.displayTab.top.fs2:SetText("|cFF9CD6DE" .. L["Drag Me"] .. "|r");
-			frame.displayTab.top:SetSize(100, 30);
+			frame.displayTab.top.updateTooltip(L["raidCooldownsMoveMeTooltip"]);
+			--frame.displayTab.top:SetSize(100, 30);
 			
 			frame.lineFrameWidth = db.raidCooldownsWidth;
 			frame.lineFrameHeight = db.raidCooldownsHeight;
@@ -479,7 +494,8 @@ function NRC:buildCooldownData()
 					trackedSpellsCache[id] = spellName;
 				end
 				if (k == "Rebirth") then
-					--Add battle res to our res spell cache.
+					--Add multiple rebirth ids to our res spell cache.
+					--Other spells in cata+ are added in db files.
 					resSpellsCache[id] = spellName;
 				end
 				if (k == "Soulstone") then
@@ -499,7 +515,7 @@ function NRC:loadRaidCooldownGroup()
 		if (data.guid) then
 			for k, v in pairs(NRC.cooldowns) do
 				if (NRC.config["raidCooldown" .. string.gsub(k, " ", "")] and data.class == v.class
-						and (not data.level or data.level >= v.minLevel) and not v.castDetect) then
+						and (not data.level or data.level >= v.minLevel) and (not v.race or data.race == v.race) and not v.castDetect) then
 					local hasTalent;
 					if (v.talentOnly) then
 						hasTalent = NRC:hasTalent(name, v.talentOnly.tabIndex, v.talentOnly.talentIndex, 1);
@@ -568,9 +584,10 @@ end
 --If cooldownName is passed then we track this spell for this player without class checks (for neck buffs etc).
 function NRC:loadRaidCooldownChar(name, data, cooldownName)
 	--NRC:debug("loading char", name, data, cooldownName);
+	NRC:removeRaidCooldownChar(data.guid);
 	for k, v in pairs(NRC.cooldowns) do
 		if (NRC.config["raidCooldown" .. string.gsub(k, " ", "")] and (v.class == data.class or cooldownName == k)
-				and (not data.level or data.level >= v.minLevel) and not v.castDetect) then
+				and (not data.level or data.level >= v.minLevel) and (not v.race or data.race == v.race) and not v.castDetect) then
 			local hasTalent;
 			if (v.talentOnly) then
 				hasTalent = NRC:hasTalent(name, v.talentOnly.tabIndex, v.talentOnly.talentIndex, 1);
@@ -1633,6 +1650,7 @@ function NRC:updateRaidCooldowns()
 				NRC:updateSoulstoneFrameTest(lastLineFrame[frameID])
 			else
 				NRC:updateSoulstoneFrame(lastLineFrame[frameID]);
+				
 			end
 		end
 		frame:sortLineFrames();
@@ -1645,6 +1663,9 @@ local function soulstoneDead(guid)
 		soulstoneBars[guid].isDead = true;
 		NRC.customGlow.PixelGlow_Start(soulstoneBars[guid], nil, 40, 0.20, 1.5, 2, nil, nil, nil, nil);
 		soulstoneBars[guid].texture:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcon_8");
+	end
+	if (raidEncounterActive) then
+		bresPending[guid] = true;
 	end
 end
 
@@ -1971,7 +1992,14 @@ local function combatLogEventUnfiltered(...)
 		end
 		if (resSpellsCache[spellID] and NRC:inOurGroup(destGUID)) then
 			--Keep track of who has res pending so we can guess reincarnation usage.
-			hasResPending[destGUID] = GetServerTime() + 360;
+			if (spellID == 20707) then
+				--Soulstone count as res only during boss fights for our purposes.
+				if (NRC.expansionNum > 3 and NRC.encounter) then
+					hasResPending[destGUID] = GetServerTime() + bresPendingTime;
+				end
+			else
+				hasResPending[destGUID] = GetServerTime() + bresPendingTime;
+			end
 		end
 		--if (spellID == 0) then
 		--	checkSpecialCooldown(spellID);
@@ -2069,6 +2097,12 @@ local function raidCooldownsUnitFlags(...)
 				hasResPending[guid] = nil;
 				NRC:soulstoneRemoved(guid);
 			end)
+			if (raidEncounterActive) then
+				if (bresPending[guid]) then
+					NRC:addBresCast();
+				end
+			end
+			bresPending[guid] = nil;
 		end
 	end
 end
@@ -2355,7 +2389,7 @@ local function raidCooldownsCleanupTicker()
 			NRC.data.hasSoulstone[k] = nil;
 		end
 	end
-	--Res stays pending for 6 mins?
+	--Res stays pending for 6 mins in era and 2mins in cata+? Not sure exactly if/when it changes to 2mins.
 	for k, v in pairs(hasResPending) do
 		if (v < GetServerTime()) then
 			hasResPending[k] = nil;
@@ -2522,7 +2556,7 @@ local function testRaidCooldowns()
 	testSoulstoneData = {
 		--If test data then just put anme and class in guid spot and parse it in the update.
 		["Player7-PRIEST"] = GetServerTime() + 1224,
-		["Player9-PALADIN"] = GetServerTime() + 410,
+		["Player9-MAGE"] = GetServerTime() + 610,
 	};
 end
 
@@ -2570,7 +2604,7 @@ function NRC:stopRaidCooldownsTest()
 		testRunningTimer:Cancel();
 	end
 	if (NRC.allFramesTestRunning) then
-		local text = "|cFF00C800Stopped layout test";
+		local text = "|cFF00C800Finished layout test";
 		if (not NRC.config.lockAllFrames) then
 			text = text .. " (Remember to lock frames when done)"
 		end
@@ -2721,6 +2755,7 @@ f:SetScript('OnEvent', function(self, event, ...)
 		end)
 	elseif (event == "ENCOUNTER_START") then
 		encounterStart = GetTime();
+		bresPending = {};
 	elseif (event == "ENCOUNTER_END") then
 		local _, _, _, _, success = ...;
 		local encounterLength = 0;
@@ -2770,3 +2805,188 @@ f:SetScript('OnEvent', function(self, event, ...)
 		end)
 	end
 end)
+
+if (NRC.expansionNum < 4) then
+	return;
+end
+--Frame position is set in RaidCooldowns, everything else is here.
+
+function NRC:startBresCountFrame(difficultyID)
+	if (not NRC.config.raidCooldownsBresCount) then
+		return;
+	end
+	if (difficultyID == 3 or difficultyID == 5) then
+		bresCastAllowance = bresCastAllowance10;
+	elseif (difficultyID == 4 or difficultyID == 6) then
+		bresCastAllowance = bresCastAllowance25;
+	else
+		--Only show in raids.
+		return;
+	end
+	bresPending = {};
+	NRC:updateBresFramePosition();
+	bresCastCount = 0;
+	bresCountFrame:Show();
+	NRC:updateBresFrame();
+end
+
+function NRC:endBresCountFrame()
+	bresPending = {};
+	bresCountFrame:Hide();
+	bresCastCount = 0;
+end
+
+--[[function NRC:updateBresCountState()
+	if (not bresCountFrame) then
+		return;
+	end
+	if (NRC.encounter) then
+		bresCountFrame:Show();
+	else
+		bresCountFrame:Hide();
+	end
+end]]
+
+---Move these into cooldown state funcs
+function NRC:updateBresCountFrame(lineFrame)
+	if (disabled or not bresCountFrame) then
+		return;
+	end
+	if (NRC.config.raidCooldownsBresCount and lineFrame and IsInGroup()) then
+		bresCountFrame:ClearAllPoints();
+		if (lineFrame:GetParent().growthDirection == 1) then
+			bresCountFrame:SetPoint("TOP", lineFrame, "BOTTOM", 0, 0);
+		else
+			bresCountFrame:SetPoint("BOTTOM", lineFrame, "TOP", 0, 0);
+		end
+	end
+end
+
+local function getBresCountRemaining()
+	--PLAYER_ALIVE
+	--return 0;
+	return bresCastAllowance - bresCastCount;
+	--The below API func is broken in cata, doesn't return correct charges.
+	--[[local charges, maxCharges, cooldownStart, cooldownDuration, chargeModRate = GetSpellCharges(20484);
+	if (charges) then
+		bresCountFrame.fs:SetText("|cFFFFFF00" .. charges);
+		if (bresRefreshTime == 0) then
+			return;
+		end
+		--local remaining = endTime - GetServerTime();
+		--local elapsedDuration = maxDuration - remaining;
+		--bresCountFrame.texture.cooldown:SetCooldown(GetTime() - elapsedDuration, maxDuration);
+		--bresCountFrame.texture.swipeRunning = true;
+	else
+		bresCountFrame.fs:SetText("|cFFFFFF00Err");
+		bresCountFrame.cooldown:Clear();
+	end]]
+end
+
+local function updateBresFrame()
+	--PLAYER_ALIVE
+	local count = getBresCountRemaining();
+	if (count < 1) then
+		--bresCountFrame.fs:SetText("|cFFFFAE42" .. count);
+		bresCountFrame.fs:SetText("|cFFFF0000" .. count);
+	else
+		bresCountFrame.fs:SetText("|cFFFFFF00" .. count);
+	end
+end
+
+--Called in raidCooldownsUnitFlags() when a player resses and has a bres pending during an encounter.
+function NRC:addBresCast()
+	bresCastCount = bresCastCount + 1;
+	updateBresFrame();
+end
+
+function NRC:updateBresFrame()
+	updateBresFrame();
+end
+
+local function combatLogEventUnfiltered(...)
+	if (not IsInGroup()) then
+		return;
+	end
+	local timestamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, 
+			destName, destFlags, destRaidFlags, spellID, spellName = CombatLogGetCurrentEventInfo();
+	--[[if (subEvent == "SPELL_CAST_SUCCESS") then
+		if (raidEncounterActive and battleResSpells[spellID]) then
+			NRC:addBresCast();
+			updateBresFrame();
+		end
+	end]]
+	if (subEvent == "SPELL_RESURRECT" and raidEncounterActive) then
+		--print(destName, "has received a battle res.");
+		bresPending[destGUID] = true;
+	end
+end
+
+local f = CreateFrame("Frame", "NRCRaidBres");
+f:RegisterEvent("PLAYER_ENTERING_WORLD");
+f:RegisterEvent("ENCOUNTER_START");
+f:RegisterEvent("ENCOUNTER_END");
+f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
+f:SetScript('OnEvent', function(self, event, ...)
+	if (event == "COMBAT_LOG_EVENT_UNFILTERED") then
+		combatLogEventUnfiltered(...);
+	elseif (event == "PLAYER_ENTERING_WORLD") then
+		local isLogon, isReload = ...;
+		if (isLogon or isReload) then
+			NRC:updateBresFramePosition();
+		end
+	elseif (event == "ENCOUNTER_START") then
+		local _, _, difficultyID = ...;
+		--Raid bosses only for bres count, not dungeons.
+		if (difficultyID == 3 or difficultyID == 5 or difficultyID == 4 or difficultyID == 6) then
+			raidEncounterActive = true;
+			NRC:startBresCountFrame(difficultyID);
+		end
+	elseif (event == "ENCOUNTER_END") then
+		NRC:endBresCountFrame();
+		raidEncounterActive = false;
+	end
+end)
+
+bresCountFrame = NRC:createIconFrame("NRCMiddleIconFrame", 30, 30);
+bresCountFrame.fs:SetFont(NRC.regionFontNumbers, 22);
+--bresCountFrame.fs:SetFontObject(nil);
+--bresCountFrame.fs:SetFontObject(GameFontNormalLarge);
+bresCountFrame.texture:SetTexture(136080);
+bresCountFrame.lastUpdate = 0;
+bresCountFrame:SetScript("OnUpdate", function(self)
+	--Update throddle.
+	if (GetTime() - bresCountFrame.lastUpdate > 1) then
+		bresCountFrame.lastUpdate = GetTime();
+		updateBresFrame();
+	end
+end)
+bresCountFrame.cooldown = CreateFrame("Cooldown", bresCountFrame:GetName() .. "Cooldown", bresCountFrame, "CooldownFrameTemplate");
+bresCountFrame.cooldown:SetHideCountdownNumbers(true); --Hide cooldown number incase user has enabled it in options for hotbars.
+bresCountFrame.cooldown:ClearAllPoints();
+bresCountFrame.cooldown:SetSize(bresCountFrame.texture:GetSize());
+bresCountFrame.cooldown:SetPoint("CENTER", bresCountFrame.texture);
+bresCountFrame.cooldown:SetReverse(true);
+bresCountFrame.cooldown:SetDrawBling(false);
+bresCountFrame:Hide();
+
+function NRC:updateBresFramePosition()
+	if (not bresCountFrame) then
+		return;
+	end
+	if (not NRC.config.raidCooldownsBresCount) then
+		bresCountFrame:Hide();
+	end
+	local frame = raidCooldowns[NRC.config.raidCooldownsBresCountPosition];
+	if (frame) then
+		bresCountFrame:ClearAllPoints();
+		if (frame.growthDirection == 1) then
+			--Grow down so set bres frame to the top.
+			bresCountFrame:SetPoint("BOTTOM", frame.displayTab, "TOP", 0, 2);	
+		else
+			bresCountFrame:SetPoint("TOP", frame.displayTab, "BOTTOM", 0, -2);
+		end
+	end
+	local fontSize = floor(bresCountFrame:GetHeight() * 0.8);
+	bresCountFrame.fs:SetFont(NRC.regionFontNumbers, fontSize, "OUTLINE");
+end

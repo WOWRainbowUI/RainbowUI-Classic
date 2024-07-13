@@ -201,14 +201,14 @@ function SlashCmdList.NRCCMD(msg, editBox)
 		NRC:loadRaidLogLoot(1);
 	elseif (msg == "lock") then
 		if (NRC.config.lockAllFrames) then
-			NRC:print("Frames are already locked.");
+			NRC:print("Frames are already locked, type /nrc unlock to unlock them.");
 			return;
 		end
 		NRC.config.lockAllFrames = true;
 		NRC:updateFrameLocks(true);
 	elseif (msg == "unlock") then
 		if (not NRC.config.lockAllFrames) then
-			NRC:print("Frames are already unlocked.");
+			NRC:print("Frames are already unlocked, type /nrc lock to lock them.");
 		else
 			NRC:print("Unlocking all frames.");
 		end
@@ -424,4 +424,10 @@ function NRC:updateMinimapButton(tooltip, frame)
 	C_Timer.After(0.1, function()
 		NRC:updateMinimapButton(tooltip, frame);
 	end)
+end
+
+--I want the config options to sit on top of the info windows, but the info windows need to be high for other things.
+--Raising the config window a little should be harmless.
+if (SettingsPanel) then
+	SettingsPanel:SetFrameStrata("HIGH");
 end

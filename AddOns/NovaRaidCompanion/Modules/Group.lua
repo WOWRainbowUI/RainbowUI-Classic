@@ -8,6 +8,7 @@ local firstGroupRosterUpdate = true;
 local lastSendData = 0;
 local units = NRC.units;
 local UnitName = UnitName;
+local UnitRace = UnitRace;
 local UnitIsDead = UnitIsDead;
 local GetNumGroupMembers = GetNumGroupMembers;
 local GetRaidRosterInfo = GetRaidRosterInfo;
@@ -30,7 +31,7 @@ function NRC:updateGroupCache()
 	end
 	local groupMembers = GetNumGroupMembers();
 	for i = 1, groupMembers do
-		local name, rank, subGroup, level, class, classEnglish, zone, online, isDead, role, loot = GetRaidRosterInfo(i);
+		local name, rank, subGroup, level, class, classEnglish, zone, online = GetRaidRosterInfo(i);
 		local realm;
 		if (name) then
 			if (strfind(name, "-")) then
@@ -57,6 +58,8 @@ function NRC:updateGroupCache()
 			if (name == UnitName("player")) then
 				group[name].guid = UnitGUID("player");
 				group[name].unit = "player";
+				local _, race = UnitRace("player");
+				group[name].race = race;
 				--I think it's better to just have player in the unit cache than have seperate lookups for player and group.
 				NRC.unitMap[name] = {
 					guid = UnitGUID("player"),
@@ -64,15 +67,23 @@ function NRC:updateGroupCache()
 				};
 			else
 				for i = 1, groupMembers do
-					local nameCheck = UnitName(unitType .. i);
+					local u = unitType .. i;
+					local nameCheck = UnitName(u);
 					if (nameCheck == name) then
-						local guid = UnitGUID(unitType .. i);
+						local guid = UnitGUID(u);
 						if (guid) then
 							group[name].guid = guid;
-							group[name].unit = unitType .. i;
+							group[name].unit = u;
+							if (NRC.groupCache[name] and NRC.groupCache[name].race) then
+								--Backup data from current cache if nothing returned (offline etc).
+								group[name].race = NRC.groupCache[name].race;
+							else
+								local _, race = UnitRace(u);
+								group[name].race = race;
+							end
 							NRC.unitMap[name] = {
 								guid = guid,
-								unit = unitType .. i,
+								unit = u,
 							};
 						end
 						break;
@@ -657,8 +668,9 @@ function NRC:receivedInspect(guid)
 		end
 		inspectingGUID = nil;
 	end
-	NRC:updateHealerCache("receivedInspect");
 	NRC:updateTrackedManaCharTalents(name);
+	NRC:updateHealerCache("receivedInspect");
+	NRC:throddleEventByFunc("GROUP_ROSTER_UPDATE", 2, "loadTrackedManaChars", "receivedInspect");
 end
 
 function NRC:stopCurrentInspect()
