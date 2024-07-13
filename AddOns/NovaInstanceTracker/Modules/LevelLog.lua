@@ -94,9 +94,9 @@ end
 --When leveling up.
 function NIT:requestLevelLogPlayed()
 	waitingForPlayed = true;
-	if (DEFAULT_CHAT_FRAME:IsEventRegistered("TIME_PLAYED_MSG")) then
+	if (NIT:isTimePlayedMsgRegistered()) then
 		reregisterPlayedEvent = true;
-		DEFAULT_CHAT_FRAME:UnregisterEvent("TIME_PLAYED_MSG");
+		NIT:unregisterTimePlayedMsg();
 	end
 	--Backup timer incase played data fails to come back.
 	backupPlayedTimer = C_Timer.NewTimer(5, function()
@@ -107,9 +107,9 @@ end
 
 --When logging on.
 function NIT:requestPlayedCache()
-	if (DEFAULT_CHAT_FRAME:IsEventRegistered("TIME_PLAYED_MSG")) then
+	if (NIT:isTimePlayedMsgRegistered()) then
 		reregisterPlayedEvent = true;
-		DEFAULT_CHAT_FRAME:UnregisterEvent("TIME_PLAYED_MSG");
+		NIT:unregisterTimePlayedMsg();
 	end
 	RequestTimePlayed();
 end
@@ -137,7 +137,7 @@ function NIT:addLevelLogPlayed(timestamp)
 	if (reregisterPlayedEvent) then
 		reregisterPlayedEvent = nil;
 		C_Timer.After(2, function()
-			DEFAULT_CHAT_FRAME:RegisterEvent("TIME_PLAYED_MSG");
+			NIT:registerTimePlayedMsg();
 		end)
 	end
 end
@@ -158,7 +158,7 @@ function NIT:backupPlayedTimer()
 				if (reregisterPlayedEvent) then
 					reregisterPlayedEvent = nil;
 					C_Timer.After(2, function()
-						DEFAULT_CHAT_FRAME:RegisterEvent("TIME_PLAYED_MSG");
+						NIT:registerTimePlayedMsg();
 					end)
 				end
 			end
@@ -225,30 +225,29 @@ local xpStrings = {
 
 --Only mobs that gave xp.
 function NIT:addLevelLogMobCount(text)
-	if (LOCALE_koKR) then
-		--LevelLog.lua:230: invalid capture index
-		--Disabled in korea until I work out how to capture for all.
-		return;
-	end
-	local found;
-	for k, v in pairs(xpStrings) do
-		if (strmatch(text, string.gsub(string.gsub(_G[k], "%%s", "(.+)"), "%%d", "(%%d+)"))) then
-			found = true
-			break;
+	if (LOCALE_enUS or LOCALE_enGB or LOCALE_esES or LOCALE_esMX) then
+		--invalid capture index
+		--Disabled in some non-english clients until I work out how to capture for all.
+		local found;
+		for k, v in pairs(xpStrings) do
+			if (strmatch(text, string.gsub(string.gsub(_G[k], "%%s", "(.+)"), "%%d", "(%%d+)"))) then
+				found = true
+				break;
+			end
 		end
-	end
-	if (found) then
-		local char = UnitName("player");
-		local level = levelCache;
-		if (not NIT.data.myChars[char].levelLog or not NIT.data.myChars[char].levelLog[level]) then
-			NIT:addLevelLogDing(level);
+		if (found) then
+			local char = UnitName("player");
+			local level = levelCache;
+			if (not NIT.data.myChars[char].levelLog or not NIT.data.myChars[char].levelLog[level]) then
+				NIT:addLevelLogDing(level);
+			end
+			if (not NIT.data.myChars[char].levelLog[level].mobCount) then
+				NIT.data.myChars[char].levelLog[level].mobCount = 0;
+			end
+			NIT.data.myChars[char].levelLog[level].mobCount = NIT.data.myChars[char].levelLog[level].mobCount + 1;
+		else
+			--NIT:debug("xp gain with no string match found:", text);
 		end
-		if (not NIT.data.myChars[char].levelLog[level].mobCount) then
-			NIT.data.myChars[char].levelLog[level].mobCount = 0;
-		end
-		NIT.data.myChars[char].levelLog[level].mobCount = NIT.data.myChars[char].levelLog[level].mobCount + 1;
-	else
-		--NIT:debug("xp gain with no string match found:", text);
 	end
 end
 

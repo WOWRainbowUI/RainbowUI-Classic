@@ -174,6 +174,7 @@ function NIT:print(msg, channel, prefix, nonClickable, tradeLog)
 			--You can't add a seperate link inside another link, has to be done side by side in the string.
 			printPrefix = "|HNITCustomLink:instancelog|h" .. printPrefix .. "|h|r";
 		elseif (not nonClickable) then
+			--Can't have multiple textures inside a link only 1, so if we have multiple we need to make it unclickable.
 			printPrefix = "|HNITCustomLink:instancelog|h" .. printPrefix .. "|h|r";
 			msg = "|HNITCustomLink:instancelog|h" .. msg .. "|h";
 		else
@@ -784,6 +785,33 @@ function SlashCmdList.NITCMD(msg, editBox)
 	end
 end
 
+local playedWindows = {};
+function NIT:isTimePlayedMsgRegistered()
+	for i = 1, NUM_CHAT_WINDOWS do
+		if (_G['ChatFrame' .. i] and _G['ChatFrame' .. i]:IsEventRegistered("TIME_PLAYED_MSG")) then
+			return true;
+		end
+	end
+end
+
+function NIT:registerTimePlayedMsg()
+	for k, v in pairs(playedWindows) do
+		if (_G['ChatFrame' .. k]) then
+			_G['ChatFrame' .. k]:RegisterEvent("TIME_PLAYED_MSG");
+		end
+	end
+end
+
+function NIT:unregisterTimePlayedMsg()
+	playedWindows = {};
+	for i = 1, NUM_CHAT_WINDOWS do
+		if (_G['ChatFrame' .. i] and _G['ChatFrame' .. i]:IsEventRegistered("TIME_PLAYED_MSG")) then
+			_G['ChatFrame' .. i]:UnregisterEvent("TIME_PLAYED_MSG");
+			playedWindows[i] = true;
+		end
+	end
+end
+
 local lockoutNum, lockoutNum24 = 0, 0;
 function NIT:ticker()
 	local hourCount, hourCount24, hourTimestamp, hourTimestamp24 = NIT:getInstanceLockoutInfo();
@@ -962,7 +990,7 @@ function NIT:updateMinimapButton(tooltip, frame)
 				tooltip:AddLine("|cFF9CD6DE" .. L["mobCount"] .. ":|r |cFFFFFFFF" .. (mobCount or "Unknown"));
 			end
 			if (data.honor) then
-				tooltip:AddLine("|cFF9CD6DE" .. L["Honor"] .. ":|r |cFFFFFFFF" .. data.honor);
+				tooltip:AddLine("|cFF9CD6DE" .. L["Honor"] .. ":|r |cFFFFFFFF" .. NIT:calcRecordedHonor(1));
 			end
 			if (UnitLevel("player") ~= NIT.maxLevel and data.type ~= "arena") then
 				tooltip:AddLine("|cFF9CD6DE" .. L["experience"] .. ":|r |cFFFFFFFF" .. (NIT:commaValue(data.xpFromChat) or "Unknown"));
@@ -1983,7 +2011,7 @@ function NIT:recalcInstanceLineFrames()
 					frame:ClearAllPoints();
 					frame:SetPoint("LEFT", NITInstanceFrame.EditBox, "TOPLEFT", 3, -offset);
 					offset = offset + 14;
-					local line = NIT:buildInstanceLineFrameString(v, count);
+					local line = NIT:buildInstanceLineFrameString(v, count, k);
 					if (count < 10) then
 						--Offset the text for single digit numbers so the date comlumn lines up.
 						frame.fs:SetPoint("LEFT", 7, 0);
@@ -2014,7 +2042,7 @@ function NIT:recalcInstanceLineFrames()
 	end
 end
 
-function NIT:buildInstanceLineFrameString(v, count)
+function NIT:buildInstanceLineFrameString(v, count, logID)
 	local player = v.playerName;
 	local _, _, _, classColorHex = GetClassColor(v.classEnglish);
 	--Safeguard for weakauras/addons that like to overwrite and break the GetClassColor() function.
@@ -2146,7 +2174,7 @@ function NIT:buildInstanceLineFrameString(v, count)
 	elseif (v.type == "bg") then
 		timeColor = "|cFFFFA500";
 		if (v.honor) then
-			lockoutTimeString = instance .. " (+" .. v.honor .. " Honor)";
+			lockoutTimeString = instance .. " (+" .. NIT:calcRecordedHonor(logID) .. " Honor)";
 		else
 			lockoutTimeString = instance .. " (Battleground)";
 		end
@@ -2546,7 +2574,7 @@ function NIT:recalcInstanceLineFramesTooltip(obj)
 		end
 		if (data.honor) then
 			text = text .. "\n\n|cFFFFFF00" .. L["honorGains"] .. ":|r"
-			text = text .. "\n |cFF9CD6DE+" .. data.honor .. "|r";
+			text = text .. "\n |cFF9CD6DE+" .. NIT:calcRecordedHonor(nil, data) .. "|r";
 		end
 		if (data.rep and next(data.rep)) then
 			text = text .. "\n\n|cFFFFFF00" .. L["repGains"] .. ":|r"
@@ -2555,6 +2583,15 @@ function NIT:recalcInstanceLineFramesTooltip(obj)
 					v = "+" .. NIT:commaValue(v);
 				end
 				text = text .. "\n |cFF9CD6DE" .. k .. "|r " .. v;
+			end
+		end
+		if (data.currencies and next(data.currencies)) then
+			text = text .. "\n\n|cFFFFFF00" .. L["Currencies"] .. ":|r"
+			for k, v in NIT:pairsByKeys(data.currencies) do
+				if (v.count > 0) then
+					local texture = "|T" .. v.icon .. ":12:12:0:0|t";
+					text = text .. "\n " .. texture .. " |cFF9CD6DE" .. v.name .. "|r +" .. v.count;
+				end
 			end
 		end
 		if (data.group and next(data.group)) then
@@ -4287,7 +4324,7 @@ function NIT:recalcAltsLineFramesTooltip(obj)
 				else
 					texture = "|TInterface\\TargetingFrame\\UI-PVP-Alliance:12:12:0:0:64:64:7:36:1:36|t";
 				end
-				pvpString = pvpString .. "\n  " .. texture .. " " .. color1 .. L["Honor"] .. ":|r " .. color2 .. NIT:commaValue(data.honor) .. "|r";
+				pvpString = pvpString .. "\n  " .. texture .. " " .. color1 .. L["Honor"] .. ":|r " .. color2 .. NIT:commaValue(NIT:calcRecordedHonor(nil, data)) .. "|r";
 			end
 			if (data.conq and data.conq > 0) then
 				local texture = "|TInterface\\Icons\\Pvpcurrency-conquest-horde:12:12:-1:0:64:64:7:36:1:36|t"

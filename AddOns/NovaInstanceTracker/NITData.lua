@@ -38,6 +38,12 @@ local GetContainerItemLink = GetContainerItemLink or C_Container.GetContainerIte
 local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted;
 local GetQuestInfo = C_QuestLog.GetQuestInfo or C_QuestLog.GetTitleForQuestID;
 NIT.currentInstanceID = 0;
+--This is for a system that records before and after honor for bgs honor gained calced.
+--Didn't have to end up using it becaus another way was worked out that didn't work at the start of expansion.
+--Cata scoreboard isn't accurate honor gained either, but NIT current system is now accurate, hopefully nothing else breaks.
+--Can't use CHAT_MSG_CURRENCY becaus bg bonus honor doesn't trigger it.
+--local usePreHonor = true;
+local usePreHonor;
 
 --Some of this addon comm stuff is copied from my other addon NovaWorldBuffs and is left here incase of future stuff being added.
 function NIT:OnCommReceived(commPrefix, string, distribution, sender)
@@ -149,8 +155,9 @@ function NIT:sendComm(distribution, string, target)
 end
 
 function NIT:versionCheck(remoteVersion)
-	if (remoteVersion == 0) then
-		--Comm is from NWB.
+	if (not remoteVersion or remoteVersion == 0) then
+		--Comm is from NWB is version is 0.
+		--Someone reported version was missing all together, someone else started using the NIT prefix maybe?
 		return;
 	end
 	local lastVersionMsg = NIT.db.global.lastVersionMsg;
@@ -228,6 +235,7 @@ if (NIT.expansionNum < 4) then
 end
 if (NIT.expansionNum > 3) then
 	f:RegisterEvent("CHAT_MSG_CURRENCY");
+	f:RegisterEvent("CHAT_MSG_COMBAT_HONOR_GAIN");
 end
 f:RegisterEvent("GROUP_JOINED");
 f:RegisterEvent("GROUP_FORMED");
@@ -348,6 +356,7 @@ f:SetScript('OnEvent', function(self, event, ...)
 	elseif (event == "CHAT_MSG_CURRENCY") then
 		--Post cata honor recording.
 		NIT:chatMsgCurrency(...);
+		NIT:recordCurrency();
 		NIT:recordHonorData();
 	elseif (event == "PLAYER_REGEN_ENABLED") then
 		NIT:recordCombatEndedData(...);
@@ -696,30 +705,89 @@ function NIT:chatMsgCombatHonorGain(...)
 		NIT.data.instances[1].honor = 0;
 	end
 	local text = ...;
-	local honorGained = string.match(text, "%d+");
+	local honorGained;
+	if (string.match(text, "%d+%.%d+")) then
+		--Decimal in cata.
+		honorGained = string.match(text, "%d+%.%d+");
+	else
+		honorGained = string.match(text, "%d+");
+	end
 	if (not honorGained) then
 		NIT:debug("Honor error:", text);
 		return;
 	end
+	--NIT:debug("Honor Gained:", honorGained);
 	NIT.data.instances[1].honor = NIT.data.instances[1].honor + honorGained;
+end
+
+function NIT:calcRecordedHonor(logID, useData)
+	local data;
+	if (logID) then
+		data = NIT.data.instances[logID];
+	else
+		data = useData;
+	end
+	if (not data or not data.honor) then
+		return 0;
+	end
+	if (usePreHonor and NIT.inInstance and data.preHonor and logID == 1 and data.type == "bg") then
+		local honor = C_CurrencyInfo.GetCurrencyInfo(1901);
+		if (honor) then
+			return NIT:round(honor.quantity - data.preHonor);
+		else
+			return NIT:round(data.honor);
+		end				
+	elseif (data.preHonor and data.postHonor) then
+		return NIT:round(data.postHonor - data.preHonor);
+	else
+		return NIT:round(data.honor);
+	end
 end
 
 --Cata and onwards honor recording, new event added.
 function NIT:chatMsgCurrency(...)
-	if (not NIT.inInstance or NIT.data.instances[1].type ~= "bg") then
+	if (not NIT.inInstance) then
 		return;
 	end
-	if (not NIT.data.instances[1].honor) then
-		NIT.data.instances[1].honor = 0;
-	end
 	local text = ...;
-	if (strmatch(text, "currency:1901")) then
-		local honorGained = strmatch(text, "currency:.+\]|h|r %D*(%d+)")
-		if (not honorGained) then
+	if (not strmatch(text, "currency:")) then
+		return;
+	end
+	local currencyID = tonumber(strmatch(text, "currency:(%d+):"));
+	local instance = NIT.data.instances[1];
+	if (currencyID == 1901 and instance.type == "bg") then
+		--Doesn't work right in cata becaus the currency msgs don't work for bonus honor at the end of a bg.
+		--[[local amount = strmatch(text, "currency:.+\]|h|r%D*(%d+)");
+		if (not amount) then
 			NIT:debug("Honor error:", text);
 			return;
 		end
-		NIT.data.instances[1].honor = NIT.data.instances[1].honor + honorGained;
+		if (not instance.honor) then
+			instance.honor = 0;
+		end
+		instance.honor = instance.honor + amount;
+		NIT:debug("Honor Gained2:", amount);]]
+	else
+		--Don't judge my string matching.
+		local amount = strmatch(text, "currency:.+\]|h|r%D*(%d+)");
+		if (not amount) then
+			NIT:debug("Currency error:", text);
+			return;
+		end
+		local data = C_CurrencyInfo.GetCurrencyInfo(currencyID);
+		if (not instance.currencies) then
+			instance.currencies = {};
+		end
+		if (not instance.currencies[currencyID]) then
+			instance.currencies[currencyID] = {
+				count = 0;
+			};
+		end
+		instance.currencies[currencyID] = {
+			name = data.name,
+			count = instance.currencies[currencyID].count + amount,
+			icon = data.iconFileID,
+		}; --/run NIT.data.instances[1].currencies[395] = {name = "Justice Points", count = 5, icon = 463446}
 	end
 end
 
@@ -1123,6 +1191,12 @@ function NIT:enteredInstance(isReload, isLogon, checkAgain)
 				--t.subDifficulty = getDungeonSubDifficulty();
 				if (type == "bg") then
 					t.honor = 0;
+					if (usePreHonor) then
+						local honor = C_CurrencyInfo.GetCurrencyInfo(1901);
+						if (honor) then
+							t.preHonor = honor.quantity;
+						end
+					end
 				end
 				if (type == "bg" or type == "arena") then
 					t.isPvp = true;
@@ -1233,7 +1307,14 @@ function NIT:leftInstance()
 	if (NIT.inInstance and NIT.data.instances[1]) then
 		local isPvp = NIT.data.instances[1].isPvp
 		NIT.data.instances[1]["leftTime"] = GetServerTime();
-		if (not isPvp) then
+		if (isPvp) then
+			if (usePreHonor and NIT.data.instances[1].type == "bg") then
+				local honor = C_CurrencyInfo.GetCurrencyInfo(1901);
+				if (honor) then
+					NIT.data.instances[1].postHonor = honor.quantity;
+				end
+			end
+		else
 			NIT.data.instances[1]["leftLevel"] = UnitLevel("player");
 			NIT.data.instances[1]["leftXP"] = UnitXP("player");
 			NIT.data.instances[1]["leftMoney"] = GetMoney();
@@ -1281,6 +1362,7 @@ function NIT:showInstanceStats(id, output, showAll, customPrefix, showDate)
 	local level = data.enteredLevel or UnitLevel("player");
 	local timeSpent = "";
 	local timeSpentRaw = 0;
+	local nonClickable;
 	if (data.enteredTime and data.leftTime and data.enteredTime > 0 and data.leftTime > 0) then
 		timeSpentRaw = data.leftTime - data.enteredTime;
 	elseif (data.enteredTime and data.leftTime and data.enteredTime > 0 and (GetServerTime() - data.enteredTime) < 21600
@@ -1323,7 +1405,7 @@ function NIT:showInstanceStats(id, output, showAll, customPrefix, showDate)
 	end
 	if (data.isPvp) then
 		if (data.type == "bg") then
-			text = text .. pColor .. " " .. L["Honor"] .. ":|r " .. sColor .. (data.honor or 0) .. "|r";
+			text = text .. pColor .. " " .. L["Honor"] .. ":|r " .. sColor .. NIT:calcRecordedHonor(nil, data) .. "|r";
 			if (NIT.db.global.instanceStatsOutputHK) then
 				text = text .. pColor .. " " .. L["HKs"] .. ":|r " .. sColor .. (data.hk or 0) .. "|r";
 			end
@@ -1404,17 +1486,63 @@ function NIT:showInstanceStats(id, output, showAll, customPrefix, showDate)
 	if (NIT.db.global.instanceStatsOutputRep or showAll) then
 		local repText = "";
 		if (data.rep and next(data.rep)) then
+			local count = 0;
 			for k, v in NIT:pairsByKeys(data.rep) do
+				count = count + 1;
 				if (v > 0) then
 					v = "+" .. NIT:commaValue(v);
 				else
 					v = "-" .. NIT:commaValue(v);
 				end
-				repText = repText .. "(" .. k .. " " .. v .. ")";
+				if (count == 1) then
+					repText = repText .. "(" .. k .. " " .. v .. ")";
+				else
+					repText = repText .. " (" .. k .. " " .. v .. ")";
+				end
 			end
 		end
 		if (repText ~= "") then
 			text = text .. pColor .. " " .. L["statsRep"] .. "|r " .. sColor .. repText .. "|r";
+		end
+	end
+	if (not data.isPvp and (NIT.db.global.instanceStatsOutputCurrency or showAll)) then
+		local curText = "";
+		if (data.currencies and next(data.currencies)) then
+			local count = 0;
+			local notPrint;
+			if ((not output and NIT.db.global.instanceStatsOutputWhere == "group" and IsInGroup())
+				or (output == "send" and NIT.db.global.instanceStatsOutputWhere == "group" and IsInGroup())
+				or (output and output ~= "self" and output ~= "send")) then
+				--Check if we're going to print or not to use currency textures.
+				notPrint = true;
+			end
+			for k, v in NIT:pairsByKeys(data.currencies) do
+				count = count + 1;
+				local texture = "";
+				if (v.icon) then
+					texture = "|T" .. v.icon .. ":12:12:0:0|t ";
+				end
+				if (count == 1) then
+					if (notPrint) then
+						curText = curText .. "(+" .. v.count .. " " .. v.name .. ")";
+					else
+						curText = curText .. "+" .. v.count .. texture;
+					end
+				else
+					if (notPrint) then
+						curText = curText .. " (+" .. v.count .. " " .. v.name .. ")";
+					else
+						curText = curText .. " +" .. v.count .. texture;
+					end
+					if (texture ~= "") then
+						--Can't have multiple textures inside a link only 1, so if we have multiple we need to make it unclickable.
+						nonClickable = true;
+					end
+				end
+			end
+		end
+		if (curText ~= "") then
+			text = text .. pColor .. " " .. L["Currency"] .. "|r " .. sColor .. curText .. "|r";
 		end
 	end
 	if (output) then
@@ -1432,7 +1560,7 @@ function NIT:showInstanceStats(id, output, showAll, customPrefix, showDate)
 			if (IsInGroup()) then
 	  			NIT:sendGroup("[NIT] " .. NIT:stripColors(prefix.. " " .. text));
 			else
-				NIT:print(NIT.prefixColor .. prefix.. " " .. text);
+				NIT:print(NIT.prefixColor .. prefix.. " " .. text, nil, nil, nonClickable);
 			end
 		elseif (output == "say" or output == "yell" or output == "party" or output == "guild"
 			or output == "officer" or output == "raid") then
@@ -1445,7 +1573,7 @@ function NIT:showInstanceStats(id, output, showAll, customPrefix, showDate)
 			end
 			SendChatMessage("[NIT] " .. NIT:stripColors(prefix.. " " .. text), string.upper(output));
 		elseif (output == "self") then
-			NIT:print(NIT.prefixColor .. prefix.. " " .. text);
+			NIT:print(NIT.prefixColor .. prefix.. " " .. text, nil, nil, nonClickable);
 		elseif (output == "send") then
 			--If no channel was specified run the normal output with added prefix.
 			if (NIT.db.global.instanceStatsOutputWhere == "group") then
@@ -1453,13 +1581,13 @@ function NIT:showInstanceStats(id, output, showAll, customPrefix, showDate)
 					if (NIT.db.global.showStatsInRaid) then
 		  				SendChatMessage("[NIT] " .. NIT:stripColors(prefix.. " " .. text), "RAID");
 		  			elseif (NIT.db.global.printRaidInstead) then
-		  				NIT:print(NIT.prefixColor .. prefix.. " " .. text);
+		  				NIT:print(NIT.prefixColor .. prefix.. " " .. text, nil, nil, nonClickable);
 		  			end
 		  		elseif (IsInGroup()) then
 		  			SendChatMessage("[NIT] " .. NIT:stripColors(prefix.. " " .. text), "PARTY");
 				end
 			else
-				NIT:print(NIT.prefixColor .. prefix.. " " .. text);
+				NIT:print(NIT.prefixColor .. prefix.. " " .. text, nil, nil, nonClickable);
 			end
 		end
 	elseif (not NIT.db.global.statsOnlyWhenActivity or ((data.xpFromChat and data.xpFromChat > 0)
@@ -1470,14 +1598,14 @@ function NIT:showInstanceStats(id, output, showAll, customPrefix, showDate)
 					if (NIT.db.global.showStatsInRaid) then
 		  				SendChatMessage("[NIT] " .. NIT:stripColors(text), "RAID");
 		  			elseif (NIT.db.global.printRaidInstead) then
-		  				NIT:print(text);
+		  				NIT:print(text, nil, nil, nonClickable);
 		  			end
 		  		elseif (IsInGroup()) then
 		  			SendChatMessage("[NIT] " .. NIT:stripColors(text), "PARTY");
 				end
 			elseif (NIT.db.global.instanceStatsOutput) then
 				--NIT:print(text, nil, "[" .. NIT.lastInstanceName .. "]");
-				NIT:print(text);
+				NIT:print(text, nil, nil, nonClickable);
 			end
 		end)
 	end
@@ -2091,6 +2219,7 @@ function NIT:recordQuests()
 		NIT.data.myChars[char].quests = {};
 	end
 	local resetTime = GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset();
+	local sharedQuests = {};
 	for k, v in pairs(weeklyQuests) do
 		if (IsQuestFlaggedCompleted(k)) then
 			local questName = v.name;
@@ -2120,7 +2249,7 @@ function NIT:recordQuests()
 		--Normal.
 		local _, currencyQuantity, _, _, _, overallLimit = GetLFGDungeonRewardCapInfo(300); --https://warcraft.wiki.gg/wiki/LfgDungeonID
 		--currencyQuantity is 0 if we don't qualify for this type of queue due totoo low level or whatever (I think).
-		if (currencyQuantity ~= 0) then
+		if (overallLimit and currencyQuantity and currencyQuantity ~= 0) then
 			local remaining = LFGRewardsFrame_EstimateRemainingCompletions(300);
 			--Only record if we've used some slots this week.
 			--Changed to just show it even if 7 left.
@@ -2136,7 +2265,7 @@ function NIT:recordQuests()
 			--end
 		end
 		--Heroic.
-		local _, currencyQuantity, _, _, _, overallLimit = GetLFGDungeonRewardCapInfo(301);
+		--[[local _, currencyQuantity, _, _, _, overallLimit = GetLFGDungeonRewardCapInfo(301);
 		--if (currencyQuantity ~= 0) then
 		if (UnitLevel("player") == 85) then
 			local remaining = LFGRewardsFrame_EstimateRemainingCompletions(301);
@@ -2150,10 +2279,30 @@ function NIT:recordQuests()
 				local desc = "|cFF9CD6DE(|r|cFFFF2222H|r|cFF9CD6DE)|r Dungeon weeklies remaining: " .. remainingText;
 				NIT.data.myChars[char].dungWeeklies[desc] = resetTime;
 			--end
+		end]]
+		--Heroic was changed from a 7 per week cap to a rolling season cap so we'll display that cap instead.
+		if (UnitLevel("player") == 85) then
+			local valor = C_CurrencyInfo.GetCurrencyInfo(396);
+			if (valor) then
+				local name, totalEarned, max = valor.name, valor.totalEarned, valor.maxQuantity;
+				if (name and totalEarned and max) then
+					local remainingText = "|cFF00FF00" .. totalEarned .. "|r|cFF00FF00/" .. max .. "|r";
+					if (totalEarned == 0) then
+						remainingText = "|cFFFF0000" .. totalEarned .. "|r|cFF00FF00/" .. max .. "|r";
+					elseif (totalEarned < max) then
+						remainingText = "|cFFFFFF00" .. totalEarned .. "|r|cFF00FF00/" .. max .. "|r";
+					end
+					local desc = "|cFF9CD6DE(|r|cFFFF2222H|r|cFF9CD6DE)|r " .. name .. " cap: " .. remainingText;
+					NIT.data.myChars[char].dungWeeklies[desc] = resetTime;
+				end
+			end
 		end
 	end
 	local resetTime = GetServerTime() + C_DateAndTime.GetSecondsUntilDailyReset();
 	local sharedQuests = {};
+	if (not NIT.data.myChars[char].questsDaily) then
+		NIT.data.myChars[char].questsDaily = {};
+	end
 	for k, v in pairs(dailyQuests) do
 		if (IsQuestFlaggedCompleted(k)) then
 			local questName = v.name;
