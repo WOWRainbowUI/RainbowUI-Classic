@@ -74,3 +74,6 @@ AL["Draenei"] = "德萊尼"
 AL["Useful Stat"] = "有用的屬性"
 AL["Fish"] = "魚類"
 AL["Illustrious Grand Master"] = "大宗師"
+
+-- 自行加入
+AL["Gathering Professions"] = "採集專業"
