@@ -214,7 +214,7 @@ D["AtlasLootClassic"] = {
 	defaultEnable = 0,
 	tags = { "ITEM" },
 	title = "副本戰利品查詢",
-	desc = "顯示首領與小怪可能掉落的物品，並可查詢各陣營與戰場的獎勵物品、套裝物品等資訊。`",
+	desc = "顯示首領與小怪可能掉落的物品，並可查詢各陣營與戰場的獎勵物品、套裝物品等資訊。``|cffFF2D2D特別注意：因為遊戲剛改版資料還在陸續更新中，若想取得最新的裝備資料，請到奇樂網站下載更新這個插件。|r`https://classic.miliui.com/wow/atlasloot-classic`",
 	modifier = "arith, BNS, Daviesh, jerry99spkk, Proteyer, scars377, sheahoi, soso15, Whyv, ytzyt, zhTW, 彩虹ui",
 	icon = "Interface\\Icons\\INV_Box_01",
 	{
@@ -314,7 +314,7 @@ D["Baganator"] = {
 	defaultEnable = 0,
 	tags = { "ITEM" },
 	title = "多角色背包",
-	desc = "可以選擇要使用不分類合併背包，也可以是分類背包。隨時隨地都能查看銀行，還可以查看分身的背包/銀行。``|cffFF2D2D需要打開過一次銀行才能離線查看銀行，其他角色需要登入過一次並且打開過背包和銀行，才能隨時查看。|r`",
+	desc = "可以選擇要使用不分類合併背包，也可以是分類背包。隨時隨地都能查看銀行，還可以查看分身的背包/銀行。``|cffFF2D2D需要打開過一次銀行才能離線查看銀行，其他角色需要登入過一次並且打開過背包和銀行，才能隨時查看。|r``若要換回原本預設的魔獸風格外觀主題，只要將 '多角色背包外觀-簡單黑' 插件取消載入即可。`",
 	modifier = "BNS, 彩虹ui",
 	{
         text = "設定選項",
@@ -1419,7 +1419,7 @@ D["LFGBulletinBoard"] = {
     defaultEnable = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and 1 or 0,
 	tags = { "BOSSRAID" },
 	title = "組隊佈告欄",
-	desc = "將尋求組隊訊息依據副本，難度…等規則分類，就像勇者接受委託的佈告欄一樣!``特別注意：預設只會顯示燃燒的遠征副本，如果需要顯示60級以下的經典版副本，需要在設定選項中勾選。`",
+	desc = "將尋求組隊訊息依據副本，難度…等規則分類，就像勇者接受委託的佈告欄一樣!``|cffFF2D2D如果訊息無法正確分類，請在組隊佈告欄的設定選項>搜尋關鍵字，幫該副本加入有效的關鍵字。|r`",
 	modifier = "由麻也, 彩虹ui",
 	icon = "Interface\\Icons\\spell_holy_prayerofshadowprotection",
     {
