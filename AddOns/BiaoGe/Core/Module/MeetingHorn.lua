@@ -240,12 +240,6 @@ BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, even, isLogin, isReload
                         else
                             return bid > aid
                         end
-                    elseif aid and not bid then
-                        return true
-                    elseif bid and not aid then
-                        return false
-                    else
-                        return false
                     end
                 elseif self.sortId == 1 then -- 按副本排序
                     local aid, bid = a:GetActivityId(), b:GetActivityId()

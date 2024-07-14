@@ -22,12 +22,27 @@ do --繁体说明书
     text = text .. "|cffFFFFFF-更多功能介紹可在設置裡查看|r\n\n"
     text = text .. "-BUG反饋：郵箱buick_hbj@163.com，Q群322785325\n\n"
 
+    update = update .. "|cff00FF00" .. "7月13日更新v1.10.2" .. "|r\n"
+    update = update .. c1 .. [[-拍賣WA更新為v1.5：拍賣價格為100~1000的加價幅度現在為100一次]] .. "|r\n"
+    update = update .. [[-修復了工資抹零按鈕點擊失效的問題]] .. "|r\n"
+    update = update .. [[-<WLK>修復了裝備過濾詞綴"每5秒回复xx點法力值"對有些裝備不生效的問題]] .. "|r\n"
+    update = update .. [[-<賽季服>角色總覽：刪除夢魘日常]] .. "|r\n"
+    update = update .. [[-<賽季服>裝備庫：更新聲望裝備、5人本新貨幣兌換裝備]] .. "|r\n\n"
+    
     update = update .. "|cff00FF00" .. "7月12日更新v1.10.1" .. "|r\n"
     update = update .. c1 .. [[-拍賣WA更新為v1.4：增加一個開始拍賣時的動畫效果]] .. "|r\n"
     update = update .. [[-高亮背包裝備：現在也支持Bagnon背包]] .. "|r\n"
     update = update .. [[-<WLK>角色總覽：增加阿爾法日常。更新英雄日常ID]] .. "|r\n"
     update = update .. c1 .. [[-<賽季服>增加表格：黑石塔上層]] .. "|r\n"
     update = update .. c1 .. [[-<賽季服>裝備庫：添加部分P4裝備]] .. "|r\n\n"
+
+    text = text .. update
+    text = text .. "|cff00FF00按住ALT顯示更多更新記錄|r"
+
+    ns.instructionsText = text
+end
+do --繁体更新内容
+    local update = "|cff00BFFF< 主要更新記錄 >|r\n\n" .. update
 
     update = update .. "|cff00FF00" .. "7月6日更新v1.10.0b" .. "|r\n"
     update = update .. [[-<WLK/CTM>增加一鍵指定節日副本]] .. "|r\n"
@@ -47,14 +62,6 @@ do --繁体说明书
     update = update .. [[-金額自動加零：現在不會對分錢人數生效]] .. "|r\n"
     update = update .. c1 .. [[-<WLK>一鍵舉報：在戰場裡，右鍵點擊世界地圖上的玩家圓點時，增加一鍵全部舉報的按鈕]] .. "|r\n"
     update = update .. [[-<WLK/CTM>裝備庫：修復了牌子裝所需的貨幣數量不顯示的問題]] .. "|r\n\n"
-
-    text = text .. update
-    text = text .. "|cff00FF00按住ALT顯示更多更新記錄|r"
-
-    ns.instructionsText = text
-end
-do --繁体更新内容
-    local update = "|cff00BFFF< 主要更新記錄 >|r\n\n" .. update
 
     update = update .. "|cff00FF00" .. "6月29日更新v1.9.8" .. "|r\n"
     update = update .. c1 .. [[-新增：通報多本總覽賬單（按鈕在通報賬單旁邊）]] .. "|r\n"
@@ -86,6 +93,9 @@ local L = setmetatable({}, {
 })
 
 do
+    L["v1.5：拍卖价格为100~3000的加价幅度现在为100一次"] = "v1.5：拍賣價格為100~3000的加價幅度現在為100一次"
+
+
     L["节日副本和"] = "節日副本和"
     L["节日副本"] = "節日副本"
     L["插件加载出现错误，请把报错发给作者，谢谢。（邮箱buick_hbj@163.com，Q群322785325）"] = "插件載入出現錯誤，請把報錯發給作者，謝謝。（郵箱buick_hbj@163.com，Q群322785325）"
@@ -93,7 +103,7 @@ do
     L["西"] = "西"
     L["北"] = "北"
     L["下层"] = "下層"
-    L["不在团本中，不能使用"] = "不在團本中，不能使用"
+    L["不在团队中，不能使用"] = "不在團隊中，不能使用"
     L["阿尔法"] = "阿爾法"
     L["v1.4：增加一个开始拍卖时的动画效果"] = "v1.4：增加一個開始拍賣時的動畫效果"
 

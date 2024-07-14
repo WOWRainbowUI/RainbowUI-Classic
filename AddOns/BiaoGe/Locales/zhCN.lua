@@ -1,7 +1,6 @@
 local AddonName, ns = ...
 
-ns.ver = "v1.10.1"
--- ns.ver = "v1.9.6 Alpha3"
+ns.ver = "v1.10.2"
 
 local c1 = "|cff" .. "ffff66"
 ns.c1 = c1
@@ -26,12 +25,31 @@ do --简体说明书
     text = text .. "|cffFFFFFF-更多功能介绍可在设置里查看|r\n\n"
     text = text .. "-BUG反馈：邮箱buick_hbj@163.com，Q群322785325\n\n"
 
+    -- update = update .. "|cff00FF00" .. "" .. "|r\n"
+    -- update = update .. [[]] .. "|r\n"
+    -- update = update .. [[]] .. "|r\n\n"
+
+    update = update .. "|cff00FF00" .. "7月13日更新v1.10.2" .. "|r\n"
+    update = update .. c1 .. [[-拍卖WA更新为v1.5：拍卖价格为100~1000的加价幅度现在为100一次]] .. "|r\n"
+    update = update .. [[-修复了工资抹零按钮点击失效的问题]] .. "|r\n"
+    update = update .. [[-<WLK>修复了装备过滤词缀"每5秒回复xx点法力值"对有些装备不生效的问题]] .. "|r\n"
+    update = update .. [[-<赛季服>角色总览：删除梦魇日常]] .. "|r\n"
+    update = update .. [[-<赛季服>装备库：更新声望装备、5人本新货币兑换装备]] .. "|r\n\n"
+
     update = update .. "|cff00FF00" .. "7月12日更新v1.10.1" .. "|r\n"
     update = update .. c1 .. [[-拍卖WA更新为v1.4：增加一个开始拍卖时的动画效果]] .. "|r\n"
     update = update .. [[-高亮背包装备：现在也支持Bagnon背包]] .. "|r\n"
     update = update .. [[-<WLK>角色总览：增加阿尔法日常。更新英雄日常ID]] .. "|r\n"
     update = update .. c1 .. [[-<赛季服>增加表格：黑石塔上层]] .. "|r\n"
     update = update .. c1 .. [[-<赛季服>装备库：添加部分P4装备]] .. "|r\n\n"
+
+    text = text .. update
+    text = text .. "|cff00FF00按住ALT显示更多更新记录|r"
+
+    ns.instructionsText = text
+end
+do --简体更新内容
+    local update = "|cff00BFFF< 主要更新记录 >|r\n\n" .. update
 
     update = update .. "|cff00FF00" .. "7月6日更新v1.10.0b" .. "|r\n"
     update = update .. [[-<WLK/CTM>增加一键指定节日副本]] .. "|r\n"
@@ -51,14 +69,6 @@ do --简体说明书
     update = update .. [[-金额自动加零：现在不会对分钱人数生效]] .. "|r\n"
     update = update .. c1 .. [[-<WLK>一键举报：在战场里，右键点击世界地图上的玩家圆点时，增加一键全部举报的按钮]] .. "|r\n"
     update = update .. [[-<WLK/CTM>装备库：修复了牌子装所需的货币数量不显示的问题]] .. "|r\n\n"
-
-    text = text .. update
-    text = text .. "|cff00FF00按住ALT显示更多更新记录|r"
-
-    ns.instructionsText = text
-end
-do --简体更新内容
-    local update = "|cff00BFFF< 主要更新记录 >|r\n\n" .. update
 
     update = update .. "|cff00FF00" .. "6月29日更新v1.9.8" .. "|r\n"
     update = update .. c1 .. [[-新增：通报多本总览账单（按钮在通报账单旁边）]] .. "|r\n"
@@ -93,6 +103,9 @@ ns.L = L
 
 local L = {}
 do
+    L["v1.5：拍卖价格为100~3000的加价幅度现在为100一次"] = true
+
+
     L["节日副本和"] = true
     L["节日副本"] = true
     L["插件加载出现错误，请把报错发给作者，谢谢。（邮箱buick_hbj@163.com，Q群322785325）"] = true
@@ -100,7 +113,7 @@ do
     L["西"] = true
     L["北"] = true
     L["下层"] = true
-    L["不在团本中，不能使用"] = true
+    L["不在团队中，不能使用"] = true
     L["阿尔法"] = true
     L["v1.4：增加一个开始拍卖时的动画效果"] = true
 
