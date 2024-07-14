@@ -40,23 +40,19 @@ do
         BiaoGeTooltip:SetItemByID(itemID)
     end
 
-    local function Get_G_key(text)
-        for k, v in pairs(BG.FilterClassItemDB.ShuXing) do
-            if text == v.name then
-                return string.gsub(v.value, "%%s", "(.+)")
-            end
-        end
-        return "!!!!!!!!"
-    end
-    local function GetTooltipTextLeftAll(itemID, EquipLoc)
+    local function GetTooltipTextLeftAll(itemID)
         BG.Tooltip_SetItemByID(itemID)
         local tab = {}
         local ii = 1
         while _G["BiaoGeTooltipTextLeft" .. ii] do
             local tx = _G["BiaoGeTooltipTextLeft" .. ii]:GetText()
-            if tx and tx ~= "" and (not tx:find(WARDROBE_SETS)) and
-                (not tx:find(ITEM_MOD_FERAL_ATTACK_POWER:gsub("%%s", "(.+)"))) then -- 小德的武器词缀：在猎豹、熊等等攻击强度提高%s点
-                table.insert(tab, tx)
+            if tx and tx ~= "" then
+                tx = tx:gsub("每5秒恢复%d+点法力值", "每5秒回复%d+点法力值")
+                if (not tx:find(WARDROBE_SETS)) and
+                    (not tx:find(ITEM_MOD_FERAL_ATTACK_POWER:gsub("%%s", "(.+)"))) -- 小德的武器词缀：在猎豹、熊等等攻击强度提高%s点
+                then
+                    table.insert(tab, tx)
+                end
             end
             ii = ii + 1
         end
@@ -91,25 +87,29 @@ do
             end
         end
     end
+    local function GetDBShuXingInfo(text)
+        for k, v in pairs(BG.FilterClassItemDB.ShuXing) do
+            if text == v.name then
+                return v.value:gsub("%%s", "(.+)"), v.nothave
+            end
+        end
+    end
     local function FilterShuXing(TooltipText)
         local num = BiaoGe.FilterClassItemDB[RealmId][player].chooseID
         if not num then return end
-        for k, _ in pairs(BiaoGe.FilterClassItemDB[RealmId][player][num].ShuXing) do
-            local text = Get_G_key(k)
-            for _, v in pairs(BG.FilterClassItemDB.ShuXing) do
-                if k == v.name and v.nothave then
-                    if strfind(TooltipText, text) then
-                        for _, vv in pairs(v.nothave) do
-                            if strfind(TooltipText, vv) then
-                                return false
-                            end
+        for name, _ in pairs(BiaoGe.FilterClassItemDB[RealmId][player][num].ShuXing) do
+            local localText, nothave = GetDBShuXingInfo(name)
+            if not localText then return false end
+            if strfind(TooltipText, localText) then
+                if nothave then
+                    for _, nothaveLocalText in pairs(nothave) do
+                        if strfind(TooltipText, nothaveLocalText) then
+                            return false
                         end
                     end
+                else
+                    return true
                 end
-            end
-
-            if strfind(TooltipText, text) then
-                return true
             end
         end
     end
@@ -148,7 +148,7 @@ do
         end
     end
     function BG.FilterAll(itemID, typeID, EquipLoc, subclassID)
-        local TooltipText = GetTooltipTextLeftAll(itemID, EquipLoc)
+        local TooltipText = GetTooltipTextLeftAll(itemID)
         if FilterArmor(typeID, EquipLoc, subclassID) then
             return true
         end

@@ -43,7 +43,6 @@ function BG.RoleOverviewUI()
                 ["Temple"] = 1,
                 -- ["Gno"] = 1,
                 -- ["BD"] = 1,
-                ["mengyan"] = 1,
                 ["huiguweek"] = 1,
                 ["alchemy"] = 1,
                 ["leatherworking"] = 1,
@@ -113,9 +112,6 @@ function BG.RoleOverviewUI()
                 BiaoGe.FBCDchoice["leatherworking"] = 1
                 BiaoGe.FBCDchoice["tailor"] = 1
             end)
-            BG.Once("FBCDchoice", 240412, function()
-                BiaoGe.FBCDchoice["mengyan"] = 1
-            end)
             BG.Once("MONEYchoice", 240408, function()
                 BiaoGe.MONEYchoice[221262] = 1
                 BiaoGe.MONEYchoice[221365] = 1
@@ -184,8 +180,7 @@ function BG.RoleOverviewUI()
             { name = "Gno", color = "00BFFF", fbId = 90, type = "fb" },
             { name = "BD", color = "00BFFF", fbId = 48, type = "fb" },
             -- 任务
-            { name = "mengyan", name2 = L["梦魇日常"], color = "FF8C00",  type = "quest" },
-            { name = "huiguweek", name2 = L["灰谷日常"], color = "FF8C00",  type = "quest" },
+            { name = "huiguweek", name2 = L["灰谷日常"], color = "FF8C00", type = "quest" },
             -- 专业
             { name = "alchemy", name2 = L["炼金转化"], color = "ADFF2F", type = "profession" },
             { name = "leatherworking", name2 = L["制皮筛盐"], color = "ADFF2F", type = "profession" },
@@ -735,7 +730,6 @@ function BG.RoleOverviewUI()
                                     t_paizi:SetPoint("TOPRIGHT", right, "TOPRIGHT", width, 0)
                                 end
                                 t_paizi:SetText(a)
-                                -- pt(a:match("^%d+"))
                                 if a:match("^%d+") == "0" then
                                     t_paizi:SetTextColor(0.5, 0.5, 0.5)
                                 end
@@ -1212,8 +1206,6 @@ function BG.RoleOverviewUI()
             if i == 1 then
                 bt.type = "jieri"
                 bt.tbl = { 286, 285, 287 } -- 火焰节、万圣节、美酒节
-                -- bt.type = "zhiding"
-                -- bt.tbl = { 136 } -- test
             else
                 bt.type = "zhiding"
                 bt.tbl = { 2463 } -- 伽马灵魂烘炉
@@ -1286,17 +1278,6 @@ function BG.RoleOverviewUI()
             end
             UpdateButtons()
         end)
-
-        --DEBUG
-        -- 打印每个按钮的副本ID
-        --[[             hooksecurefunc("LFGDungeonListCheckButton_OnClick", function(button, category, dungeonList, hiddenByCollapseList)
-                local parent = button:GetParent();
-                local dungeonID = parent.id;
-                pt(dungeonID)
-            end)
-            hooksecurefunc("LFG_JoinDungeon", function(button, category, joinType, dungeonList, hiddenByCollapseList)
-                pt(button, category, joinType, dungeonList, hiddenByCollapseList)
-            end) ]]
     end
     ------------------日常任务------------------
     do
@@ -1314,8 +1295,6 @@ function BG.RoleOverviewUI()
         if BG.IsVanilla_Sod then
             BG.dayQuests = {
                 huiguweek = { 79090, 79098 }, -- 灰谷
-                mengyan = { 82068, },        -- 梦魇
-
             }
         elseif BG.IsWLK then
             BG.dayQuests = {

@@ -122,7 +122,6 @@ local updateCDing
 local function FilterItem(FB, itemID, EquipLocs, type, hard, ii, otherID) -- 重点
     local name, link, quality, level, _, _, _, _, EquipLoc, Texture, _, typeID, subclassID, bindType = GetItemInfo(itemID)
     if not link then
-        -- pt(GetTime(), itemID, link)
         if BG.itemLibItemOldTbl then
             wipe(BG.itemLibItemOldTbl)
         end
@@ -591,7 +590,6 @@ local function CheckItemCache(EquipLocs, checkFB) -- 不传入参数时是检查
             end
 
             if onlyCheckCache or trueRaidDifficulty then
-                -- pt(hard)
                 if BG.Loot[FB][hard] then
                     local ii = 1
                     while BG.Loot[FB][hard]["boss" .. ii] do
@@ -881,7 +879,6 @@ end
 local function GetItemLibTable(num, EquipLocs)
     local tbl = CheckItemCache(EquipLocs)
     BG.itemLibItemOldTbl = tbl
-    -- pt(#tbl)
 
     -- 删除重复装备，合并获取途径
     local newtbl = {}

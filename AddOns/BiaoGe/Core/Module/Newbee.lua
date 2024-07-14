@@ -1,6 +1,6 @@
 local AddonName, ns = ...
 
-if not BG.IsWLK then return end
+-- if not BG.IsWLK then return end
 
 local LibBG = ns.LibBG
 local L = ns.L

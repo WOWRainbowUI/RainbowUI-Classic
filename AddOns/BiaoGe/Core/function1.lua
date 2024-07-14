@@ -291,8 +291,8 @@ function BG.BiaoGeIsHavedItem(FB, _type, instanceID)
     if _type == "onlyboss" then
         endB = Maxb[FB] - 2
     elseif _type == "autoQingKong" then
-        startB = BG.bossPositionTbl[instanceID][1]
-        endB = BG.bossPositionTbl[instanceID][2]
+        startB = BG.bossPositionStartEnd[instanceID][1]
+        endB = BG.bossPositionStartEnd[instanceID][2]
     end
     for b = startB, endB do
         for i = 1, Maxi[FB] do

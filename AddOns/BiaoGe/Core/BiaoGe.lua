@@ -935,7 +935,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
                     BiaoGe.options[self.name] = 0
                 end
                 for i, FB in ipairs(BG.FBtable) do
-                    BG.Frame[FB]["boss" .. Maxb[FB] + 2]["jine5"]:SetText(BG.SumGZ())
+                    BG.Frame[FB]["boss" .. Maxb[FB] + 2]["jine5"]:SetText(BG.GetWages())
                     BG.Frame[FB]["boss" .. Maxb[FB] + 2]["jine5"]:SetCursorPosition(0)
                 end
                 PlaySound(BG.sound1, "Master")
@@ -1927,10 +1927,10 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
                 GameTooltip:ClearLines()
                 GameTooltip:AddLine(L["一键分配"], 1, 1, 1, true)
                 if self.dis then
-                    if select(2, IsInInstance()) == "raid" then
+                    if IsInRaid() then
                         GameTooltip:AddLine(L["你不是物品分配者，不能使用"], 1, 0, 0, true)
                     else
-                        GameTooltip:AddLine(L["不在团本中，不能使用"], 1, 0, 0, true)
+                        GameTooltip:AddLine(L["不在团队中，不能使用"], 1, 0, 0, true)
                     end
                 else
                     GameTooltip:AddLine(L["把全部可交易的物品分配给自己"], 1, 0.82, 0, true)
@@ -3283,7 +3283,6 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             end
         end
     end
-
     ----------清空表格----------
     do
         -- 清空按钮
@@ -3732,10 +3731,9 @@ do
             end
         end
 
-        if not yes2 and AtlasLoot then
+        if  AtlasLoot then
             for i = 1, 40 do
                 if _G["AtlasLoot_SecButton_" .. i] then
-                    yes2 = true
                     local script = _G["AtlasLoot_SecButton_" .. i]:GetScript("OnClick")
                     _G["AtlasLoot_SecButton_" .. i]:SetScript("OnClick", function(self, button)
                         if IsShiftKeyDown() and self.ItemID then
@@ -3750,9 +3748,7 @@ do
                             BG.PlaySound(1)
                             return
                         end
-                        -- if not IsShiftKeyDown() then
                         script(self, button)
-                        -- end
                     end)
                 end
             end
@@ -3791,7 +3787,6 @@ do
 
         if IsAddOnLoaded("Blizzard_EncounterJournal") then
             BG.After(0, function()
-                pt(EJ_GetNumLoot())
                 ChatEdit_ActivateChat(ChatEdit_ChooseBoxForSend())
                 ChatFrame1EditBox:SetText("")
                 for i = 1, EJ_GetNumLoot() do

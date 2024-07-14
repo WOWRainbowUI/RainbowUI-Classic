@@ -210,6 +210,12 @@ function BG.CreateBossModel()
         model:SetPitch(0.15)
         model:SetRoll(0)
         -- CreateAllTestButton(model)
+        local model = CreateBossModel("UBRS", 7, -10, 30, 10363, 0.8)
+        model:SetPosition(-20, 4, 0)
+        model:SetFacing(-0.45)
+        model:SetPitch(0)
+        model:SetRoll(0)
+        -- CreateAllTestButton(model)
         local model = CreateBossModel("MCsod", 10, 0, 30, 11502, 0.8)
         model:SetPosition(-30, 0, -7) -- Z,X,Y
         model:SetFacing(-0.3)         -- 左右
