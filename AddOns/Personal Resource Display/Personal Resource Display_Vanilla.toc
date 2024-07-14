@@ -5,7 +5,7 @@
 ## Title-zhTW: |cff4DD2FF[頭像]|r 個人資源條
 ## Notes-zhTW: Personal Resource Display |n|n在角色下方顯示血量條和法力條，類似魔獸世界正式版的顯示個人資源。|n|n|cffffd200使用方法: |r點小地圖按鈕，或是從Esc>介面>插件>個人資源條，調整位置和進行設定。
 ## DefaultState: disabled
-## Version: 3.1.2a
+## Version: 3.1.2b
 ## SavedVariables: PRD_minimapButtonConfig, PRD_settingsConfig, PRD_logCount
 ## LoadOnDemand: 0
 

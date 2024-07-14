@@ -822,7 +822,7 @@ local set = {}
   set.InterfaceOptions.resetButtonText = set.InterfaceOptions:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
     set.InterfaceOptions.resetButtonText:SetText("重置")
     set.InterfaceOptions.resetButtonText:SetJustifyH("CENTER")
-    set.InterfaceOptions.resetButtonText:SetJustifyV("CENTER")
+    set.InterfaceOptions.resetButtonText:SetJustifyV("MIDDLE")
     set.InterfaceOptions.resetButtonText:SetPoint("CENTER")
 
   local resetToDefault_button = CreateFrame("Button", "resetToDefault_button", set.InterfaceOptions)
