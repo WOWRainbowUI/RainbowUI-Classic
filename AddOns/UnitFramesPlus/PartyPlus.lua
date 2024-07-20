@@ -1660,7 +1660,7 @@ function UnitFramesPlus_PartyMemberFrame_UpdateMember(self)
     PartyMemberFrame_UpdateLeader(self);
     PartyMemberFrame_UpdatePvPStatus(self);
     RefreshDebuffs(self, "party"..id, nil, nil, true);
-    PartyMemberFrame_UpdateVoiceStatus(self);
+    if PartyMemberFrame_UpdateVoiceStatus then PartyMemberFrame_UpdateVoiceStatus(self) end;
     PartyMemberFrame_UpdateReadyCheck(self);
     PartyMemberFrame_UpdateOnlineStatus(self);
     PartyMemberFrame_UpdateNotPresentIcon(self);
